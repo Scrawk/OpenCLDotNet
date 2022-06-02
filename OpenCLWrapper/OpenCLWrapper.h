@@ -5,3 +5,6 @@
 #define NULL_INDEX -1
 
 #define NOMINMAX
+
+#undef max
+#undef min

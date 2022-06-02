@@ -88,6 +88,9 @@ namespace OpenCLDotNet
         /// <summary>
         /// Allow derived class to release the unmanaged memory.
         /// </summary>
-        protected abstract void Release();
+        protected virtual void Release()
+        {
+
+        }
     }
 }
