@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>OpenCLDotNet</name>
+    </assembly>
+    <members>
+        <member name="T:OpenCLDotNet.CLObject">
+            <summary>
+            Base class for objects that referrence a CL object.
+            </summary>
+        </member>
+        <member name="M:OpenCLDotNet.CLObject.#ctor">
+            <summary>
+            Default constructor.
+            </summary>
+        </member>
+        <member name="M:OpenCLDotNet.CLObject.Finalize">
+            <summary>
+            The destuctor.
+            </summary>
+        </member>
+        <member name="P:OpenCLDotNet.CLObject.IsDisposed">
+            <summary>
+            Has the object been disposed.
+            </summary>
+        </member>
+        <member name="M:OpenCLDotNet.CLObject.Dispose">
+            <summary>
+            Dispose the CL object.
+            </summary>
+        </member>
+        <member name="M:OpenCLDotNet.CLObject.ToString">
+            <summary>
+            Print some information about the object.
+            </summary>
+            <returns>Print some information about the object.</returns>
+        </member>
+        <member name="M:OpenCLDotNet.CLObject.Print">
+            <summary>
+            Print the object into the console.
+            </summary>
+        </member>
+        <member name="M:OpenCLDotNet.CLObject.Print(System.Text.StringBuilder)">
+            <summary>
+            Print the object into a string builder.
+            </summary>
+            <param name="builder">The builder to print into.</param>
+        </member>
+        <member name="M:OpenCLDotNet.CLObject.ReleaseInternal">
+            <summary>
+            Release the CGAL object.
+            </summary>
+        </member>
+        <member name="M:OpenCLDotNet.CLObject.Release">
+            <summary>
+            Allow derived class to release the unmanaged memory.
+            </summary>
+        </member>
+    </members>
+</doc>

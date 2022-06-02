@@ -5,13 +5,18 @@ VisualStudioVersion = 17.0.31919.166
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OpenCLConsole", "OpenCLConsole\OpenCLConsole.vcxproj", "{54B07549-C3E1-4104-BAC8-9AA19A4381CA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenCLDotNet", "OpenCLDotNet\OpenCLDotNet.csproj", "{D4405768-F57B-4C0D-95AF-AA2494006521}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OpenCLDotNet", "OpenCLDotNet\OpenCLDotNet.csproj", "{D4405768-F57B-4C0D-95AF-AA2494006521}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenCLDotNetConsole", "OpenCLDotNetConsole\OpenCLDotNetConsole.csproj", "{68F42E56-9A8F-4CF7-A0AF-1CBA810E9E9E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OpenCLDotNetConsole", "OpenCLDotNetConsole\OpenCLDotNetConsole.csproj", "{68F42E56-9A8F-4CF7-A0AF-1CBA810E9E9E}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OpenCLWrapper", "OpenCLWrapper\OpenCLWrapper.vcxproj", "{56365B26-4F11-4456-9ACE-D861B45016FB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenCLDotNetTest", "OpenCLDotNetTest\OpenCLDotNetTest.csproj", "{303A6BAF-D6F4-4697-8C83-59D94B34090F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{7C841D72-AC50-49FE-B32E-2996E4AFE3DE}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

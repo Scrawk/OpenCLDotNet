@@ -8,12 +8,14 @@
 //#define CL_TARGET_OPENCL_VERSION 220
 //#define CL_TARGET_OPENCL_VERSION 300
 
-
-#include "OpenCL_Programming_Guide_Chapter2.h"
+#include "Books/OpenCL_Programming_Guide/HelloWorld.h"
+#include "Books/OpenCL_Programming_Guide/OpenCLInfo.h"
 
 int main()
 {
 
-	OpenCL_Programming_Guide_Chapter2::Run();
+	//OpenCL_Programming_Guide::HelloWorld();
+
+	OpenCL_Programming_Guide::OpenCLInfo();
 
 }

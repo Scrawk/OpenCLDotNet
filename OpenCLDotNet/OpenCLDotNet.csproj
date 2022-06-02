@@ -4,6 +4,8 @@
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
+    <DocumentationFile>F:\Projects\Visual Studio Projects\OpenCLDotNet\OpenCLDotNet\OpenCLDotNet.xml</DocumentationFile>
   </PropertyGroup>
 
 </Project>

@@ -24,7 +24,7 @@
 //
 const int ARRAY_SIZE = 1000;
 
-namespace OpenCL_Programming_Guide_Chapter2
+namespace OpenCL_Programming_Guide
 {
 
     ///
@@ -223,7 +223,7 @@ namespace OpenCL_Programming_Guide_Chapter2
     ///
     //	main() for HelloWorld example
     //
-    int Run()
+    int HelloWorld()
     {
         std::cout << "Running HelloWorld example" << std::endl;
 

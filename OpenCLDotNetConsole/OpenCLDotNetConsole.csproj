@@ -7,4 +7,12 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="xcopy &quot;$(SolutionDir)x64\$(ConfigurationName)\OpenCLWrapper.dll&quot; &quot;$(ProjectDir)bin\$(ConfigurationName)\net6.0&quot; /y" />
+  </Target>
+
+  <ItemGroup>
+    <ProjectReference Include="..\OpenCLDotNet\OpenCLDotNet.csproj" />
+  </ItemGroup>
+
 </Project>

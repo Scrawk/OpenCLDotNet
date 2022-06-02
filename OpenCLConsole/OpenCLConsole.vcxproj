@@ -146,7 +146,8 @@
     <ClCompile Include="OpenCLConsole.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="OpenCL_Programming_Guide_Chapter2.h" />
+    <ClInclude Include="Books\OpenCL_Programming_Guide\HelloWorld.h" />
+    <ClInclude Include="Books\OpenCL_Programming_Guide\OpenCLInfo.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

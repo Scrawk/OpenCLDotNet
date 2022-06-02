@@ -13,6 +13,12 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Header Files\Books">
+      <UniqueIdentifier>{7492502e-f84c-4020-a82a-42aa6e3c66ff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Books\OpenCL_Programming_Guide">
+      <UniqueIdentifier>{66e5f9da-84af-4ac3-b092-f3bc84ff18eb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="OpenCLConsole.cpp">
@@ -20,8 +26,11 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="OpenCL_Programming_Guide_Chapter2.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Books\OpenCL_Programming_Guide\HelloWorld.h">
+      <Filter>Header Files\Books\OpenCL_Programming_Guide</Filter>
+    </ClInclude>
+    <ClInclude Include="Books\OpenCL_Programming_Guide\OpenCLInfo.h">
+      <Filter>Header Files\Books\OpenCL_Programming_Guide</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -1,2 +1,18 @@
-﻿// See https://aka.ms/new-console-template for more information
-Console.WriteLine("Hello, World!");
+﻿using System;
+using System.Text;
+using System.Collections.Generic;
+
+using OpenCLDotNet;
+
+namespace OpenCLDotNetConsole
+{
+    public class Program
+    {
+
+        static void Main(string[] args)
+        {
+            Console.WriteLine("Version = " + CL.Version);
+        }
+
+    }
+}
