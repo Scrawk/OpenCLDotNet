@@ -11,22 +11,27 @@ namespace OpenCLDotNetConsole
 
         static void Main(string[] args)
         {
-			
 			CL_ERROR errNum;
-			cl_uint numEntries = new cl_uint();
-			cl_uint[] numPlatforms = new cl_uint[1];
-			//cl_platform_id[] platformIds = new cl_platform_id[1];
-			//cl_context context;
+			uint numPlatforms;
+			errNum = CL.GetPlatformIDs(out numPlatforms);
 
-			// First, query the total number of platforms
-			errNum = CL.GetPlatformIDs(numEntries, null, numPlatforms);
-
-			if (errNum != CL_ERROR.CL_SUCCESS || numPlatforms[0].Value <= 0)
+			if (errNum != CL_ERROR.CL_SUCCESS || numPlatforms <= 0)
 			{
 				Console.WriteLine("Failed to find any OpenCL platform.");
 				return;
 			}
-			
+
+			var platforms = new cl_platform_id[numPlatforms];
+			errNum = CL.GetPlatformIDs(numPlatforms, platforms);
+
+			if (errNum != CL_ERROR.CL_SUCCESS)
+			{
+				Console.WriteLine("Failed to find any OpenCL platform.");
+				return;
+			}
+
+			foreach(var p in platforms)
+			Console.WriteLine("platform " + p);
 
 
 		}

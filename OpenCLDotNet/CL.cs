@@ -24,33 +24,22 @@ namespace OpenCLDotNet
             {
                 return CL_VersionNumber().ToString();
             }
-            
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="num_entries"></param>
-        /// <param name="platforms"></param>
-        /// <param name="num_platforms"></param>
-        /// <returns></returns>
-        public static CL_ERROR GetPlatformIDs(
-            cl_uint num_entries,
-            cl_platform_id[] platforms,
-            cl_uint[] num_platforms)
+        public static CL_ERROR GetPlatformIDs(out uint num_platforms)
         {
-            return CL_GetPlatformIDs(num_entries, platforms, num_platforms);    
+            var platforms = new cl_uint[1];
+            var error_code = CL_GetPlatformIDs(0, null, platforms);
+
+            num_platforms = platforms[0].Value;
+            return error_code;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="platform"></param>
-        /// <param name="param_name"></param>
-        /// <param name="param_value_size"></param>
-        /// <param name="param_value"></param>
-        /// <param name="param_value_size_ret"></param>
-        /// <returns></returns>
+        public static CL_ERROR GetPlatformIDs(uint num_entries, cl_platform_id[] platformIds)
+        {
+            return CL_GetPlatformIDs(num_entries, platformIds, null);
+        }
+
         public static CL_ERROR GetPlatformInfo(
          cl_platform_id platform,
          cl_platform_info param_name,
@@ -69,8 +58,8 @@ namespace OpenCLDotNet
 
         [DllImport(DLL_NAME, CallingConvention = CDECL)]
         private static extern CL_ERROR CL_GetPlatformIDs(
-            cl_uint num_entries, 
-            cl_platform_id[] platforms, 
+            cl_uint num_entries,
+            [In] [Out] cl_platform_id[] platforms, 
             [Out] cl_uint[] num_platforms);
 
         [DllImport(DLL_NAME, CallingConvention = CDECL)]
