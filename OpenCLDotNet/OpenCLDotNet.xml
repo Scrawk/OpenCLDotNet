@@ -4,6 +4,31 @@
         <name>OpenCLDotNet</name>
     </assembly>
     <members>
+        <member name="P:OpenCLDotNet.CL.Version">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:OpenCLDotNet.CL.GetPlatformIDs(OpenCLDotNet.cl_uint,OpenCLDotNet.cl_platform_id[],OpenCLDotNet.cl_uint[])">
+            <summary>
+            
+            </summary>
+            <param name="num_entries"></param>
+            <param name="platforms"></param>
+            <param name="num_platforms"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.CL.GetPlatformInfo(OpenCLDotNet.cl_platform_id,OpenCLDotNet.cl_platform_info,OpenCLDotNet.size_t,System.IntPtr,OpenCLDotNet.size_t[])">
+            <summary>
+            
+            </summary>
+            <param name="platform"></param>
+            <param name="param_name"></param>
+            <param name="param_value_size"></param>
+            <param name="param_value"></param>
+            <param name="param_value_size_ret"></param>
+            <returns></returns>
+        </member>
         <member name="T:OpenCLDotNet.CLObject">
             <summary>
             Base class for objects that referrence a CL object.

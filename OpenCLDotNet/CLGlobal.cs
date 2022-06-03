@@ -1,72 +1,92 @@
 ﻿
-global using cl_char = System.SByte; // int8_t
-global using cl_uchar = System.Byte; // uint8_t
-global using cl_short = System.Int16; // int16_t
-global using cl_ushort = System.UInt16; // uint16_t
-global using cl_int = System.Int32; // int32_t
-global using cl_uint = System.UInt32; // uint32_t
-global using cl_long = System.Int64; // int64_t
-global using cl_ulong = System.UInt64; // uint64_t
-global using cl_half = System.UInt16; //uint16_t
-global using cl_float = System.Single; //float
-global using cl_double = System.Double; //double
+using System;
+using System.Collections.Generic;
+using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 
-// WARNING!
-// Unlike cl_ types in cl_platform.h,
-// cl_bool is not guaranteed to be the same
-// size as the bool in kernels.
+namespace OpenCLDotNet
+{
 
-global using cl_bool = System.UInt32; //cl_uint    
-global using cl_bitfield = System.UInt64; //cl_ulong
-global using cl_properties = System.UInt64; //cl_ulong 
-global using cl_device_type = System.UInt64; //cl_bitfield
-global using cl_platform_info = System.UInt32; //cl_uint
-global using cl_device_info = System.UInt32; //cl_uint
-global using cl_device_fp_config = System.UInt64;//cl_bitfield
-global using cl_device_mem_cache_type = System.UInt32;//cl_uint
-global using cl_device_local_mem_type = System.UInt32;//cl_uint
-global using cl_device_exec_capabilities = System.UInt64;//cl_bitfield
-global using cl_device_svm_capabilities = System.UInt64;//cl_bitfield
-global using cl_command_queue_properties = System.UInt64;//cl_bitfield
-global using cl_device_partition_property = System.IntPtr;//intptr_t
-global using cl_device_affinity_domain = System.UInt64;//cl_bitfield
-global using cl_context_properties = System.IntPtr;//intptr_t
-global using cl_context_info = System.UInt32;//cl_uint
-global using cl_queue_properties = System.UInt64;//cl_properties
-global using cl_command_queue_info = System.UInt32;//cl_uint
-global using cl_channel_order = System.UInt32;//cl_uint
-global using cl_channel_type = System.UInt32;//cl_uint
-global using cl_mem_flags = System.UInt64;//cl_bitfield
-global using cl_svm_mem_flags = System.UInt64;//cl_bitfield
-global using cl_mem_object_type = System.UInt32;//cl_uint
-global using cl_mem_info = System.UInt32;//cl_uint
-global using cl_mem_migration_flags = System.UInt64;//cl_bitfield
-global using cl_image_info = System.UInt32;//cl_uint
-global using cl_buffer_create_type = System.UInt32;//cl_uint
-global using cl_addressing_mode = System.UInt32;//cl_uint
-global using cl_filter_mode = System.UInt32;//cl_uint
-global using cl_sampler_info = System.UInt32;//cl_uint
-global using cl_map_flags = System.UInt64;//cl_bitfield
-global using cl_pipe_properties = System.IntPtr;//intptr_t
-global using cl_pipe_info = System.UInt32;//cl_uint
-global using cl_program_info = System.UInt32;//cl_uint
-global using cl_program_build_info = System.UInt32;//cl_uint
-global using cl_program_binary_type = System.UInt32;//cl_uint
-global using cl_build_status = System.UInt32;//cl_int
-global using cl_kernel_info = System.UInt32;//cl_uint
-global using cl_kernel_arg_info = System.UInt32;//cl_uint
-global using cl_kernel_arg_address_qualifier = System.UInt32;//cl_uint
-global using cl_kernel_arg_access_qualifier = System.UInt32;//cl_uint
-global using cl_kernel_arg_type_qualifier = System.UInt64;//cl_bitfield
-global using cl_kernel_work_group_info = System.UInt32;//cl_uint
-global using cl_kernel_sub_group_info = System.UInt32;//cl_uint
-global using cl_event_info = System.UInt32;//cl_uint
-global using cl_command_type = System.UInt32;//cl_uint
-global using cl_profiling_info = System.UInt32;//cl_uint
-global using cl_sampler_properties = System.UInt64;//cl_properties
-global using cl_kernel_exec_info = System.UInt32;//cl_uint
-global using cl_device_atomic_capabilities = System.UInt64;//cl_bitfield
-global using cl_device_device_enqueue_capabilities = System.UInt64;//cl_bitfield
-global using cl_khronos_vendor_id = System.UInt32;//cl_uint
-global using cl_mem_properties = System.UInt64;//cl_properties
-global using cl_version = System.UInt32; //cl_uint
+    public readonly record struct size_t(UInt64 Value);
+    public readonly record struct cl_char(SByte Value);
+    public readonly record struct cl_uchar(Byte Value);
+    public readonly record struct cl_short(Int16 Value);
+    public readonly record struct cl_ushort(UInt16 Value);
+    public readonly record struct cl_int(Int32 Value);
+    public readonly record struct cl_uint(UInt32 Value);
+    public readonly record struct cl_long(Int64 Value);
+    public readonly record struct cl_ulong(UInt64 Value);
+    public readonly record struct cl_half(UInt16 Value);
+    public readonly record struct cl_float(float Value);
+    public readonly record struct cl_double(double Value);
+
+
+    public readonly record struct cl_bool(UInt32 Value);
+    public readonly record struct cl_bitfield(UInt64 Value);
+    public readonly record struct cl_properties(UInt64 Value);
+    public readonly record struct cl_device_type(UInt64 Value);
+    public readonly record struct cl_platform_info(UInt32 Value);
+    public readonly record struct cl_device_info(UInt32 Value);
+    public readonly record struct cl_device_fp_config(UInt64 Value);
+    public readonly record struct cl_device_mem_cache_type(UInt32 Value);
+    public readonly record struct cl_device_local_mem_type(UInt32 Value);
+    public readonly record struct cl_device_exec_capabilities(UInt64 Value);
+    public readonly record struct cl_device_svm_capabilities(UInt64 Value);
+    public readonly record struct cl_command_queue_properties(UInt64 Value);
+    public readonly record struct cl_device_partition_property(IntPtr Value);
+    public readonly record struct cl_device_affinity_domain(UInt64 Value);
+    public readonly record struct cl_context_properties(IntPtr Value);
+    public readonly record struct cl_context_info(UInt32 Value);
+    public readonly record struct cl_queue_properties(UInt64 Value);
+    public readonly record struct cl_command_queue_info(UInt32 Value);
+    public readonly record struct cl_channel_order(UInt32 Value);
+    public readonly record struct cl_channel_type(UInt32 Value);
+    public readonly record struct cl_mem_flags(UInt64 Value);
+    public readonly record struct cl_svm_mem_flags(UInt64 Value);
+    public readonly record struct cl_mem_object_type(UInt32 Value);
+    public readonly record struct cl_mem_info(UInt32 Value);
+    public readonly record struct cl_mem_migration_flags(UInt64 Value);
+    public readonly record struct cl_image_info(UInt32 Value);
+    public readonly record struct cl_buffer_create_type(UInt32 Value);
+    public readonly record struct cl_addressing_mode(UInt32 Value);
+    public readonly record struct cl_filter_mode(UInt32 Value);
+    public readonly record struct cl_sampler_info(UInt32 Value);
+    public readonly record struct cl_map_flags(UInt64 Value);
+    public readonly record struct cl_pipe_properties(IntPtr Value);
+    public readonly record struct cl_pipe_info(UInt32 Value);
+    public readonly record struct cl_program_info(UInt32 Value);
+    public readonly record struct cl_program_build_info(UInt32 Value);
+    public readonly record struct cl_program_binary_type(UInt32 Value);
+    public readonly record struct cl_build_status(UInt32 Value);
+    public readonly record struct cl_kernel_info(UInt32 Value);
+    public readonly record struct cl_kernel_arg_info(UInt32 Value);
+    public readonly record struct cl_kernel_arg_address_qualifier(UInt32 Value);
+    public readonly record struct cl_kernel_arg_access_qualifier(UInt32 Value);
+    public readonly record struct cl_kernel_arg_type_qualifier(UInt64 Value);
+    public readonly record struct cl_kernel_work_group_info(UInt32 Value);
+    public readonly record struct cl_kernel_sub_group_info(UInt32 Value);
+    public readonly record struct cl_event_info(UInt32 Value);
+    public readonly record struct cl_command_type(UInt32 Value);
+    public readonly record struct cl_profiling_info(UInt32 Value);
+    public readonly record struct cl_sampler_properties(UInt64 Value);
+    public readonly record struct cl_kernel_exec_info(UInt32 Value);
+    public readonly record struct cl_device_atomic_capabilities(UInt64 Value);
+    public readonly record struct cl_device_device_enqueue_capabilities(UInt64 Value);
+    public readonly record struct cl_khronos_vendor_id(UInt32 Value);
+    public readonly record struct cl_mem_properties(UInt64 Value);
+    public readonly record struct cl_version(UInt32 Value);
+
+
+    public readonly record struct cl_platform_id(IntPtr Value);
+    public readonly record struct cl_device_id(IntPtr Value);
+    public readonly record struct cl_context(IntPtr Value);
+    public readonly record struct cl_command_queue(IntPtr Value);
+    public readonly record struct cl_mem(IntPtr Value);
+    public readonly record struct cl_program(IntPtr Value);
+    public readonly record struct cl_kernel(IntPtr Value);
+    public readonly record struct cl_event(IntPtr Value);
+    public readonly record struct cl_sampler(IntPtr Value);
+
+
+}
+

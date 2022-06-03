@@ -15,7 +15,6 @@ int main()
 {
 
 	//OpenCL_Programming_Guide::HelloWorld();
-
-	OpenCL_Programming_Guide::OpenCLInfo();
+	//OpenCL_Programming_Guide::OpenCLInfo();
 
 }
