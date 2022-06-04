@@ -4,7 +4,7 @@ using System.Text;
 
 using System.Runtime.InteropServices;
 
-namespace OpenCLDotNet
+namespace OpenCLDotNet.Core
 {
     /// <summary>
     /// Base class for objects that referrence a CL object.

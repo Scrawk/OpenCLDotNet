@@ -2,7 +2,7 @@
 using System.Text;
 using System.Collections.Generic;
 
-using OpenCLDotNet;
+using OpenCLDotNet.Core;
 
 namespace OpenCLDotNetConsole
 {
@@ -11,29 +11,15 @@ namespace OpenCLDotNetConsole
 
         static void Main(string[] args)
         {
-			CL_ERROR errNum;
-			uint numPlatforms;
-			errNum = CL.GetPlatformIDs(out numPlatforms);
+			var ids = new List<cl_platform_id>();
+			CL.GetPlatformIDs(ids);
 
-			if (errNum != CL_ERROR.CL_SUCCESS || numPlatforms <= 0)
-			{
-				Console.WriteLine("Failed to find any OpenCL platform.");
-				return;
+			foreach(var id in ids)
+            {
+				var platform = new CLPlatform(id);
+				platform.Print();
 			}
-
-			var platforms = new cl_platform_id[numPlatforms];
-			errNum = CL.GetPlatformIDs(numPlatforms, platforms);
-
-			if (errNum != CL_ERROR.CL_SUCCESS)
-			{
-				Console.WriteLine("Failed to find any OpenCL platform.");
-				return;
-			}
-
-			foreach(var p in platforms)
-			Console.WriteLine("platform " + p);
-
-
+			
 		}
 
     }
