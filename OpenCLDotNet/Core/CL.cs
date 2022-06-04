@@ -187,6 +187,22 @@ namespace OpenCLDotNet.Core
             size_t param_value_size, 
             [Out] char[] param_value, 
             [Out] out size_t param_value_size_ret);
+        
+         [DllImport(DLL_NAME, CallingConvention = CDECL)]
+        private static extern CL_ERROR 
+clGetDeviceIDs(cl_platform_id   platform,
+               cl_device_type   device_type,
+               cl_uint          num_entries,
+               [In] [Out] cl_device_id[] devices,
+               [Out] out cl_uint      num_devices);
+
+         [DllImport(DLL_NAME, CallingConvention = CDECL)]
+private static extern CL_ERROR
+clGetDeviceInfo(cl_device_id    device,
+                cl_device_info  param_name,
+                size_t          param_value_size,
+                IntPtr        param_value,
+                [Out] out size_t   param_value_size_ret);
 
     }
 }
