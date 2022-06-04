@@ -147,6 +147,40 @@ namespace OpenCLDotNet.Core
             return error_code;
         }
 
+        public static CL_ERROR GetDeviceIDs(
+            cl_platform_id platform,
+            CL_DEVICE_TYPE device_type,
+            out uint num_devices)
+        {
+            cl_uint num;
+            var error_code = CL_GetDeviceIDs(platform, device_type, 0, null, out num);
+
+            num_devices = num;
+            return error_code;
+        }
+
+        public static CL_ERROR GetDeviceIDs(
+            cl_platform_id platform,
+            CL_DEVICE_TYPE device_type,
+            uint num_devices,
+            cl_device_id[] devices)
+        {
+            cl_uint num;
+            return CL_GetDeviceIDs(platform, device_type, num_devices, devices, out num);
+        }
+
+        public static CL_ERROR GetDeviceInfo(
+            cl_device_id device,
+            CL_DEVICE_INFO name,
+            out uint info_size)
+        {
+            size_t num;
+            var error = CL_GetDeviceInfo(device, name, 0, IntPtr.Zero, out num);
+
+            info_size = (uint)num;
+            return error;
+        }
+
         /////////////////////////////////////////////////////////////////////////////////////////////////
         //                                 EXTERN FUNCTIONS                                          ///
         ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -187,22 +221,40 @@ namespace OpenCLDotNet.Core
             size_t param_value_size, 
             [Out] char[] param_value, 
             [Out] out size_t param_value_size_ret);
-        
-         [DllImport(DLL_NAME, CallingConvention = CDECL)]
-        private static extern CL_ERROR 
-clGetDeviceIDs(cl_platform_id   platform,
-               cl_device_type   device_type,
-               cl_uint          num_entries,
-               [In] [Out] cl_device_id[] devices,
-               [Out] out cl_uint      num_devices);
 
-         [DllImport(DLL_NAME, CallingConvention = CDECL)]
-private static extern CL_ERROR
-clGetDeviceInfo(cl_device_id    device,
-                cl_device_info  param_name,
-                size_t          param_value_size,
-                IntPtr        param_value,
-                [Out] out size_t   param_value_size_ret);
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="platform"></param>
+        /// <param name="device_type"></param>
+        /// <param name="num_entries"></param>
+        /// <param name="devices"></param>
+        /// <param name="num_devices"></param>
+        /// <returns></returns>
+        [DllImport(DLL_NAME, CallingConvention = CDECL)]
+        private static extern CL_ERROR CL_GetDeviceIDs(
+            cl_platform_id platform,
+            CL_DEVICE_TYPE device_type,
+            cl_uint num_entries,
+            [In][Out] cl_device_id[] devices,
+            [Out] out cl_uint num_devices);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="device"></param>
+        /// <param name="param_name"></param>
+        /// <param name="param_value_size"></param>
+        /// <param name="param_value"></param>
+        /// <param name="param_value_size_ret"></param>
+        /// <returns></returns>
+        [DllImport(DLL_NAME, CallingConvention = CDECL)]
+        private static extern CL_ERROR CL_GetDeviceInfo(
+            cl_device_id device,
+            CL_DEVICE_INFO param_name,
+            size_t param_value_size,
+            IntPtr param_value,
+            [Out] out size_t param_value_size_ret);
 
     }
 }
