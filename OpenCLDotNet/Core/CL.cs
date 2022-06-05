@@ -36,11 +36,11 @@ namespace OpenCLDotNet.Core
         /// </summary>
         /// <param name="num_platforms"></param>
         /// <returns></returns>
-        public static CL_ERROR GetPlatformIDs(
+        public static CL_ERROR GetPlatformCount(
             out uint num_platforms)
         {
             cl_uint platforms;
-            var error_code = CL_GetPlatformIDs(0, null, out platforms);
+            var error_code = CL_GetPlatformCount(out platforms);
 
             num_platforms = platforms;
             return error_code;
@@ -56,8 +56,7 @@ namespace OpenCLDotNet.Core
             uint num_entries, 
             cl_platform_id[] platform_ids)
         {
-            cl_uint num_platforms;
-            return CL_GetPlatformIDs(num_entries, platform_ids, out num_platforms);
+            return CL_GetPlatformIDs(num_entries, platform_ids);
         }
 
         /// <summary>
@@ -71,7 +70,7 @@ namespace OpenCLDotNet.Core
             CL_ERROR error_code;
             uint num_platforms;
 
-            error_code = GetPlatformIDs(out num_platforms);
+            error_code = GetPlatformCount(out num_platforms);
 
             if (error_code != CL_ERROR.SUCCESS || num_platforms <= 0)
                 return error_code;
@@ -90,13 +89,13 @@ namespace OpenCLDotNet.Core
         /// <param name="name"></param>
         /// <param name="info_size"></param>
         /// <returns></returns>
-        public static CL_ERROR GetPlatformInfo(
+        public static CL_ERROR GetPlatformInfoSize(
          cl_platform_id platform,
          CL_PLATFORM_INFO name,
          out uint info_size)
         {
             size_t size;
-            var error_code = CL_GetPlatformInfo(platform, name, 0, null, out size);
+            var error_code = CL_GetPlatformInfoSize(platform, name, out size);
 
             info_size = (uint)size;
             return error_code;
@@ -116,8 +115,7 @@ namespace OpenCLDotNet.Core
             uint info_size,
             char[] info_array)
         {
-            size_t size;
-            return CL_GetPlatformInfo(platform, name, info_size, info_array, out size);
+            return CL_GetPlatformInfo(platform, name, info_size, info_array);
         }
 
         /// <summary>
@@ -134,14 +132,13 @@ namespace OpenCLDotNet.Core
         {
             info = "";
             uint info_size;
-            var error_code = GetPlatformInfo(platform, name, out info_size);
+            var error_code = GetPlatformInfoSize(platform, name, out info_size);
 
             if (error_code != CL_ERROR.SUCCESS || info_size <= 0)
                 return error_code;
 
-            size_t size;
             char[] info_array = new char[info_size];
-            error_code = CL_GetPlatformInfo(platform, name, info_size, info_array, out size);
+            error_code = CL_GetPlatformInfo(platform, name, info_size, info_array);
 
             info = new string(info_array);
             return error_code;
@@ -231,15 +228,35 @@ namespace OpenCLDotNet.Core
         /// <summary>
         /// 
         /// </summary>
+        /// <param name="num_platforms"></param>
+        /// <returns></returns>
+        [DllImport(DLL_NAME, CallingConvention = CDECL)]
+        private static extern CL_ERROR CL_GetPlatformCount(
+            [Out] out cl_uint num_platforms);
+
+        /// <summary>
+        /// 
+        /// </summary>
         /// <param name="num_entries"></param>
         /// <param name="platforms"></param>
-        /// <param name="num_platforms"></param>
         /// <returns></returns>
         [DllImport(DLL_NAME, CallingConvention = CDECL)]
         private static extern CL_ERROR CL_GetPlatformIDs(
             cl_uint num_entries,
-            [In] [Out] cl_platform_id[] platforms, 
-            [Out] out cl_uint num_platforms);
+            [Out] cl_platform_id[] platforms);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="platform"></param>
+        /// <param name="param_name"></param>
+        /// <param name="param_value_size_ret"></param>
+        /// <returns></returns>
+        [DllImport(DLL_NAME, CallingConvention = CDECL)]
+        private static extern CL_ERROR CL_GetPlatformInfoSize(
+            cl_platform_id platform,
+            CL_PLATFORM_INFO param_name, 
+            [Out] out size_t param_value_size_ret);
 
         /// <summary>
         /// 
@@ -248,15 +265,13 @@ namespace OpenCLDotNet.Core
         /// <param name="param_name"></param>
         /// <param name="param_value_size"></param>
         /// <param name="param_value"></param>
-        /// <param name="param_value_size_ret"></param>
         /// <returns></returns>
         [DllImport(DLL_NAME, CallingConvention = CDECL)]
         private static extern CL_ERROR CL_GetPlatformInfo(
             cl_platform_id platform,
-            CL_PLATFORM_INFO param_name, 
-            size_t param_value_size, 
-            [Out] char[] param_value, 
-            [Out] out size_t param_value_size_ret);
+            CL_PLATFORM_INFO param_name,
+            size_t param_value_size,
+            [Out] char[] param_value);
 
         /// <summary>
         /// 

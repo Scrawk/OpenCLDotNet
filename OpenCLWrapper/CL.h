@@ -15,12 +15,16 @@ extern "C"
         cl_uint num_entries,
         cl_platform_id* platforms);
 
+    CL_WRAPPER_API cl_int CL_GetPlatformInfoSize(
+        cl_platform_id   platform,
+        cl_platform_info param_name,
+        size_t* param_value_size_ret);
+
     CL_WRAPPER_API cl_int CL_GetPlatformInfo(
         cl_platform_id   platform,
         cl_platform_info param_name,
         size_t           param_value_size,
-        void* param_value,
-        size_t* param_value_size_ret);
+        void* param_value);
 
     CL_WRAPPER_API cl_int CL_GetDeviceIDs(
         cl_platform_id   platform,

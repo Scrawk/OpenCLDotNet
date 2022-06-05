@@ -18,15 +18,23 @@ cl_int CL_GetPlatformIDs(
     return clGetPlatformIDs(num_entries, platforms, nullptr);
 }
 
+cl_int CL_GetPlatformInfoSize(
+    cl_platform_id   platform,
+    cl_platform_info param_name,
+    size_t* param_value_size_ret)
+{
+    return clGetPlatformInfo(platform, param_name, 0, 
+        nullptr, param_value_size_ret);
+}
+
 cl_int CL_GetPlatformInfo(
     cl_platform_id   platform,
     cl_platform_info param_name,
     size_t           param_value_size,
-    void* param_value,
-    size_t* param_value_size_ret)
+    void* param_value)
 {
-    return clGetPlatformInfo(platform, param_name, param_value_size, 
-        param_value, param_value_size_ret);
+    return clGetPlatformInfo(platform, param_name, param_value_size,
+        param_value, nullptr);
 }
 
 cl_int CL_GetDeviceIDs(

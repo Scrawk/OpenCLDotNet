@@ -19,7 +19,7 @@
             
             </summary>
         </member>
-        <member name="M:OpenCLDotNet.Core.CL.GetPlatformIDs(System.UInt32@)">
+        <member name="M:OpenCLDotNet.Core.CL.GetPlatformCount(System.UInt32@)">
             <summary>
             
             </summary>
@@ -41,7 +41,7 @@
             <param name="platform_ids"></param>
             <returns></returns>
         </member>
-        <member name="M:OpenCLDotNet.Core.CL.GetPlatformInfo(OpenCLDotNet.Core.cl_platform_id,OpenCLDotNet.Core.CL_PLATFORM_INFO,System.UInt32@)">
+        <member name="M:OpenCLDotNet.Core.CL.GetPlatformInfoSize(OpenCLDotNet.Core.cl_platform_id,OpenCLDotNet.Core.CL_PLATFORM_INFO,System.UInt32@)">
             <summary>
             
             </summary>
@@ -75,16 +75,31 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:OpenCLDotNet.Core.CL.CL_GetPlatformIDs(OpenCLDotNet.Core.cl_uint,OpenCLDotNet.Core.cl_platform_id[],OpenCLDotNet.Core.cl_uint@)">
+        <member name="M:OpenCLDotNet.Core.CL.CL_GetPlatformCount(OpenCLDotNet.Core.cl_uint@)">
+            <summary>
+            
+            </summary>
+            <param name="num_platforms"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Core.CL.CL_GetPlatformIDs(OpenCLDotNet.Core.cl_uint,OpenCLDotNet.Core.cl_platform_id[])">
             <summary>
             
             </summary>
             <param name="num_entries"></param>
             <param name="platforms"></param>
-            <param name="num_platforms"></param>
             <returns></returns>
         </member>
-        <member name="M:OpenCLDotNet.Core.CL.CL_GetPlatformInfo(OpenCLDotNet.Core.cl_platform_id,OpenCLDotNet.Core.CL_PLATFORM_INFO,OpenCLDotNet.Core.size_t,System.Char[],OpenCLDotNet.Core.size_t@)">
+        <member name="M:OpenCLDotNet.Core.CL.CL_GetPlatformInfoSize(OpenCLDotNet.Core.cl_platform_id,OpenCLDotNet.Core.CL_PLATFORM_INFO,OpenCLDotNet.Core.size_t@)">
+            <summary>
+            
+            </summary>
+            <param name="platform"></param>
+            <param name="param_name"></param>
+            <param name="param_value_size_ret"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Core.CL.CL_GetPlatformInfo(OpenCLDotNet.Core.cl_platform_id,OpenCLDotNet.Core.CL_PLATFORM_INFO,OpenCLDotNet.Core.size_t,System.Char[])">
             <summary>
             
             </summary>
@@ -92,7 +107,6 @@
             <param name="param_name"></param>
             <param name="param_value_size"></param>
             <param name="param_value"></param>
-            <param name="param_value_size_ret"></param>
             <returns></returns>
         </member>
         <member name="M:OpenCLDotNet.Core.CL.CL_GetDeviceIDs(OpenCLDotNet.Core.cl_platform_id,OpenCLDotNet.Core.CL_DEVICE_TYPE,OpenCLDotNet.Core.cl_uint,OpenCLDotNet.Core.cl_device_id[],OpenCLDotNet.Core.cl_uint@)">
