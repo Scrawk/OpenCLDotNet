@@ -27,11 +27,15 @@ extern "C"
         cl_device_id* devices,
         cl_uint* num_devices);
 
+    CL_WRAPPER_API cl_int CL_GetDeviceInfoSize(
+        cl_device_id    device,
+        cl_device_info  param_name,
+        size_t* param_value_size_ret);
+
     CL_WRAPPER_API cl_int CL_GetDeviceInfo(
         cl_device_id    device,
         cl_device_info  param_name,
         size_t          param_value_size,
-        void* param_value,
-        size_t* param_value_size_ret);
+        void* param_value);
 
 }

@@ -24,7 +24,7 @@ cl_int CL_GetPlatformInfo(
         param_value, param_value_size_ret);
 }
 
-CL_WRAPPER_API cl_int CL_GetDeviceIDs(
+cl_int CL_GetDeviceIDs(
     cl_platform_id   platform,
     cl_device_type   device_type,
     cl_uint          num_entries,
@@ -35,13 +35,21 @@ CL_WRAPPER_API cl_int CL_GetDeviceIDs(
         devices, num_devices);
 }
 
-CL_WRAPPER_API cl_int CL_GetDeviceInfo(
+cl_int CL_GetDeviceInfoSize(
+    cl_device_id    device,
+    cl_device_info  param_name,
+    size_t* param_value_size_ret)
+{
+    return clGetDeviceInfo(device, param_name, 0,
+        nullptr, param_value_size_ret);
+}
+
+cl_int CL_GetDeviceInfo(
     cl_device_id    device,
     cl_device_info  param_name,
     size_t          param_value_size,
-    void* param_value,
-    size_t* param_value_size_ret)
+    void* param_value)
 {
     return clGetDeviceInfo(device, param_name, param_value_size,
-        param_value, param_value_size_ret);
+        param_value, nullptr);
 }

@@ -52,10 +52,10 @@ namespace OpenCLDotNetConsole
 				foreach (var device in devices)
 				{
 					cl_device_id id = device;
-					CL_DEVICE_INFO name = CL_DEVICE_INFO.TYPE;
+					CL_DEVICE_INFO name = CL_DEVICE_INFO.MAX_WORK_ITEM_SIZES;
 					uint paramValueSize;
 
-					var err = CL.GetDeviceInfo(
+					var err = CL.GetDeviceInfoSize(
 						id,
 						name,
 						out paramValueSize);
@@ -65,10 +65,29 @@ namespace OpenCLDotNetConsole
 						Console.WriteLine("Failed to find OpenCL device info ");
 						return;
 					}
-					else
+				
+					Console.WriteLine("paramValueSize = " + paramValueSize);
+
+                    unsafe
 					{
-						Console.WriteLine("paramValueSize = " + paramValueSize);
+						var info = new size_t[paramValueSize / sizeof(size_t)];
+
+						errNum = CL.GetDeviceInfo(
+							id,
+							name,
+							paramValueSize,
+							info);
+
+						if (errNum != CL_ERROR.SUCCESS)
+						{
+							Console.WriteLine("Failed to find OpenCL device info ");
+							return;
+						}
+
+						foreach (var s in info)
+							Console.WriteLine(s);
 					}
+
 				}
 					
 			}

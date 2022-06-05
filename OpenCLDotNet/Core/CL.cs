@@ -169,15 +169,45 @@ namespace OpenCLDotNet.Core
             return CL_GetDeviceIDs(platform, device_type, num_devices, devices, out num);
         }
 
-        public static CL_ERROR GetDeviceInfo(
+        public static CL_ERROR GetDeviceInfoSize(
             cl_device_id device,
             CL_DEVICE_INFO name,
             out uint info_size)
         {
             size_t num;
-            var error = CL_GetDeviceInfo(device, name, 0, IntPtr.Zero, out num);
+            var error = CL_GetDeviceInfoSize(device, name, out num);
 
             info_size = (uint)num;
+            return error;
+        }
+
+        public static CL_ERROR GetDeviceInfo(
+            cl_device_id device,
+            CL_DEVICE_INFO name,
+            uint info_size,
+            out UInt64 info)
+        {
+            var error = CL_GetDeviceInfo(device, name, info_size, out info);
+            return error;
+        }
+
+        public static CL_ERROR GetDeviceInfo(
+            cl_device_id device,
+            CL_DEVICE_INFO name,
+            uint info_size,
+            char[] info)
+        {
+            var error = CL_GetDeviceInfo(device, name, info_size, info);
+            return error;
+        }
+
+        public static CL_ERROR GetDeviceInfo(
+            cl_device_id device,
+            CL_DEVICE_INFO name,
+            uint info_size,
+            size_t[] info)
+        {
+            var error = CL_GetDeviceInfo(device, name, info_size, info);
             return error;
         }
 
@@ -239,22 +269,33 @@ namespace OpenCLDotNet.Core
             [In][Out] cl_device_id[] devices,
             [Out] out cl_uint num_devices);
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="device"></param>
-        /// <param name="param_name"></param>
-        /// <param name="param_value_size"></param>
-        /// <param name="param_value"></param>
-        /// <param name="param_value_size_ret"></param>
-        /// <returns></returns>
+
+        [DllImport(DLL_NAME, CallingConvention = CDECL)]
+        private static extern CL_ERROR CL_GetDeviceInfoSize(
+            cl_device_id device,
+            CL_DEVICE_INFO param_name,
+            [Out] out size_t param_value_size_ret);
+
         [DllImport(DLL_NAME, CallingConvention = CDECL)]
         private static extern CL_ERROR CL_GetDeviceInfo(
             cl_device_id device,
             CL_DEVICE_INFO param_name,
             size_t param_value_size,
-            IntPtr param_value,
-            [Out] out size_t param_value_size_ret);
+            [Out] out UInt64 param_value);
+
+        [DllImport(DLL_NAME, CallingConvention = CDECL)]
+        private static extern CL_ERROR CL_GetDeviceInfo(
+            cl_device_id device,
+            CL_DEVICE_INFO param_name,
+            size_t param_value_size,
+            [Out] char[] param_value);
+
+        [DllImport(DLL_NAME, CallingConvention = CDECL)]
+        private static extern CL_ERROR CL_GetDeviceInfo(
+            cl_device_id device,
+            CL_DEVICE_INFO param_name,
+            size_t param_value_size,
+            [Out] size_t[] param_value);
 
     }
 }

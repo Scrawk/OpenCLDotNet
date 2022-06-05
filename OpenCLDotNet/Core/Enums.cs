@@ -3,7 +3,6 @@ using System.Collections.Generic;
 
 namespace OpenCLDotNet.Core
 {
-
     public enum CL_ERROR
     {
         SUCCESS = 0,
@@ -95,6 +94,17 @@ namespace OpenCLDotNet.Core
         ALL = ~0
     }
 
+    public enum CL_DEVICE_INFO_RETURN_TYPE
+    {
+        UINT,
+        ULONG,
+        BOOL,
+        SIZE,
+        SIZE_ARRAY,
+        CHAR_ARRAY,
+        UNKNOWN
+    }
+
     public enum CL_DEVICE_INFO
     {
         TYPE = 0x1000,
@@ -136,7 +146,7 @@ namespace OpenCLDotNet.Core
         ERROR_CORRECTION_SUPPORT = 0x1024,
         PROFILING_TIMER_RESOLUTION = 0x1025,
         ENDIAN_LITTLE = 0x1026,
-        AVAILABLE = 0x1027,
+        DEVICE_AVAILABLE = 0x1027,
         COMPILER_AVAILABLE = 0x1028,
         EXECUTION_CAPABILITIES = 0x1029,
         QUEUE_PROPERTIES = 0x102A, // deprecated 

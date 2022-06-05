@@ -106,17 +106,6 @@
             <param name="num_devices"></param>
             <returns></returns>
         </member>
-        <member name="M:OpenCLDotNet.Core.CL.CL_GetDeviceInfo(OpenCLDotNet.Core.cl_device_id,OpenCLDotNet.Core.CL_DEVICE_INFO,OpenCLDotNet.Core.size_t,System.IntPtr,OpenCLDotNet.Core.size_t@)">
-            <summary>
-            
-            </summary>
-            <param name="device"></param>
-            <param name="param_name"></param>
-            <param name="param_value_size"></param>
-            <param name="param_value"></param>
-            <param name="param_value_size_ret"></param>
-            <returns></returns>
-        </member>
         <member name="T:OpenCLDotNet.Core.CLObject">
             <summary>
             Base class for objects that referrence a CL object.
