@@ -2,6 +2,7 @@
 using System.Text;
 using System.Collections.Generic;
 
+using OpenCLDotNet.Utility;
 using OpenCLDotNet.Core;
 
 namespace OpenCLDotNetConsole
@@ -66,9 +67,11 @@ namespace OpenCLDotNetConsole
 						return;
 					}
 				
-					Console.WriteLine("paramValueSize = " + paramValueSize);
 
-                    unsafe
+					Console.WriteLine("paramValueSize = " + paramValueSize);
+					Console.WriteLine("Return type = " + EnumUtil.GetReturnType(name));
+
+					unsafe
 					{
 						var info = new size_t[paramValueSize / sizeof(size_t)];
 

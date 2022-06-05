@@ -187,7 +187,9 @@ namespace OpenCLDotNet.Core
             uint info_size,
             out UInt64 info)
         {
-            var error = CL_GetDeviceInfo(device, name, info_size, out info);
+            size_t num;
+            var error = CL_GetDeviceInfo(device, name, info_size, out info, out num);
+
             return error;
         }
 
@@ -197,7 +199,9 @@ namespace OpenCLDotNet.Core
             uint info_size,
             char[] info)
         {
-            var error = CL_GetDeviceInfo(device, name, info_size, info);
+            size_t num;
+            var error = CL_GetDeviceInfo(device, name, info_size, info, out num);
+
             return error;
         }
 
@@ -207,7 +211,9 @@ namespace OpenCLDotNet.Core
             uint info_size,
             size_t[] info)
         {
-            var error = CL_GetDeviceInfo(device, name, info_size, info);
+            size_t num;
+            var error = CL_GetDeviceInfo(device, name, info_size, info, out num);
+
             return error;
         }
 
@@ -281,21 +287,24 @@ namespace OpenCLDotNet.Core
             cl_device_id device,
             CL_DEVICE_INFO param_name,
             size_t param_value_size,
-            [Out] out UInt64 param_value);
+            [Out] out UInt64 param_value,
+            [Out] out size_t param_value_size_ret);
 
         [DllImport(DLL_NAME, CallingConvention = CDECL)]
         private static extern CL_ERROR CL_GetDeviceInfo(
             cl_device_id device,
             CL_DEVICE_INFO param_name,
             size_t param_value_size,
-            [Out] char[] param_value);
+            [Out] char[] param_value,
+            [Out] out size_t param_value_size_ret);
 
         [DllImport(DLL_NAME, CallingConvention = CDECL)]
         private static extern CL_ERROR CL_GetDeviceInfo(
             cl_device_id device,
             CL_DEVICE_INFO param_name,
             size_t param_value_size,
-            [Out] size_t[] param_value);
+            [Out] size_t[] param_value,
+            [Out] out size_t param_value_size_ret);
 
     }
 }
