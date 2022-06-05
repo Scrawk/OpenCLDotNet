@@ -109,7 +109,7 @@
             <param name="param_value"></param>
             <returns></returns>
         </member>
-        <member name="M:OpenCLDotNet.Core.CL.CL_GetDeviceIDs(OpenCLDotNet.Core.cl_platform_id,OpenCLDotNet.Core.CL_DEVICE_TYPE,OpenCLDotNet.Core.cl_uint,OpenCLDotNet.Core.cl_device_id[],OpenCLDotNet.Core.cl_uint@)">
+        <member name="M:OpenCLDotNet.Core.CL.CL_GetDeviceIDs(OpenCLDotNet.Core.cl_platform_id,OpenCLDotNet.Core.CL_DEVICE_TYPE,OpenCLDotNet.Core.cl_uint,OpenCLDotNet.Core.cl_device_id[])">
             <summary>
             
             </summary>
@@ -117,6 +117,14 @@
             <param name="device_type"></param>
             <param name="num_entries"></param>
             <param name="devices"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Core.CL.CL_GetDeviceCount(OpenCLDotNet.Core.cl_platform_id,OpenCLDotNet.Core.CL_DEVICE_TYPE,OpenCLDotNet.Core.cl_uint@)">
+            <summary>
+            
+            </summary>
+            <param name="platform"></param>
+            <param name="device_type"></param>
             <param name="num_devices"></param>
             <returns></returns>
         </member>

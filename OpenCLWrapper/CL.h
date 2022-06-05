@@ -30,8 +30,13 @@ extern "C"
         cl_platform_id   platform,
         cl_device_type   device_type,
         cl_uint          num_entries,
-        cl_device_id* devices,
+        cl_device_id* devices);
+
+    CL_WRAPPER_API cl_int CL_GetDeviceCount(
+        cl_platform_id   platform,
+        cl_device_type   device_type,
         cl_uint* num_devices);
+        
 
     CL_WRAPPER_API cl_int CL_GetDeviceInfoSize(
         cl_device_id    device,

@@ -150,7 +150,7 @@ namespace OpenCLDotNet.Core
             out uint num_devices)
         {
             cl_uint num;
-            var error_code = CL_GetDeviceIDs(platform, device_type, 0, null, out num);
+            var error_code = CL_GetDeviceCount(platform, device_type, out num);
 
             num_devices = num;
             return error_code;
@@ -162,8 +162,7 @@ namespace OpenCLDotNet.Core
             uint num_devices,
             cl_device_id[] devices)
         {
-            cl_uint num;
-            return CL_GetDeviceIDs(platform, device_type, num_devices, devices, out num);
+            return CL_GetDeviceIDs(platform, device_type, num_devices, devices);
         }
 
         public static CL_ERROR GetDeviceInfoSize(
@@ -280,14 +279,25 @@ namespace OpenCLDotNet.Core
         /// <param name="device_type"></param>
         /// <param name="num_entries"></param>
         /// <param name="devices"></param>
-        /// <param name="num_devices"></param>
         /// <returns></returns>
         [DllImport(DLL_NAME, CallingConvention = CDECL)]
         private static extern CL_ERROR CL_GetDeviceIDs(
             cl_platform_id platform,
             CL_DEVICE_TYPE device_type,
             cl_uint num_entries,
-            [In][Out] cl_device_id[] devices,
+            [In][Out] cl_device_id[] devices);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="platform"></param>
+        /// <param name="device_type"></param>
+        /// <param name="num_devices"></param>
+        /// <returns></returns>
+        [DllImport(DLL_NAME, CallingConvention = CDECL)]
+        private static extern CL_ERROR CL_GetDeviceCount(
+            cl_platform_id platform,
+            CL_DEVICE_TYPE device_type,
             [Out] out cl_uint num_devices);
 
 
