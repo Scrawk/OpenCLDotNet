@@ -18,9 +18,10 @@ namespace OpenCLDotNet.Core
     public readonly record struct cl_device_exec_capabilities(UInt64 Value);
     public readonly record struct cl_device_svm_capabilities(UInt64 Value);
     public readonly record struct cl_command_queue_properties(UInt64 Value);
-    public readonly record struct cl_device_partition_property(IntPtr Value);
+    public readonly record struct cl_device_partition_property(UIntPtr Value);
     public readonly record struct cl_device_affinity_domain(UInt64 Value);
-    public readonly record struct cl_context_properties(IntPtr Value);
+    //public readonly record struct cl_context_properties(UIntPtr Value);
+    public readonly record struct cl_context_properties(UInt64 Value);
     public readonly record struct cl_context_info(UInt32 Value);
     public readonly record struct cl_queue_properties(UInt64 Value);
     public readonly record struct cl_command_queue_info(UInt32 Value);
@@ -37,7 +38,7 @@ namespace OpenCLDotNet.Core
     public readonly record struct cl_filter_mode(UInt32 Value);
     public readonly record struct cl_sampler_info(UInt32 Value);
     public readonly record struct cl_map_flags(UInt64 Value);
-    public readonly record struct cl_pipe_properties(IntPtr Value);
+    public readonly record struct cl_pipe_properties(UIntPtr Value);
     public readonly record struct cl_pipe_info(UInt32 Value);
     public readonly record struct cl_program_info(UInt32 Value);
     public readonly record struct cl_program_build_info(UInt32 Value);
@@ -62,16 +63,23 @@ namespace OpenCLDotNet.Core
     public readonly record struct cl_version(UInt32 Value);
 
 
-    public readonly record struct cl_object(IntPtr Value);
-    public readonly record struct cl_platform_id(IntPtr Value);
-    public readonly record struct cl_device_id(IntPtr Value);
-    public readonly record struct cl_context(IntPtr Value);
-    public readonly record struct cl_command_queue(IntPtr Value);
-    public readonly record struct cl_mem(IntPtr Value);
-    public readonly record struct cl_program(IntPtr Value);
-    public readonly record struct cl_kernel(IntPtr Value);
-    public readonly record struct cl_event(IntPtr Value);
-    public readonly record struct cl_sampler(IntPtr Value);
+    public readonly record struct cl_object(UIntPtr Value)
+    {
+        public override string ToString()
+        {
+            return String.Format("[cl_object: Id={0}]", Value);
+        }
+    }
+
+    public readonly record struct cl_platform_id(UIntPtr Value);
+    public readonly record struct cl_device_id(UIntPtr Value);
+    public readonly record struct cl_context(UIntPtr Value);
+    public readonly record struct cl_command_queue(UIntPtr Value);
+    public readonly record struct cl_mem(UIntPtr Value);
+    public readonly record struct cl_program(UIntPtr Value);
+    public readonly record struct cl_kernel(UIntPtr Value);
+    public readonly record struct cl_event(UIntPtr Value);
+    public readonly record struct cl_sampler(UIntPtr Value);
 
 
     public readonly record struct size_t(UInt64 Value)
@@ -260,9 +268,13 @@ namespace OpenCLDotNet.Core
 
     public readonly record struct cl_bool(UInt32 Value)
     {
+        public static cl_bool True => true;
+        public static cl_bool False => false;
+
         public static implicit operator cl_bool(bool v) => new cl_bool(v ? 1u : 0u);
         public static implicit operator cl_bool(UInt32 v) => new cl_bool(v);
         public static implicit operator bool(cl_bool v) => v.Value != 0;
+        public static implicit operator UInt64(cl_bool v) => v ? 1u : 0u;
 
         public static bool operator false(cl_bool b) => b.Value == 0;
         public static bool operator true(cl_bool b) => b.Value != 0;

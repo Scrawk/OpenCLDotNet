@@ -107,6 +107,13 @@ namespace OpenCLDotNet.Core
         UNKNOWN
     }
 
+    public enum CL_CONTEXT_INFO_RETURN_TYPE
+    {
+        UINT,
+        OBJECT_ARRAY,
+        UNKNOWN
+    }
+
     public enum CL_DEVICE_INFO
     {
         TYPE = 0x1000,

@@ -22,12 +22,16 @@ namespace OpenCLDotNetConsole
 			var devices = new List<cl_device_id>();
 			CL.GetDeviceIDs(platform.Id, CL_DEVICE_TYPE.ALL, devices);
 
-			foreach (var id in devices)
-			{
-				var device = new CLDevice(id);
-				device.Print();
-	
-			}
+			var device = new CLDevice(devices[0]);
+			//device.Print();
+
+			var context = CL.CreateContext(
+			 platform.Id,
+			 (uint)devices.Count,
+			 devices.ToArray());
+			
+			Console.WriteLine(context.ToString());
+		
 
 		}
 

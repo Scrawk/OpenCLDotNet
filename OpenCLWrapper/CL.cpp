@@ -74,3 +74,49 @@ cl_int CL_GetDeviceInfo(
     return clGetDeviceInfo(device, param_name, param_value_size,
         param_value, nullptr);
 }
+
+cl_int CL_RetainDevice(cl_device_id device)
+{
+    return clRetainDevice(device);
+}
+
+cl_int CL_ReleaseDevice(cl_device_id device)
+{
+    return clReleaseDevice(device);
+}
+
+cl_context CL_CreateContext(
+    const cl_context_properties* properties,
+    cl_uint num_devices,
+    const cl_device_id* devices)
+{
+    return clCreateContext(properties, num_devices, devices, nullptr, nullptr, nullptr);
+}
+
+cl_int CL_GetContextInfoSize(
+    cl_context context,
+    cl_context_info param_name,
+    size_t* param_value_size_ret)
+{
+    return clGetContextInfo(context, param_name, 0, nullptr, param_value_size_ret);
+}
+
+cl_int CL_GetContextInfo(
+    cl_context context,
+    cl_context_info param_name,
+    size_t param_value_size,
+    void* param_value)
+{
+    return clGetContextInfo(context, param_name, param_value_size, param_value, nullptr);
+}
+
+cl_int CL_RetainContext(cl_context context)
+{
+    return clRetainContext(context);
+}
+
+cl_int CL_ReleaseContext(cl_context context)
+{
+    return clReleaseContext(context);
+
+}

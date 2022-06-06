@@ -13,7 +13,7 @@ namespace OpenCLDotNet.Utility
 
             switch (info)
             {
-                    //OBJECT
+                //OBJECT
                 case CL_DEVICE_INFO.TYPE:
                 case CL_DEVICE_INFO.SINGLE_FP_CONFIG:
                 case CL_DEVICE_INFO.GLOBAL_MEM_CACHE_TYPE:
@@ -31,7 +31,7 @@ namespace OpenCLDotNet.Utility
                 case CL_DEVICE_INFO.PARENT_DEVICE:
                     return CL_DEVICE_INFO_RETURN_TYPE.OBJECT;
 
-                    //OBJECT ARRAY
+                //OBJECT ARRAY
                 case CL_DEVICE_INFO.PARTITION_TYPE:
                 case CL_DEVICE_INFO.PARTITION_PROPERTIES:
                 case CL_DEVICE_INFO.EXTENSIONS_WITH_VERSION:
@@ -41,7 +41,7 @@ namespace OpenCLDotNet.Utility
                 case CL_DEVICE_INFO.ILS_WITH_VERSION:
                     return CL_DEVICE_INFO_RETURN_TYPE.OBJECT_ARRAY;
 
-                    //UINT
+                //UINT
                 case CL_DEVICE_INFO.VENDOR_ID:
                 case CL_DEVICE_INFO.MAX_COMPUTE_UNITS:
                 case CL_DEVICE_INFO.MAX_WORK_ITEM_DIMENSIONS:
@@ -86,11 +86,11 @@ namespace OpenCLDotNet.Utility
                 case CL_DEVICE_INFO.MAX_ON_EVENTS:
                     return CL_DEVICE_INFO_RETURN_TYPE.UINT;
 
-                    //SIZE_ARRAY
+                //SIZE_ARRAY
                 case CL_DEVICE_INFO.MAX_WORK_ITEM_SIZES:
                     return CL_DEVICE_INFO_RETURN_TYPE.SIZET_ARRAY;
 
-                    //SIZE
+                //SIZE
                 case CL_DEVICE_INFO.MAX_WORK_GROUP_SIZE:
                 case CL_DEVICE_INFO.IMAGE2D_MAX_WIDTH:
                 case CL_DEVICE_INFO.IMAGE2D_MAX_HEIGHT:
@@ -107,7 +107,7 @@ namespace OpenCLDotNet.Utility
                 case CL_DEVICE_INFO.PRINTF_BUFFER_SIZE:
                     return CL_DEVICE_INFO_RETURN_TYPE.SIZET;
 
-                    //ULONG
+                //ULONG
                 case CL_DEVICE_INFO.MAX_MEM_ALLOC_SIZE:
                 case CL_DEVICE_INFO.GLOBAL_MEM_CACHE_SIZE:
                 case CL_DEVICE_INFO.GLOBAL_MEM_SIZE:
@@ -115,7 +115,7 @@ namespace OpenCLDotNet.Utility
                 case CL_DEVICE_INFO.LOCAL_MEM_SIZE:
                     return CL_DEVICE_INFO_RETURN_TYPE.ULONG;
 
-                    //BOOL
+                //BOOL
                 case CL_DEVICE_INFO.IMAGE_SUPPORT:
                 case CL_DEVICE_INFO.ERROR_CORRECTION_SUPPORT:
                 case CL_DEVICE_INFO.ENDIAN_LITTLE:
@@ -130,7 +130,7 @@ namespace OpenCLDotNet.Utility
                 case CL_DEVICE_INFO.PIPE_SUPPORT:
                     return CL_DEVICE_INFO_RETURN_TYPE.BOOL;
 
-                    //CHAR_ARRAY
+                //CHAR_ARRAY
                 case CL_DEVICE_INFO.NAME:
                 case CL_DEVICE_INFO.VENDOR:
                 case CL_DEVICE_INFO.DRIVER_VERSION:
@@ -146,6 +146,24 @@ namespace OpenCLDotNet.Utility
 
 
             return CL_DEVICE_INFO_RETURN_TYPE.UNKNOWN;
+        }
+
+        public static CL_CONTEXT_INFO_RETURN_TYPE GetReturnType(CL_CONTEXT_INFO info)
+        {
+
+            switch (info)
+            {
+                case CL_CONTEXT_INFO.DEVICES:
+                case CL_CONTEXT_INFO.PROPERTIES:
+                    return CL_CONTEXT_INFO_RETURN_TYPE.OBJECT_ARRAY;
+
+                case CL_CONTEXT_INFO.REFERENCE_COUNT:
+                case CL_CONTEXT_INFO.NUM_DEVICES:
+                    return CL_CONTEXT_INFO_RETURN_TYPE.UINT;
+            }
+
+            return CL_CONTEXT_INFO_RETURN_TYPE.UNKNOWN;
+
         }
 
     }

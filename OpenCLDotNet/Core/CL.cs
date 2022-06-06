@@ -53,7 +53,7 @@ namespace OpenCLDotNet.Core
         /// <param name="platform_ids"></param>
         /// <returns></returns>
         public static CL_ERROR GetPlatformIDs(
-            uint num_entries, 
+            uint num_entries,
             cl_platform_id[] platform_ids)
         {
             return CL_GetPlatformIDs(num_entries, platform_ids);
@@ -212,17 +212,17 @@ namespace OpenCLDotNet.Core
         /// </summary>
         /// <param name="device"></param>
         /// <param name="name"></param>
-        /// <param name="info_size"></param>
+        /// <param name="size"></param>
         /// <returns></returns>
         public static CL_ERROR GetDeviceInfoSize(
             cl_device_id device,
             CL_DEVICE_INFO name,
-            out uint info_size)
+            out uint size)
         {
             size_t num;
             var error = CL_GetDeviceInfoSize(device, name, out num);
 
-            info_size = (uint)num;
+            size = (uint)num;
             return error;
         }
 
@@ -298,14 +298,146 @@ namespace OpenCLDotNet.Core
             return error;
         }
 
-        /////////////////////////////////////////////////////////////////////////////////////////////////
-        //                                 EXTERN FUNCTIONS                                          ///
-        ///////////////////////////////////////////////////////////////////////////////////////////////
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="device"></param>
+        /// <param name="name"></param>
+        /// <param name="info_size"></param>
+        /// <param name="info"></param>
+        /// <returns></returns>
+        public static CL_ERROR GetDeviceInfo(
+            cl_device_id device,
+            CL_DEVICE_INFO name,
+            uint info_size,
+            cl_object[] info)
+        {
+            var error = CL_GetDeviceInfo(device, name, info_size, info);
+            return error;
+        }
 
         /// <summary>
         /// 
         /// </summary>
+        /// <param name="device"></param>
         /// <returns></returns>
+        public static CL_ERROR RetainDevice(cl_device_id device)
+        {
+            return CL_RetainDevice(device);    
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="device"></param>
+        /// <returns></returns>
+        public static CL_ERROR ReleaseDevice(cl_device_id device)
+        {
+            return CL_ReleaseDevice(device);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="platform"></param>
+        /// <param name="num_devices"></param>
+        /// <param name="devices"></param>
+        /// <returns></returns>
+        public static cl_context CreateContext(
+            cl_platform_id platform,
+            cl_uint num_devices,
+            cl_device_id[] devices)
+        {
+            var properties = new UInt64[]
+            {
+                (UInt64)CL_CONTEXT_PROPERTIES.PLATFORM,
+                (UInt64)platform.Value,
+                0,
+                (UInt64)CL_CONTEXT_PROPERTIES.INTEROP_USER_SYNC,
+                cl_bool.False,
+                0
+            };
+
+            return CL_CreateContext(properties, num_devices, devices);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="name"></param>
+        /// <param name="size"></param>
+        /// <returns></returns>
+        public static CL_ERROR GetContextInfoSize(
+            cl_context context,
+            CL_CONTEXT_INFO name,
+            [Out] out uint size)
+        {
+            size_t num;
+            var error = CL_GetContextInfoSize(context, name, out num);
+
+            size = (uint)num;
+            return error;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="name"></param>
+        /// <param name="size"></param>
+        /// <param name="info"></param>
+        /// <returns></returns>
+        public static  CL_ERROR GetContextInfo(
+            cl_context context,
+            CL_CONTEXT_INFO name,
+            size_t size,
+            [Out] cl_object[] info)
+        {
+            return CL_GetContextInfo(context, name, size, info);  
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="name"></param>
+        /// <param name="size"></param>
+        /// <param name="info"></param>
+        /// <returns></returns>
+        public static CL_ERROR GetContextInfo(
+            cl_context context,
+            CL_CONTEXT_INFO name,
+            size_t size,
+            [Out] out UInt64 info)
+        {
+            return CL_GetContextInfo(context, name, size, out info);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
+        public static CL_ERROR RetainContext(cl_context context)
+        {
+            return CL_RetainContext(context);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
+        public static CL_ERROR ReleaseContext(cl_context context)
+        {
+            return CL_ReleaseContext(context);
+        }
+
+        /////////////////////////////////////////////////////////////////////////////////////////////////
+        //                                 EXTERN FUNCTIONS                                          ///
+        ///////////////////////////////////////////////////////////////////////////////////////////////
+
         [DllImport(DLL_NAME, CallingConvention = CDECL)]
         private static extern int CL_VersionNumber();
 
@@ -313,47 +445,21 @@ namespace OpenCLDotNet.Core
         //                                PLATFORM FUNCTIONS                                         ///
         ///////////////////////////////////////////////////////////////////////////////////////////////
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="num_platforms"></param>
-        /// <returns></returns>
         [DllImport(DLL_NAME, CallingConvention = CDECL)]
         private static extern CL_ERROR CL_GetPlatformCount(
             [Out] out cl_uint num_platforms);
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="num_entries"></param>
-        /// <param name="platforms"></param>
-        /// <returns></returns>
         [DllImport(DLL_NAME, CallingConvention = CDECL)]
         private static extern CL_ERROR CL_GetPlatformIDs(
             cl_uint num_entries,
             [Out] cl_platform_id[] platforms);
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="platform"></param>
-        /// <param name="param_name"></param>
-        /// <param name="param_value_size_ret"></param>
-        /// <returns></returns>
         [DllImport(DLL_NAME, CallingConvention = CDECL)]
         private static extern CL_ERROR CL_GetPlatformInfoSize(
             cl_platform_id platform,
-            CL_PLATFORM_INFO param_name, 
+            CL_PLATFORM_INFO param_name,
             [Out] out size_t param_value_size_ret);
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="platform"></param>
-        /// <param name="param_name"></param>
-        /// <param name="param_value_size"></param>
-        /// <param name="param_value"></param>
-        /// <returns></returns>
         [DllImport(DLL_NAME, CallingConvention = CDECL)]
         private static extern CL_ERROR CL_GetPlatformInfo(
             cl_platform_id platform,
@@ -365,14 +471,6 @@ namespace OpenCLDotNet.Core
         //                                DEVICE FUNCTIONS                                           ///
         ///////////////////////////////////////////////////////////////////////////////////////////////
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="platform"></param>
-        /// <param name="device_type"></param>
-        /// <param name="num_entries"></param>
-        /// <param name="devices"></param>
-        /// <returns></returns>
         [DllImport(DLL_NAME, CallingConvention = CDECL)]
         private static extern CL_ERROR CL_GetDeviceIDs(
             cl_platform_id platform,
@@ -380,40 +478,18 @@ namespace OpenCLDotNet.Core
             cl_uint num_entries,
             [In][Out] cl_device_id[] devices);
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="platform"></param>
-        /// <param name="device_type"></param>
-        /// <param name="num_devices"></param>
-        /// <returns></returns>
         [DllImport(DLL_NAME, CallingConvention = CDECL)]
         private static extern CL_ERROR CL_GetDeviceCount(
             cl_platform_id platform,
             CL_DEVICE_TYPE device_type,
             [Out] out cl_uint num_devices);
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="device"></param>
-        /// <param name="param_name"></param>
-        /// <param name="param_value_size_ret"></param>
-        /// <returns></returns>
         [DllImport(DLL_NAME, CallingConvention = CDECL)]
         private static extern CL_ERROR CL_GetDeviceInfoSize(
             cl_device_id device,
             CL_DEVICE_INFO param_name,
             [Out] out size_t param_value_size_ret);
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="device"></param>
-        /// <param name="param_name"></param>
-        /// <param name="param_value_size"></param>
-        /// <param name="param_value"></param>
-        /// <returns></returns>
         [DllImport(DLL_NAME, CallingConvention = CDECL)]
         private static extern CL_ERROR CL_GetDeviceInfo(
             cl_device_id device,
@@ -421,14 +497,6 @@ namespace OpenCLDotNet.Core
             size_t param_value_size,
             [Out] out UInt64 param_value);
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="device"></param>
-        /// <param name="param_name"></param>
-        /// <param name="param_value_size"></param>
-        /// <param name="param_value"></param>
-        /// <returns></returns>
         [DllImport(DLL_NAME, CallingConvention = CDECL)]
         private static extern CL_ERROR CL_GetDeviceInfo(
             cl_device_id device,
@@ -436,14 +504,6 @@ namespace OpenCLDotNet.Core
             size_t param_value_size,
             [Out] char[] param_value);
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="device"></param>
-        /// <param name="param_name"></param>
-        /// <param name="param_value_size"></param>
-        /// <param name="param_value"></param>
-        /// <returns></returns>
         [DllImport(DLL_NAME, CallingConvention = CDECL)]
         private static extern CL_ERROR CL_GetDeviceInfo(
             cl_device_id device,
@@ -451,14 +511,6 @@ namespace OpenCLDotNet.Core
             size_t param_value_size,
             [Out] size_t[] param_value);
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="device"></param>
-        /// <param name="param_name"></param>
-        /// <param name="param_value_size"></param>
-        /// <param name="param_value"></param>
-        /// <returns></returns>
         [DllImport(DLL_NAME, CallingConvention = CDECL)]
         private static extern CL_ERROR CL_GetDeviceInfo(
             cl_device_id device,
@@ -466,20 +518,55 @@ namespace OpenCLDotNet.Core
             size_t param_value_size,
             [Out] out cl_object param_value);
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="device"></param>
-        /// <param name="param_name"></param>
-        /// <param name="param_value_size"></param>
-        /// <param name="param_value"></param>
-        /// <returns></returns>
         [DllImport(DLL_NAME, CallingConvention = CDECL)]
         private static extern CL_ERROR CL_GetDeviceInfo(
             cl_device_id device,
             CL_DEVICE_INFO param_name,
             size_t param_value_size,
             [Out] cl_object[] param_value);
+
+        [DllImport(DLL_NAME, CallingConvention = CDECL)]
+        private static extern CL_ERROR CL_RetainDevice(cl_device_id device);
+
+        [DllImport(DLL_NAME, CallingConvention = CDECL)]
+        private static extern CL_ERROR CL_ReleaseDevice(cl_device_id device);
+
+
+        /////////////////////////////////////////////////////////////////////////////////////////////////
+        //                                CONTEXT FUNCTIONS                                          ///
+        ///////////////////////////////////////////////////////////////////////////////////////////////
+
+        [DllImport(DLL_NAME, CallingConvention = CDECL)]
+        private static extern cl_context CL_CreateContext(
+            UInt64[] properties,
+            cl_uint num_devices,
+            cl_device_id[] devices);
+
+        [DllImport(DLL_NAME, CallingConvention = CDECL)]
+        private static extern CL_ERROR CL_GetContextInfoSize(
+            cl_context context,
+            CL_CONTEXT_INFO param_name,
+            [Out] out size_t param_value_size_ret);
+
+        [DllImport(DLL_NAME, CallingConvention = CDECL)]
+        private static extern CL_ERROR CL_GetContextInfo(
+            cl_context context,
+            CL_CONTEXT_INFO param_name,
+            size_t param_value_size,
+            [Out] cl_object[] param_value);
+
+        [DllImport(DLL_NAME, CallingConvention = CDECL)]
+        private static extern CL_ERROR CL_GetContextInfo(
+            cl_context context,
+            CL_CONTEXT_INFO param_name,
+            size_t param_value_size,
+            [Out] out UInt64 param_value);
+
+        [DllImport(DLL_NAME, CallingConvention = CDECL)]
+        private static extern CL_ERROR CL_RetainContext(cl_context context);
+
+        [DllImport(DLL_NAME, CallingConvention = CDECL)]
+        private static extern CL_ERROR CL_ReleaseContext(cl_context context);
 
     }
 }
