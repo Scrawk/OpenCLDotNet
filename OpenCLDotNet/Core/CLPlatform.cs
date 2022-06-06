@@ -10,9 +10,19 @@ namespace OpenCLDotNet.Core
         public CLPlatform(cl_platform_id id)
         {
             Id = id;
+            GetInfo();
+            GetExtensions();
         }
 
         public cl_platform_id Id { get; private set; }
+
+        public string Vendor { get; private set; }
+
+        public string Name { get; private set; }
+
+        public string Version { get; private set; }
+
+        public string Profile { get; private set; }
 
         private List<string> Extensions { get; set; }
 
@@ -31,29 +41,30 @@ namespace OpenCLDotNet.Core
         {
             builder.AppendLine(ToString());
 
-            string info;
-
-            builder.Append("Vendor: ");
-            CL.GetPlatformInfo(Id, CL_PLATFORM_INFO.VENDOR, out info);
-            builder.AppendLine(info);
-
-            builder.Append("Name: ");
-            CL.GetPlatformInfo(Id, CL_PLATFORM_INFO.NAME, out info);
-            builder.AppendLine(info);
-
-            builder.Append("Version: ");
-            CL.GetPlatformInfo(Id, CL_PLATFORM_INFO.VERSION, out info);
-            builder.AppendLine(info);
-
-            builder.Append("Profile: ");
-            CL.GetPlatformInfo(Id, CL_PLATFORM_INFO.PROFILE, out info);
-            builder.AppendLine(info);
-
+            builder.AppendLine("Vendor: " + Vendor);
+            builder.AppendLine("Name: " + Name);
+            builder.AppendLine("Version: " + Version);
+            builder.AppendLine("Profile: " + Profile);
             builder.AppendLine("Extensions: ");
 
             GetExtensions();
             for (int i = 0; i < Extensions.Count; i++)
                 builder.AppendLine(Extensions[i]);
+        }
+
+        public string GetInfo(CL_PLATFORM_INFO info)
+        {
+            string str;
+            CL.GetPlatformInfo(Id, info, out str);
+            return str;
+        }
+
+        private void  GetInfo()
+        {
+            Vendor = GetInfo(CL_PLATFORM_INFO.VENDOR);
+            Name = GetInfo(CL_PLATFORM_INFO.NAME);
+            Version = GetInfo(CL_PLATFORM_INFO.VERSION);
+            Profile = GetInfo(CL_PLATFORM_INFO.PROFILE);
         }
 
         private void GetExtensions()

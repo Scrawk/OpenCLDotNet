@@ -69,6 +69,83 @@
             <param name="info"></param>
             <returns></returns>
         </member>
+        <member name="M:OpenCLDotNet.Core.CL.GetDeviceCount(OpenCLDotNet.Core.cl_platform_id,OpenCLDotNet.Core.CL_DEVICE_TYPE,System.UInt32@)">
+            <summary>
+            
+            </summary>
+            <param name="platform"></param>
+            <param name="device_type"></param>
+            <param name="num_devices"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Core.CL.GetDeviceIDs(OpenCLDotNet.Core.cl_platform_id,OpenCLDotNet.Core.CL_DEVICE_TYPE,System.UInt32,OpenCLDotNet.Core.cl_device_id[])">
+            <summary>
+            
+            </summary>
+            <param name="platform"></param>
+            <param name="device_type"></param>
+            <param name="num_devices"></param>
+            <param name="devices"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Core.CL.GetDeviceIDs(OpenCLDotNet.Core.cl_platform_id,OpenCLDotNet.Core.CL_DEVICE_TYPE,System.Collections.Generic.List{OpenCLDotNet.Core.cl_device_id})">
+            <summary>
+            
+            </summary>
+            <param name="platform"></param>
+            <param name="device_type"></param>
+            <param name="device_ids"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Core.CL.GetDeviceInfoSize(OpenCLDotNet.Core.cl_device_id,OpenCLDotNet.Core.CL_DEVICE_INFO,System.UInt32@)">
+            <summary>
+            
+            </summary>
+            <param name="device"></param>
+            <param name="name"></param>
+            <param name="info_size"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Core.CL.GetDeviceInfo(OpenCLDotNet.Core.cl_device_id,OpenCLDotNet.Core.CL_DEVICE_INFO,System.UInt32,System.UInt64@)">
+            <summary>
+            
+            </summary>
+            <param name="device"></param>
+            <param name="name"></param>
+            <param name="info_size"></param>
+            <param name="info"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Core.CL.GetDeviceInfo(OpenCLDotNet.Core.cl_device_id,OpenCLDotNet.Core.CL_DEVICE_INFO,System.UInt32,System.Char[])">
+            <summary>
+            
+            </summary>
+            <param name="device"></param>
+            <param name="name"></param>
+            <param name="info_size"></param>
+            <param name="info"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Core.CL.GetDeviceInfo(OpenCLDotNet.Core.cl_device_id,OpenCLDotNet.Core.CL_DEVICE_INFO,System.UInt32,OpenCLDotNet.Core.size_t[])">
+            <summary>
+            
+            </summary>
+            <param name="device"></param>
+            <param name="name"></param>
+            <param name="info_size"></param>
+            <param name="info"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Core.CL.GetDeviceInfo(OpenCLDotNet.Core.cl_device_id,OpenCLDotNet.Core.CL_DEVICE_INFO,System.UInt32,OpenCLDotNet.Core.cl_object@)">
+            <summary>
+            
+            </summary>
+            <param name="device"></param>
+            <param name="name"></param>
+            <param name="info_size"></param>
+            <param name="info"></param>
+            <returns></returns>
+        </member>
         <member name="M:OpenCLDotNet.Core.CL.CL_VersionNumber">
             <summary>
             
@@ -126,6 +203,65 @@
             <param name="platform"></param>
             <param name="device_type"></param>
             <param name="num_devices"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Core.CL.CL_GetDeviceInfoSize(OpenCLDotNet.Core.cl_device_id,OpenCLDotNet.Core.CL_DEVICE_INFO,OpenCLDotNet.Core.size_t@)">
+            <summary>
+            
+            </summary>
+            <param name="device"></param>
+            <param name="param_name"></param>
+            <param name="param_value_size_ret"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Core.CL.CL_GetDeviceInfo(OpenCLDotNet.Core.cl_device_id,OpenCLDotNet.Core.CL_DEVICE_INFO,OpenCLDotNet.Core.size_t,System.UInt64@)">
+            <summary>
+            
+            </summary>
+            <param name="device"></param>
+            <param name="param_name"></param>
+            <param name="param_value_size"></param>
+            <param name="param_value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Core.CL.CL_GetDeviceInfo(OpenCLDotNet.Core.cl_device_id,OpenCLDotNet.Core.CL_DEVICE_INFO,OpenCLDotNet.Core.size_t,System.Char[])">
+            <summary>
+            
+            </summary>
+            <param name="device"></param>
+            <param name="param_name"></param>
+            <param name="param_value_size"></param>
+            <param name="param_value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Core.CL.CL_GetDeviceInfo(OpenCLDotNet.Core.cl_device_id,OpenCLDotNet.Core.CL_DEVICE_INFO,OpenCLDotNet.Core.size_t,OpenCLDotNet.Core.size_t[])">
+            <summary>
+            
+            </summary>
+            <param name="device"></param>
+            <param name="param_name"></param>
+            <param name="param_value_size"></param>
+            <param name="param_value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Core.CL.CL_GetDeviceInfo(OpenCLDotNet.Core.cl_device_id,OpenCLDotNet.Core.CL_DEVICE_INFO,OpenCLDotNet.Core.size_t,OpenCLDotNet.Core.cl_object@)">
+            <summary>
+            
+            </summary>
+            <param name="device"></param>
+            <param name="param_name"></param>
+            <param name="param_value_size"></param>
+            <param name="param_value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Core.CL.CL_GetDeviceInfo(OpenCLDotNet.Core.cl_device_id,OpenCLDotNet.Core.CL_DEVICE_INFO,OpenCLDotNet.Core.size_t,OpenCLDotNet.Core.cl_object[])">
+            <summary>
+            
+            </summary>
+            <param name="device"></param>
+            <param name="param_name"></param>
+            <param name="param_value_size"></param>
+            <param name="param_value"></param>
             <returns></returns>
         </member>
         <member name="T:OpenCLDotNet.Core.CLObject">

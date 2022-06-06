@@ -13,29 +13,33 @@ namespace OpenCLDotNet.Utility
 
             switch (info)
             {
-                    //UNKNOWN
+                    //OBJECT
                 case CL_DEVICE_INFO.TYPE:
                 case CL_DEVICE_INFO.SINGLE_FP_CONFIG:
                 case CL_DEVICE_INFO.GLOBAL_MEM_CACHE_TYPE:
                 case CL_DEVICE_INFO.LOCAL_MEM_TYPE:
                 case CL_DEVICE_INFO.EXECUTION_CAPABILITIES:
-                case CL_DEVICE_INFO.QUEUE_PROPERTIES:
                 case CL_DEVICE_INFO.PLATFORM:
-                case CL_DEVICE_INFO.DOUBLE_FP_CONFIG:
-                case CL_DEVICE_INFO.QUEUE_ON_PROPERTIES:
-                case CL_DEVICE_INFO.NUMERIC_VERSION:
-                case CL_DEVICE_INFO.EXTENSIONS_WITH_VERSION:
-                case CL_DEVICE_INFO.PARENT_DEVICE:
-                case CL_DEVICE_INFO.PARTITION_PROPERTIES:
-                case CL_DEVICE_INFO.PARTITION_AFFINITY_DOMAIN:
-                case CL_DEVICE_INFO.PARTITION_TYPE:
-                case CL_DEVICE_INFO.ATOMIC_MEMORY_CAPABILITIES:
-                case CL_DEVICE_INFO.ATOMIC_FENCE_CAPABILITIES:
                 case CL_DEVICE_INFO.ENQUEUE_CAPABILITIES:
+                case CL_DEVICE_INFO.ATOMIC_FENCE_CAPABILITIES:
+                case CL_DEVICE_INFO.ATOMIC_MEMORY_CAPABILITIES:
                 case CL_DEVICE_INFO.SVM_CAPABILITIES:
-                case CL_DEVICE_INFO.ILS_WITH_VERSION:
+                case CL_DEVICE_INFO.PARTITION_AFFINITY_DOMAIN:
+                case CL_DEVICE_INFO.NUMERIC_VERSION:
+                case CL_DEVICE_INFO.QUEUE_ON_QUEUE_PROPERTIES:
+                case CL_DEVICE_INFO.DOUBLE_FP_CONFIG:
+                case CL_DEVICE_INFO.PARENT_DEVICE:
+                    return CL_DEVICE_INFO_RETURN_TYPE.OBJECT;
+
+                    //OBJECT ARRAY
+                case CL_DEVICE_INFO.PARTITION_TYPE:
+                case CL_DEVICE_INFO.PARTITION_PROPERTIES:
+                case CL_DEVICE_INFO.EXTENSIONS_WITH_VERSION:
+                case CL_DEVICE_INFO.OPENC_FEATURES:
+                case CL_DEVICE_INFO.OPENC_ALL_VERSIONS:
                 case CL_DEVICE_INFO.BUILT_IN_KERNELS_WITH_VERSION:
-                    return CL_DEVICE_INFO_RETURN_TYPE.UNKNOWN;
+                case CL_DEVICE_INFO.ILS_WITH_VERSION:
+                    return CL_DEVICE_INFO_RETURN_TYPE.OBJECT_ARRAY;
 
                     //UINT
                 case CL_DEVICE_INFO.VENDOR_ID:
@@ -84,7 +88,7 @@ namespace OpenCLDotNet.Utility
 
                     //SIZE_ARRAY
                 case CL_DEVICE_INFO.MAX_WORK_ITEM_SIZES:
-                    return CL_DEVICE_INFO_RETURN_TYPE.SIZE_ARRAY;
+                    return CL_DEVICE_INFO_RETURN_TYPE.SIZET_ARRAY;
 
                     //SIZE
                 case CL_DEVICE_INFO.MAX_WORK_GROUP_SIZE:
@@ -101,7 +105,7 @@ namespace OpenCLDotNet.Utility
                 case CL_DEVICE_INFO.PREFERRED_WORK_GROUP_SIZE_MULTIPLE:
                 case CL_DEVICE_INFO.IMAGE_MAX_ARRAY_SIZE:
                 case CL_DEVICE_INFO.PRINTF_BUFFER_SIZE:
-                    return CL_DEVICE_INFO_RETURN_TYPE.SIZE;
+                    return CL_DEVICE_INFO_RETURN_TYPE.SIZET;
 
                     //ULONG
                 case CL_DEVICE_INFO.MAX_MEM_ALLOC_SIZE:
@@ -117,7 +121,6 @@ namespace OpenCLDotNet.Utility
                 case CL_DEVICE_INFO.ENDIAN_LITTLE:
                 case CL_DEVICE_INFO.DEVICE_AVAILABLE:
                 case CL_DEVICE_INFO.COMPILER_AVAILABLE:
-                case CL_DEVICE_INFO.HOST_UNIFIED_MEMORY:
                 case CL_DEVICE_INFO.LINKER_AVAILABLE:
                 case CL_DEVICE_INFO.PREFERRED_INTEROP_USER_SYNC:
                 case CL_DEVICE_INFO.SUB_GROUP_INDEPENDENT_FORWARD_PROGRESS:
@@ -139,10 +142,6 @@ namespace OpenCLDotNet.Utility
                 case CL_DEVICE_INFO.OPENC_VERSION:
                 case CL_DEVICE_INFO.LATEST_CONFORMANCE_VERSION_PASSED:
                     return CL_DEVICE_INFO_RETURN_TYPE.CHAR_ARRAY;
-
-                //case CL_DEVICE_INFO.OPENC_ALL_VERSIONS:
-                //case CL_DEVICE_INFO.OPENC_FEATURES:
-
             }
 
 

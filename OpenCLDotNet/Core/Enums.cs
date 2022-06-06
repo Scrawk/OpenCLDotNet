@@ -99,9 +99,11 @@ namespace OpenCLDotNet.Core
         UINT,
         ULONG,
         BOOL,
-        SIZE,
-        SIZE_ARRAY,
+        SIZET,
+        SIZET_ARRAY,
         CHAR_ARRAY,
+        OBJECT,
+        OBJECT_ARRAY,
         UNKNOWN
     }
 
@@ -149,7 +151,6 @@ namespace OpenCLDotNet.Core
         DEVICE_AVAILABLE = 0x1027,
         COMPILER_AVAILABLE = 0x1028,
         EXECUTION_CAPABILITIES = 0x1029,
-        QUEUE_PROPERTIES = 0x102A, // deprecated 
         QUEUE_ON_HOST_PROPERTIES = 0x102A,
         NAME = 0x102B,
         VENDOR = 0x102C,
@@ -160,8 +161,7 @@ namespace OpenCLDotNet.Core
         PLATFORM = 0x1031,
         DOUBLE_FP_CONFIG = 0x1032,
         // 0x1033 reserved for HALF_FP_CONFIG which is already defined in "ext.h" 
-        PREFERRED_VECTOR_WIDTH_HALF = 0x1034,
-        HOST_UNIFIED_MEMORY = 0x1035, // deprecated 
+        PREFERRED_VECTOR_WIDTH_HALF = 0x1034, 
         NATIVE_VECTOR_WIDTH_CHAR = 0x1036,
         NATIVE_VECTOR_WIDTH_SHORT = 0x1037,
         NATIVE_VECTOR_WIDTH_INT = 0x1038,
@@ -186,7 +186,7 @@ namespace OpenCLDotNet.Core
         IMAGE_BASE_ADDRESS_ALIGNMENT = 0x104B,
         MAX_READ_WRITE_IMAGE_ARGS = 0x104C,
         MAX_GLOBAL_VARIABLE_SIZE = 0x104D,
-        QUEUE_ON_PROPERTIES = 0x104E,
+        QUEUE_ON_QUEUE_PROPERTIES = 0x104E,
         QUEUE_ON_PREFERRED_SIZE = 0x104F,
         QUEUE_ON_MAX_SIZE = 0x1050,
         MAX_ON_QUEUES = 0x1051,

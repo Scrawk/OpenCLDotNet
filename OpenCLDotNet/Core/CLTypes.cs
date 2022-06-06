@@ -62,6 +62,7 @@ namespace OpenCLDotNet.Core
     public readonly record struct cl_version(UInt32 Value);
 
 
+    public readonly record struct cl_object(IntPtr Value);
     public readonly record struct cl_platform_id(IntPtr Value);
     public readonly record struct cl_device_id(IntPtr Value);
     public readonly record struct cl_context(IntPtr Value);
