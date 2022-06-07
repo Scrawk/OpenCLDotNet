@@ -8,14 +8,17 @@ namespace OpenCLDotNet.Core
 {
     public class CLDevice : CLObject
     {
-        public CLDevice(cl_device_id id)
+        public CLDevice(cl_device_id id, CLPlatform platform)
         {
             Id = id;
+            Platform = platform;
             GetInfo();
             GetExtensions();
         }
 
         public cl_device_id Id { get; private set; }
+
+        private CLPlatform Platform { get; set; }
 
         public string Vendor { get; private set; }
 
@@ -33,7 +36,8 @@ namespace OpenCLDotNet.Core
 
         public override string ToString()
         {
-            return String.Format("[CLDevice: Id={0}]", Id.Value);
+            return String.Format("[CLDevice: Id={0}, PlatformID={1}, Type={2}]", 
+                Id.Value, Platform.Id.Value, Type);
         }
 
         public bool HasExtension(string name)
@@ -200,6 +204,11 @@ namespace OpenCLDotNet.Core
             string info = GetInfoString(CL_DEVICE_INFO.EXTENSIONS);
       
             Extensions = new List<string>(info.Split(' '));
+        }
+
+        protected override void Release()
+        {
+            CL.ReleaseDevice(Id);
         }
 
     }

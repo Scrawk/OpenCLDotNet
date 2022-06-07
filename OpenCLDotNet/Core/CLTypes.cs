@@ -20,6 +20,7 @@ namespace OpenCLDotNet.Core
     public readonly record struct cl_command_queue_properties(UInt64 Value);
     public readonly record struct cl_device_partition_property(UIntPtr Value);
     public readonly record struct cl_device_affinity_domain(UInt64 Value);
+
     //public readonly record struct cl_context_properties(UIntPtr Value);
     public readonly record struct cl_context_properties(UInt64 Value);
     public readonly record struct cl_context_info(UInt32 Value);

@@ -148,6 +148,11 @@
   <ItemGroup>
     <ClInclude Include="Books\OpenCL_Programming_Guide\HelloWorld.h" />
     <ClInclude Include="Books\OpenCL_Programming_Guide\OpenCLInfo.h" />
+    <ClInclude Include="Convolution.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Programs\Convolution.cl" />
+    <None Include="Programs\HelloWorld.cl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

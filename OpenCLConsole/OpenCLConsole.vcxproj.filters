@@ -19,6 +19,9 @@
     <Filter Include="Header Files\Books\OpenCL_Programming_Guide">
       <UniqueIdentifier>{66e5f9da-84af-4ac3-b092-f3bc84ff18eb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Programs">
+      <UniqueIdentifier>{8408c509-a358-4bfd-a257-b874f4e0804c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="OpenCLConsole.cpp">
@@ -32,5 +35,16 @@
     <ClInclude Include="Books\OpenCL_Programming_Guide\OpenCLInfo.h">
       <Filter>Header Files\Books\OpenCL_Programming_Guide</Filter>
     </ClInclude>
+    <ClInclude Include="Convolution.h">
+      <Filter>Header Files\Books\OpenCL_Programming_Guide</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Programs\Convolution.cl">
+      <Filter>Programs</Filter>
+    </None>
+    <None Include="Programs\HelloWorld.cl">
+      <Filter>Programs</Filter>
+    </None>
   </ItemGroup>
 </Project>

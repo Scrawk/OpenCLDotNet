@@ -118,5 +118,4 @@ cl_int CL_RetainContext(cl_context context)
 cl_int CL_ReleaseContext(cl_context context)
 {
     return clReleaseContext(context);
-
 }
