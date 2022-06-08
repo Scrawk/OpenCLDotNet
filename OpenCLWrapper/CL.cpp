@@ -5,6 +5,10 @@ int CL_VersionNumber()
 	return CL_TARGET_OPENCL_VERSION;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////////////
+//                                PLATFORM FUNCTIONS                                         ///
+///////////////////////////////////////////////////////////////////////////////////////////////
+
 cl_int CL_GetPlatformCount(
     cl_uint* num_platforms)
 {
@@ -36,6 +40,10 @@ cl_int CL_GetPlatformInfo(
     return clGetPlatformInfo(platform, param_name, param_value_size,
         param_value, nullptr);
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+//                                DEVICE FUNCTIONS                                           ///
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 cl_int CL_GetDeviceIDs(
     cl_platform_id   platform,
@@ -85,6 +93,10 @@ cl_int CL_ReleaseDevice(cl_device_id device)
     return clReleaseDevice(device);
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////////////
+//                                CONTEXT FUNCTIONS                                          ///
+///////////////////////////////////////////////////////////////////////////////////////////////
+
 cl_context CL_CreateContext(
     const cl_context_properties* properties,
     cl_uint num_devices,
@@ -118,4 +130,18 @@ cl_int CL_RetainContext(cl_context context)
 cl_int CL_ReleaseContext(cl_context context)
 {
     return clReleaseContext(context);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+//                                PROGRAM FUNCTIONS                                          ///
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+cl_program CL_CreateProgramWithSource(
+    cl_context context,
+    cl_uint count,
+    const char** strings,
+    const size_t* lengths,
+    cl_int* errcode_ret)
+{
+    return clCreateProgramWithSource(context, count, strings, lengths, errcode_ret);
 }

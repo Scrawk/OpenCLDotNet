@@ -10,11 +10,13 @@
 
 #include "Books/OpenCL_Programming_Guide/HelloWorld.h"
 #include "Books/OpenCL_Programming_Guide/OpenCLInfo.h"
+#include "Books/OpenCL_Programming_Guide/Convolution.h"
 
 int main()
 {
 
 	//OpenCL_Programming_Guide::HelloWorld();
-	OpenCL_Programming_Guide::OpenCLInfo();
+	//OpenCL_Programming_Guide::OpenCLInfo();
+	OpenCL_Programming_Guide::Convolution();
 
 }

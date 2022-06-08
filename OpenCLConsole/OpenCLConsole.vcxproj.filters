@@ -35,7 +35,7 @@
     <ClInclude Include="Books\OpenCL_Programming_Guide\OpenCLInfo.h">
       <Filter>Header Files\Books\OpenCL_Programming_Guide</Filter>
     </ClInclude>
-    <ClInclude Include="Convolution.h">
+    <ClInclude Include="Books\OpenCL_Programming_Guide\Convolution.h">
       <Filter>Header Files\Books\OpenCL_Programming_Guide</Filter>
     </ClInclude>
   </ItemGroup>

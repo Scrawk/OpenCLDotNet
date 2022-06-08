@@ -31,6 +31,10 @@ namespace OpenCLDotNet.Core
             }
         }
 
+        /////////////////////////////////////////////////////////////////////////////////////////////////
+        //                                PLATFORM FUNCTIONS                                         ///
+        ///////////////////////////////////////////////////////////////////////////////////////////////
+
         /// <summary>
         /// 
         /// </summary>
@@ -143,6 +147,10 @@ namespace OpenCLDotNet.Core
             info = new string(info_array);
             return error_code;
         }
+
+        /////////////////////////////////////////////////////////////////////////////////////////////////
+        //                                DEVICE FUNCTIONS                                           ///
+        ///////////////////////////////////////////////////////////////////////////////////////////////
 
         /// <summary>
         /// 
@@ -335,6 +343,10 @@ namespace OpenCLDotNet.Core
         {
             return CL_ReleaseDevice(device);
         }
+
+        /////////////////////////////////////////////////////////////////////////////////////////////////
+        //                                CONTEXT FUNCTIONS                                          ///
+        ///////////////////////////////////////////////////////////////////////////////////////////////
 
         /// <summary>
         /// 
@@ -567,6 +579,18 @@ namespace OpenCLDotNet.Core
 
         [DllImport(DLL_NAME, CallingConvention = CDECL)]
         private static extern CL_ERROR CL_ReleaseContext(cl_context context);
+
+        /////////////////////////////////////////////////////////////////////////////////////////////////
+        //                                PROGRAM FUNCTIONS                                          ///
+        ///////////////////////////////////////////////////////////////////////////////////////////////
+
+        [DllImport(DLL_NAME, CallingConvention = CDECL)]
+        private static extern cl_program CL_CreateProgramWithSource(
+            cl_context context,
+            cl_uint count,
+            char[][] strings,
+            size_t[] lengths,
+            [Out] out cl_int errcode_ret);
 
     }
 }

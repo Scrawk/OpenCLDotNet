@@ -84,4 +84,16 @@ extern "C"
 
     CL_WRAPPER_API cl_int CL_ReleaseContext(cl_context context);
 
+    /////////////////////////////////////////////////////////////////////////////////////////////////
+    //                                PROGRAM FUNCTIONS                                          ///
+    ///////////////////////////////////////////////////////////////////////////////////////////////
+
+
+    CL_WRAPPER_API cl_program CL_CreateProgramWithSource(
+        cl_context context,
+        cl_uint count,
+        const char** strings,
+        const size_t* lengths,
+        cl_int* errcode_ret);
+
 }
