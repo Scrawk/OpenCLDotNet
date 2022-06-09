@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using System.Text;
+
+using OpenCLDotNet.Utility;
 
 [assembly: InternalsVisibleTo("OpenGLDotNetConsole")]
 [assembly: InternalsVisibleTo("OpenGLDotNetTest")]
@@ -117,7 +120,7 @@ namespace OpenCLDotNet.Core
             cl_platform_id platform,
             CL_PLATFORM_INFO name,
             uint info_size,
-            char[] info_array)
+            cl_char[] info_array)
         {
             return CL_GetPlatformInfo(platform, name, info_size, info_array);
         }
@@ -135,16 +138,16 @@ namespace OpenCLDotNet.Core
             out string info)
         {
             info = "";
-            uint info_size;
-            var error_code = GetPlatformInfoSize(platform, name, out info_size);
+            uint size;
+            var error_code = GetPlatformInfoSize(platform, name, out size);
 
-            if (error_code != CL_ERROR.SUCCESS || info_size <= 0)
+            if (error_code != CL_ERROR.SUCCESS || size <= 0)
                 return error_code;
 
-            char[] info_array = new char[info_size];
-            error_code = CL_GetPlatformInfo(platform, name, info_size, info_array);
+            var info_array = new cl_char[size];
+            error_code = CL_GetPlatformInfo(platform, name, size, info_array);
 
-            info = new string(info_array);
+            info = info_array.ToText();
             return error_code;
         }
 
@@ -264,7 +267,7 @@ namespace OpenCLDotNet.Core
             cl_device_id device,
             CL_DEVICE_INFO name,
             uint info_size,
-            char[] info)
+            cl_char[] info)
         {
             var error = CL_GetDeviceInfo(device, name, info_size, info);
             return error;
@@ -357,16 +360,13 @@ namespace OpenCLDotNet.Core
         /// <returns></returns>
         public static cl_context CreateContext(
             cl_platform_id platform,
-            cl_uint num_devices,
+            uint num_devices,
             cl_device_id[] devices)
         {
             var properties = new UInt64[]
             {
                 (UInt64)CL_CONTEXT_PROPERTIES.PLATFORM,
                 (UInt64)platform.Value,
-                0,
-                (UInt64)CL_CONTEXT_PROPERTIES.INTEROP_USER_SYNC,
-                cl_bool.False,
                 0
             };
 
@@ -388,7 +388,7 @@ namespace OpenCLDotNet.Core
             size_t num;
             var error = CL_GetContextInfoSize(context, name, out num);
 
-            size = (uint)num;
+            size = (uint)num.Value;
             return error;
         }
 
@@ -403,7 +403,7 @@ namespace OpenCLDotNet.Core
         public static  CL_ERROR GetContextInfo(
             cl_context context,
             CL_CONTEXT_INFO name,
-            size_t size,
+            uint size,
             [Out] cl_object[] info)
         {
             return CL_GetContextInfo(context, name, size, info);  
@@ -420,7 +420,7 @@ namespace OpenCLDotNet.Core
         public static CL_ERROR GetContextInfo(
             cl_context context,
             CL_CONTEXT_INFO name,
-            size_t size,
+            uint size,
             [Out] out UInt64 info)
         {
             return CL_GetContextInfo(context, name, size, out info);
@@ -445,6 +445,87 @@ namespace OpenCLDotNet.Core
         {
             return CL_ReleaseContext(context);
         }
+
+        /////////////////////////////////////////////////////////////////////////////////////////////////
+        ///                                 PROGRAM FUNCTIONS                                        ///
+        ///////////////////////////////////////////////////////////////////////////////////////////////
+
+
+        public static cl_program CreateProgramWithSource(
+            cl_context context,
+            string program_text,
+            out CL_ERROR error_code)
+        {
+
+            var program_char = program_text.ToCLCharArray();
+            size_t length = (size_t)program_char.Length;
+
+            cl_int error;
+            var program = CL_CreateProgramWithSource(context, 1, program_char, length, out error);
+            error_code = (CL_ERROR)error.Value;
+
+            return program;
+        }
+
+        public static CL_ERROR BuildProgram(
+            cl_program program,
+            uint num_devices,
+            cl_device_id[] device_list,
+            string options)
+        {
+            cl_char[] options_char = null;
+            if(!string.IsNullOrEmpty(options))
+                options_char = options.ToCLCharArray();
+
+            return CL_BuildProgram(program, num_devices, device_list, options_char);
+        }
+
+        public static CL_ERROR GetProgramBuildInfoSize(
+            cl_program program,
+            cl_device_id device,
+            CL_PROGRAM_BUILD_INFO name,
+            out uint size)
+        {
+            size_t num;
+            var error =  CL_GetProgramBuildInfoSize(program, device, name, out num);
+
+            size = (uint)num;
+            return error;
+        }
+
+        public static CL_ERROR GetProgramBuildInfo(
+            cl_program program,
+            cl_device_id device,
+            CL_PROGRAM_BUILD_INFO name,
+            out CL_BUILD_STATUS value)
+        {
+            uint size = sizeof(CL_BUILD_STATUS);
+            var error = CL_GetProgramBuildInfo(program, device, name, size, out value);
+            return error;
+        }
+
+        public static CL_ERROR GetProgramBuildInfo(
+            cl_program program,
+            cl_device_id device,
+            CL_PROGRAM_BUILD_INFO name,
+            uint size,
+            cl_char[] info)
+        {
+            var error = CL_GetProgramBuildInfo(program, device, name, size, info);
+            return error;
+        }
+
+        public static CL_ERROR RetainProgram(cl_program program)
+        {
+            return CL_RetainProgram(program);
+        }
+
+        public static CL_ERROR ReleaseProgram(cl_program program)
+        {
+            return CL_ReleaseProgram(program);
+        }
+
+
 
         /////////////////////////////////////////////////////////////////////////////////////////////////
         //                                 EXTERN FUNCTIONS                                          ///
@@ -477,7 +558,7 @@ namespace OpenCLDotNet.Core
             cl_platform_id platform,
             CL_PLATFORM_INFO param_name,
             size_t param_value_size,
-            [Out] char[] param_value);
+            [Out] cl_char[] param_value);
 
         /////////////////////////////////////////////////////////////////////////////////////////////////
         //                                DEVICE FUNCTIONS                                           ///
@@ -514,7 +595,7 @@ namespace OpenCLDotNet.Core
             cl_device_id device,
             CL_DEVICE_INFO param_name,
             size_t param_value_size,
-            [Out] char[] param_value);
+            [Out] cl_char[] param_value);
 
         [DllImport(DLL_NAME, CallingConvention = CDECL)]
         private static extern CL_ERROR CL_GetDeviceInfo(
@@ -588,9 +669,45 @@ namespace OpenCLDotNet.Core
         private static extern cl_program CL_CreateProgramWithSource(
             cl_context context,
             cl_uint count,
-            char[][] strings,
-            size_t[] lengths,
+            cl_char[] strings,
+            size_t length,
             [Out] out cl_int errcode_ret);
+
+        [DllImport(DLL_NAME, CallingConvention = CDECL)]
+        private static extern CL_ERROR CL_BuildProgram(
+            cl_program program,
+            cl_uint num_devices,
+            cl_device_id[] device_list,
+            cl_char[] options);
+
+        [DllImport(DLL_NAME, CallingConvention = CDECL)]
+        private static extern CL_ERROR CL_GetProgramBuildInfoSize(
+            cl_program program,
+            cl_device_id device,
+            CL_PROGRAM_BUILD_INFO param_name,
+            [Out] out size_t param_value_size_ret);
+
+        [DllImport(DLL_NAME, CallingConvention = CDECL)]
+        private static extern CL_ERROR CL_GetProgramBuildInfo(
+            cl_program program,
+            cl_device_id device,
+            CL_PROGRAM_BUILD_INFO param_name,
+            size_t param_value_size,
+            [Out] out CL_BUILD_STATUS param_value);
+
+        [DllImport(DLL_NAME, CallingConvention = CDECL)]
+        private static extern CL_ERROR CL_GetProgramBuildInfo(
+            cl_program program,
+            cl_device_id device,
+            CL_PROGRAM_BUILD_INFO param_name,
+            size_t param_value_size,
+            [Out] cl_char[] param_value);
+
+        [DllImport(DLL_NAME, CallingConvention = CDECL)]
+        private static extern CL_ERROR CL_RetainProgram(cl_program program);
+
+        [DllImport(DLL_NAME, CallingConvention = CDECL)]
+        private static extern CL_ERROR CL_ReleaseProgram(cl_program program);
 
     }
 }

@@ -108,9 +108,10 @@ namespace OpenCLDotNet.Core
         {
             CL.GetDeviceInfoSize(Id, name, out uint size);
 
-            char[] info = new char[size];
+            var info = new cl_char[size];
             CL.GetDeviceInfo(Id, name, size, info);
-            return new string(info);
+
+            return info.ToText();
         }
 
         private cl_object GetInfoObject(CL_DEVICE_INFO name)

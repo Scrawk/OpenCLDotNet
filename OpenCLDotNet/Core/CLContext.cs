@@ -46,6 +46,15 @@ namespace OpenCLDotNet.Core
                 Id.Value, Platform.Id.Value, Devices.Count);
         }
 
+        public cl_device_id[] GetDeviceIds()
+        {
+            var ids = new cl_device_id[Devices.Count];
+            for(int i = 0; i < Devices.Count; i++)
+                ids[i] = Devices[i].Id;
+
+            return ids;
+        }
+
         public bool HasDevice(CL_DEVICE_TYPE type)
         {
             foreach(var device in Devices)
@@ -64,6 +73,16 @@ namespace OpenCLDotNet.Core
             {
                 builder.AppendLine(e + ": " + GetInfo(e));
             }
+
+            builder.AppendLine();
+            Platform.Print(builder);
+
+            foreach(var device in Devices)
+            {
+                builder.AppendLine();
+                device.Print(builder);
+            }
+                
 
         }
 

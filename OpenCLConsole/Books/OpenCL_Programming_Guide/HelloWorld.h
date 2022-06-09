@@ -253,7 +253,7 @@ namespace OpenCL_Programming_Guide
         }
 
         // Create OpenCL program from HelloWorld.cl kernel source
-        program = CreateProgram(context, device, "Programs/HelloWorld.cl");
+        program = CreateProgram(context, device, "F:/Projects/Visual Studio Projects/OpenCLDotNet/Programs/HelloWorld.cl");
         if (program == NULL)
         {
             Cleanup(context, commandQueue, program, kernel, memObjects);

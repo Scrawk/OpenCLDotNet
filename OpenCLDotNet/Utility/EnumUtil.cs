@@ -7,7 +7,11 @@ namespace OpenCLDotNet.Utility
 {
     public class EnumUtil
     {
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="info"></param>
+        /// <returns></returns>
         public static CL_DEVICE_INFO_RETURN_TYPE GetReturnType(CL_DEVICE_INFO info)
         {
 
@@ -148,9 +152,13 @@ namespace OpenCLDotNet.Utility
             return CL_DEVICE_INFO_RETURN_TYPE.UNKNOWN;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="info"></param>
+        /// <returns></returns>
         public static CL_CONTEXT_INFO_RETURN_TYPE GetReturnType(CL_CONTEXT_INFO info)
         {
-
             switch (info)
             {
                 case CL_CONTEXT_INFO.DEVICES:
@@ -163,7 +171,26 @@ namespace OpenCLDotNet.Utility
             }
 
             return CL_CONTEXT_INFO_RETURN_TYPE.UNKNOWN;
+        }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="info"></param>
+        /// <returns></returns>
+        public static CL_PROGRAM_BUILD_INFO_RETURN_TYPE GetReturnType(CL_PROGRAM_BUILD_INFO info)
+        {
+            switch (info)
+            {
+                case CL_PROGRAM_BUILD_INFO.STATUS:
+                    return CL_PROGRAM_BUILD_INFO_RETURN_TYPE.UINT;
+
+                case CL_PROGRAM_BUILD_INFO.OPTIONS:
+                case CL_PROGRAM_BUILD_INFO.LOG:
+                    return CL_PROGRAM_BUILD_INFO_RETURN_TYPE.CHAR_ARRAY;
+            }
+
+            return CL_PROGRAM_BUILD_INFO_RETURN_TYPE.UNKNOWN;
         }
 
     }

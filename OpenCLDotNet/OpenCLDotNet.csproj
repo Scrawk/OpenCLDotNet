@@ -10,7 +10,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Programs\" />
+    <ProjectReference Include="..\OpenCLWrapper\OpenCLWrapper.vcxproj" />
   </ItemGroup>
 
 </Project>

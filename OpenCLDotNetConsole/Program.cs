@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 using OpenCLDotNet.Utility;
 using OpenCLDotNet.Core;
+using OpenCLDotNet.Programs;
 
 namespace OpenCLDotNetConsole
 {
@@ -14,7 +15,12 @@ namespace OpenCLDotNetConsole
 		{
 
 			var context = new CLContext(CL_DEVICE_TYPE.GPU);
-			context.Print();
+			//context.Print();
+
+			var filename = "F:/Projects/Visual Studio Projects/OpenCLDotNet/Programs/Convolution.cl";
+
+			var program = new CLProgram();
+			program.Create(context, filename);
 
 		}
 

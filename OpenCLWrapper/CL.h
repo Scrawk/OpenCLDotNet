@@ -88,12 +88,34 @@ extern "C"
     //                                PROGRAM FUNCTIONS                                          ///
     ///////////////////////////////////////////////////////////////////////////////////////////////
 
-
     CL_WRAPPER_API cl_program CL_CreateProgramWithSource(
         cl_context context,
         cl_uint count,
-        const char** strings,
-        const size_t* lengths,
+        const char* strings,
+        size_t length,
         cl_int* errcode_ret);
+
+    CL_WRAPPER_API cl_int CL_BuildProgram(
+        cl_program program,
+        cl_uint num_devices,
+        const cl_device_id* device_list,
+        const char* options);
+
+    CL_WRAPPER_API cl_int CL_GetProgramBuildInfoSize(
+        cl_program program,
+        cl_device_id device,
+        cl_program_build_info param_name,
+        size_t* param_value_size_ret);
+
+    CL_WRAPPER_API cl_int CL_GetProgramBuildInfo(
+        cl_program program,
+        cl_device_id device,
+        cl_program_build_info param_name,
+        size_t param_value_size,
+        void* param_value);
+
+    CL_WRAPPER_API cl_int CL_RetainProgram(cl_program program);
+
+    CL_WRAPPER_API cl_int CL_ReleaseProgram(cl_program program);
 
 }

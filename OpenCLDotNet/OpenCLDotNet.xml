@@ -50,7 +50,7 @@
             <param name="info_size"></param>
             <returns></returns>
         </member>
-        <member name="M:OpenCLDotNet.Core.CL.GetPlatformInfo(OpenCLDotNet.Core.cl_platform_id,OpenCLDotNet.Core.CL_PLATFORM_INFO,System.UInt32,System.Char[])">
+        <member name="M:OpenCLDotNet.Core.CL.GetPlatformInfo(OpenCLDotNet.Core.cl_platform_id,OpenCLDotNet.Core.CL_PLATFORM_INFO,System.UInt32,OpenCLDotNet.Core.cl_char[])">
             <summary>
             
             </summary>
@@ -116,7 +116,7 @@
             <param name="info"></param>
             <returns></returns>
         </member>
-        <member name="M:OpenCLDotNet.Core.CL.GetDeviceInfo(OpenCLDotNet.Core.cl_device_id,OpenCLDotNet.Core.CL_DEVICE_INFO,System.UInt32,System.Char[])">
+        <member name="M:OpenCLDotNet.Core.CL.GetDeviceInfo(OpenCLDotNet.Core.cl_device_id,OpenCLDotNet.Core.CL_DEVICE_INFO,System.UInt32,OpenCLDotNet.Core.cl_char[])">
             <summary>
             
             </summary>
@@ -170,7 +170,7 @@
             <param name="device"></param>
             <returns></returns>
         </member>
-        <member name="M:OpenCLDotNet.Core.CL.CreateContext(OpenCLDotNet.Core.cl_platform_id,OpenCLDotNet.Core.cl_uint,OpenCLDotNet.Core.cl_device_id[])">
+        <member name="M:OpenCLDotNet.Core.CL.CreateContext(OpenCLDotNet.Core.cl_platform_id,System.UInt32,OpenCLDotNet.Core.cl_device_id[])">
             <summary>
             
             </summary>
@@ -188,7 +188,7 @@
             <param name="size"></param>
             <returns></returns>
         </member>
-        <member name="M:OpenCLDotNet.Core.CL.GetContextInfo(OpenCLDotNet.Core.cl_context,OpenCLDotNet.Core.CL_CONTEXT_INFO,OpenCLDotNet.Core.size_t,OpenCLDotNet.Core.cl_object[])">
+        <member name="M:OpenCLDotNet.Core.CL.GetContextInfo(OpenCLDotNet.Core.cl_context,OpenCLDotNet.Core.CL_CONTEXT_INFO,System.UInt32,OpenCLDotNet.Core.cl_object[])">
             <summary>
             
             </summary>
@@ -198,7 +198,7 @@
             <param name="info"></param>
             <returns></returns>
         </member>
-        <member name="M:OpenCLDotNet.Core.CL.GetContextInfo(OpenCLDotNet.Core.cl_context,OpenCLDotNet.Core.CL_CONTEXT_INFO,OpenCLDotNet.Core.size_t,System.UInt64@)">
+        <member name="M:OpenCLDotNet.Core.CL.GetContextInfo(OpenCLDotNet.Core.cl_context,OpenCLDotNet.Core.CL_CONTEXT_INFO,System.UInt32,System.UInt64@)">
             <summary>
             
             </summary>
@@ -221,6 +221,9 @@
             </summary>
             <param name="context"></param>
             <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Core.CL.CreateProgramWithSource(OpenCLDotNet.Core.cl_context,System.String,OpenCLDotNet.Core.CL_ERROR@)">
+                                            PROGRAM FUNCTIONS                                        ///
         </member>
         <member name="T:OpenCLDotNet.Core.CLObject">
             <summary>
@@ -273,6 +276,27 @@
             <summary>
             Allow derived class to release the unmanaged memory.
             </summary>
+        </member>
+        <member name="M:OpenCLDotNet.Utility.EnumUtil.GetReturnType(OpenCLDotNet.Core.CL_DEVICE_INFO)">
+            <summary>
+            
+            </summary>
+            <param name="info"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Utility.EnumUtil.GetReturnType(OpenCLDotNet.Core.CL_CONTEXT_INFO)">
+            <summary>
+            
+            </summary>
+            <param name="info"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Utility.EnumUtil.GetReturnType(OpenCLDotNet.Core.CL_PROGRAM_BUILD_INFO)">
+            <summary>
+            
+            </summary>
+            <param name="info"></param>
+            <returns></returns>
         </member>
         <member name="M:OpenCLDotNet.Utility.ErrorUtil.CheckArray(System.Array,System.UInt32)">
             <summary>

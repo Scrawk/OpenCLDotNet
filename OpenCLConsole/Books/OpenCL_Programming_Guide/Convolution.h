@@ -171,7 +171,7 @@ namespace OpenCL_Programming_Guide
 			&errNum);
 		checkErr(errNum, "clCreateContext");
 
-		std::ifstream srcFile("Programs/Convolution.cl");
+		std::ifstream srcFile("F:/Projects/Visual Studio Projects/OpenCLDotNet/Programs/Convolution.cl");
 		checkErr(srcFile.is_open() ? CL_SUCCESS : -1, "reading Convolution.cl");
 
 		std::string srcProg(

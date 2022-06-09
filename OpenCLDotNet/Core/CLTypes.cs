@@ -20,9 +20,7 @@ namespace OpenCLDotNet.Core
     public readonly record struct cl_command_queue_properties(UInt64 Value);
     public readonly record struct cl_device_partition_property(UIntPtr Value);
     public readonly record struct cl_device_affinity_domain(UInt64 Value);
-
-    //public readonly record struct cl_context_properties(UIntPtr Value);
-    public readonly record struct cl_context_properties(UInt64 Value);
+    public readonly record struct cl_context_properties(UIntPtr Value);
     public readonly record struct cl_context_info(UInt32 Value);
     public readonly record struct cl_queue_properties(UInt64 Value);
     public readonly record struct cl_command_queue_info(UInt32 Value);
@@ -88,9 +86,8 @@ namespace OpenCLDotNet.Core
         public static implicit operator size_t(UInt16 v) => new size_t(v);
         public static implicit operator size_t(UInt32 v) => new size_t(v);
         public static implicit operator size_t(UInt64 v) => new size_t(v);
-
         public static implicit operator UInt64(size_t v) => (UInt64)v.Value;
-
+  
         public static bool operator > (size_t v1, UInt64 v2) => v1.Value > v2;
         public static bool operator < (size_t v1, UInt64 v2) => v1.Value < v2;
         public static bool operator >=(size_t v1, UInt64 v2) => v1.Value >= v2;
@@ -102,24 +99,27 @@ namespace OpenCLDotNet.Core
     {
         public static implicit operator cl_char(SByte v) => new cl_char(v);
         public static implicit operator SByte(cl_char v) => (SByte)v.Value;
+        public static implicit operator Char(cl_char v) => (Char)v.Value;
+        public static explicit operator cl_char(Char v) => new cl_char((SByte)v);
 
         public static bool operator >(cl_char v1, Int64 v2) => v1.Value > v2;
         public static bool operator <(cl_char v1, Int64 v2) => v1.Value < v2;
         public static bool operator >=(cl_char v1, Int64 v2) => v1.Value >= v2;
         public static bool operator <=(cl_char v1, Int64 v2) => v1.Value <= v2;
-        public override string ToString() => Value.ToString();
+        public override string ToString() => ((Char)Value).ToString();
     }
 
     public readonly record struct cl_uchar(Byte Value)
     {
         public static implicit operator cl_uchar(Byte v) => new cl_uchar(v);
         public static implicit operator Byte(cl_uchar v) => (Byte)v.Value;
+        public static explicit operator cl_uchar(Char v) => new cl_uchar((Byte)v);
 
         public static bool operator >(cl_uchar v1, UInt64 v2) => v1.Value > v2;
         public static bool operator <(cl_uchar v1, UInt64 v2) => v1.Value < v2;
         public static bool operator >=(cl_uchar v1, UInt64 v2) => v1.Value >= v2;
         public static bool operator <=(cl_uchar v1, UInt64 v2) => v1.Value <= v2;
-        public override string ToString() => Value.ToString();
+        public override string ToString() => ((Char)Value).ToString();
     }
 
     public readonly record struct cl_short(Int16 Value)

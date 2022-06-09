@@ -139,9 +139,49 @@ cl_int CL_ReleaseContext(cl_context context)
 cl_program CL_CreateProgramWithSource(
     cl_context context,
     cl_uint count,
-    const char** strings,
-    const size_t* lengths,
+    const char* strings,
+    size_t length,
     cl_int* errcode_ret)
 {
-    return clCreateProgramWithSource(context, count, strings, lengths, errcode_ret);
+    return clCreateProgramWithSource(context, count, &strings, &length, errcode_ret);
+}
+
+cl_int CL_BuildProgram(
+    cl_program program,
+    cl_uint num_devices,
+    const cl_device_id* device_list,
+    const char* options)
+{
+    return clBuildProgram(program, num_devices, device_list, options, nullptr, nullptr);
+}
+
+CL_WRAPPER_API cl_int CL_GetProgramBuildInfoSize(
+    cl_program program,
+    cl_device_id device,
+    cl_program_build_info param_name,
+    size_t* param_value_size_ret)
+{
+    return clGetProgramBuildInfo(program, device, param_name, 0,
+        nullptr, param_value_size_ret);
+}
+
+cl_int CL_GetProgramBuildInfo(
+    cl_program program,
+    cl_device_id device,
+    cl_program_build_info param_name,
+    size_t param_value_size,
+    void* param_value)
+{
+    return clGetProgramBuildInfo(program, device, param_name, param_value_size, 
+                                 param_value, nullptr);
+}
+
+cl_int CL_RetainProgram(cl_program program)
+{
+    return clRetainProgram(program);
+}
+
+cl_int CL_ReleaseProgram(cl_program program)
+{
+    return clReleaseProgram(program);
 }
