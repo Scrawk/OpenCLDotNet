@@ -86,19 +86,19 @@ namespace OpenCLDotNet.Core
 
             string str = "";
 
-            if (type == CL_DEVICE_INFO_RETURN_TYPE.UINT ||
-                type == CL_DEVICE_INFO_RETURN_TYPE.ULONG ||
-                type == CL_DEVICE_INFO_RETURN_TYPE.SIZET)
+            if (type == CL_INFO_RETURN_TYPE.UINT ||
+                type == CL_INFO_RETURN_TYPE.ULONG ||
+                type == CL_INFO_RETURN_TYPE.SIZET)
                  str = GetInfoUInt64(info).ToString();
-            else if (type == CL_DEVICE_INFO_RETURN_TYPE.BOOL)
+            else if (type == CL_INFO_RETURN_TYPE.BOOL)
                 str = GetInfoBool(info).ToString();
-            else if (type == CL_DEVICE_INFO_RETURN_TYPE.OBJECT)
+            else if (type == CL_INFO_RETURN_TYPE.OBJECT)
                 str = GetInfoObject(info).ToString();
-            else if (type == CL_DEVICE_INFO_RETURN_TYPE.CHAR_ARRAY)
+            else if (type == CL_INFO_RETURN_TYPE.CHAR_ARRAY)
                 str = GetInfoString(info);
-            else if (type == CL_DEVICE_INFO_RETURN_TYPE.SIZET_ARRAY)
+            else if (type == CL_INFO_RETURN_TYPE.SIZET_ARRAY)
                 str = GetInfoSizetArray(info);
-            else if (type == CL_DEVICE_INFO_RETURN_TYPE.OBJECT_ARRAY)
+            else if (type == CL_INFO_RETURN_TYPE.OBJECT_ARRAY)
                 str = GetInfoObjectArray(info);
 
             return str; 

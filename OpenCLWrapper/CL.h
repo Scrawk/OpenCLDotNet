@@ -114,6 +114,17 @@ extern "C"
         size_t param_value_size,
         void* param_value);
 
+    CL_WRAPPER_API cl_int CL_GetProgramInfoSize(
+        cl_program         program,
+        cl_program_info    param_name,
+        size_t* param_value_size_ret);
+
+    CL_WRAPPER_API cl_int CL_GetProgramInfo(
+        cl_program         program,
+        cl_program_info    param_name,
+        size_t             param_value_size,
+        void* param_value);
+
     CL_WRAPPER_API cl_int CL_RetainProgram(cl_program program);
 
     CL_WRAPPER_API cl_int CL_ReleaseProgram(cl_program program);

@@ -298,6 +298,13 @@
             <param name="info"></param>
             <returns></returns>
         </member>
+        <member name="M:OpenCLDotNet.Utility.EnumUtil.GetReturnType(OpenCLDotNet.Core.CL_PROGRAM_INFO)">
+            <summary>
+            
+            </summary>
+            <param name="info"></param>
+            <returns></returns>
+        </member>
         <member name="M:OpenCLDotNet.Utility.ErrorUtil.CheckArray(System.Array,System.UInt32)">
             <summary>
             Check a array that is passed to the c++ dll.

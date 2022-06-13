@@ -92,9 +92,9 @@ namespace OpenCLDotNet.Core
 
             string str = "";
 
-            if (type == CL_CONTEXT_INFO_RETURN_TYPE.UINT)
+            if (type == CL_INFO_RETURN_TYPE.UINT)
                 str = GetInfoUInt64(info).ToString();
-            else if (type == CL_CONTEXT_INFO_RETURN_TYPE.OBJECT_ARRAY)
+            else if (type == CL_INFO_RETURN_TYPE.OBJECT_ARRAY)
                 str = GetInfoObjectArray(info);
 
             return str;

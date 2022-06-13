@@ -68,6 +68,8 @@ namespace OpenCLDotNet.Core
         INVALID_DEVICE_QUEUE = -70,
         INVALID_SPEC_ID = -71,
         MAX_SIZE_RESTRICTION_EXCEEDED = -72,
+
+        NONE = 1
     }
 
     public enum CL_PLATFORM_INFO
@@ -94,7 +96,7 @@ namespace OpenCLDotNet.Core
         ALL = ~0
     }
 
-    public enum CL_DEVICE_INFO_RETURN_TYPE
+    public enum CL_INFO_RETURN_TYPE
     {
         UINT,
         ULONG,
@@ -104,21 +106,8 @@ namespace OpenCLDotNet.Core
         CHAR_ARRAY,
         OBJECT,
         OBJECT_ARRAY,
-        UNKNOWN
-    }
-
-    public enum CL_CONTEXT_INFO_RETURN_TYPE
-    {
-        UINT,
-        OBJECT_ARRAY,
-        UNKNOWN
-    }
-
-    public enum CL_PROGRAM_BUILD_INFO_RETURN_TYPE
-    {
-        UINT,
-        CHAR_ARRAY,
-        UNKNOWN
+        UNKNOWN, 
+        IGNORE
     }
 
     public enum CL_DEVICE_INFO

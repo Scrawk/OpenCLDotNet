@@ -12,7 +12,7 @@ namespace OpenCLDotNet.Utility
         /// </summary>
         /// <param name="info"></param>
         /// <returns></returns>
-        public static CL_DEVICE_INFO_RETURN_TYPE GetReturnType(CL_DEVICE_INFO info)
+        public static CL_INFO_RETURN_TYPE GetReturnType(CL_DEVICE_INFO info)
         {
 
             switch (info)
@@ -33,7 +33,7 @@ namespace OpenCLDotNet.Utility
                 case CL_DEVICE_INFO.QUEUE_ON_QUEUE_PROPERTIES:
                 case CL_DEVICE_INFO.DOUBLE_FP_CONFIG:
                 case CL_DEVICE_INFO.PARENT_DEVICE:
-                    return CL_DEVICE_INFO_RETURN_TYPE.OBJECT;
+                    return CL_INFO_RETURN_TYPE.OBJECT;
 
                 //OBJECT ARRAY
                 case CL_DEVICE_INFO.PARTITION_TYPE:
@@ -43,7 +43,7 @@ namespace OpenCLDotNet.Utility
                 case CL_DEVICE_INFO.OPENC_ALL_VERSIONS:
                 case CL_DEVICE_INFO.BUILT_IN_KERNELS_WITH_VERSION:
                 case CL_DEVICE_INFO.ILS_WITH_VERSION:
-                    return CL_DEVICE_INFO_RETURN_TYPE.OBJECT_ARRAY;
+                    return CL_INFO_RETURN_TYPE.OBJECT_ARRAY;
 
                 //UINT
                 case CL_DEVICE_INFO.VENDOR_ID:
@@ -88,11 +88,11 @@ namespace OpenCLDotNet.Utility
                 case CL_DEVICE_INFO.PIPE_MAX_PACKET_SIZE:
                 case CL_DEVICE_INFO.MAX_ON_QUEUES:
                 case CL_DEVICE_INFO.MAX_ON_EVENTS:
-                    return CL_DEVICE_INFO_RETURN_TYPE.UINT;
+                    return CL_INFO_RETURN_TYPE.UINT;
 
                 //SIZE_ARRAY
                 case CL_DEVICE_INFO.MAX_WORK_ITEM_SIZES:
-                    return CL_DEVICE_INFO_RETURN_TYPE.SIZET_ARRAY;
+                    return CL_INFO_RETURN_TYPE.SIZET_ARRAY;
 
                 //SIZE
                 case CL_DEVICE_INFO.MAX_WORK_GROUP_SIZE:
@@ -109,7 +109,7 @@ namespace OpenCLDotNet.Utility
                 case CL_DEVICE_INFO.PREFERRED_WORK_GROUP_SIZE_MULTIPLE:
                 case CL_DEVICE_INFO.IMAGE_MAX_ARRAY_SIZE:
                 case CL_DEVICE_INFO.PRINTF_BUFFER_SIZE:
-                    return CL_DEVICE_INFO_RETURN_TYPE.SIZET;
+                    return CL_INFO_RETURN_TYPE.SIZET;
 
                 //ULONG
                 case CL_DEVICE_INFO.MAX_MEM_ALLOC_SIZE:
@@ -117,7 +117,7 @@ namespace OpenCLDotNet.Utility
                 case CL_DEVICE_INFO.GLOBAL_MEM_SIZE:
                 case CL_DEVICE_INFO.MAX_CONSTANT_BUFFER_SIZE:
                 case CL_DEVICE_INFO.LOCAL_MEM_SIZE:
-                    return CL_DEVICE_INFO_RETURN_TYPE.ULONG;
+                    return CL_INFO_RETURN_TYPE.ULONG;
 
                 //BOOL
                 case CL_DEVICE_INFO.IMAGE_SUPPORT:
@@ -132,7 +132,7 @@ namespace OpenCLDotNet.Utility
                 case CL_DEVICE_INFO.WORK_GROUP_COLLECTIVE_FUNCTIONS_SUPPORT:
                 case CL_DEVICE_INFO.GENERIC_ADDRESS_SPACE_SUPPORT:
                 case CL_DEVICE_INFO.PIPE_SUPPORT:
-                    return CL_DEVICE_INFO_RETURN_TYPE.BOOL;
+                    return CL_INFO_RETURN_TYPE.BOOL;
 
                 //CHAR_ARRAY
                 case CL_DEVICE_INFO.NAME:
@@ -145,11 +145,11 @@ namespace OpenCLDotNet.Utility
                 case CL_DEVICE_INFO.BUILT_IN_KERNELS:
                 case CL_DEVICE_INFO.OPENC_VERSION:
                 case CL_DEVICE_INFO.LATEST_CONFORMANCE_VERSION_PASSED:
-                    return CL_DEVICE_INFO_RETURN_TYPE.CHAR_ARRAY;
+                    return CL_INFO_RETURN_TYPE.CHAR_ARRAY;
             }
 
 
-            return CL_DEVICE_INFO_RETURN_TYPE.UNKNOWN;
+            return CL_INFO_RETURN_TYPE.UNKNOWN;
         }
 
         /// <summary>
@@ -157,20 +157,20 @@ namespace OpenCLDotNet.Utility
         /// </summary>
         /// <param name="info"></param>
         /// <returns></returns>
-        public static CL_CONTEXT_INFO_RETURN_TYPE GetReturnType(CL_CONTEXT_INFO info)
+        public static CL_INFO_RETURN_TYPE GetReturnType(CL_CONTEXT_INFO info)
         {
             switch (info)
             {
                 case CL_CONTEXT_INFO.DEVICES:
                 case CL_CONTEXT_INFO.PROPERTIES:
-                    return CL_CONTEXT_INFO_RETURN_TYPE.OBJECT_ARRAY;
+                    return CL_INFO_RETURN_TYPE.OBJECT_ARRAY;
 
                 case CL_CONTEXT_INFO.REFERENCE_COUNT:
                 case CL_CONTEXT_INFO.NUM_DEVICES:
-                    return CL_CONTEXT_INFO_RETURN_TYPE.UINT;
+                    return CL_INFO_RETURN_TYPE.UINT;
             }
 
-            return CL_CONTEXT_INFO_RETURN_TYPE.UNKNOWN;
+            return CL_INFO_RETURN_TYPE.UNKNOWN;
         }
 
         /// <summary>
@@ -178,19 +178,62 @@ namespace OpenCLDotNet.Utility
         /// </summary>
         /// <param name="info"></param>
         /// <returns></returns>
-        public static CL_PROGRAM_BUILD_INFO_RETURN_TYPE GetReturnType(CL_PROGRAM_BUILD_INFO info)
+        public static CL_INFO_RETURN_TYPE GetReturnType(CL_PROGRAM_BUILD_INFO info)
         {
             switch (info)
             {
                 case CL_PROGRAM_BUILD_INFO.STATUS:
-                    return CL_PROGRAM_BUILD_INFO_RETURN_TYPE.UINT;
+                case CL_PROGRAM_BUILD_INFO.GLOBAL_VARIABLE_TOTAL_SIZE:
+                    return CL_INFO_RETURN_TYPE.UINT;
 
                 case CL_PROGRAM_BUILD_INFO.OPTIONS:
                 case CL_PROGRAM_BUILD_INFO.LOG:
-                    return CL_PROGRAM_BUILD_INFO_RETURN_TYPE.CHAR_ARRAY;
+
+                    return CL_INFO_RETURN_TYPE.CHAR_ARRAY;
             }
 
-            return CL_PROGRAM_BUILD_INFO_RETURN_TYPE.UNKNOWN;
+            return CL_INFO_RETURN_TYPE.UNKNOWN;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="info"></param>
+        /// <returns></returns>
+        public static CL_INFO_RETURN_TYPE GetReturnType(CL_PROGRAM_INFO info)
+        {
+            switch (info)
+            {
+                case CL_PROGRAM_INFO.REFERENCE_COUNT:
+                case CL_PROGRAM_INFO.NUM_DEVICES:
+                    return CL_INFO_RETURN_TYPE.UINT;
+
+                case CL_PROGRAM_INFO.CONTEXT:
+                    return CL_INFO_RETURN_TYPE.OBJECT;
+
+                case CL_PROGRAM_INFO.DEVICES:
+                    return CL_INFO_RETURN_TYPE.OBJECT_ARRAY;
+
+                case CL_PROGRAM_INFO.SOURCE:
+                case CL_PROGRAM_INFO.IL:
+                case CL_PROGRAM_INFO.KERNEL_NAMES:
+                    return CL_INFO_RETURN_TYPE.CHAR_ARRAY;
+
+                case CL_PROGRAM_INFO.BINARY_SIZES:
+                    return CL_INFO_RETURN_TYPE.SIZET_ARRAY;
+
+                case CL_PROGRAM_INFO.NUM_KERNELS:
+                    return CL_INFO_RETURN_TYPE.SIZET;
+
+                case CL_PROGRAM_INFO.SCOPE_GLOBAL_CTORS_PRESENT:
+                case CL_PROGRAM_INFO.SCOPE_GLOBAL_DTORS_PRESENT:
+                    return CL_INFO_RETURN_TYPE.BOOL;
+
+                case CL_PROGRAM_INFO.BINARIES:
+                    return CL_INFO_RETURN_TYPE.IGNORE;
+            }
+
+            return CL_INFO_RETURN_TYPE.UNKNOWN;
         }
 
     }

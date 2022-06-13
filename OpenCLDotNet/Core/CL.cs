@@ -486,10 +486,10 @@ namespace OpenCLDotNet.Core
             CL_PROGRAM_BUILD_INFO name,
             out uint size)
         {
-            size_t num;
-            var error =  CL_GetProgramBuildInfoSize(program, device, name, out num);
+            size_t sizet;
+            var error =  CL_GetProgramBuildInfoSize(program, device, name, out sizet);
 
-            size = (uint)num;
+            size = (uint)sizet;
             return error;
         }
 
@@ -497,9 +497,9 @@ namespace OpenCLDotNet.Core
             cl_program program,
             cl_device_id device,
             CL_PROGRAM_BUILD_INFO name,
-            out CL_BUILD_STATUS value)
+            uint size,
+            out UInt64 value)
         {
-            uint size = sizeof(CL_BUILD_STATUS);
             var error = CL_GetProgramBuildInfo(program, device, name, size, out value);
             return error;
         }
@@ -512,6 +512,38 @@ namespace OpenCLDotNet.Core
             cl_char[] info)
         {
             var error = CL_GetProgramBuildInfo(program, device, name, size, info);
+            return error;
+        }
+
+        public static CL_ERROR GetProgramInfoSize(
+            cl_program program,
+            CL_PROGRAM_INFO name,
+            out uint size)
+        {
+            size_t sizet;
+            var error = CL_GetProgramInfoSize(program, name, out sizet);
+
+            size = (uint)sizet;
+            return error;
+        }
+
+        public static CL_ERROR GetProgramInfo(
+            cl_program program,
+            CL_PROGRAM_INFO name,
+            uint size,
+            out UInt64 value)
+        {
+            var error = CL_GetProgramInfo(program, name, size, out value);
+            return error;
+        }
+
+        public static CL_ERROR GetProgramInfo(
+            cl_program program,
+            CL_PROGRAM_INFO name,
+            uint size,
+            cl_char[] info)
+        {
+            var error = CL_GetProgramInfo(program, name, size, info);
             return error;
         }
 
@@ -693,13 +725,33 @@ namespace OpenCLDotNet.Core
             cl_device_id device,
             CL_PROGRAM_BUILD_INFO param_name,
             size_t param_value_size,
-            [Out] out CL_BUILD_STATUS param_value);
+            [Out] out UInt64 param_value);
 
         [DllImport(DLL_NAME, CallingConvention = CDECL)]
         private static extern CL_ERROR CL_GetProgramBuildInfo(
             cl_program program,
             cl_device_id device,
             CL_PROGRAM_BUILD_INFO param_name,
+            size_t param_value_size,
+            [Out] cl_char[] param_value);
+
+        [DllImport(DLL_NAME, CallingConvention = CDECL)]
+        private static extern CL_ERROR CL_GetProgramInfoSize(
+            cl_program program,
+            CL_PROGRAM_INFO param_name,
+            [Out] out size_t param_value_size_ret);
+
+        [DllImport(DLL_NAME, CallingConvention = CDECL)]
+        private static extern CL_ERROR CL_GetProgramInfo(
+            cl_program program,
+            CL_PROGRAM_INFO param_name,
+            size_t param_value_size,
+            [Out] out UInt64 param_value);
+
+        [DllImport(DLL_NAME, CallingConvention = CDECL)]
+        private static extern CL_ERROR CL_GetProgramInfo(
+            cl_program program,
+            CL_PROGRAM_INFO param_name,
             size_t param_value_size,
             [Out] cl_char[] param_value);
 

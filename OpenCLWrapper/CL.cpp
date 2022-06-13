@@ -176,6 +176,23 @@ cl_int CL_GetProgramBuildInfo(
                                  param_value, nullptr);
 }
 
+CL_WRAPPER_API cl_int CL_GetProgramInfoSize(
+    cl_program         program,
+    cl_program_info    param_name,
+    size_t* param_value_size_ret)
+{
+    return clGetProgramInfo(program, param_name, 0, nullptr, param_value_size_ret);
+}
+
+CL_WRAPPER_API cl_int CL_GetProgramInfo(
+    cl_program         program,
+    cl_program_info    param_name,
+    size_t             param_value_size,
+    void* param_value)
+{
+    return clGetProgramInfo(program, param_name, param_value_size, param_value, nullptr);
+}
+
 cl_int CL_RetainProgram(cl_program program)
 {
     return clRetainProgram(program);
