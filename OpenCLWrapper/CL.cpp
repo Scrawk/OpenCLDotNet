@@ -43,6 +43,11 @@ cl_int CL_GetPlatformInfo(
         param_value, nullptr);
 }
 
+cl_int CL_UnloadPlatformCompiler(cl_platform_id platform)
+{
+    clUnloadPlatformCompiler(platform);
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////////////
 //                                DEVICE FUNCTIONS                                           ///
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -160,7 +165,7 @@ CL_WRAPPER_API cl_program CL_CreateProgramWithBinary(
     unsigned char** _binaries = new unsigned char*[num_devices];
 
     int index = 0;
-    for (int i = 0; i < num_devices; i++)
+    for (auto i = 0; i < num_devices; i++)
     {
         _binaries[i] = new unsigned char[lengths[i]];
 
@@ -236,7 +241,7 @@ CL_WRAPPER_API cl_int CL_GetProgramBinaries(
 {
    
     unsigned char** _binaries = new unsigned char* [num_devices];
-    for (cl_uint i = 0; i < num_devices; i++)
+    for (int i = 0; i < num_devices; i++)
     {
         _binaries[i] = new unsigned char[sizes[i]];
     }
@@ -263,7 +268,7 @@ CL_WRAPPER_API cl_int CL_GetProgramBinaries(
         }
     }
 
-    for (cl_uint i = 0; i < num_devices; i++)
+    for (int i = 0; i < num_devices; i++)
         delete[] _binaries[i];
 
     delete[] _binaries;
@@ -280,4 +285,71 @@ cl_int CL_RetainProgram(cl_program program)
 cl_int CL_ReleaseProgram(cl_program program)
 {
     return clReleaseProgram(program);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+//                                KERNEL FUNCTIONS                                           ///
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+cl_kernel CL_CreateKernel(
+    cl_program program,
+    const char* kernel_name,
+    cl_int* errcode_ret)
+{
+    return clCreateKernel(program, kernel_name, errcode_ret);
+}
+
+cl_int CL_SetKernelArg(
+    cl_kernel kernel,
+    cl_uint arg_index,
+    size_t arg_size,
+    const void* arg_value)
+{
+    return clSetKernelArg(kernel, arg_index, arg_size, arg_value);
+}
+
+cl_int CL_GetKernelInfoSize(
+    cl_kernel kernel,
+    cl_kernel_info param_name,
+    size_t* param_value_size_ret)
+{
+    return clGetKernelInfo(kernel, param_name, 0, nullptr, param_value_size_ret);
+}
+
+cl_int CL_GetKernelInfo(
+    cl_kernel kernel,
+    cl_kernel_info param_name,
+    size_t param_value_size,
+    void* param_value)
+{
+    return clGetKernelInfo(kernel, param_name, param_value_size, param_value, nullptr);
+}
+
+cl_int CL_GetKernelArgInfoSize(
+    cl_kernel kernel,
+    cl_uint arg_indx,
+    cl_kernel_arg_info param_name,
+    size_t* param_value_size_ret)
+{
+    return clGetKernelArgInfo(kernel, arg_indx, param_name, 0, nullptr, param_value_size_ret);
+}
+
+cl_int CL_GetKernelArgInfo(
+    cl_kernel kernel,
+    cl_uint arg_indx,
+    cl_kernel_arg_info param_name,
+    size_t param_value_size,
+    void* param_value)
+{
+    return clGetKernelArgInfo(kernel, arg_indx, param_name, param_value_size, param_value, nullptr);
+}
+
+cl_int CL_RetainKernel(cl_kernel kernel)
+{
+    return clRetainKernel(kernel);
+}
+
+cl_int CL_ReleaseKernel(cl_kernel kernel)
+{
+    return clReleaseKernel(kernel);
 }

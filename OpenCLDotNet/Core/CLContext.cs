@@ -18,6 +18,9 @@ namespace OpenCLDotNet.Core
             var platfrom_ids = new List<cl_platform_id>();
             CL.GetPlatformIDs(platfrom_ids);
 
+            if (platfrom_ids.Count == 0)
+                return;
+
             Platform = new CLPlatform(platfrom_ids[0]);
     
             var device_ids = new List<cl_device_id>();

@@ -20,7 +20,7 @@ namespace OpenCLDotNetConsole
 			var filename = "F:/Projects/Visual Studio Projects/OpenCLDotNet/Programs/Convolution.cl";
 
 			var program = new CLProgram(context, filename);
-			program.Print();
+			//program.Print();
 		}
 
 	}

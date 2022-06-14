@@ -37,6 +37,11 @@ namespace OpenCLDotNet.Core
             return Extensions.Contains(name);
         }
 
+        public CL_ERROR UnloadComplier()
+        {
+            return CL.UnloadPlatformCompiler(Id);
+        }
+
         public override void Print(StringBuilder builder)
         {
             builder.AppendLine(ToString());

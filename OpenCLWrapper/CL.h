@@ -30,6 +30,8 @@ extern "C"
         size_t           param_value_size,
         void* param_value);
 
+    CL_WRAPPER_API cl_int CL_UnloadPlatformCompiler(cl_platform_id platform);
+
     /////////////////////////////////////////////////////////////////////////////////////////////////
     //                                DEVICE FUNCTIONS                                           ///
     ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -143,5 +145,49 @@ extern "C"
     CL_WRAPPER_API cl_int CL_RetainProgram(cl_program program);
 
     CL_WRAPPER_API cl_int CL_ReleaseProgram(cl_program program);
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////
+    //                                KERNEL FUNCTIONS                                           ///
+    ///////////////////////////////////////////////////////////////////////////////////////////////
+
+
+    CL_WRAPPER_API cl_kernel CL_CreateKernel(
+        cl_program program,
+        const char* kernel_name,
+        cl_int* errcode_ret);
+
+    CL_WRAPPER_API cl_int CL_SetKernelArg(
+        cl_kernel kernel,
+        cl_uint arg_index,
+        size_t arg_size,
+        const void* arg_value);
+
+    CL_WRAPPER_API cl_int CL_GetKernelInfoSize(
+        cl_kernel kernel,
+        cl_kernel_info param_name,
+        size_t* param_value_size_ret);
+
+    CL_WRAPPER_API cl_int CL_GetKernelInfo(
+        cl_kernel kernel,
+        cl_kernel_info param_name,
+        size_t param_value_size,
+        void* param_value);
+
+    CL_WRAPPER_API cl_int CL_GetKernelArgInfoSize(
+        cl_kernel kernel,
+        cl_uint arg_indx,
+        cl_kernel_arg_info param_name,
+        size_t* param_value_size_ret);
+
+    CL_WRAPPER_API cl_int CL_GetKernelArgInfo(
+        cl_kernel kernel,
+        cl_uint arg_indx,
+        cl_kernel_arg_info param_name,
+        size_t param_value_size,
+        void* param_value);
+
+    CL_WRAPPER_API cl_int CL_RetainKernel(cl_kernel    kernel);
+
+    CL_WRAPPER_API cl_int CL_ReleaseKernel(cl_kernel   kernel);
 
 }
