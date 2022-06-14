@@ -156,11 +156,25 @@ extern "C"
         const char* kernel_name,
         cl_int* errcode_ret);
 
-    CL_WRAPPER_API cl_int CL_SetKernelArg(
+    CL_WRAPPER_API cl_int CL_SetKernelArgMem(
         cl_kernel kernel,
         cl_uint arg_index,
-        size_t arg_size,
-        const void* arg_value);
+        cl_mem arg_value);
+
+    CL_WRAPPER_API cl_int CL_SetKernelArgSampler(
+        cl_kernel kernel,
+        cl_uint arg_index,
+        cl_sampler arg_value);
+
+    CL_WRAPPER_API cl_int CL_SetKernelArgInt(
+        cl_kernel kernel,
+        cl_uint arg_index,
+        cl_int arg_value);
+
+    CL_WRAPPER_API cl_int CL_SetKernelArgFloat(
+        cl_kernel kernel,
+        cl_uint arg_index,
+        cl_float arg_value);
 
     CL_WRAPPER_API cl_int CL_GetKernelInfoSize(
         cl_kernel kernel,

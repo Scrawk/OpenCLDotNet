@@ -11,9 +11,9 @@ namespace OpenCLDotNet.Core
     public static partial class CL
     {
         public static cl_program CreateProgramWithSource(
-    cl_context context,
-    string program_text,
-    out CL_ERROR error_code)
+            cl_context context,
+            string program_text,
+            out CL_ERROR error_code)
         {
 
             var program_char = program_text.ToCLCharArray();

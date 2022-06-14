@@ -4,6 +4,58 @@
         <name>OpenCLDotNet</name>
     </assembly>
     <members>
+        <member name="M:OpenCLDotNet.Core.CL.CreateContext(OpenCLDotNet.Core.cl_platform_id,System.UInt32,OpenCLDotNet.Core.cl_device_id[])">
+            <summary>
+            
+            </summary>
+            <param name="platform"></param>
+            <param name="num_devices"></param>
+            <param name="devices"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Core.CL.GetContextInfoSize(OpenCLDotNet.Core.cl_context,OpenCLDotNet.Core.CL_CONTEXT_INFO,System.UInt32@)">
+            <summary>
+            
+            </summary>
+            <param name="context"></param>
+            <param name="name"></param>
+            <param name="size"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Core.CL.GetContextInfo(OpenCLDotNet.Core.cl_context,OpenCLDotNet.Core.CL_CONTEXT_INFO,System.UInt32,OpenCLDotNet.Core.cl_object[])">
+            <summary>
+            
+            </summary>
+            <param name="context"></param>
+            <param name="name"></param>
+            <param name="size"></param>
+            <param name="info"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Core.CL.GetContextInfo(OpenCLDotNet.Core.cl_context,OpenCLDotNet.Core.CL_CONTEXT_INFO,System.UInt32,System.UInt64@)">
+            <summary>
+            
+            </summary>
+            <param name="context"></param>
+            <param name="name"></param>
+            <param name="size"></param>
+            <param name="info"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Core.CL.RetainContext(OpenCLDotNet.Core.cl_context)">
+            <summary>
+            
+            </summary>
+            <param name="context"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Core.CL.ReleaseContext(OpenCLDotNet.Core.cl_context)">
+            <summary>
+            
+            </summary>
+            <param name="context"></param>
+            <returns></returns>
+        </member>
         <member name="F:OpenCLDotNet.Core.CL.DLL_NAME">
             <summary>
             
@@ -18,56 +70,6 @@
             <summary>
             
             </summary>
-        </member>
-        <member name="M:OpenCLDotNet.Core.CL.GetPlatformCount(System.UInt32@)">
-            <summary>
-            
-            </summary>
-            <param name="num_platforms"></param>
-            <returns></returns>
-        </member>
-        <member name="M:OpenCLDotNet.Core.CL.GetPlatformIDs(System.UInt32,OpenCLDotNet.Core.cl_platform_id[])">
-            <summary>
-            
-            </summary>
-            <param name="num_entries"></param>
-            <param name="platform_ids"></param>
-            <returns></returns>
-        </member>
-        <member name="M:OpenCLDotNet.Core.CL.GetPlatformIDs(System.Collections.Generic.List{OpenCLDotNet.Core.cl_platform_id})">
-            <summary>
-            
-            </summary>
-            <param name="platform_ids"></param>
-            <returns></returns>
-        </member>
-        <member name="M:OpenCLDotNet.Core.CL.GetPlatformInfoSize(OpenCLDotNet.Core.cl_platform_id,OpenCLDotNet.Core.CL_PLATFORM_INFO,System.UInt32@)">
-            <summary>
-            
-            </summary>
-            <param name="platform"></param>
-            <param name="name"></param>
-            <param name="info_size"></param>
-            <returns></returns>
-        </member>
-        <member name="M:OpenCLDotNet.Core.CL.GetPlatformInfo(OpenCLDotNet.Core.cl_platform_id,OpenCLDotNet.Core.CL_PLATFORM_INFO,System.UInt32,OpenCLDotNet.Core.cl_char[])">
-            <summary>
-            
-            </summary>
-            <param name="platform"></param>
-            <param name="name"></param>
-            <param name="info_size"></param>
-            <param name="info_array"></param>
-            <returns></returns>
-        </member>
-        <member name="M:OpenCLDotNet.Core.CL.GetPlatformInfo(OpenCLDotNet.Core.cl_platform_id,OpenCLDotNet.Core.CL_PLATFORM_INFO,System.String@)">
-            <summary>
-            
-            </summary>
-            <param name="platform"></param>
-            <param name="name"></param>
-            <param name="info"></param>
-            <returns></returns>
         </member>
         <member name="M:OpenCLDotNet.Core.CL.GetDeviceCount(OpenCLDotNet.Core.cl_platform_id,OpenCLDotNet.Core.CL_DEVICE_TYPE,System.UInt32@)">
             <summary>
@@ -170,60 +172,55 @@
             <param name="device"></param>
             <returns></returns>
         </member>
-        <member name="M:OpenCLDotNet.Core.CL.CreateContext(OpenCLDotNet.Core.cl_platform_id,System.UInt32,OpenCLDotNet.Core.cl_device_id[])">
+        <member name="M:OpenCLDotNet.Core.CL.GetPlatformCount(System.UInt32@)">
+            <summary>
+            
+            </summary>
+            <param name="num_platforms"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Core.CL.GetPlatformIDs(System.UInt32,OpenCLDotNet.Core.cl_platform_id[])">
+            <summary>
+            
+            </summary>
+            <param name="num_entries"></param>
+            <param name="platform_ids"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Core.CL.GetPlatformIDs(System.Collections.Generic.List{OpenCLDotNet.Core.cl_platform_id})">
+            <summary>
+            
+            </summary>
+            <param name="platform_ids"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Core.CL.GetPlatformInfoSize(OpenCLDotNet.Core.cl_platform_id,OpenCLDotNet.Core.CL_PLATFORM_INFO,System.UInt32@)">
             <summary>
             
             </summary>
             <param name="platform"></param>
-            <param name="num_devices"></param>
-            <param name="devices"></param>
+            <param name="name"></param>
+            <param name="info_size"></param>
             <returns></returns>
         </member>
-        <member name="M:OpenCLDotNet.Core.CL.GetContextInfoSize(OpenCLDotNet.Core.cl_context,OpenCLDotNet.Core.CL_CONTEXT_INFO,System.UInt32@)">
+        <member name="M:OpenCLDotNet.Core.CL.GetPlatformInfo(OpenCLDotNet.Core.cl_platform_id,OpenCLDotNet.Core.CL_PLATFORM_INFO,System.UInt32,OpenCLDotNet.Core.cl_char[])">
             <summary>
             
             </summary>
-            <param name="context"></param>
+            <param name="platform"></param>
             <param name="name"></param>
-            <param name="size"></param>
+            <param name="info_size"></param>
+            <param name="info_array"></param>
             <returns></returns>
         </member>
-        <member name="M:OpenCLDotNet.Core.CL.GetContextInfo(OpenCLDotNet.Core.cl_context,OpenCLDotNet.Core.CL_CONTEXT_INFO,System.UInt32,OpenCLDotNet.Core.cl_object[])">
+        <member name="M:OpenCLDotNet.Core.CL.GetPlatformInfo(OpenCLDotNet.Core.cl_platform_id,OpenCLDotNet.Core.CL_PLATFORM_INFO,System.String@)">
             <summary>
             
             </summary>
-            <param name="context"></param>
+            <param name="platform"></param>
             <param name="name"></param>
-            <param name="size"></param>
             <param name="info"></param>
             <returns></returns>
-        </member>
-        <member name="M:OpenCLDotNet.Core.CL.GetContextInfo(OpenCLDotNet.Core.cl_context,OpenCLDotNet.Core.CL_CONTEXT_INFO,System.UInt32,System.UInt64@)">
-            <summary>
-            
-            </summary>
-            <param name="context"></param>
-            <param name="name"></param>
-            <param name="size"></param>
-            <param name="info"></param>
-            <returns></returns>
-        </member>
-        <member name="M:OpenCLDotNet.Core.CL.RetainContext(OpenCLDotNet.Core.cl_context)">
-            <summary>
-            
-            </summary>
-            <param name="context"></param>
-            <returns></returns>
-        </member>
-        <member name="M:OpenCLDotNet.Core.CL.ReleaseContext(OpenCLDotNet.Core.cl_context)">
-            <summary>
-            
-            </summary>
-            <param name="context"></param>
-            <returns></returns>
-        </member>
-        <member name="M:OpenCLDotNet.Core.CL.CreateProgramWithSource(OpenCLDotNet.Core.cl_context,System.String,OpenCLDotNet.Core.CL_ERROR@)">
-                                            PROGRAM FUNCTIONS                                        ///
         </member>
         <member name="T:OpenCLDotNet.Core.CLObject">
             <summary>
@@ -299,6 +296,20 @@
             <returns></returns>
         </member>
         <member name="M:OpenCLDotNet.Utility.EnumUtil.GetReturnType(OpenCLDotNet.Core.CL_PROGRAM_INFO)">
+            <summary>
+            
+            </summary>
+            <param name="info"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Utility.EnumUtil.GetReturnType(OpenCLDotNet.Core.CL_KERNEL_INFO)">
+            <summary>
+            
+            </summary>
+            <param name="info"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Utility.EnumUtil.GetReturnType(OpenCLDotNet.Core.CL_KERNEL_ARG_INFO)">
             <summary>
             
             </summary>

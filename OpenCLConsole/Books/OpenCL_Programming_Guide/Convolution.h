@@ -302,6 +302,21 @@ namespace OpenCL_Programming_Guide
 
 		std::cout << std::endl << "Executed program succesfully." << std::endl;
 
+		//cl_int param_value = 0;
+		//clGetKernelArgInfo(kernel, 3, CL_KERNEL_ARG_TYPE_QUALIFIER, 4, &param_value, nullptr);
+		//std::cout << "Param Value " << param_value << std::endl;
+
+		/*
+		auto param_value = new cl_char[10];
+		for (int i = 0; i < 10; i++)
+			param_value[i] = 0;
+
+		clGetKernelArgInfo(kernel, 3, CL_KERNEL_ARG_NAME, 10, &param_value, nullptr);
+
+		for(int i = 0; i < 10; i++)
+			std::cout << param_value[i] << std::endl;
+			*/
+
 		return 0;
 	}
 }

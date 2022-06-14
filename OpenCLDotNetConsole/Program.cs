@@ -19,8 +19,18 @@ namespace OpenCLDotNetConsole
 
 			var filename = "F:/Projects/Visual Studio Projects/OpenCLDotNet/Programs/Convolution.cl";
 
-			var program = new CLProgram(context, filename);
-			//program.Print();
+			var options = "-cl-kernel-arg-info";
+			var program = new CLProgram(context, filename, options);
+			program.Print();
+
+			var binary = program.GetBinary();
+			var program2 = new CLProgram(context, binary, options);
+
+			var kernel = new CLKernel(program2, "convolve");
+
+			kernel.SetIntArg(10, 3);
+
+			//kernel.Print();
 		}
 
 	}

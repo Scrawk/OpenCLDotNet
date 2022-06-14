@@ -3,6 +3,26 @@ using System.Collections.Generic;
 
 namespace OpenCLDotNet.Core
 {
+    public enum CL_PROGRAM_SOURCE
+    {
+        TEXT,
+        BINARY
+    }
+
+    public enum CL_INFO_RETURN_TYPE
+    {
+        UINT,
+        ULONG,
+        BOOL,
+        SIZET,
+        SIZET_ARRAY,
+        CHAR_ARRAY,
+        OBJECT,
+        OBJECT_ARRAY,
+        ENUM,
+        UNKNOWN
+    }
+
     public enum CL_ERROR
     {
         SUCCESS = 0,
@@ -94,20 +114,6 @@ namespace OpenCLDotNet.Core
         ACCELERATOR = (1 << 3),
         CUSTOM = (1 << 4),
         ALL = ~0
-    }
-
-    public enum CL_INFO_RETURN_TYPE
-    {
-        UINT,
-        ULONG,
-        BOOL,
-        SIZET,
-        SIZET_ARRAY,
-        CHAR_ARRAY,
-        OBJECT,
-        OBJECT_ARRAY,
-        UNKNOWN, 
-        IGNORE
     }
 
     public enum CL_DEVICE_INFO

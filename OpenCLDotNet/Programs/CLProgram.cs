@@ -14,16 +14,19 @@ namespace OpenCLDotNet.Programs
         public CLProgram(CLContext context, string filename, string options = "")
         {
             Create(context, filename, options);
+            CheckForKernelArgumentInfo(options);
         }
 
         public CLProgram(CLContext context, IList<byte[]> binaries, string options = "")
         {
             Create(context, binaries, options);
+            CheckForKernelArgumentInfo(options);
         }
 
         public CLProgram(CLContext context, byte[] binary, string options = "")
         {
             Create(context, binary, options);
+            CheckForKernelArgumentInfo(options);
         }
 
         public cl_program Id { get; private set; }
@@ -34,10 +37,15 @@ namespace OpenCLDotNet.Programs
 
         public string Options { get; private set; }
 
+        public bool HasKernelArgumentInfo { get; private set; } 
+
+        public CL_PROGRAM_SOURCE Source { get; private set; }   
+
         public override string ToString()
         {
-            return String.Format("[CLProgram: Id={0}, ContextID={1}, Error={2}]",
-                Id.Value, Context.Id.Value, Error);
+            var options = string.IsNullOrEmpty(Options) ? "NONE" : Options;
+            return String.Format("[CLProgram: Id={0}, ContextID={1}, Source={2}, Error={3}]",
+                Id.Value, Context.Id.Value, Source, Error);
         }
 
         private void Create(CLContext context, string filename, string options = "")
@@ -45,6 +53,7 @@ namespace OpenCLDotNet.Programs
             Options = options;
             Error = "NONE";
             Context = context;
+            Source = CL_PROGRAM_SOURCE.TEXT;
 
             var file = File.ReadAllText(filename, Encoding.UTF8);
 
@@ -71,6 +80,7 @@ namespace OpenCLDotNet.Programs
             Options = options;
             Error = "NONE";
             Context = context;
+            Source = CL_PROGRAM_SOURCE.BINARY;
 
             var devices = context.GetDeviceIds();
             uint num_devices = (uint)devices.Length;
@@ -121,6 +131,7 @@ namespace OpenCLDotNet.Programs
             Options = options;
             Error = "NONE";
             Context = context;
+            Source = CL_PROGRAM_SOURCE.BINARY;
 
             var devices = context.GetDeviceIds();
             uint num_devices = (uint)devices.Length;
@@ -150,6 +161,18 @@ namespace OpenCLDotNet.Programs
                 Error = error.ToString();
                 return;
             }
+        }
+
+        private void CheckForKernelArgumentInfo(string options)
+        {
+            HasKernelArgumentInfo = options.Contains("-cl-kernel-arg-info");
+        }
+
+        public List<byte[]> GetBinary()
+        {
+            var binary = new List<byte[]>();
+            GetBinary(binary);
+            return binary;
         }
 
         public unsafe CL_ERROR GetBinary(List<byte[]> binaries)
@@ -230,10 +253,15 @@ namespace OpenCLDotNet.Programs
 
             string str = "";
 
-            if (info == CL_PROGRAM_BUILD_INFO.STATUS)
-                str = GetBuildInfoBuildStatus(info, device).ToString();
-            else if (info == CL_PROGRAM_BUILD_INFO.BINARY_TYPE)
-                str = GetBuildInfoBinaryType(info, device).ToString();
+            if (type == CL_INFO_RETURN_TYPE.ENUM)
+            {
+                var i = GetBuildInfoUInt64(info, device);
+
+                if(info == CL_PROGRAM_BUILD_INFO.BINARY_TYPE)
+                    str = ((CL_PROGRAM_BINARY_TYPE)i).ToString();
+                else if (info == CL_PROGRAM_BUILD_INFO.STATUS)
+                    str = ((CL_BUILD_STATUS)i).ToString();
+            }
             else if (type == CL_INFO_RETURN_TYPE.UINT)
                 str = GetBuildInfoUInt64(info, device).ToString();
             else if (type == CL_INFO_RETURN_TYPE.CHAR_ARRAY)
@@ -288,24 +316,6 @@ namespace OpenCLDotNet.Programs
             return info;
         }
 
-        private CL_PROGRAM_BINARY_TYPE GetBuildInfoBinaryType(CL_PROGRAM_BUILD_INFO name, cl_device_id device)
-        {
-            CL.GetProgramBuildInfoSize(Id, device, name, out uint size);
-
-            UInt64 info;
-            CL.GetProgramBuildInfo(Id, device, name, size, out info);
-            return (CL_PROGRAM_BINARY_TYPE)info;
-        }
-
-        private CL_BUILD_STATUS GetBuildInfoBuildStatus(CL_PROGRAM_BUILD_INFO name, cl_device_id device)
-        {
-            CL.GetProgramBuildInfoSize(Id, device, name, out uint size);
-
-            UInt64 info;
-            CL.GetProgramBuildInfo(Id, device, name, size, out info);
-            return (CL_BUILD_STATUS)info;
-        }
-
         private string GetBuildInfoString(CL_PROGRAM_BUILD_INFO name, cl_device_id device)
         {
             CL.GetProgramBuildInfoSize(Id, device, name, out uint size);
@@ -313,10 +323,11 @@ namespace OpenCLDotNet.Programs
             var info = new cl_char[size];
             CL.GetProgramBuildInfo(Id, device, name, size, info);
 
-            if (info.IsEmpty())
+            var text = info.ToText();
+            if (string.IsNullOrWhiteSpace(text))
                 return "";
             else
-                return info.ToText();
+                return text;
         }
 
         private string GetInfoString(CL_PROGRAM_INFO name)
@@ -326,7 +337,11 @@ namespace OpenCLDotNet.Programs
             var info = new cl_char[size];
             CL.GetProgramInfo(Id, name, size, info);
 
-            return info.ToText();
+            var text = info.ToText();
+            if (string.IsNullOrWhiteSpace(text))
+                return "";
+            else
+                return text;
         }
 
         private bool GetInfoBool(CL_PROGRAM_INFO name)

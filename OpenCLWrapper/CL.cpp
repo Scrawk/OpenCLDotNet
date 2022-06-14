@@ -45,7 +45,7 @@ cl_int CL_GetPlatformInfo(
 
 cl_int CL_UnloadPlatformCompiler(cl_platform_id platform)
 {
-    clUnloadPlatformCompiler(platform);
+    return clUnloadPlatformCompiler(platform);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
@@ -299,13 +299,44 @@ cl_kernel CL_CreateKernel(
     return clCreateKernel(program, kernel_name, errcode_ret);
 }
 
-cl_int CL_SetKernelArg(
+cl_int CL_SetKernelArgMem(
     cl_kernel kernel,
     cl_uint arg_index,
-    size_t arg_size,
-    const void* arg_value)
+    cl_mem arg_value)
 {
-    return clSetKernelArg(kernel, arg_index, arg_size, arg_value);
+    size_t size = sizeof(cl_mem);
+    cl_int err = clSetKernelArg(kernel, arg_index, size, &arg_value);
+    return err;
+}
+
+cl_int CL_SetKernelArgSampler(
+    cl_kernel kernel,
+    cl_uint arg_index,
+    cl_sampler arg_value)
+{
+    size_t size = sizeof(cl_sampler);
+    cl_int err = clSetKernelArg(kernel, arg_index, size, &arg_value);
+    return err;
+}
+
+cl_int CL_SetKernelArgInt(
+    cl_kernel kernel,
+    cl_uint arg_index,
+    cl_int arg_value)
+{
+    size_t size = sizeof(cl_int);
+    cl_int err = clSetKernelArg(kernel, arg_index, size, &arg_value);
+    return err;
+}
+
+cl_int CL_SetKernelArgFloat(
+    cl_kernel kernel,
+    cl_uint arg_index,
+    cl_float arg_value)
+{
+    size_t size = sizeof(cl_float);
+    cl_int err = clSetKernelArg(kernel, arg_index, size, &arg_value);
+    return err;
 }
 
 cl_int CL_GetKernelInfoSize(

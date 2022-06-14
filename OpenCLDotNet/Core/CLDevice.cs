@@ -113,10 +113,11 @@ namespace OpenCLDotNet.Core
             var info = new cl_char[size];
             CL.GetDeviceInfo(Id, name, size, info);
 
-            if (info.IsEmpty())
+            var text = info.ToText();
+            if (string.IsNullOrWhiteSpace(text))
                 return "";
             else
-                return info.ToText();
+                return text;
         }
 
         private cl_object GetInfoObject(CL_DEVICE_INFO name)

@@ -183,12 +183,14 @@ namespace OpenCLDotNet.Utility
             switch (info)
             {
                 case CL_PROGRAM_BUILD_INFO.STATUS:
+                case CL_PROGRAM_BUILD_INFO.BINARY_TYPE:
+                    return CL_INFO_RETURN_TYPE.ENUM;
+
                 case CL_PROGRAM_BUILD_INFO.GLOBAL_VARIABLE_TOTAL_SIZE:
                     return CL_INFO_RETURN_TYPE.UINT;
 
                 case CL_PROGRAM_BUILD_INFO.OPTIONS:
                 case CL_PROGRAM_BUILD_INFO.LOG:
-
                     return CL_INFO_RETURN_TYPE.CHAR_ARRAY;
             }
 
@@ -230,7 +232,54 @@ namespace OpenCLDotNet.Utility
                     return CL_INFO_RETURN_TYPE.BOOL;
 
                 case CL_PROGRAM_INFO.BINARIES:
-                    return CL_INFO_RETURN_TYPE.IGNORE;
+                    return CL_INFO_RETURN_TYPE.UNKNOWN;
+            }
+
+            return CL_INFO_RETURN_TYPE.UNKNOWN;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="info"></param>
+        /// <returns></returns>
+        public static CL_INFO_RETURN_TYPE GetReturnType(CL_KERNEL_INFO info)
+        {
+            switch (info)
+            {
+                case CL_KERNEL_INFO.FUNCTION_NAME:
+                case CL_KERNEL_INFO.ATTRIBUTES:
+                    return CL_INFO_RETURN_TYPE.CHAR_ARRAY;
+
+                case CL_KERNEL_INFO.NUM_ARGS:
+                case CL_KERNEL_INFO.REFERENCE_COUNT:
+                    return CL_INFO_RETURN_TYPE.UINT;
+
+                case CL_KERNEL_INFO.CONTEXT:
+                case CL_KERNEL_INFO.PROGRAM:
+                    return CL_INFO_RETURN_TYPE.OBJECT;  
+            }
+
+            return CL_INFO_RETURN_TYPE.UNKNOWN;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="info"></param>
+        /// <returns></returns>
+        public static CL_INFO_RETURN_TYPE GetReturnType(CL_KERNEL_ARG_INFO info)
+        {
+            switch (info)
+            {
+                case CL_KERNEL_ARG_INFO.ADDRESS_QUALIFIER:
+                case CL_KERNEL_ARG_INFO.ACCESS_QUALIFIER:
+                case CL_KERNEL_ARG_INFO.TYPE_QUALIFIER:
+                    return CL_INFO_RETURN_TYPE.ENUM;
+
+                case CL_KERNEL_ARG_INFO.TYPE_NAME:
+                case CL_KERNEL_ARG_INFO.NAME:
+                    return CL_INFO_RETURN_TYPE.CHAR_ARRAY;
             }
 
             return CL_INFO_RETURN_TYPE.UNKNOWN;
