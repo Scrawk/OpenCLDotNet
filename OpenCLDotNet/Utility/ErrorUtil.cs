@@ -14,7 +14,7 @@ namespace OpenCLDotNet.Utility
         /// <param name="count"></param>
         internal static void CheckArray(Array array, uint count)
         {
-            /// Array can be null if count is 0.
+            // Array can be null if count is 0.
             if (array == null && count == 0)
                 return;
 

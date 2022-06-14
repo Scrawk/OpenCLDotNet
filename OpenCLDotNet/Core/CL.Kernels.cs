@@ -66,7 +66,7 @@ namespace OpenCLDotNet.Core
         public static CL_ERROR GetKernelInfo(
             cl_kernel kernel,
             CL_KERNEL_INFO name,
-            size_t size,
+            uint size,
             [Out] out UInt64 info)
         {
             return CL_GetKernelInfo(kernel, name, size, out info);
@@ -75,7 +75,7 @@ namespace OpenCLDotNet.Core
         public static CL_ERROR GetKernelInfo(
             cl_kernel kernel,
             CL_KERNEL_INFO name,
-            size_t size,
+            uint size,
             [Out] out cl_object info)
         {
             return CL_GetKernelInfo(kernel, name, size, out info);
@@ -84,7 +84,7 @@ namespace OpenCLDotNet.Core
         public static CL_ERROR GetKernelInfo(
             cl_kernel kernel,
             CL_KERNEL_INFO name,
-            size_t size,
+            uint size,
             [Out] cl_char[] info)
         {
             return CL_GetKernelInfo(kernel, name, size, info);
@@ -131,6 +131,39 @@ namespace OpenCLDotNet.Core
             cl_char[] info)
         {
             return CL_GetKernelArgInfo(kernel, index, name, size, info);
+        }
+
+        public static CL_ERROR GetKernelWorkGroupInfoSize(
+            cl_kernel kernel,
+            cl_device_id device,
+            CL_KERNEL_WORK_GROUP_INFO name,
+            [Out] out uint size)
+        {
+            size_t sizet;
+            var err = CL_GetKernelWorkGroupInfoSize(kernel, device, name, out sizet);
+
+            size = (uint)sizet;
+            return err;
+        }
+
+        public static CL_ERROR GetKernelWorkGroupInfo(
+            cl_kernel kernel,
+            cl_device_id device,
+            CL_KERNEL_WORK_GROUP_INFO name,
+            uint size,
+            [Out] out UInt64 info)
+        {
+            return CL_GetKernelWorkGroupInfo(kernel, device, name, size, out info);
+        }
+
+        public static CL_ERROR GetKernelWorkGroupInfo(
+            cl_kernel kernel,
+            cl_device_id device,
+            CL_KERNEL_WORK_GROUP_INFO name,
+            uint size,
+            [Out] size_t[] info)
+        {
+            return CL_GetKernelWorkGroupInfo(kernel, device, name, size, info);
         }
 
         public static CL_ERROR RetainKernel(cl_kernel kernel)
@@ -234,6 +267,50 @@ namespace OpenCLDotNet.Core
             CL_KERNEL_ARG_INFO param_name,
             size_t param_value_size,
             [Out] cl_char[] param_value);
+
+        [DllImport(DLL_NAME, CallingConvention = CDECL)]
+        private static extern CL_ERROR CL_GetKernelWorkGroupInfoSize(
+            cl_kernel kernel,
+            cl_device_id device,
+            CL_KERNEL_WORK_GROUP_INFO param_name,
+            [Out] out size_t param_value_size_ret);
+
+        [DllImport(DLL_NAME, CallingConvention = CDECL)]
+        private static extern CL_ERROR CL_GetKernelWorkGroupInfo(
+            cl_kernel kernel,
+            cl_device_id device,
+            CL_KERNEL_WORK_GROUP_INFO param_name,
+            size_t param_value_size,
+            [Out] out UInt64 param_value);
+
+        [DllImport(DLL_NAME, CallingConvention = CDECL)]
+        private static extern CL_ERROR CL_GetKernelWorkGroupInfo(
+            cl_kernel kernel,
+            cl_device_id device,
+            CL_KERNEL_WORK_GROUP_INFO param_name,
+            size_t param_value_size,
+            [Out] size_t[] param_value);
+
+        /*
+        [DllImport(DLL_NAME, CallingConvention = CDECL)]
+        private static extern CL_ERROR CL_GetKernelSubGroupInfoSize(
+            cl_kernel kernel,
+            cl_device_id device,
+            cl_kernel_sub_group_info param_name,
+            size_t input_value_size,
+            UInt64 input_value,
+            [Out] out size_t param_value_size_ret);
+
+        [DllImport(DLL_NAME, CallingConvention = CDECL)]
+        private static extern CL_ERROR CL_GetKernelSubGroupInfo(
+            cl_kernel kernel,
+            cl_device_id device,
+            cl_kernel_sub_group_info param_name,
+            size_t input_value_size,
+            UInt64 input_value,
+            size_t param_value_size,
+            [Out] out UInt64 param_value);
+        */
 
         [DllImport(DLL_NAME, CallingConvention = CDECL)]
         private static extern CL_ERROR CL_RetainKernel(cl_kernel kernel);

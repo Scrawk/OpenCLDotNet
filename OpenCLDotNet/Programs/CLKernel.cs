@@ -78,14 +78,31 @@ namespace OpenCLDotNet.Programs
             builder.AppendLine("");
             builder.AppendLine("NUM_ARGS : " + NumArguments);
 
-            var values = Enum.GetValues<CL_KERNEL_INFO>();
+            var kernel_values = Enum.GetValues<CL_KERNEL_INFO>();
 
-            foreach (var e in values)
+            foreach (var e in kernel_values)
             {
                 if (e == CL_KERNEL_INFO.NUM_ARGS)
                     continue;
 
                 builder.AppendLine(e + ": " + GetInfo(e));
+            }
+
+            builder.AppendLine("");
+            builder.AppendLine("Kernel work group info:");
+
+            var work_values = Enum.GetValues<CL_KERNEL_WORK_GROUP_INFO>();
+            var devices = Program.Context.GetDeviceIds();
+
+            foreach(var device in devices)
+            {
+                builder.AppendLine("");
+                builder.AppendLine("Device " + device.Value);
+
+                foreach (var e in work_values)
+                {
+                    builder.AppendLine(e + ": " + GetInfo(e, device));
+                }
             }
 
             if (!Program.HasKernelArgumentInfo)
@@ -157,6 +174,27 @@ namespace OpenCLDotNet.Programs
             return str;
         }
 
+        public string GetInfo(CL_KERNEL_WORK_GROUP_INFO info, cl_device_id device)
+        {
+            if (!Program.HasKernelArgumentInfo)
+                return "Unavailable";
+
+            var type = EnumUtil.GetReturnType(info);
+
+            string str = "";
+
+            if (type == CL_INFO_RETURN_TYPE.UINT ||
+                type == CL_INFO_RETURN_TYPE.ULONG ||
+                type == CL_INFO_RETURN_TYPE.SIZET)
+                str = GetInfoUInt64(info, device).ToString();
+            else if (type == CL_INFO_RETURN_TYPE.SIZET_ARRAY)
+                str = GetInfoSizetArray(info, device);
+            else
+                str = "Unknown";
+
+            return str;
+        }
+
         private UInt64 GetInfoUInt64(CL_KERNEL_INFO name)
         {
             CL.GetKernelInfoSize(Id, name, out uint size);
@@ -172,6 +210,15 @@ namespace OpenCLDotNet.Programs
 
             UInt64 info;
             var err = CL.GetKernelArgInfo(Id, index, name, size, out info);
+            return info;
+        }
+
+        private UInt64 GetInfoUInt64(CL_KERNEL_WORK_GROUP_INFO name, cl_device_id device)
+        {
+            CL.GetKernelWorkGroupInfoSize(Id, device, name, out uint size);
+
+            UInt64 info;
+            var err = CL.GetKernelWorkGroupInfo(Id, device, name, size, out info);
             return info;
         }
 
@@ -210,6 +257,28 @@ namespace OpenCLDotNet.Programs
                 return "";
             else
                 return text;
+        }
+
+        private unsafe string GetInfoSizetArray(CL_KERNEL_WORK_GROUP_INFO name, cl_device_id device)
+        {
+            int size_of = sizeof(size_t);
+
+            CL.GetKernelWorkGroupInfoSize(Id, device, name, out uint size);
+
+            var info = new size_t[size / size_of];
+            CL.GetKernelWorkGroupInfo(Id, device, name, size, info);
+
+            string str = "{";
+
+            for (int i = 0; i < info.Length; i++)
+            {
+                str += info[i];
+                if (i < info.Length - 1)
+                    str += ", ";
+            }
+
+            str += "}";
+            return str;
         }
 
         protected override void Release()

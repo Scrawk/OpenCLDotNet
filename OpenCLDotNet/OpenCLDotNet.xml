@@ -274,48 +274,6 @@
             Allow derived class to release the unmanaged memory.
             </summary>
         </member>
-        <member name="M:OpenCLDotNet.Utility.EnumUtil.GetReturnType(OpenCLDotNet.Core.CL_DEVICE_INFO)">
-            <summary>
-            
-            </summary>
-            <param name="info"></param>
-            <returns></returns>
-        </member>
-        <member name="M:OpenCLDotNet.Utility.EnumUtil.GetReturnType(OpenCLDotNet.Core.CL_CONTEXT_INFO)">
-            <summary>
-            
-            </summary>
-            <param name="info"></param>
-            <returns></returns>
-        </member>
-        <member name="M:OpenCLDotNet.Utility.EnumUtil.GetReturnType(OpenCLDotNet.Core.CL_PROGRAM_BUILD_INFO)">
-            <summary>
-            
-            </summary>
-            <param name="info"></param>
-            <returns></returns>
-        </member>
-        <member name="M:OpenCLDotNet.Utility.EnumUtil.GetReturnType(OpenCLDotNet.Core.CL_PROGRAM_INFO)">
-            <summary>
-            
-            </summary>
-            <param name="info"></param>
-            <returns></returns>
-        </member>
-        <member name="M:OpenCLDotNet.Utility.EnumUtil.GetReturnType(OpenCLDotNet.Core.CL_KERNEL_INFO)">
-            <summary>
-            
-            </summary>
-            <param name="info"></param>
-            <returns></returns>
-        </member>
-        <member name="M:OpenCLDotNet.Utility.EnumUtil.GetReturnType(OpenCLDotNet.Core.CL_KERNEL_ARG_INFO)">
-            <summary>
-            
-            </summary>
-            <param name="info"></param>
-            <returns></returns>
-        </member>
         <member name="M:OpenCLDotNet.Utility.ErrorUtil.CheckArray(System.Array,System.UInt32)">
             <summary>
             Check a array that is passed to the c++ dll.

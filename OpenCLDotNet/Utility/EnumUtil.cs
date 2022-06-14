@@ -7,11 +7,7 @@ namespace OpenCLDotNet.Utility
 {
     public class EnumUtil
     {
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="info"></param>
-        /// <returns></returns>
+
         public static CL_INFO_RETURN_TYPE GetReturnType(CL_DEVICE_INFO info)
         {
 
@@ -152,11 +148,6 @@ namespace OpenCLDotNet.Utility
             return CL_INFO_RETURN_TYPE.UNKNOWN;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="info"></param>
-        /// <returns></returns>
         public static CL_INFO_RETURN_TYPE GetReturnType(CL_CONTEXT_INFO info)
         {
             switch (info)
@@ -173,11 +164,6 @@ namespace OpenCLDotNet.Utility
             return CL_INFO_RETURN_TYPE.UNKNOWN;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="info"></param>
-        /// <returns></returns>
         public static CL_INFO_RETURN_TYPE GetReturnType(CL_PROGRAM_BUILD_INFO info)
         {
             switch (info)
@@ -197,11 +183,6 @@ namespace OpenCLDotNet.Utility
             return CL_INFO_RETURN_TYPE.UNKNOWN;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="info"></param>
-        /// <returns></returns>
         public static CL_INFO_RETURN_TYPE GetReturnType(CL_PROGRAM_INFO info)
         {
             switch (info)
@@ -238,11 +219,6 @@ namespace OpenCLDotNet.Utility
             return CL_INFO_RETURN_TYPE.UNKNOWN;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="info"></param>
-        /// <returns></returns>
         public static CL_INFO_RETURN_TYPE GetReturnType(CL_KERNEL_INFO info)
         {
             switch (info)
@@ -263,11 +239,6 @@ namespace OpenCLDotNet.Utility
             return CL_INFO_RETURN_TYPE.UNKNOWN;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="info"></param>
-        /// <returns></returns>
         public static CL_INFO_RETURN_TYPE GetReturnType(CL_KERNEL_ARG_INFO info)
         {
             switch (info)
@@ -280,6 +251,26 @@ namespace OpenCLDotNet.Utility
                 case CL_KERNEL_ARG_INFO.TYPE_NAME:
                 case CL_KERNEL_ARG_INFO.NAME:
                     return CL_INFO_RETURN_TYPE.CHAR_ARRAY;
+            }
+
+            return CL_INFO_RETURN_TYPE.UNKNOWN;
+        }
+
+        public static CL_INFO_RETURN_TYPE GetReturnType(CL_KERNEL_WORK_GROUP_INFO info)
+        {
+            switch (info)
+            {
+                case CL_KERNEL_WORK_GROUP_INFO.WORK_GROUP_SIZE:
+                case CL_KERNEL_WORK_GROUP_INFO.PREFERRED_WORK_GROUP_SIZE_MULTIPLE:
+                    return CL_INFO_RETURN_TYPE.SIZET;
+
+                case CL_KERNEL_WORK_GROUP_INFO.COMPILE_WORK_GROUP_SIZE:
+                case CL_KERNEL_WORK_GROUP_INFO.GLOBAL_WORK_SIZE:
+                    return CL_INFO_RETURN_TYPE.SIZET_ARRAY;
+
+                case CL_KERNEL_WORK_GROUP_INFO.LOCAL_MEM_SIZE:
+                case CL_KERNEL_WORK_GROUP_INFO.PRIVATE_MEM_SIZE:
+                    return CL_INFO_RETURN_TYPE.ULONG;
             }
 
             return CL_INFO_RETURN_TYPE.UNKNOWN;

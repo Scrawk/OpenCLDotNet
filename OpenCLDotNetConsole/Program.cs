@@ -23,14 +23,11 @@ namespace OpenCLDotNetConsole
 			var program = new CLProgram(context, filename, options);
 			program.Print();
 
-			var binary = program.GetBinary();
-			var program2 = new CLProgram(context, binary, options);
-
-			var kernel = new CLKernel(program2, "convolve");
+			var kernel = new CLKernel(program, "convolve");
 
 			kernel.SetIntArg(10, 3);
 
-			//kernel.Print();
+			kernel.Print();
 		}
 
 	}

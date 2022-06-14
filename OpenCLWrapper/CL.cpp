@@ -375,6 +375,54 @@ cl_int CL_GetKernelArgInfo(
     return clGetKernelArgInfo(kernel, arg_indx, param_name, param_value_size, param_value, nullptr);
 }
 
+cl_int CL_GetKernelWorkGroupInfoSize(
+    cl_kernel kernel,
+    cl_device_id device,
+    cl_kernel_work_group_info  param_name,
+    size_t* param_value_size_ret)
+{
+    return clGetKernelWorkGroupInfo(kernel, device, param_name, 
+        0, nullptr, param_value_size_ret);
+}
+
+cl_int CL_GetKernelWorkGroupInfo(
+    cl_kernel kernel,
+    cl_device_id device,
+    cl_kernel_work_group_info  param_name,
+    size_t param_value_size,
+    void* param_value)
+{
+    return clGetKernelWorkGroupInfo(kernel, device, param_name,
+        param_value_size, param_value, nullptr);
+}
+
+/*
+cl_int CL_GetKernelSubGroupInfoSize(
+    cl_kernel kernel,
+    cl_device_id device,
+    cl_kernel_sub_group_info param_name,
+    size_t input_value_size,
+    const void* input_value,
+    size_t* param_value_size_ret)
+{
+    return clGetKernelSubGroupInfo(kernel, device, param_name, input_value_size, input_value,
+        0, nullptr, param_value_size_ret);
+}
+
+cl_int CL_GetKernelSubGroupInfo(
+    cl_kernel kernel,
+    cl_device_id device,
+    cl_kernel_sub_group_info param_name,
+    size_t input_value_size,
+    const void* input_value,
+    size_t param_value_size,
+    void* param_value)
+{
+    return clGetKernelSubGroupInfo(kernel, device, param_name, input_value_size, input_value,
+        param_value_size, param_value, nullptr);
+}
+*/
+
 cl_int CL_RetainKernel(cl_kernel kernel)
 {
     return clRetainKernel(kernel);
