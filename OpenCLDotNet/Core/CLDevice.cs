@@ -89,7 +89,7 @@ namespace OpenCLDotNet.Core
             if (type == CL_INFO_RETURN_TYPE.UINT ||
                 type == CL_INFO_RETURN_TYPE.ULONG ||
                 type == CL_INFO_RETURN_TYPE.SIZET)
-                 str = GetInfoUInt64(info).ToString();
+                str = GetInfoUInt64(info).ToString();
             else if (type == CL_INFO_RETURN_TYPE.BOOL)
                 str = GetInfoBool(info).ToString();
             else if (type == CL_INFO_RETURN_TYPE.OBJECT)
@@ -100,6 +100,8 @@ namespace OpenCLDotNet.Core
                 str = GetInfoSizetArray(info);
             else if (type == CL_INFO_RETURN_TYPE.OBJECT_ARRAY)
                 str = GetInfoObjectArray(info);
+            else
+                str = "Unknown";
 
             return str; 
         }
@@ -111,7 +113,10 @@ namespace OpenCLDotNet.Core
             var info = new cl_char[size];
             CL.GetDeviceInfo(Id, name, size, info);
 
-            return info.ToText();
+            if (info.IsEmpty())
+                return "";
+            else
+                return info.ToText();
         }
 
         private cl_object GetInfoObject(CL_DEVICE_INFO name)
@@ -142,13 +147,9 @@ namespace OpenCLDotNet.Core
             return info;
         }
 
-        private string GetInfoSizetArray(CL_DEVICE_INFO name)
+        private unsafe string GetInfoSizetArray(CL_DEVICE_INFO name)
         {
-            int size_of = 0;
-            unsafe
-            {
-                size_of = sizeof(size_t);
-            }
+            int size_of = sizeof(size_t);
 
             CL.GetDeviceInfoSize(Id, name, out uint size);
 
@@ -168,13 +169,9 @@ namespace OpenCLDotNet.Core
             return str;
         }
 
-        private string GetInfoObjectArray(CL_DEVICE_INFO name)
+        private unsafe string GetInfoObjectArray(CL_DEVICE_INFO name)
         {
-            int size_of = 0;
-            unsafe
-            {
-                size_of = sizeof(cl_object);
-            }
+            int size_of = sizeof(cl_object);
 
             CL.GetDeviceInfoSize(Id, name, out uint size);
 

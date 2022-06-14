@@ -21,7 +21,6 @@ namespace OpenCLDotNetConsole
 
 			var program = new CLProgram(context, filename);
 			program.Print();
-
 		}
 
 	}

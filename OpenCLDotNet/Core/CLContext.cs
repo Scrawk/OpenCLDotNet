@@ -38,12 +38,14 @@ namespace OpenCLDotNet.Core
 
         private CLPlatform Platform { get; set; }
 
+        public int NumDevices => Devices.Count;
+
         private List<CLDevice> Devices { get; set; }
 
         public override string ToString()
         {
             return String.Format("[CLContext: Id={0}, PlatformID={1}, Devices={2}]", 
-                Id.Value, Platform.Id.Value, Devices.Count);
+                Id.Value, Platform.Id.Value, NumDevices);
         }
 
         public cl_device_id[] GetDeviceIds()
@@ -96,6 +98,8 @@ namespace OpenCLDotNet.Core
                 str = GetInfoUInt64(info).ToString();
             else if (type == CL_INFO_RETURN_TYPE.OBJECT_ARRAY)
                 str = GetInfoObjectArray(info);
+            else
+                str = "Unknown";
 
             return str;
         }

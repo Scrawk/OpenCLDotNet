@@ -95,6 +95,15 @@ extern "C"
         size_t length,
         cl_int* errcode_ret);
 
+    CL_WRAPPER_API cl_program CL_CreateProgramWithBinary(
+        cl_context context,
+        cl_uint num_devices,
+        const cl_device_id* device_list,
+        const size_t* lengths,
+        const unsigned char* binaries,
+        cl_int* binary_status,
+        cl_int* errcode_ret);
+
     CL_WRAPPER_API cl_int CL_BuildProgram(
         cl_program program,
         cl_uint num_devices,
@@ -124,6 +133,12 @@ extern "C"
         cl_program_info    param_name,
         size_t             param_value_size,
         void* param_value);
+
+    CL_WRAPPER_API cl_int CL_GetProgramBinaries(
+        cl_program         program,
+        int num_devices,
+        size_t* sizes,
+        unsigned char* binaries);
 
     CL_WRAPPER_API cl_int CL_RetainProgram(cl_program program);
 

@@ -1,5 +1,7 @@
 #include "CL.h"
 
+#include <iostream> 
+
 int CL_VersionNumber()
 {
 	return CL_TARGET_OPENCL_VERSION;
@@ -146,6 +148,39 @@ cl_program CL_CreateProgramWithSource(
     return clCreateProgramWithSource(context, count, &strings, &length, errcode_ret);
 }
 
+CL_WRAPPER_API cl_program CL_CreateProgramWithBinary(
+    cl_context context,
+    cl_uint num_devices,
+    const cl_device_id* device_list,
+    const size_t* lengths,
+    const unsigned char* binaries,
+    cl_int* binary_status,
+    cl_int* errcode_ret)
+{
+    unsigned char** _binaries = new unsigned char*[num_devices];
+
+    int index = 0;
+    for (int i = 0; i < num_devices; i++)
+    {
+        _binaries[i] = new unsigned char[lengths[i]];
+
+        for (int j = 0; j < lengths[i]; j++)
+            _binaries[i][j] = binaries[index++];
+    }
+
+    auto const_bin = (const unsigned char**)_binaries;
+        
+    auto id = clCreateProgramWithBinary(context, num_devices, device_list, lengths, 
+        const_bin, binary_status, errcode_ret);
+
+    for (cl_uint i = 0; i < num_devices; i++)
+        delete[] _binaries[i];
+
+    delete[] _binaries;
+
+    return id;
+}
+
 cl_int CL_BuildProgram(
     cl_program program,
     cl_uint num_devices,
@@ -191,6 +226,50 @@ CL_WRAPPER_API cl_int CL_GetProgramInfo(
     void* param_value)
 {
     return clGetProgramInfo(program, param_name, param_value_size, param_value, nullptr);
+}
+
+CL_WRAPPER_API cl_int CL_GetProgramBinaries(
+    cl_program         program,
+    int num_devices,
+    size_t* sizes,
+    unsigned char* binaries)
+{
+   
+    unsigned char** _binaries = new unsigned char* [num_devices];
+    for (cl_uint i = 0; i < num_devices; i++)
+    {
+        _binaries[i] = new unsigned char[sizes[i]];
+    }
+
+    cl_int err = clGetProgramInfo(program, CL_PROGRAM_BINARIES, 
+        sizeof(unsigned char*) * num_devices, _binaries, NULL);
+
+    if (err != CL_SUCCESS)
+    {
+        for (int i = 0; i < num_devices; i++)
+            delete[] _binaries[i];
+
+        delete[] _binaries;
+        return err;
+    }
+
+    int index = 0;
+    for (int i = 0; i < num_devices; i++)
+    {
+        for (int j = 0; j < sizes[i]; j++)
+        {
+            auto c = _binaries[i][j];
+            binaries[index++] = c;
+        }
+    }
+
+    for (cl_uint i = 0; i < num_devices; i++)
+        delete[] _binaries[i];
+
+    delete[] _binaries;
+
+    return CL_SUCCESS;
+
 }
 
 cl_int CL_RetainProgram(cl_program program)

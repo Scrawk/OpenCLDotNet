@@ -16,11 +16,23 @@ namespace OpenCLDotNet.Programs
             Create(context, filename, options);
         }
 
+        public CLProgram(CLContext context, IList<byte[]> binaries, string options = "")
+        {
+            Create(context, binaries, options);
+        }
+
+        public CLProgram(CLContext context, byte[] binary, string options = "")
+        {
+            Create(context, binary, options);
+        }
+
         public cl_program Id { get; private set; }
 
         public CLContext Context { get; private set; }
 
-        public CL_ERROR Error { get; private set; }
+        public string Error { get; private set; }
+
+        public string Options { get; private set; }
 
         public override string ToString()
         {
@@ -30,7 +42,8 @@ namespace OpenCLDotNet.Programs
 
         private void Create(CLContext context, string filename, string options = "")
         {
-            Error = CL_ERROR.NONE;
+            Options = options;
+            Error = "NONE";
             Context = context;
 
             var file = File.ReadAllText(filename, Encoding.UTF8);
@@ -39,7 +52,7 @@ namespace OpenCLDotNet.Programs
             Id = CL.CreateProgramWithSource(context.Id, file, out error);
             if(error != CL_ERROR.SUCCESS)
             {
-                Error = error;
+                Error = error.ToString();
                 return;
             }
 
@@ -48,10 +61,129 @@ namespace OpenCLDotNet.Programs
             error = CL.BuildProgram(Id, (uint)devices.Length, devices, options);
             if (error != CL_ERROR.SUCCESS)
             {
-                Error = error;
+                Error = error.ToString();
                 return;
             }
- 
+        }
+
+        private unsafe void Create(CLContext context, IList<byte[]> binarys, string options = "")
+        {
+            Options = options;
+            Error = "NONE";
+            Context = context;
+
+            var devices = context.GetDeviceIds();
+            uint num_devices = (uint)devices.Length;
+            if (num_devices != binarys.Count)
+            {
+                Error = "INVALID_NUM_DEVICES";
+                return;
+            }
+
+            int sum = 0;
+            var sizes = new size_t[num_devices];
+            var status = new CL_ERROR[num_devices];
+
+            for (int i = 0; i < num_devices; i++)
+            {
+                sizes[i] = (size_t)binarys[i].Length;
+                sum += binarys[i].Length;
+            }
+
+            int index = 0;
+            var bytes = new Byte[sum];
+            for (int i = 0; i < num_devices; i++)
+            {
+                for (int j = 0; j < binarys[i].Length; j++)
+                    bytes[index++] = binarys[i][j];
+            }
+
+            CL_ERROR error;
+            Id = CL.CreateProgramWithBinary(Context.Id, num_devices, devices, 
+                sizes, bytes, status, out error);
+
+            if (error != CL_ERROR.SUCCESS)
+            {
+                Error = error.ToString();
+                return;
+            }
+
+            error = CL.BuildProgram(Id, (uint)devices.Length, devices, options);
+            if (error != CL_ERROR.SUCCESS)
+            {
+                Error = error.ToString();
+                return;
+            }
+        }
+
+        private unsafe void Create(CLContext context, byte[] binary, string options = "")
+        {
+            Options = options;
+            Error = "NONE";
+            Context = context;
+
+            var devices = context.GetDeviceIds();
+            uint num_devices = (uint)devices.Length;
+            if (num_devices != 1)
+            {
+                Error = "INVALID_NUM_DEVICES";
+                return;
+            }
+
+            var sizes = new size_t[num_devices];
+            var status = new CL_ERROR[num_devices];
+            sizes[0] = (size_t)binary.Length;
+
+            CL_ERROR error;
+            Id = CL.CreateProgramWithBinary(Context.Id, num_devices, devices,
+                sizes, binary, status, out error);
+
+            if (error != CL_ERROR.SUCCESS)
+            {
+                Error = error.ToString();
+                return;
+            }
+
+            error = CL.BuildProgram(Id, (uint)devices.Length, devices, options);
+            if (error != CL_ERROR.SUCCESS)
+            {
+                Error = error.ToString();
+                return;
+            }
+        }
+
+        public unsafe CL_ERROR GetBinary(List<byte[]> binaries)
+        {
+            int num_devices = Context.NumDevices;
+            uint size = (uint)(sizeof(size_t) * num_devices);
+
+            var sizes = new size_t[num_devices];
+            var err = CL.GetProgramInfo(Id, CL_PROGRAM_INFO.BINARY_SIZES, size, sizes);
+            if (err != CL_ERROR.SUCCESS)
+                return err;
+
+            uint binary_size = 0;
+            for (int i = 0; i < num_devices; i++)
+                binary_size += (uint)sizes[i];
+
+            var cl_binaries = new Byte[binary_size];
+            err = CL.GetProgramBinaries(Id, num_devices, sizes, cl_binaries);
+            if (err != CL_ERROR.SUCCESS)
+                return err;
+
+            for (int i = 0; i < num_devices; i++)
+            {
+                var bytes = new byte[sizes[i]];
+
+                for(int j = 0; j < bytes.Length; j++)
+                {
+                    bytes[j] = cl_binaries[i * num_devices + j];
+                }
+
+                binaries.Add(bytes);
+            }
+
+            return CL_ERROR.SUCCESS;
         }
 
         public override void Print(StringBuilder builder)
@@ -126,6 +258,12 @@ namespace OpenCLDotNet.Programs
                 str = GetInfoBool(info).ToString();
             else if (type == CL_INFO_RETURN_TYPE.CHAR_ARRAY)
                 str = GetInfoString(info);
+            else if (type == CL_INFO_RETURN_TYPE.OBJECT_ARRAY)
+                str = GetInfoObjectArray(info);
+            else if (type == CL_INFO_RETURN_TYPE.OBJECT)
+                str = GetInfoObject(info).ToString();
+            else if (type == CL_INFO_RETURN_TYPE.SIZET_ARRAY)
+                str = GetInfoSizetArray(info);
             else
                 str = "Unknown";
 
@@ -175,7 +313,10 @@ namespace OpenCLDotNet.Programs
             var info = new cl_char[size];
             CL.GetProgramBuildInfo(Id, device, name, size, info);
 
-            return info.ToText();
+            if (info.IsEmpty())
+                return "";
+            else
+                return info.ToText();
         }
 
         private string GetInfoString(CL_PROGRAM_INFO name)
@@ -195,6 +336,50 @@ namespace OpenCLDotNet.Programs
             UInt64 info;
             CL.GetProgramInfo(Id, name, size, out info);
             return info > 0;
+        }
+
+        private cl_object GetInfoObject(CL_PROGRAM_INFO name)
+        {
+            CL.GetProgramInfoSize(Id, name, out uint size);
+
+            cl_object info;
+            CL.GetProgramInfo(Id, name, size, out info);
+            return info;
+        }
+
+        private unsafe string GetInfoObjectArray(CL_PROGRAM_INFO name)
+        {
+            int size_of = sizeof(cl_object);
+            CL.GetProgramInfoSize(Id, name, out uint size);
+
+            var info = new cl_object[size / size_of];
+            CL.GetProgramInfo(Id, name, size, info);
+
+            string str = $"[cl_object_array: Count={info.Length}]";
+
+            return str;
+        }
+
+        private unsafe string GetInfoSizetArray(CL_PROGRAM_INFO name)
+        {
+            int size_of = sizeof(size_t);
+
+            CL.GetProgramInfoSize(Id, name, out uint size);
+
+            var info = new size_t[size / size_of];
+            CL.GetProgramInfo(Id, name, size, info);
+
+            string str = "{";
+
+            for (int i = 0; i < info.Length; i++)
+            {
+                str += info[i];
+                if (i < info.Length - 1)
+                    str += ", ";
+            }
+
+            str += "}";
+            return str;
         }
 
         protected override void Release()

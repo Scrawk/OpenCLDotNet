@@ -467,6 +467,19 @@ namespace OpenCLDotNet.Core
             return program;
         }
 
+        public static cl_program CreateProgramWithBinary(
+            cl_context context,
+            cl_uint num_devices,
+            cl_device_id[] device_list,
+            size_t[] lengths,
+            byte[] binaries,
+            CL_ERROR[] binary_status,
+            out CL_ERROR errcode)
+        {
+            return CL_CreateProgramWithBinary(context, num_devices, device_list,
+                    lengths, binaries, binary_status, out errcode);
+        }
+
         public static CL_ERROR BuildProgram(
             cl_program program,
             uint num_devices,
@@ -545,6 +558,45 @@ namespace OpenCLDotNet.Core
         {
             var error = CL_GetProgramInfo(program, name, size, info);
             return error;
+        }
+
+        public static CL_ERROR GetProgramInfo(
+            cl_program program,
+            CL_PROGRAM_INFO name,
+            uint size,
+            out cl_object info)
+        {
+            var error = CL_GetProgramInfo(program, name, size, out info);
+            return error;
+        }
+
+        public static CL_ERROR GetProgramInfo(
+            cl_program program,
+            CL_PROGRAM_INFO name,
+            uint size,
+            cl_object[] info)
+        {
+            var error = CL_GetProgramInfo(program, name, size, info);
+            return error;
+        }
+
+        public static CL_ERROR GetProgramInfo(
+            cl_program program,
+            CL_PROGRAM_INFO name,
+            uint size,
+            size_t[] info)
+        {
+            var error = CL_GetProgramInfo(program, name, size, info);
+            return error;
+        }
+
+        public static CL_ERROR GetProgramBinaries(
+            cl_program program,
+            int num_devices,
+            size_t[] sizes,
+            byte[] binaries)
+        {
+            return CL_GetProgramBinaries(program, num_devices, sizes, binaries);
         }
 
         public static CL_ERROR RetainProgram(cl_program program)
@@ -706,6 +758,16 @@ namespace OpenCLDotNet.Core
             [Out] out cl_int errcode_ret);
 
         [DllImport(DLL_NAME, CallingConvention = CDECL)]
+        private static extern cl_program CL_CreateProgramWithBinary(
+            cl_context context,
+            cl_uint num_devices,
+            cl_device_id[] device_list,
+            size_t[] lengths,
+            byte[] binaries,
+            [Out] CL_ERROR[] binary_status,
+            [Out] out CL_ERROR errcode_ret);
+
+        [DllImport(DLL_NAME, CallingConvention = CDECL)]
         private static extern CL_ERROR CL_BuildProgram(
             cl_program program,
             cl_uint num_devices,
@@ -754,6 +816,34 @@ namespace OpenCLDotNet.Core
             CL_PROGRAM_INFO param_name,
             size_t param_value_size,
             [Out] cl_char[] param_value);
+
+        [DllImport(DLL_NAME, CallingConvention = CDECL)]
+        private static extern CL_ERROR CL_GetProgramInfo(
+            cl_program program,
+            CL_PROGRAM_INFO param_name,
+            size_t param_value_size,
+            [Out] out cl_object param_value);
+
+        [DllImport(DLL_NAME, CallingConvention = CDECL)]
+        private static extern CL_ERROR CL_GetProgramInfo(
+            cl_program program,
+            CL_PROGRAM_INFO param_name,
+            size_t param_value_size,
+            [Out] cl_object[] param_value);
+
+        [DllImport(DLL_NAME, CallingConvention = CDECL)]
+        private static extern CL_ERROR CL_GetProgramInfo(
+            cl_program program,
+            CL_PROGRAM_INFO param_name,
+            size_t param_value_size,
+            [Out] size_t[] param_value);
+
+        [DllImport(DLL_NAME, CallingConvention = CDECL)]
+        private static extern CL_ERROR CL_GetProgramBinaries(
+            cl_program program,
+            int num_devices,
+            size_t[] sizes,
+            [Out] byte[] binaries);
 
         [DllImport(DLL_NAME, CallingConvention = CDECL)]
         private static extern CL_ERROR CL_RetainProgram(cl_program program);
