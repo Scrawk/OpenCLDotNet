@@ -19,7 +19,7 @@ namespace OpenCLDotNet.Core
             return kernel;
         }
 
-        public unsafe static CL_ERROR SetKernelArg(
+        public static CL_ERROR SetKernelArg(
             cl_kernel kernel,
             uint arg_index,
             cl_mem arg_value)
@@ -27,7 +27,7 @@ namespace OpenCLDotNet.Core
             return CL_SetKernelArgMem(kernel, arg_index, arg_value); 
         }
 
-        public unsafe static CL_ERROR SetKernelArg(
+        public static CL_ERROR SetKernelArg(
             cl_kernel kernel,
             uint arg_index,
             cl_sampler arg_value)
@@ -35,7 +35,7 @@ namespace OpenCLDotNet.Core
             return CL_SetKernelArgSampler(kernel, arg_index, arg_value);
         }
 
-        public unsafe static CL_ERROR SetKernelArg(
+        public static CL_ERROR SetKernelArg(
             cl_kernel kernel,
             uint arg_index,
             int arg_value)
@@ -43,7 +43,7 @@ namespace OpenCLDotNet.Core
             return CL_SetKernelArgInt(kernel, arg_index, arg_value);
         }
 
-        public unsafe static CL_ERROR SetKernelArg(
+        public static CL_ERROR SetKernelArg(
             cl_kernel kernel,
             uint arg_index,
             float arg_value)
