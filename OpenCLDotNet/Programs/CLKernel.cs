@@ -4,6 +4,7 @@ using System.Text;
 
 using OpenCLDotNet.Core;
 using OpenCLDotNet.Utility;
+using OpenCLDotNet.Buffers;
 
 namespace OpenCLDotNet.Programs
 {
@@ -49,9 +50,9 @@ namespace OpenCLDotNet.Programs
             NumArguments = (uint)GetInfoUInt64(CL_KERNEL_INFO.NUM_ARGS);
         }
 
-        public CL_ERROR SetMemArg(cl_mem arg, uint index)
+        public CL_ERROR SetBufferArg(CLBuffer arg, uint index)
         {
-            return CL.SetKernelArg(Id, index, arg);
+            return CL.SetKernelArg(Id, index, arg.Id);
         }
 
         public CL_ERROR SetSamplerArg(cl_sampler arg, uint index)

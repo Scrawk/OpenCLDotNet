@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using OpenCLDotNet.Utility;
 using OpenCLDotNet.Core;
 using OpenCLDotNet.Programs;
+using OpenCLDotNet.Buffers;
 
 namespace OpenCLDotNetConsole
 {
@@ -21,13 +22,20 @@ namespace OpenCLDotNetConsole
 
 			var options = "-cl-kernel-arg-info";
 			var program = new CLProgram(context, filename, options);
-			program.Print();
+			//program.Print();
 
-			var kernel = new CLKernel(program, "convolve");
+			//var kernel = new CLKernel(program, "convolve");
+			//kernel.SetIntArg(10, 3);
+			//kernel.Print();
 
-			kernel.SetIntArg(10, 3);
+			var data = new float[100];
 
-			kernel.Print();
+			var buffer = new CLBuffer(context, data);
+			buffer.Print();
+
+			var region = new CLBufferRegion(0, 10);
+			var sub_buffer = new CLSubBuffer(buffer, region);
+			sub_buffer.Print();
 		}
 
 	}

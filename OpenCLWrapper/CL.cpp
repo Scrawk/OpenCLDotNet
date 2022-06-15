@@ -432,3 +432,37 @@ cl_int CL_ReleaseKernel(cl_kernel kernel)
 {
     return clReleaseKernel(kernel);
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+//                                BUFFERS FUNCTIONS                                           ///
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+CL_WRAPPER_API cl_mem CL_CreateBuffer(
+    cl_context context,
+    cl_mem_flags flags,
+    size_t size,
+    void* data,
+    cl_int* errcode_ret)
+{
+    return clCreateBuffer(context, flags, size, data, errcode_ret);
+}
+
+CL_WRAPPER_API cl_mem CL_CreateSubBuffer(
+    cl_mem  buffer,
+    cl_mem_flags flags,
+    cl_buffer_create_type buffer_create_type,
+    const void* buffer_create_info,
+    cl_int* errcode_ret)
+{
+    return clCreateSubBuffer(buffer, flags, buffer_create_type, buffer_create_info, errcode_ret);
+}
+
+cl_int CL_RetainMemObject(cl_mem mem)
+{
+    return clRetainMemObject(mem);
+}
+
+cl_int CL_ReleaseMemObject(cl_mem mem)
+{
+    return clReleaseMemObject(mem);
+}

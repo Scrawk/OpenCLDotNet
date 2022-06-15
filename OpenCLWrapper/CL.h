@@ -232,8 +232,30 @@ extern "C"
         void* param_value);
         */
 
-    CL_WRAPPER_API cl_int CL_RetainKernel(cl_kernel    kernel);
+    CL_WRAPPER_API cl_int CL_RetainKernel(cl_kernel kernel);
 
-    CL_WRAPPER_API cl_int CL_ReleaseKernel(cl_kernel   kernel);
+    CL_WRAPPER_API cl_int CL_ReleaseKernel(cl_kernel kernel);
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////
+    //                                BUFFERS FUNCTIONS                                           ///
+    ///////////////////////////////////////////////////////////////////////////////////////////////
+
+    CL_WRAPPER_API cl_mem CL_CreateBuffer(
+        cl_context   context,
+        cl_mem_flags flags,
+        size_t       size,
+        void* data,
+        cl_int* errcode_ret);
+
+    CL_WRAPPER_API cl_mem CL_CreateSubBuffer(
+        cl_mem  buffer,
+        cl_mem_flags flags,
+        cl_buffer_create_type buffer_create_type,
+        const void* buffer_create_info,
+        cl_int* errcode_ret);
+
+    CL_WRAPPER_API cl_int CL_RetainMemObject(cl_mem mem);
+
+    CL_WRAPPER_API cl_int CL_ReleaseMemObject(cl_mem mem);
 
 }
