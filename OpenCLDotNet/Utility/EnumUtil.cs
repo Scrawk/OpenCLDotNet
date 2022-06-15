@@ -8,6 +8,88 @@ namespace OpenCLDotNet.Utility
     public class EnumUtil
     {
 
+        public static uint GetNumChannels(CL_CHANNEL_ORDER order)
+        {
+            switch (order)
+            {
+                case CL_CHANNEL_ORDER.R:
+                case CL_CHANNEL_ORDER.A:
+                case CL_CHANNEL_ORDER.INTENSITY:
+                case CL_CHANNEL_ORDER.LUMINANCE:
+                case CL_CHANNEL_ORDER.Rx:
+                case CL_CHANNEL_ORDER.DEPTH:
+                    return 1;
+
+                case CL_CHANNEL_ORDER.RG:
+                case CL_CHANNEL_ORDER.RA:
+                case CL_CHANNEL_ORDER.RGx:
+                case CL_CHANNEL_ORDER.DEPTH_STENCIL:
+                    return 2;
+
+                case CL_CHANNEL_ORDER.RGB:
+                case CL_CHANNEL_ORDER.RGBx:
+                case CL_CHANNEL_ORDER.sRGB:
+                case CL_CHANNEL_ORDER.sRGBx:
+                    return 3;
+
+                case CL_CHANNEL_ORDER.RGBA:
+                case CL_CHANNEL_ORDER.BGRA:
+                case CL_CHANNEL_ORDER.ARGB:
+                case CL_CHANNEL_ORDER.sRGBA:
+                case CL_CHANNEL_ORDER.sBGRA:
+                case CL_CHANNEL_ORDER.ABGR:
+                    return 4;
+            }
+
+            return 0;
+        }
+
+        public static bool IsValidChannel(CL_CHANNEL_ORDER order, CL_CHANNEL_TYPE type)
+        {
+            switch (order)
+            {
+                case CL_CHANNEL_ORDER.INTENSITY:
+                case CL_CHANNEL_ORDER.LUMINANCE:
+                    {
+                        if (type == CL_CHANNEL_TYPE.UNORM_INT8 ||
+                           type == CL_CHANNEL_TYPE.UNORM_INT16 ||
+                           type == CL_CHANNEL_TYPE.SNORM_INT8 ||
+                           type == CL_CHANNEL_TYPE.SNORM_INT16 ||
+                           type == CL_CHANNEL_TYPE.HALF_FLOAT ||
+                           type == CL_CHANNEL_TYPE.FLOAT)
+                            return true;
+                        else
+                            return false;
+                    }
+
+                case CL_CHANNEL_ORDER.RGB:
+                case CL_CHANNEL_ORDER.RGBx:
+                    {
+                        if (type == CL_CHANNEL_TYPE.UNORM_SHORT_555 ||
+                           type == CL_CHANNEL_TYPE.UNORM_SHORT_565 ||
+                           type == CL_CHANNEL_TYPE.UNORM_INT_101010)
+                            return true;
+                        else
+                            return false;
+                    }
+
+                case CL_CHANNEL_ORDER.RGBA:
+                case CL_CHANNEL_ORDER.ARGB:
+                case CL_CHANNEL_ORDER.BGRA:
+                    {
+                        if (type == CL_CHANNEL_TYPE.SIGNED_INT8 ||
+                           type == CL_CHANNEL_TYPE.UNSIGNED_INT8 ||
+                           type == CL_CHANNEL_TYPE.UNORM_INT8 ||
+                           type == CL_CHANNEL_TYPE.SNORM_INT8)
+                            return true;
+                        else
+                            return false;
+                    }
+            }
+
+            return true;
+        }
+
         public static CL_INFO_RETURN_TYPE GetReturnType(CL_DEVICE_INFO info)
         {
 
@@ -304,6 +386,30 @@ namespace OpenCLDotNet.Utility
 
                 //case CL_MEM_INFO.PROPERTIES:
                 //    break;
+            }
+
+            return CL_INFO_RETURN_TYPE.UNKNOWN;
+        }
+
+        public static CL_INFO_RETURN_TYPE GetReturnType(CL_IMAGE_INFO info)
+        {
+            switch (info)
+            {
+                case CL_IMAGE_INFO.FORMAT:
+                    return CL_INFO_RETURN_TYPE.STRUCT;
+
+                case CL_IMAGE_INFO.ELEMENT_SIZE:
+                case CL_IMAGE_INFO.ROW_PITCH:
+                case CL_IMAGE_INFO.SLICE_PITCH:
+                case CL_IMAGE_INFO.WIDTH:
+                case CL_IMAGE_INFO.HEIGHT:
+                case CL_IMAGE_INFO.DEPTH:
+                case CL_IMAGE_INFO.ARRAY_SIZE:
+                    return CL_INFO_RETURN_TYPE.SIZET;
+
+                case CL_IMAGE_INFO.NUM_MIP_LEVELS:
+                case CL_IMAGE_INFO.NUM_SAMPLES:
+                    return CL_INFO_RETURN_TYPE.UINT;
             }
 
             return CL_INFO_RETURN_TYPE.UNKNOWN;

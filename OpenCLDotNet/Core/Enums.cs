@@ -21,6 +21,7 @@ namespace OpenCLDotNet.Core
         OBJECT_ARRAY,
         ENUM,
         VOID_PTR,
+        STRUCT,
         UNKNOWN
     }
 
@@ -452,7 +453,7 @@ namespace OpenCLDotNet.Core
         HEIGHT = 0x1115,
         DEPTH = 0x1116,
         ARRAY_SIZE = 0x1117,
-        BUFFER = 0x1118,
+        //BUFFER = 0x1118,deprecated
         NUM_MIP_LEVELS = 0x1119,
         NUM_SAMPLES = 0x111A
     }

@@ -30,6 +30,8 @@ namespace OpenCLDotNet.Core
 
         public CL_DEVICE_TYPE Type { get; private set; }
 
+        public bool SupportsImages { get; private set; }
+
         public bool IsGPU => Type == CL_DEVICE_TYPE.GPU;
 
         private List<string> Extensions { get; set; }
@@ -55,6 +57,7 @@ namespace OpenCLDotNet.Core
             builder.AppendLine("Version: " + Version);
             builder.AppendLine("Profile: " + Profile);
             builder.AppendLine("Type: " + Type);
+            builder.AppendLine("SupportsImages: " + SupportsImages);
             builder.AppendLine("Extensions: ");
 
             GetExtensions();
@@ -72,7 +75,8 @@ namespace OpenCLDotNet.Core
                    e == CL_DEVICE_INFO.VERSION ||
                    e == CL_DEVICE_INFO.PROFILE ||
                    e == CL_DEVICE_INFO.EXTENSIONS ||
-                   e == CL_DEVICE_INFO.TYPE)
+                   e == CL_DEVICE_INFO.TYPE||
+                   e == CL_DEVICE_INFO.IMAGE_SUPPORT)
                     continue;
 
                 builder.AppendLine(e + ": " + GetInfo(e));
@@ -190,6 +194,7 @@ namespace OpenCLDotNet.Core
             Name = GetInfoString(CL_DEVICE_INFO.NAME);
             Version = GetInfoString(CL_DEVICE_INFO.VERSION);
             Profile = GetInfoString(CL_DEVICE_INFO.PROFILE);
+            SupportsImages = GetInfoBool(CL_DEVICE_INFO.IMAGE_SUPPORT);
 
             var type = GetInfoUInt64(CL_DEVICE_INFO.TYPE);
             Type = (CL_DEVICE_TYPE)type;

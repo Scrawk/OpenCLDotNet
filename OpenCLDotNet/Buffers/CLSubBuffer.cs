@@ -34,10 +34,14 @@ namespace OpenCLDotNet.Buffers
 
         public override string ToString()
         {
+            var read_write = "";
+            read_write += CanRead ? "T/" : "F/";
+            read_write += CanWrite ? "T" : "F";
+
             string region = "{" + Region.Origion + ", " + Region.Size + "}";
 
-            return String.Format("[CLSubBuffer: Id={0}, BufferId={1}, Region={2}, Error={3}]",
-                Id.Value, Buffer.Id.Value, region, Error);
+            return String.Format("[CLSubBuffer: Id={0}, BufferId={1}, ReadWrite={2}, Region={3}, Error={4}]",
+                Id.Value, Buffer.Id.Value, read_write, region, Error);
         }
 
         private void Create(CLBuffer buffer, CLBufferRegion region, CL_MEM_FLAGS flags)

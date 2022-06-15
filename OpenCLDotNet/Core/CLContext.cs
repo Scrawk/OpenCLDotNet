@@ -69,6 +69,20 @@ namespace OpenCLDotNet.Core
             return false;
         }
 
+        public bool DeviceSupportsImages(int index)
+        {
+            return Devices[index].SupportsImages;
+        }
+
+        public bool SupportsImages()
+        {
+            foreach (var device in Devices)
+                if (!device.SupportsImages)
+                    return false;
+
+            return true;    
+        }
+
         public override void Print(StringBuilder builder)
         {
             builder.AppendLine(ToString());

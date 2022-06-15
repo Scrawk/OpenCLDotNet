@@ -18,7 +18,11 @@ namespace OpenCLDotNet.Core
             float[] data,
             out CL_ERROR error)
         {
-            size_t size = (size_t)(sizeof(float) * data.Length);
+            size_t size = 0;
+
+            if(data != null)
+                size = (size_t)(sizeof(float) * data.Length);
+
             return CL_CreateBuffer(context, flags, size, data, out error);
         }
 
@@ -39,7 +43,6 @@ namespace OpenCLDotNet.Core
         {
             size_t sizet;
             var err = CL_GetMemObjectInfoSize(memobj, name, out sizet);
-
             size = (uint)sizet;
             return err;
         }
@@ -49,6 +52,15 @@ namespace OpenCLDotNet.Core
             CL_MEM_INFO name,
             uint size,
             out UInt64 info)
+        {
+            return CL_GetMemObjectInfo(memobj, name, size, out info);
+        }
+
+        public static CL_ERROR GetMemObjectInfo(
+            cl_mem memobj,
+            CL_MEM_INFO name,
+            uint size,
+            out UIntPtr info)
         {
             return CL_GetMemObjectInfo(memobj, name, size, out info);
         }
@@ -104,6 +116,13 @@ namespace OpenCLDotNet.Core
             CL_MEM_INFO name,
             size_t size,
             [Out] out UInt64 info);
+
+        [DllImport(DLL_NAME, CallingConvention = CDECL)]
+        private static extern CL_ERROR CL_GetMemObjectInfo(
+            cl_mem memobj,
+            CL_MEM_INFO name,
+            size_t size,
+            [Out] out UIntPtr info);
 
         [DllImport(DLL_NAME, CallingConvention = CDECL)]
         private static extern CL_ERROR CL_GetMemObjectInfo(

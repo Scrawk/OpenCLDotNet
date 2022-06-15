@@ -24,8 +24,12 @@ namespace OpenCLDotNet.Buffers
 
         public override string ToString()
         {
-            return String.Format("[CLBuffer: Id={0}, ContextId={1}, CanRead={2}, CanWrite={3}, Error={4}]",
-                Id.Value, Context.Id.Value, CanRead, CanWrite, Error);
+            var read_write = "";
+            read_write += CanRead ? "T/" : "F/";
+            read_write += CanWrite ? "T" : "F";
+
+            return String.Format("[CLBuffer: Id={0}, ContextId={1}, ReadWrite={2}, Error={3}]",
+                Id.Value, Context.Id.Value, read_write, Error);
         }
 
         private void Create(CLContext context, CL_MEM_FLAGS flags, float[] data)

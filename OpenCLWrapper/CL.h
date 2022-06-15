@@ -269,4 +269,67 @@ extern "C"
 
     CL_WRAPPER_API cl_int CL_ReleaseMemObject(cl_mem mem);
 
+/////////////////////////////////////////////////////////////////////////////////////////////////
+//                                IMAGE FUNCTIONS                                            ///
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+    CL_WRAPPER_API cl_mem CL_CreateImage(
+        cl_context context,
+        cl_mem_flags flags,
+        cl_image_format image_format,
+        cl_image_desc image_desc,
+        void* host_ptr,
+        cl_int* errcode_ret);
+
+    CL_WRAPPER_API cl_int CL_GetSupportedImageFormatsSize(
+        cl_context context,
+        cl_mem_flags flags,
+        cl_mem_object_type image_type,
+        cl_uint num_entries,
+        cl_uint* num_image_formats);
+
+    CL_WRAPPER_API cl_int CL_GetSupportedImageFormats(
+        cl_context context,
+        cl_mem_flags flags,
+        cl_mem_object_type image_type,
+        cl_uint num_entries,
+        cl_image_format* image_formats);
+
+    CL_WRAPPER_API cl_int CL_GetImageInfoSize(
+        cl_mem image,
+        cl_image_info param_name,
+        size_t* param_value_size_ret);
+
+    CL_WRAPPER_API cl_int CL_GetImageInfo(
+        cl_mem image,
+        cl_image_info param_name,
+        size_t param_value_size,
+        void* param_value);
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+//                                SAMPLER FUNCTIONS                                          ///
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+    CL_WRAPPER_API cl_sampler CL_CreateSamplerWithProperties(
+        cl_context context,
+        const cl_sampler_properties* sampler_properties,
+        cl_int* errcode_ret);
+
+    CL_WRAPPER_API cl_int CL_GetSamplerInfoSize(
+        cl_sampler sampler,
+            cl_sampler_info param_name,
+            size_t* param_value_size_ret);
+
+    CL_WRAPPER_API cl_int CL_GetSamplerInfo(
+        cl_sampler sampler,
+        cl_sampler_info param_name,
+        size_t param_value_size,
+        void* param_value);
+
+    CL_WRAPPER_API cl_int CL_RetainSampler(cl_sampler sampler);
+
+    CL_WRAPPER_API cl_int CL_ReleaseSampler(cl_sampler sampler);
+
+
+
 }

@@ -57,7 +57,7 @@ namespace OpenCLDotNet.Buffers
         {
             var type = EnumUtil.GetReturnType(info);
 
-            string str = "Unknown";
+            string str = CL_INFO_RETURN_TYPE.UNKNOWN.ToString();
 
             if (type == CL_INFO_RETURN_TYPE.ENUM)
             {
@@ -74,15 +74,17 @@ namespace OpenCLDotNet.Buffers
             {
                 str = GetInfoUInt64(info).ToString();
             }
-                
             else if (type == CL_INFO_RETURN_TYPE.BOOL)
             {
                 str = GetInfoBool(info).ToString();
             }
-                
             else if (type == CL_INFO_RETURN_TYPE.OBJECT)
             {
                 str = GetInfoObject(info).ToString();
+            }
+            else if (type == CL_INFO_RETURN_TYPE.VOID_PTR)
+            {
+                str = GetInfoUIntPtr(info).ToString();
             }
 
             return str;
@@ -93,6 +95,15 @@ namespace OpenCLDotNet.Buffers
             CL.GetMemObjectInfoSize(Id, name, out uint size);
 
             UInt64 info;
+            CL.GetMemObjectInfo(Id, name, size, out info);
+            return info;
+        }
+
+        private UIntPtr GetInfoUIntPtr(CL_MEM_INFO name)
+        {
+            CL.GetMemObjectInfoSize(Id, name, out uint size);
+
+            UIntPtr info;
             CL.GetMemObjectInfo(Id, name, size, out info);
             return info;
         }
