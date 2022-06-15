@@ -55,6 +55,11 @@ namespace OpenCLDotNet.Programs
             return CL.SetKernelArg(Id, index, arg.Id);
         }
 
+        public CL_ERROR SetBufferArg(CLSubBuffer arg, uint index)
+        {
+            return CL.SetKernelArg(Id, index, arg.Id);
+        }
+
         public CL_ERROR SetSamplerArg(cl_sampler arg, uint index)
         {
             return CL.SetKernelArg(Id, index, arg);

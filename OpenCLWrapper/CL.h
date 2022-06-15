@@ -254,6 +254,17 @@ extern "C"
         const void* buffer_create_info,
         cl_int* errcode_ret);
 
+    CL_WRAPPER_API cl_int CL_GetMemObjectInfoSize(
+            cl_mem memobj,
+            cl_mem_info param_name,
+            size_t* param_value_size_ret);
+
+    CL_WRAPPER_API cl_int CL_GetMemObjectInfo(
+        cl_mem memobj,
+        cl_mem_info param_name,
+        size_t param_value_size,
+        void* param_value);
+
     CL_WRAPPER_API cl_int CL_RetainMemObject(cl_mem mem);
 
     CL_WRAPPER_API cl_int CL_ReleaseMemObject(cl_mem mem);

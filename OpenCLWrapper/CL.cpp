@@ -457,6 +457,23 @@ CL_WRAPPER_API cl_mem CL_CreateSubBuffer(
     return clCreateSubBuffer(buffer, flags, buffer_create_type, buffer_create_info, errcode_ret);
 }
 
+CL_WRAPPER_API cl_int CL_GetMemObjectInfoSize(
+    cl_mem memobj,
+    cl_mem_info param_name,
+    size_t* param_value_size_ret)
+{
+    return clGetMemObjectInfo(memobj, param_name, 0, nullptr, param_value_size_ret);
+}
+
+CL_WRAPPER_API cl_int CL_GetMemObjectInfo(
+    cl_mem memobj,
+    cl_mem_info param_name,
+    size_t param_value_size,
+    void* param_value)
+{
+    return clGetMemObjectInfo(memobj, param_name, param_value_size, param_value, nullptr);
+}
+
 cl_int CL_RetainMemObject(cl_mem mem)
 {
     return clRetainMemObject(mem);

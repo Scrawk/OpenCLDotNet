@@ -7,7 +7,7 @@ using OpenCLDotNet.Utility;
 
 namespace OpenCLDotNet.Buffers
 {
-    public class CLBuffer : CLObject
+    public class CLBuffer : CLMemObject
     {
         public CLBuffer(CLContext context, float[] data)
         {
@@ -20,33 +20,7 @@ namespace OpenCLDotNet.Buffers
             Create(context, flags, data);
         }
 
-        public cl_mem Id { get; private set; }
-
-        public string Error { get; private set; }
-
         public CLContext Context { get; private set; }
-
-        public CL_MEM_FLAGS Flags { get; private set; }
-
-        public bool CanReadWrite => CanRead && CanWrite;
-
-        public bool CanRead
-        {
-            get 
-            { 
-                return Flags.HasFlag(CL_MEM_FLAGS.READ_ONLY) || 
-                       Flags.HasFlag(CL_MEM_FLAGS.READ_WRITE); 
-            }
-        }
-
-        public bool CanWrite
-        {
-            get
-            {
-                return Flags.HasFlag(CL_MEM_FLAGS.WRITE_ONLY) ||
-                       Flags.HasFlag(CL_MEM_FLAGS.READ_WRITE);
-            }
-        }
 
         public override string ToString()
         {
@@ -69,15 +43,5 @@ namespace OpenCLDotNet.Buffers
             }
         }
 
-        public override void Print(StringBuilder builder)
-        {
-            builder.AppendLine(ToString());
-
-        }
-
-        protected override void Release()
-        {
-            CL.ReleaseMemObject(Id);  
-        }
     }
 }

@@ -20,6 +20,7 @@ namespace OpenCLDotNet.Core
         OBJECT,
         OBJECT_ARRAY,
         ENUM,
+        VOID_PTR,
         UNKNOWN
     }
 
@@ -436,8 +437,8 @@ namespace OpenCLDotNet.Core
         CONTEXT = 0x1106,
         ASSOCIATED_MEMOBJECT = 0x1107,
         OFFSET = 0x1108,
-        USES_SVM_POINTER = 0x1109,
-        PROPERTIES = 0x110A
+        USES_SVM_POINTER = 0x1109
+        //PROPERTIES = 0x110A
     }
 
     // image_info 

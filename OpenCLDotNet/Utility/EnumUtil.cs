@@ -276,5 +276,38 @@ namespace OpenCLDotNet.Utility
             return CL_INFO_RETURN_TYPE.UNKNOWN;
         }
 
+        public static CL_INFO_RETURN_TYPE GetReturnType(CL_MEM_INFO info)
+        {
+            switch (info)
+            {
+                case CL_MEM_INFO.TYPE:
+                case CL_MEM_INFO.FLAGS:
+                    return CL_INFO_RETURN_TYPE.ENUM;
+
+                case CL_MEM_INFO.SIZE:
+                case CL_MEM_INFO.OFFSET:
+                    return CL_INFO_RETURN_TYPE.SIZET;
+
+                case CL_MEM_INFO.REFERENCE_COUNT:
+                case CL_MEM_INFO.MAP_COUNT:
+                    return CL_INFO_RETURN_TYPE.UINT;
+
+                case CL_MEM_INFO.CONTEXT:
+                case CL_MEM_INFO.ASSOCIATED_MEMOBJECT:
+                    return CL_INFO_RETURN_TYPE.OBJECT;
+
+                case CL_MEM_INFO.USES_SVM_POINTER:
+                    return CL_INFO_RETURN_TYPE.BOOL;
+
+                case CL_MEM_INFO.HOST_PTR:
+                    return CL_INFO_RETURN_TYPE.VOID_PTR;
+
+                //case CL_MEM_INFO.PROPERTIES:
+                //    break;
+            }
+
+            return CL_INFO_RETURN_TYPE.UNKNOWN;
+        }
+
     }
 }

@@ -7,7 +7,7 @@ using OpenCLDotNet.Utility;
 
 namespace OpenCLDotNet.Buffers
 {
-    public class CLSubBuffer : CLObject
+    public class CLSubBuffer : CLMemObject
     {
         public CLSubBuffer(CLBuffer buffer, CLBufferRegion region)
         {
@@ -28,13 +28,7 @@ namespace OpenCLDotNet.Buffers
             Create(buffer, region, flags);
         }
 
-        public cl_mem Id { get; private set; }
-
-        public string Error { get; private set; }
-
         public CLBuffer Buffer { get; private set; }
-
-        public CL_MEM_FLAGS Flags { get; private set; }
 
         public CLBufferRegion Region { get; private set; }
 
@@ -63,14 +57,6 @@ namespace OpenCLDotNet.Buffers
             }
         }
 
-        public override void Print(StringBuilder builder)
-        {
-            builder.AppendLine(ToString());
-        }
 
-        protected override void Release()
-        {
-            CL.ReleaseMemObject(Id);
-        }
     }
 }
