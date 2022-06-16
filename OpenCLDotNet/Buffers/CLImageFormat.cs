@@ -5,22 +5,22 @@ using OpenCLDotNet.Core;
 
 namespace OpenCLDotNet.Buffers
 {
-    public readonly struct CLImageFormat
+    public record struct CLImageFormat
     {
-        public readonly CL_CHANNEL_ORDER Order {  get; init; }
+        public CL_CHANNEL_ORDER ChannelOrder;
 
-        public readonly CL_CHANNEL_TYPE Type { get; init; }
+        public CL_CHANNEL_TYPE ChannelType;
 
         public CLImageFormat(CL_CHANNEL_ORDER order, CL_CHANNEL_TYPE type)
         {
-            Order = order;
-            Type = type;
+            ChannelOrder = order;
+            ChannelType = type;
         }
 
         public override string ToString()
         {
             return String.Format("[CLImageFormat: Order={0}, Type={1}]",
-                Order, Type);
+                ChannelOrder, ChannelType);
         }
     }
 }

@@ -25,8 +25,6 @@ namespace OpenCLDotNet.Programs
 
         public uint NumArguments { get; private set; }
 
-        public string Error { get; private set; }
-
         public override string ToString()
         {
             return String.Format("[CLKernel: Id={0}, Name={1}, NumArguments={2}, ProgramID={3}, Error={4}]",
@@ -35,12 +33,12 @@ namespace OpenCLDotNet.Programs
 
         private void Create(CLProgram program, string name)
         {
-            Error = "NONE";
+            ResetErrorCode();
             Program = program;
             Name = name;
 
             CL_ERROR err;
-            Id = CL.CreateKernel(Program.Id, name.ToCLCharArray(), out err);
+            Id = Core.CL.CreateKernel(Program.Id, name.ToCLCharArray(), out err);
             if(err != CL_ERROR.SUCCESS)
             {
                 Error = err.ToString();
@@ -52,27 +50,27 @@ namespace OpenCLDotNet.Programs
 
         public CL_ERROR SetBufferArg(CLBuffer arg, uint index)
         {
-            return CL.SetKernelArg(Id, index, arg.Id);
+            return Core.CL.SetKernelArg(Id, index, arg.Id);
         }
 
         public CL_ERROR SetBufferArg(CLSubBuffer arg, uint index)
         {
-            return CL.SetKernelArg(Id, index, arg.Id);
+            return Core.CL.SetKernelArg(Id, index, arg.Id);
         }
 
         public CL_ERROR SetSamplerArg(cl_sampler arg, uint index)
         {
-            return CL.SetKernelArg(Id, index, arg);
+            return Core.CL.SetKernelArg(Id, index, arg);
         }
 
         public CL_ERROR SetIntArg(int arg, uint index)
         {
-            return CL.SetKernelArg(Id, index, arg);
+            return Core.CL.SetKernelArg(Id, index, arg);
         }
 
         public CL_ERROR SetFloatArg(float arg, uint index)
         {
-            return CL.SetKernelArg(Id, index, arg);
+            return Core.CL.SetKernelArg(Id, index, arg);
         }
 
         public override void Print(StringBuilder builder)
@@ -134,7 +132,7 @@ namespace OpenCLDotNet.Programs
 
         public string GetInfo(CL_KERNEL_INFO info)
         {
-            var type = EnumUtil.GetReturnType(info);
+            var type = CL.GetReturnType(info);
 
             string str = "";
 
@@ -155,7 +153,7 @@ namespace OpenCLDotNet.Programs
             if (!Program.HasKernelArgumentInfo)
                 return "Unavailable";
 
-            var type = EnumUtil.GetReturnType(info);
+            var type = CL.GetReturnType(info);
 
             string str = "";
 
@@ -185,7 +183,7 @@ namespace OpenCLDotNet.Programs
             if (!Program.HasKernelArgumentInfo)
                 return "Unavailable";
 
-            var type = EnumUtil.GetReturnType(info);
+            var type = CL.GetReturnType(info);
 
             string str = "";
 
@@ -203,37 +201,37 @@ namespace OpenCLDotNet.Programs
 
         private UInt64 GetInfoUInt64(CL_KERNEL_INFO name)
         {
-            CL.GetKernelInfoSize(Id, name, out uint size);
+            Core.CL.GetKernelInfoSize(Id, name, out uint size);
 
             UInt64 info;
-            CL.GetKernelInfo(Id, name, size, out info);
+            Core.CL.GetKernelInfo(Id, name, size, out info);
             return info;
         }
 
         private UInt64 GetInfoUInt64(CL_KERNEL_ARG_INFO name, uint index)
         {
-            CL.GetKernelArgInfoSize(Id, index, name, out uint size);
+            Core.CL.GetKernelArgInfoSize(Id, index, name, out uint size);
 
             UInt64 info;
-            var err = CL.GetKernelArgInfo(Id, index, name, size, out info);
+            var err = Core.CL.GetKernelArgInfo(Id, index, name, size, out info);
             return info;
         }
 
         private UInt64 GetInfoUInt64(CL_KERNEL_WORK_GROUP_INFO name, cl_device_id device)
         {
-            CL.GetKernelWorkGroupInfoSize(Id, device, name, out uint size);
+            Core.CL.GetKernelWorkGroupInfoSize(Id, device, name, out uint size);
 
             UInt64 info;
-            var err = CL.GetKernelWorkGroupInfo(Id, device, name, size, out info);
+            var err = Core.CL.GetKernelWorkGroupInfo(Id, device, name, size, out info);
             return info;
         }
 
         private string GetInfoString(CL_KERNEL_INFO name)
         {
-            CL.GetKernelInfoSize(Id, name, out uint size);
+            Core.CL.GetKernelInfoSize(Id, name, out uint size);
 
             var info = new cl_char[size];
-            CL.GetKernelInfo(Id, name, size, info);
+            Core.CL.GetKernelInfo(Id, name, size, info);
 
             var text = info.ToText();
             if (string.IsNullOrWhiteSpace(text))
@@ -244,19 +242,19 @@ namespace OpenCLDotNet.Programs
 
         private cl_object GetInfoObject(CL_KERNEL_INFO name)
         {
-            CL.GetKernelInfoSize(Id, name, out uint size);
+            Core.CL.GetKernelInfoSize(Id, name, out uint size);
 
             cl_object info;
-            CL.GetKernelInfo(Id, name, size, out info);
+            Core.CL.GetKernelInfo(Id, name, size, out info);
             return info;
         }
 
         private string GetInfoString(CL_KERNEL_ARG_INFO name, uint index)
         {
-            CL.GetKernelArgInfoSize(Id, index, name, out uint size);
+            Core.CL.GetKernelArgInfoSize(Id, index, name, out uint size);
 
             var info = new cl_char[size];
-            CL.GetKernelArgInfo(Id, index, name, size, info);
+            Core.CL.GetKernelArgInfo(Id, index, name, size, info);
 
             var text = info.ToText();
             if (string.IsNullOrWhiteSpace(text))
@@ -269,10 +267,10 @@ namespace OpenCLDotNet.Programs
         {
             int size_of = sizeof(size_t);
 
-            CL.GetKernelWorkGroupInfoSize(Id, device, name, out uint size);
+            Core.CL.GetKernelWorkGroupInfoSize(Id, device, name, out uint size);
 
             var info = new size_t[size / size_of];
-            CL.GetKernelWorkGroupInfo(Id, device, name, size, info);
+            Core.CL.GetKernelWorkGroupInfo(Id, device, name, size, info);
 
             string str = "{";
 
@@ -289,7 +287,7 @@ namespace OpenCLDotNet.Programs
 
         protected override void Release()
         {
-            CL.ReleaseKernel(Id);
+            Core.CL.ReleaseKernel(Id);
         }
     }
 

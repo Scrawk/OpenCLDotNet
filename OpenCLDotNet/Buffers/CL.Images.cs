@@ -17,7 +17,7 @@ namespace OpenCLDotNet.Core
             CL_MEM_FLAGS flags,
             CLImageFormat format,
             CLImageDescription desc,
-            float[] data,
+            Array data,
             out CL_ERROR error)
         {
             return CL_CreateImage(context, flags, format, desc, data, out error);
@@ -44,6 +44,49 @@ namespace OpenCLDotNet.Core
         {
             uint num_entries = (uint)formats.Length;
             return CL_GetSupportedImageFormats(context, flags, type, num_entries, formats);
+        }
+
+        private static Dictionary<CLImageFormatKey, CLImageFormat[]> FormatTable { get; set; }
+
+        public static void ClearFormatTable()
+        {
+            FormatTable = null;
+        }
+
+        public static void GetSupportedImageFormats(CLImageFormatKey key, List<CLImageFormat> formats)
+        {
+
+        }
+
+        public static bool ImageFormatIsSupported(CLImageFormatKey key, CLImageFormat format, out CL_ERROR error)
+        {
+            if(FormatTable == null || 
+               !FormatTable.TryGetValue(key, out CLImageFormat[] formats))
+            {
+                if(FormatTable == null)
+                    FormatTable = new Dictionary<CLImageFormatKey, CLImageFormat[]>();
+
+                var id = key.Context;
+                var flags = key.Flags;
+                var type = key.MemType;
+
+                error = CL.GetSupportedImageFormatsSize(id, flags, type, out uint size);
+                if(error != CL_ERROR.SUCCESS)
+                    return false;
+
+                formats = new CLImageFormat[size];
+                error = CL.GetSupportedImageFormats(id, flags, type, formats);
+                if (error != CL_ERROR.SUCCESS)
+                    return false;
+                    
+                FormatTable.Add(key, formats);
+                return formats.Contains(format);
+            }
+            else
+            {
+                error = CL_ERROR.SUCCESS;
+                return formats.Contains(format);
+            }
         }
 
         public static CL_ERROR GetImageInfoSize(
@@ -85,7 +128,7 @@ namespace OpenCLDotNet.Core
             CL_MEM_FLAGS flags,
             CLImageFormat format,
             CLImageDescription desc,
-            float[] data,
+            Array data,
             [Out] out CL_ERROR error);
 
         [DllImport(DLL_NAME, CallingConvention = CDECL)]

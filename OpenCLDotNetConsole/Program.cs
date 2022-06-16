@@ -28,18 +28,29 @@ namespace OpenCLDotNetConsole
 			//kernel.SetIntArg(10, 3);
 			//kernel.Print();
 
-			var data1 = new float[100];
+			var data = new float[100];
 
-			var buffer = new CLBuffer(context, data1);
+			var buffer = new CLBuffer(context, data);
 			//buffer.Print();
 
 			var region = new CLBufferRegion(0, 10);
 			var sub_buffer = new CLSubBuffer(buffer, region);
 			//sub_buffer.Print();
 
-			var image = new CLImage2D(context, 10, 10, data1);
+			var image_data = new CLImageData2D();
+			image_data.Width = 10;
+			image_data.Height = 10;
+			image_data.ChannelOrder = CL_CHANNEL_ORDER.R;
+			image_data.ChannelType = CL_CHANNEL_TYPE.FLOAT;
+			image_data.Flags = CL_MEM_FLAGS.READ_WRITE | CL_MEM_FLAGS.USE_HOST_PTR;
+			image_data.Source = new float[100];
+
+			var image = new CLImage2D(context, image_data);
 			//image.Print();
 
+			//Console.WriteLine(image_data);
+
+			/*
 			var flags = CL_MEM_FLAGS.READ_WRITE;
 			var type = CL_MEM_OBJECT_TYPE.IMAGE2D;
 
@@ -57,7 +68,9 @@ namespace OpenCLDotNetConsole
             {
 				Console.WriteLine(i + " " + formats[i]);	
             }
+			*/
 		}
 
 	}
 }
+

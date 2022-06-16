@@ -46,7 +46,7 @@ namespace OpenCLDotNet.Buffers
 
         private void Create(CLBuffer buffer, CLBufferRegion region, CL_MEM_FLAGS flags)
         {
-            Error = "NONE";
+            ResetErrorCode();
             Buffer = buffer;
             Flags = flags;
             Region = region;

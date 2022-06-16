@@ -16,6 +16,12 @@ namespace OpenCLDotNet.Buffers
 
         public CLContext Context { get; protected set; }
 
+        public uint Channels { get; protected set; }
+
+        public CL_CHANNEL_ORDER ChannelOrder { get; protected set; }
+
+        public CL_CHANNEL_TYPE ChannelType { get; protected set; }
+
         public override void Print(StringBuilder builder)
         {
             base.Print(builder);
@@ -35,7 +41,7 @@ namespace OpenCLDotNet.Buffers
 
         public string GetInfo(CL_IMAGE_INFO info)
         {
-            var type = EnumUtil.GetReturnType(info);
+            var type = CL.GetReturnType(info);
 
             string str = CL_INFO_RETURN_TYPE.UNKNOWN.ToString();
 
@@ -59,21 +65,21 @@ namespace OpenCLDotNet.Buffers
 
         private UInt64 GetInfoUInt64(CL_IMAGE_INFO name)
         {
-            CL.GetImageInfoSize(Id, name, out uint size);
+            Core.CL.GetImageInfoSize(Id, name, out uint size);
 
             UInt64 info;
-            CL.GetImageInfo(Id, name, size, out info);
+            Core.CL.GetImageInfo(Id, name, size, out info);
             return info;
         }
 
         private string GetInfoFormat(CL_IMAGE_INFO name)
         {
-            CL.GetImageInfoSize(Id, name, out uint size);
+            Core.CL.GetImageInfoSize(Id, name, out uint size);
 
             CLImageFormat format;
-            CL.GetImageInfo(Id, name, size, out format);
+            Core.CL.GetImageInfo(Id, name, size, out format);
 
-            string str = "{" + format.Order + ", " + format.Type + "}"; 
+            string str = "{" + format.ChannelOrder + ", " + format.ChannelType + "}"; 
 
             return str;
         }

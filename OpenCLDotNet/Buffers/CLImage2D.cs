@@ -9,40 +9,15 @@ namespace OpenCLDotNet.Buffers
 {
     public class CLImage2D : CLImage
     {
-        public CLImage2D(CLContext context, uint width, uint height, float[] data)
+        public CLImage2D(CLContext context, CLImageData2D data)
             : base(context)
         {
-            Width = width;
-            Height = height;
-            ChannelOrder = CL_CHANNEL_ORDER.R;
-            ChannelType = CL_CHANNEL_TYPE.FLOAT;
-            Channels = EnumUtil.GetNumChannels(ChannelOrder);
-
-            var flags = CL_MEM_FLAGS.READ_WRITE | CL_MEM_FLAGS.USE_HOST_PTR;
-            Create(context, flags, data);
-        }
-
-        public CLImage2D(CLContext context, CL_MEM_FLAGS flags, uint width, uint height, float[] data)
-            : base(context)
-        {
-            Width = width;
-            Height = height;
-            ChannelOrder = CL_CHANNEL_ORDER.R;
-            ChannelType = CL_CHANNEL_TYPE.FLOAT;
-            Channels = EnumUtil.GetNumChannels(ChannelOrder);
-
-            Create(context, flags, data);
+            Create(context, data);
         }
 
         public uint Width { get; private set; }
 
         public uint Height { get; private set; }
-
-        public uint Channels { get; private set; }
-
-        public CL_CHANNEL_ORDER ChannelOrder { get; private set; }
-
-        public CL_CHANNEL_TYPE ChannelType { get; private set; }
 
         public override string ToString()
         {
@@ -54,38 +29,51 @@ namespace OpenCLDotNet.Buffers
                 Id.Value, Context.Id.Value, Width, Height, Channels, read_write, Error);
         }
 
-        private void Create(CLContext context, CL_MEM_FLAGS flags, float[] data)
+        private void Create(CLContext context, CLImageData2D data)
         {
-            Error = "NONE";
-            Flags = flags;
-
-            uint width = Width;
-            uint height = Height;   
-            uint row_pitch = Channels * sizeof(float) * Width;
-            uint slice_pitch = row_pitch * Height;
-
-            CLImageFormat format = new CLImageFormat()
-            {
-                Order = ChannelOrder,
-                Type = ChannelType
-            };
-
-            CLImageDescription des = new CLImageDescription()
-            {
-                Type = CL_MEM_OBJECT_TYPE.IMAGE2D,
-                Width = width,
-                Height = height,
-                Depth = 0,
-                ArraySize = 0,
-                RowPitch = row_pitch,
-                SlicePitch = slice_pitch,
-                NumMipLevels = 0,
-                NumSamples = 0,
-                Buffer = Id,
-            };
+            var format = data.CreateImageFormat();
+            var desc = data.CreateImageDescription();
 
             CL_ERROR error;
-            Id = CL.CreateImage(context.Id, flags, format, des, data, out error);
+            ResetErrorCode();
+            Width = data.Width;
+            Height = data.Height;
+            Channels = data.Channels;
+            ChannelOrder = data.ChannelOrder;
+            ChannelType = data.ChannelType;
+            Flags = data.Flags;
+            MemType = desc.MemType;
+
+            if(Width * Height * Channels != data.Source.Length)
+            {
+                Error = "INVALID_SOURCE_SIZE";
+                return;
+            }
+
+            if (!CL.IsValidChannelType(data.ChannelOrder, data.ChannelType))
+            {
+                Error = "INVALID_CHANNEL_ORDER_TYPE";
+                return;
+            }
+
+            if(!CL.IsValidArrayData(ChannelType, data.Source))
+            {
+                Error = "INVALID_DATA_TYPE";
+                return;
+            }
+
+            var key = new CLImageFormatKey(Context.Id, Flags, desc.MemType);
+            if(!CL.ImageFormatIsSupported(key, format, out error))
+            {
+                if (error != CL_ERROR.SUCCESS)
+                    Error = error.ToString();
+                else
+                    Error = "CHANNEL_FORMAT_NOT_SUPPORTED";
+
+                return;
+            }
+
+            Id = CL.CreateImage(context.Id, Flags, format, desc, data.Source, out error);
             if (error != CL_ERROR.SUCCESS)
             {
                 Error = error.ToString();

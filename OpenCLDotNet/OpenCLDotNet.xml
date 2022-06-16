@@ -242,9 +242,25 @@
             Has the object been disposed.
             </summary>
         </member>
+        <member name="P:OpenCLDotNet.Core.CLObject.Error">
+            <summary>
+            
+            </summary>
+        </member>
         <member name="M:OpenCLDotNet.Core.CLObject.Dispose">
             <summary>
             Dispose the CL object.
+            </summary>
+        </member>
+        <member name="M:OpenCLDotNet.Core.CLObject.ResetErrorCode">
+            <summary>
+            Resets the error code to the value used when 
+            nothing has been ran the generates a error.
+            </summary>
+        </member>
+        <member name="P:OpenCLDotNet.Core.CLObject.HasError">
+            <summary>
+            If error code not default value or success.
             </summary>
         </member>
         <member name="M:OpenCLDotNet.Core.CLObject.ToString">
@@ -283,17 +299,17 @@
             <param name="array"></param>
             <param name="count"></param>
         </member>
-        <member name="T:OpenCLDotNet.Utility.ErrorUtil.CLUnmanagedResourcesReleasedExeception">
+        <member name="T:OpenCLDotNet.Utility.CLUnmanagedResourcesReleasedExeception">
             <summary>
             
             </summary>
         </member>
-        <member name="T:OpenCLDotNet.Utility.ErrorUtil.CLUnmanagedResourcesNotReleasedExeception">
+        <member name="T:OpenCLDotNet.Utility.CLUnmanagedResourcesNotReleasedExeception">
             <summary>
             
             </summary>
         </member>
-        <member name="T:OpenCLDotNet.Utility.ErrorUtil.InvalidArrayExeception">
+        <member name="T:OpenCLDotNet.Utility.InvalidArrayExeception">
             <summary>
             
             </summary>

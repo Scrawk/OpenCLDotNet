@@ -33,8 +33,6 @@ namespace OpenCLDotNet.Programs
 
         public CLContext Context { get; private set; }
 
-        public string Error { get; private set; }
-
         public string Options { get; private set; }
 
         public bool HasKernelArgumentInfo { get; private set; } 
@@ -51,14 +49,14 @@ namespace OpenCLDotNet.Programs
         private void Create(CLContext context, string filename, string options = "")
         {
             Options = options;
-            Error = "NONE";
+            ResetErrorCode();
             Context = context;
             Source = CL_PROGRAM_SOURCE.TEXT;
 
             var file = File.ReadAllText(filename, Encoding.UTF8);
 
             CL_ERROR error;
-            Id = CL.CreateProgramWithSource(context.Id, file, out error);
+            Id = Core.CL.CreateProgramWithSource(context.Id, file, out error);
             if(error != CL_ERROR.SUCCESS)
             {
                 Error = error.ToString();
@@ -67,7 +65,7 @@ namespace OpenCLDotNet.Programs
 
             var devices = context.GetDeviceIds();
 
-            error = CL.BuildProgram(Id, (uint)devices.Length, devices, options);
+            error = Core.CL.BuildProgram(Id, (uint)devices.Length, devices, options);
             if (error != CL_ERROR.SUCCESS)
             {
                 Error = error.ToString();
@@ -78,7 +76,7 @@ namespace OpenCLDotNet.Programs
         private unsafe void Create(CLContext context, IList<byte[]> binarys, string options = "")
         {
             Options = options;
-            Error = "NONE";
+            ResetErrorCode();
             Context = context;
             Source = CL_PROGRAM_SOURCE.BINARY;
 
@@ -109,7 +107,7 @@ namespace OpenCLDotNet.Programs
             }
 
             CL_ERROR error;
-            Id = CL.CreateProgramWithBinary(Context.Id, num_devices, devices, 
+            Id = Core.CL.CreateProgramWithBinary(Context.Id, num_devices, devices, 
                 sizes, bytes, status, out error);
 
             if (error != CL_ERROR.SUCCESS)
@@ -118,7 +116,7 @@ namespace OpenCLDotNet.Programs
                 return;
             }
 
-            error = CL.BuildProgram(Id, (uint)devices.Length, devices, options);
+            error = Core.CL.BuildProgram(Id, (uint)devices.Length, devices, options);
             if (error != CL_ERROR.SUCCESS)
             {
                 Error = error.ToString();
@@ -146,7 +144,7 @@ namespace OpenCLDotNet.Programs
             sizes[0] = (size_t)binary.Length;
 
             CL_ERROR error;
-            Id = CL.CreateProgramWithBinary(Context.Id, num_devices, devices,
+            Id = Core.CL.CreateProgramWithBinary(Context.Id, num_devices, devices,
                 sizes, binary, status, out error);
 
             if (error != CL_ERROR.SUCCESS)
@@ -155,7 +153,7 @@ namespace OpenCLDotNet.Programs
                 return;
             }
 
-            error = CL.BuildProgram(Id, (uint)devices.Length, devices, options);
+            error = Core.CL.BuildProgram(Id, (uint)devices.Length, devices, options);
             if (error != CL_ERROR.SUCCESS)
             {
                 Error = error.ToString();
@@ -181,7 +179,7 @@ namespace OpenCLDotNet.Programs
             uint size = (uint)(sizeof(size_t) * num_devices);
 
             var sizes = new size_t[num_devices];
-            var err = CL.GetProgramInfo(Id, CL_PROGRAM_INFO.BINARY_SIZES, size, sizes);
+            var err = Core.CL.GetProgramInfo(Id, CL_PROGRAM_INFO.BINARY_SIZES, size, sizes);
             if (err != CL_ERROR.SUCCESS)
                 return err;
 
@@ -190,7 +188,7 @@ namespace OpenCLDotNet.Programs
                 binary_size += (uint)sizes[i];
 
             var cl_binaries = new Byte[binary_size];
-            err = CL.GetProgramBinaries(Id, num_devices, sizes, cl_binaries);
+            err = Core.CL.GetProgramBinaries(Id, num_devices, sizes, cl_binaries);
             if (err != CL_ERROR.SUCCESS)
                 return err;
 
@@ -249,7 +247,7 @@ namespace OpenCLDotNet.Programs
 
         public string GetInfo(CL_PROGRAM_BUILD_INFO info, cl_device_id device)
         {
-            var type = EnumUtil.GetReturnType(info);
+            var type = CL.GetReturnType(info);
 
             string str = "";
 
@@ -274,7 +272,7 @@ namespace OpenCLDotNet.Programs
 
         public string GetInfo(CL_PROGRAM_INFO info)
         {
-            var type = EnumUtil.GetReturnType(info);
+            var type = CL.GetReturnType(info);
 
             string str = "";
 
@@ -300,28 +298,28 @@ namespace OpenCLDotNet.Programs
 
         private UInt64 GetBuildInfoUInt64(CL_PROGRAM_BUILD_INFO name, cl_device_id device)
         {
-            CL.GetProgramBuildInfoSize(Id, device, name, out uint size);
+            Core.CL.GetProgramBuildInfoSize(Id, device, name, out uint size);
 
             UInt64 info;
-            CL.GetProgramBuildInfo(Id, device, name, size, out info);
+            Core.CL.GetProgramBuildInfo(Id, device, name, size, out info);
             return info;
         }
 
         private UInt64 GetInfoUInt64(CL_PROGRAM_INFO name)
         {
-            CL.GetProgramInfoSize(Id, name, out uint size);
+            Core.CL.GetProgramInfoSize(Id, name, out uint size);
 
             UInt64 info;
-            CL.GetProgramInfo(Id, name, size, out info);
+            Core.CL.GetProgramInfo(Id, name, size, out info);
             return info;
         }
 
         private string GetBuildInfoString(CL_PROGRAM_BUILD_INFO name, cl_device_id device)
         {
-            CL.GetProgramBuildInfoSize(Id, device, name, out uint size);
+            Core.CL.GetProgramBuildInfoSize(Id, device, name, out uint size);
 
             var info = new cl_char[size];
-            CL.GetProgramBuildInfo(Id, device, name, size, info);
+            Core.CL.GetProgramBuildInfo(Id, device, name, size, info);
 
             var text = info.ToText();
             if (string.IsNullOrWhiteSpace(text))
@@ -332,10 +330,10 @@ namespace OpenCLDotNet.Programs
 
         private string GetInfoString(CL_PROGRAM_INFO name)
         {
-            CL.GetProgramInfoSize(Id, name, out uint size);
+            Core.CL.GetProgramInfoSize(Id, name, out uint size);
 
             var info = new cl_char[size];
-            CL.GetProgramInfo(Id, name, size, info);
+            Core.CL.GetProgramInfo(Id, name, size, info);
 
             var text = info.ToText();
             if (string.IsNullOrWhiteSpace(text))
@@ -346,29 +344,29 @@ namespace OpenCLDotNet.Programs
 
         private bool GetInfoBool(CL_PROGRAM_INFO name)
         {
-            CL.GetProgramInfoSize(Id, name, out uint size);
+            Core.CL.GetProgramInfoSize(Id, name, out uint size);
 
             UInt64 info;
-            CL.GetProgramInfo(Id, name, size, out info);
+            Core.CL.GetProgramInfo(Id, name, size, out info);
             return info > 0;
         }
 
         private cl_object GetInfoObject(CL_PROGRAM_INFO name)
         {
-            CL.GetProgramInfoSize(Id, name, out uint size);
+            Core.CL.GetProgramInfoSize(Id, name, out uint size);
 
             cl_object info;
-            CL.GetProgramInfo(Id, name, size, out info);
+            Core.CL.GetProgramInfo(Id, name, size, out info);
             return info;
         }
 
         private unsafe string GetInfoObjectArray(CL_PROGRAM_INFO name)
         {
             int size_of = sizeof(cl_object);
-            CL.GetProgramInfoSize(Id, name, out uint size);
+            Core.CL.GetProgramInfoSize(Id, name, out uint size);
 
             var info = new cl_object[size / size_of];
-            CL.GetProgramInfo(Id, name, size, info);
+            Core.CL.GetProgramInfo(Id, name, size, info);
 
             string str = $"[cl_object_array: Count={info.Length}]";
 
@@ -379,10 +377,10 @@ namespace OpenCLDotNet.Programs
         {
             int size_of = sizeof(size_t);
 
-            CL.GetProgramInfoSize(Id, name, out uint size);
+            Core.CL.GetProgramInfoSize(Id, name, out uint size);
 
             var info = new size_t[size / size_of];
-            CL.GetProgramInfo(Id, name, size, info);
+            Core.CL.GetProgramInfo(Id, name, size, info);
 
             string str = "{";
 
@@ -399,7 +397,7 @@ namespace OpenCLDotNet.Programs
 
         protected override void Release()
         {
-            CL.ReleaseProgram(Id);
+            Core.CL.ReleaseProgram(Id);
         }
     }
 }

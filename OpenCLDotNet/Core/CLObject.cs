@@ -37,6 +37,11 @@ namespace OpenCLDotNet.Core
         public bool IsDisposed { get; private set; }
 
         /// <summary>
+        /// 
+        /// </summary>
+        public string Error { get; protected set; }
+
+        /// <summary>
         /// Dispose the CL object.
         /// </summary>
         public void Dispose()
@@ -46,12 +51,28 @@ namespace OpenCLDotNet.Core
         }
 
         /// <summary>
+        /// Resets the error code to the value used when 
+        /// nothing has been ran the generates a error.
+        /// </summary>
+        public void ResetErrorCode()
+        {
+            Error = CL_ERROR.NONE.ToString();   
+        }
+
+        /// <summary>
+        /// If error code not default value or success.
+        /// </summary>
+        public bool HasError => Error != CL_ERROR.NONE.ToString() || 
+                                Error != CL_ERROR.SUCCESS.ToString();
+
+        /// <summary>
         /// Print some information about the object.
         /// </summary>
         /// <returns>Print some information about the object.</returns>
         public override string ToString()
         {
-            return String.Format("[CLObject: IsDiposed={0}]", IsDisposed);
+            return String.Format("[CLObject: IsDiposed={0}, Error={1}]", 
+                IsDisposed, Error);
         }
 
         /// <summary>

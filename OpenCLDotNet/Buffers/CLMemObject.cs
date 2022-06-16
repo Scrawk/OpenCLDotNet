@@ -12,9 +12,9 @@ namespace OpenCLDotNet.Buffers
 
         public cl_mem Id { get; protected set; }
 
-        public string Error { get; protected set; }
-
         public CL_MEM_FLAGS Flags { get; protected set; }
+
+        public CL_MEM_OBJECT_TYPE MemType { get; protected set; }
 
         public bool CanReadWrite => CanRead && CanWrite;
 
@@ -55,7 +55,7 @@ namespace OpenCLDotNet.Buffers
 
         public string GetInfo(CL_MEM_INFO info)
         {
-            var type = EnumUtil.GetReturnType(info);
+            var type = CL.GetReturnType(info);
 
             string str = CL_INFO_RETURN_TYPE.UNKNOWN.ToString();
 
@@ -92,43 +92,43 @@ namespace OpenCLDotNet.Buffers
 
         private UInt64 GetInfoUInt64(CL_MEM_INFO name)
         {
-            CL.GetMemObjectInfoSize(Id, name, out uint size);
+            Core.CL.GetMemObjectInfoSize(Id, name, out uint size);
 
             UInt64 info;
-            CL.GetMemObjectInfo(Id, name, size, out info);
+            Core.CL.GetMemObjectInfo(Id, name, size, out info);
             return info;
         }
 
         private UIntPtr GetInfoUIntPtr(CL_MEM_INFO name)
         {
-            CL.GetMemObjectInfoSize(Id, name, out uint size);
+            Core.CL.GetMemObjectInfoSize(Id, name, out uint size);
 
             UIntPtr info;
-            CL.GetMemObjectInfo(Id, name, size, out info);
+            Core.CL.GetMemObjectInfo(Id, name, size, out info);
             return info;
         }
 
         private bool GetInfoBool(CL_MEM_INFO name)
         {
-            CL.GetMemObjectInfoSize(Id, name, out uint size);
+            Core.CL.GetMemObjectInfoSize(Id, name, out uint size);
 
             UInt64 info;
-            CL.GetMemObjectInfo(Id, name, size, out info);
+            Core.CL.GetMemObjectInfo(Id, name, size, out info);
             return info > 0;
         }
 
         private cl_object GetInfoObject(CL_MEM_INFO name)
         {
-            CL.GetMemObjectInfoSize(Id, name, out uint size);
+            Core.CL.GetMemObjectInfoSize(Id, name, out uint size);
 
             cl_object info;
-            CL.GetMemObjectInfo(Id, name, size, out info);
+            Core.CL.GetMemObjectInfo(Id, name, size, out info);
             return info;
         }
 
         protected override void Release()
         {
-            CL.ReleaseMemObject(Id);
+            Core.CL.ReleaseMemObject(Id);
         }
     }
 }

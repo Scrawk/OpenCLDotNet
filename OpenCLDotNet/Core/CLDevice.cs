@@ -86,7 +86,7 @@ namespace OpenCLDotNet.Core
 
         public string GetInfo(CL_DEVICE_INFO info)
         {
-            var type = EnumUtil.GetReturnType(info);
+            var type = CL.GetReturnType(info);
 
             string str = "";
 

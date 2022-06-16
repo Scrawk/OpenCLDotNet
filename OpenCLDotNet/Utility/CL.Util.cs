@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 
-using OpenCLDotNet.Core;
-
-namespace OpenCLDotNet.Utility
+namespace OpenCLDotNet.Core
 {
-    public class EnumUtil
+    public partial class CL
     {
 
         public static uint GetNumChannels(CL_CHANNEL_ORDER order)
@@ -44,7 +42,7 @@ namespace OpenCLDotNet.Utility
             return 0;
         }
 
-        public static bool IsValidChannel(CL_CHANNEL_ORDER order, CL_CHANNEL_TYPE type)
+        public static bool IsValidChannelType(CL_CHANNEL_ORDER order, CL_CHANNEL_TYPE type)
         {
             switch (order)
             {
@@ -88,6 +86,84 @@ namespace OpenCLDotNet.Utility
             }
 
             return true;
+        }
+
+        public static uint SizeOf(CL_CHANNEL_TYPE type)
+        {
+            switch (type)
+            {
+                case CL_CHANNEL_TYPE.SNORM_INT8:
+                case CL_CHANNEL_TYPE.SIGNED_INT8:
+                    return sizeof(sbyte);
+
+                case CL_CHANNEL_TYPE.UNORM_INT8:
+                case CL_CHANNEL_TYPE.UNSIGNED_INT8:
+                    return sizeof(byte);
+
+                case CL_CHANNEL_TYPE.SNORM_INT16:
+                case CL_CHANNEL_TYPE.UNORM_INT16:
+                case CL_CHANNEL_TYPE.UNORM_SHORT_565:
+                case CL_CHANNEL_TYPE.UNORM_SHORT_555:
+                case CL_CHANNEL_TYPE.SIGNED_INT16:
+                case CL_CHANNEL_TYPE.HALF_FLOAT:
+                    return sizeof(short);
+
+                case CL_CHANNEL_TYPE.UNSIGNED_INT16:
+                    return sizeof(ushort);
+
+                case CL_CHANNEL_TYPE.UNORM_INT_101010:
+                case CL_CHANNEL_TYPE.SIGNED_INT32:
+                case CL_CHANNEL_TYPE.UNORM_INT24:
+                case CL_CHANNEL_TYPE.UNORM_INT_101010_2:
+                    return sizeof(int);
+
+                case CL_CHANNEL_TYPE.UNSIGNED_INT32:
+                    return sizeof(uint);
+
+                case CL_CHANNEL_TYPE.FLOAT:
+                    return sizeof(float);
+            }
+
+            return 0;
+        }
+
+        public static bool IsValidArrayData(CL_CHANNEL_TYPE type, Array array)
+        {
+            switch (type)
+            {
+                case CL_CHANNEL_TYPE.SNORM_INT8:
+                case CL_CHANNEL_TYPE.SIGNED_INT8:
+                    return array is sbyte[];
+
+                case CL_CHANNEL_TYPE.UNORM_INT8:
+                case CL_CHANNEL_TYPE.UNSIGNED_INT8:
+                    return array is byte[];
+
+                case CL_CHANNEL_TYPE.SNORM_INT16:
+                case CL_CHANNEL_TYPE.UNORM_INT16:
+                case CL_CHANNEL_TYPE.UNORM_SHORT_565:
+                case CL_CHANNEL_TYPE.UNORM_SHORT_555:
+                case CL_CHANNEL_TYPE.SIGNED_INT16:
+                case CL_CHANNEL_TYPE.HALF_FLOAT:
+                    return array is short[];
+
+                case CL_CHANNEL_TYPE.UNSIGNED_INT16:
+                    return array is ushort[];
+
+                case CL_CHANNEL_TYPE.UNORM_INT_101010:
+                case CL_CHANNEL_TYPE.SIGNED_INT32:
+                case CL_CHANNEL_TYPE.UNORM_INT24:
+                case CL_CHANNEL_TYPE.UNORM_INT_101010_2:
+                    return array is int[];
+
+                case CL_CHANNEL_TYPE.UNSIGNED_INT32:
+                    return array is uint[];
+
+                case CL_CHANNEL_TYPE.FLOAT:
+                    return array is float[];
+            }
+
+            return false;
         }
 
         public static CL_INFO_RETURN_TYPE GetReturnType(CL_DEVICE_INFO info)

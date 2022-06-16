@@ -34,7 +34,7 @@ namespace OpenCLDotNet.Buffers
 
         private void Create(CLContext context, CL_MEM_FLAGS flags, float[] data)
         {
-            Error = "NONE";
+            ResetErrorCode();
             Context = context;
             Flags = flags;
 
