@@ -29,6 +29,42 @@ namespace OpenCLDotNet.Buffers
                 Width, Height, ChannelOrder, ChannelType);
         }
 
+        public List<CLImageFormat> GetSupportedImageFormats(cl_context context)
+        {
+            var formats = new List<CLImageFormat>();
+            var key = new CLImageFormatKey(context, Flags, CL_MEM_OBJECT_TYPE.IMAGE2D);
+
+            CL.GetSupportedImageFormats(key, formats);
+            return formats;
+        }
+
+        public bool IsValidSize()
+        {
+            if(Source == null)
+                return false;
+            else
+                return Width * Height * Channels != Source.Length;
+        }
+
+        public bool IsValidChannel()
+        {
+            return CL.IsValidChannelType(ChannelOrder, ChannelType);
+        }
+
+        public bool IsValidArrayData()
+        {
+            if (Source == null)
+                throw new NullReferenceException("Source is null");
+
+            return CL.IsValidArrayData(ChannelType, Source);
+        }
+
+        public bool ImageFormatIsSupported(cl_context context, CLImageFormat format, out CL_ERROR error)
+        {
+            var key = new CLImageFormatKey(context, Flags, CL_MEM_OBJECT_TYPE.IMAGE2D);
+            return CL.ImageFormatIsSupported(key, format, out error);
+        }
+
         internal CLImageFormat CreateImageFormat()
         {
             var format = new CLImageFormat();

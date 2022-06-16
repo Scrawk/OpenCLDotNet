@@ -45,30 +45,17 @@ namespace OpenCLDotNetConsole
 			image_data.Flags = CL_MEM_FLAGS.READ_WRITE | CL_MEM_FLAGS.USE_HOST_PTR;
 			image_data.Source = new float[100];
 
-			var image = new CLImage2D(context, image_data);
+			var formats = image_data.GetSupportedImageFormats(context.Id);
+
+			foreach(var format in formats)
+            {
+				Console.WriteLine(format.ToString());
+            }
+
+			//var image = new CLImage2D(context, image_data);
 			//image.Print();
 
 			//Console.WriteLine(image_data);
-
-			/*
-			var flags = CL_MEM_FLAGS.READ_WRITE;
-			var type = CL_MEM_OBJECT_TYPE.IMAGE2D;
-
-			var error = CL.GetSupportedImageFormatsSize(context.Id, flags, type, out uint size);
-			
-			Console.WriteLine(error);
-			Console.WriteLine(size);
-
-			var formats = new CLImageFormat[size];
-			error = CL.GetSupportedImageFormats(context.Id, flags, type, formats);
-
-			Console.WriteLine(error);
-
-			for(int i = 0; i < formats.Length; i++)	
-            {
-				Console.WriteLine(i + " " + formats[i]);	
-            }
-			*/
 		}
 
 	}

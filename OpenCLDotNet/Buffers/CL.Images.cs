@@ -53,39 +53,65 @@ namespace OpenCLDotNet.Core
             FormatTable = null;
         }
 
-        public static void GetSupportedImageFormats(CLImageFormatKey key, List<CLImageFormat> formats)
+        public static CL_ERROR GetSupportedImageFormats(CLImageFormatKey key, List<CLImageFormat> formats)
         {
+            CLImageFormat[] formats_array = null;
+            var error = AddImageFormat(key, out formats_array);
 
+            if (error == CL_ERROR.SUCCESS)
+                formats.AddRange(formats_array);
+           
+            return error;
         }
 
         public static bool ImageFormatIsSupported(CLImageFormatKey key, CLImageFormat format, out CL_ERROR error)
         {
-            if(FormatTable == null || 
-               !FormatTable.TryGetValue(key, out CLImageFormat[] formats))
+            CLImageFormat[] formats = null;
+            error = AddImageFormat(key, out formats);
+
+            if(error == CL_ERROR.SUCCESS)
             {
-                if(FormatTable == null)
-                    FormatTable = new Dictionary<CLImageFormatKey, CLImageFormat[]>();
-
-                var id = key.Context;
-                var flags = key.Flags;
-                var type = key.MemType;
-
-                error = CL.GetSupportedImageFormatsSize(id, flags, type, out uint size);
-                if(error != CL_ERROR.SUCCESS)
-                    return false;
-
-                formats = new CLImageFormat[size];
-                error = CL.GetSupportedImageFormats(id, flags, type, formats);
-                if (error != CL_ERROR.SUCCESS)
-                    return false;
-                    
-                FormatTable.Add(key, formats);
                 return formats.Contains(format);
             }
             else
             {
-                error = CL_ERROR.SUCCESS;
-                return formats.Contains(format);
+                return false;
+            }
+
+        }
+
+        private static CL_ERROR AddImageFormat(CLImageFormatKey key, out CLImageFormat[] formats)
+        {
+            if (FormatTable == null)
+                FormatTable = new Dictionary<CLImageFormatKey, CLImageFormat[]>();
+
+            if (!FormatTable.TryGetValue(key, out formats))
+            {
+                var id = key.Context;
+                var flags = key.Flags;
+                var type = key.MemType;
+
+                var error = CL.GetSupportedImageFormatsSize(id, flags, type, out uint size);
+                if (error != CL_ERROR.SUCCESS)
+                {
+                    formats = null;
+                    return error;
+                }
+                    
+                formats = new CLImageFormat[size];
+                error = CL.GetSupportedImageFormats(id, flags, type, formats);
+                if (error != CL_ERROR.SUCCESS)
+                {
+                    formats = null;
+                    return error;
+                }
+
+                FormatTable.Add(key, formats);
+                return CL_ERROR.SUCCESS;
+            }
+            else
+            {
+                return CL_ERROR.SUCCESS;
             }
         }
 

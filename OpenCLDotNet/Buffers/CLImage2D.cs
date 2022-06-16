@@ -44,26 +44,26 @@ namespace OpenCLDotNet.Buffers
             Flags = data.Flags;
             MemType = desc.MemType;
 
-            if(Width * Height * Channels != data.Source.Length)
+            if(!data.IsValidSize())
             {
                 Error = "INVALID_SOURCE_SIZE";
                 return;
             }
 
-            if (!CL.IsValidChannelType(data.ChannelOrder, data.ChannelType))
+            if (!data.IsValidChannel())
             {
                 Error = "INVALID_CHANNEL_ORDER_TYPE";
                 return;
             }
 
-            if(!CL.IsValidArrayData(ChannelType, data.Source))
+            if(!data.IsValidArrayData())
             {
                 Error = "INVALID_DATA_TYPE";
                 return;
             }
 
-            var key = new CLImageFormatKey(Context.Id, Flags, desc.MemType);
-            if(!CL.ImageFormatIsSupported(key, format, out error))
+            /*
+            if(!data.ImageFormatIsSupported(context.Id, format, out error))
             {
                 if (error != CL_ERROR.SUCCESS)
                     Error = error.ToString();
@@ -72,6 +72,7 @@ namespace OpenCLDotNet.Buffers
 
                 return;
             }
+            */
 
             Id = CL.CreateImage(context.Id, Flags, format, desc, data.Source, out error);
             if (error != CL_ERROR.SUCCESS)
