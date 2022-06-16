@@ -14,24 +14,24 @@ namespace OpenCLDotNet.Core
         //                                 EXTERN FUNCTIONS                                          ///
         ///////////////////////////////////////////////////////////////////////////////////////////////
         
-        extern CL_API_ENTRY cl_sampler CL_API_CALL
-clCreateSamplerWithProperties(cl_context                     context,
-                              const cl_sampler_properties *  sampler_properties,
-                              cl_int *                       errcode_ret) CL_API_SUFFIX__VERSION_2_0;
+        private static extern cl_sampler CL_CreateSamplerWithProperties(
+        cl_context context,
+        cl_sampler_properties[] sampler_properties,
+        [Out] out CL_ERROR errcode_ret);
 
-#endif
+    private static extern cl_int CL_GetSamplerInfoSize(
+        cl_sampler sampler,
+            cl_sampler_info param_name,
+            [Out] out size_t param_value_size_ret);
 
-extern CL_API_ENTRY cl_int CL_API_CALL
-clRetainSampler(cl_sampler sampler) CL_API_SUFFIX__VERSION_1_0;
+    private static extern cl_int CL_GetSamplerInfo(
+        cl_sampler sampler,
+        cl_sampler_info param_name,
+        size_t param_value_size,
+        [Out] out UInt64 param_value);
 
-extern CL_API_ENTRY cl_int CL_API_CALL
-clReleaseSampler(cl_sampler sampler) CL_API_SUFFIX__VERSION_1_0;
+    private static extern cl_int CL_RetainSampler(cl_sampler sampler);
 
-extern CL_API_ENTRY cl_int CL_API_CALL
-clGetSamplerInfo(cl_sampler         sampler,
-                 cl_sampler_info    param_name,
-                 size_t             param_value_size,
-                 void *             param_value,
-                 size_t *           param_value_size_ret) CL_API_SUFFIX__VERSION_1_0;
+    private static extern cl_int CL_ReleaseSampler(cl_sampler sampler);
     }
 }
