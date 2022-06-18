@@ -68,7 +68,7 @@ namespace OpenCLDotNet.Buffers
             Core.CL.GetImageInfoSize(Id, name, out uint size);
 
             UInt64 info;
-            Core.CL.GetImageInfo(Id, name, size, out info);
+            CL.GetImageInfo(Id, name, size, out info);
             return info;
         }
 
@@ -77,7 +77,7 @@ namespace OpenCLDotNet.Buffers
             Core.CL.GetImageInfoSize(Id, name, out uint size);
 
             CLImageFormat format;
-            Core.CL.GetImageInfo(Id, name, size, out format);
+            CL.GetImageInfo(Id, name, size, out format);
 
             string str = "{" + format.ChannelOrder + ", " + format.ChannelType + "}"; 
 

@@ -491,5 +491,34 @@ namespace OpenCLDotNet.Core
             return CL_INFO_RETURN_TYPE.UNKNOWN;
         }
 
+        public static CL_INFO_RETURN_TYPE GetReturnType(CL_SAMPLER_INFO info)
+        {
+            switch (info)
+            {
+                case CL_SAMPLER_INFO.REFERENCE_COUNT:
+                    return CL_INFO_RETURN_TYPE.UINT;
+
+                case CL_SAMPLER_INFO.CONTEXT:
+                    return CL_INFO_RETURN_TYPE.OBJECT;
+
+                case CL_SAMPLER_INFO.NORMALIZED_COORDS:
+                    return CL_INFO_RETURN_TYPE.BOOL;
+
+                case CL_SAMPLER_INFO.ADDRESSING_MODE:
+                case CL_SAMPLER_INFO.FILTER_MODE:
+                case CL_SAMPLER_INFO.MIP_FILTER_MODE:
+                    return CL_INFO_RETURN_TYPE.ENUM;
+
+                case CL_SAMPLER_INFO.LOD_MIN:
+                case CL_SAMPLER_INFO.LOD_MAX:
+                    return CL_INFO_RETURN_TYPE.FLOAT;
+
+                //case CL_SAMPLER_INFO.PROPERTIES:
+                //    break;
+            }
+
+            return CL_INFO_RETURN_TYPE.UNKNOWN;
+        }
+
     }
 }

@@ -52,6 +52,9 @@ namespace OpenCLDotNetConsole
 			image.Print();
 			*/
 
+			var sampler = new CLSampler(context);
+			sampler.Print();
+
 		}
 
 	}

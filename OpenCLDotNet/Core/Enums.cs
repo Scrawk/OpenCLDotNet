@@ -14,6 +14,7 @@ namespace OpenCLDotNet.Core
         UINT,
         ULONG,
         BOOL,
+        FLOAT,
         SIZET,
         SIZET_ARRAY,
         CHAR_ARRAY,
@@ -468,7 +469,7 @@ namespace OpenCLDotNet.Core
     }
 
     // addressing_mode 
-    public enum ADDRESSING_MODE
+    public enum CL_SAMPLER_ADDRESSING_MODE
     {
         NONE = 0x1130,
         CLAMP_TO_EDGE = 0x1131,
@@ -478,14 +479,24 @@ namespace OpenCLDotNet.Core
     }
 
     // filter_mode 
-    public enum CL_FILTER_MODE
+    public enum CL_SAMPLER_FILTER_MODE
     {
         NEAREST = 0x1140,
         LINEAR = 0x1141
     }
 
+    public enum CL_SAMPLER_PROPERTIES
+    {
+        NORMALIZED_COORDS = 0x1152,
+        ADDRESSING_MODE = 0x1153,
+        FILTER_MODE = 0x1154,
+        MIP_FILTER_MODE = 0x1155,
+        LOD_MIN = 0x1156,
+        LOD_MAX = 0x1157
+    }
+
     // sampler_info 
-    public enum CL_SAMPLE_INFO
+    public enum CL_SAMPLER_INFO
     {
         REFERENCE_COUNT = 0x1150,
         CONTEXT = 0x1151,

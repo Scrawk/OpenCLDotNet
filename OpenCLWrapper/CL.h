@@ -315,6 +315,15 @@ extern "C"
         const cl_sampler_properties* sampler_properties,
         cl_int* errcode_ret);
 
+    /*
+    CL_WRAPPER_API cl_sampler CL_CreateSampler(
+        cl_context context,
+        cl_bool normalize_coords,
+        cl_addressing_mode addressing_mode,
+        cl_filter_mode filter_mode,
+        cl_int* errcode_ret);
+        */
+
     CL_WRAPPER_API cl_int CL_GetSamplerInfoSize(
         cl_sampler sampler,
             cl_sampler_info param_name,

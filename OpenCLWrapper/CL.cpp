@@ -553,6 +553,18 @@ cl_sampler CL_CreateSamplerWithProperties(
     return clCreateSamplerWithProperties(context, sampler_properties, errcode_ret);
 }
 
+/*
+cl_sampler CL_CreateSampler(
+    cl_context context,
+    cl_bool normalize_coords,
+    cl_addressing_mode addressing_mode,
+    cl_filter_mode filter_mode,
+    cl_int* errcode_ret)
+{
+    return clCreateSampler(context, normalize_coords, addressing_mode, filter_mode, errcode_ret);
+}
+*/
+
 cl_int CL_GetSamplerInfoSize(
     cl_sampler sampler,
     cl_sampler_info param_name,
