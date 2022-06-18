@@ -9,15 +9,9 @@ namespace OpenCLDotNet.Buffers
 {
     public class CLBuffer : CLMemObject
     {
-        public CLBuffer(CLContext context, float[] data)
+        public CLBuffer(CLContext context, CLBufferData data)
         {
-            var flags = CL_MEM_FLAGS.READ_WRITE | CL_MEM_FLAGS.COPY_HOST_PTR;
-            Create(context, flags, data);
-        }
-
-        public CLBuffer(CLContext context, CL_MEM_FLAGS flags, float[] data) 
-        {
-            Create(context, flags, data);
+            Create(context, data);
         }
 
         public CLContext Context { get; private set; }
@@ -32,14 +26,15 @@ namespace OpenCLDotNet.Buffers
                 Id.Value, Context.Id.Value, read_write, Error);
         }
 
-        private void Create(CLContext context, CL_MEM_FLAGS flags, float[] data)
+        private void Create(CLContext context, CLBufferData data)
         {
             ResetErrorCode();
             Context = context;
-            Flags = flags;
+            Flags = data.Flags;
+            MemType = CL_MEM_OBJECT_TYPE.BUFFER;
 
             CL_ERROR error;
-            Id = CL.CreateBuffer(context.Id, flags, data, out error);
+            Id = CL.CreateBuffer(context.Id, Flags, data.Source, out error);
             if (error != CL_ERROR.SUCCESS)
             {
                 Error = error.ToString();

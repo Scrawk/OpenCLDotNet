@@ -23,11 +23,6 @@ namespace OpenCLDotNet.Buffers
             Create(buffer, region, flags);
         }
 
-        public CLSubBuffer(CLBuffer buffer, CLBufferRegion region, CL_MEM_FLAGS flags)
-        {
-            Create(buffer, region, flags);
-        }
-
         public CLBuffer Buffer { get; private set; }
 
         public CLBufferRegion Region { get; private set; }
@@ -49,6 +44,7 @@ namespace OpenCLDotNet.Buffers
             ResetErrorCode();
             Buffer = buffer;
             Flags = flags;
+            MemType = CL_MEM_OBJECT_TYPE.BUFFER;
             Region = region;
 
             CL_ERROR error;

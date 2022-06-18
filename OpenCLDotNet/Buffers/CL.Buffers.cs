@@ -15,7 +15,7 @@ namespace OpenCLDotNet.Core
         public static cl_mem CreateBuffer(
             cl_context context,
             CL_MEM_FLAGS flags,
-            float[] data,
+            Array data,
             out CL_ERROR error)
         {
             size_t size = 0;
@@ -93,7 +93,7 @@ namespace OpenCLDotNet.Core
             cl_context context,
             CL_MEM_FLAGS flags,
             size_t size,
-            float[] data,
+            Array data,
             [Out] out CL_ERROR error);
 
         [DllImport(DLL_NAME, CallingConvention = CDECL)]
