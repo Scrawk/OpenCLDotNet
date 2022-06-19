@@ -166,6 +166,26 @@ namespace OpenCLDotNet.Core
             return false;
         }
 
+        public static CL_INFO_RETURN_TYPE GetReturnType(CL_PLATFORM_INFO info)
+        {
+
+            switch (info)
+            {
+                case CL_PLATFORM_INFO.PROFILE:
+                case CL_PLATFORM_INFO.VERSION:
+                case CL_PLATFORM_INFO.NAME:
+                case CL_PLATFORM_INFO.VENDOR:
+                case CL_PLATFORM_INFO.EXTENSIONS:
+                    return CL_INFO_RETURN_TYPE.CHAR_ARRAY;
+
+                //case CL_PLATFORM_INFO.HOST_TIMER_RESOLUTION:
+                //case CL_PLATFORM_INFO.NUMERIC_VERSION:
+                //case CL_PLATFORM_INFO.EXTENSIONS_WITH_VERSION:
+            }
+
+            return CL_INFO_RETURN_TYPE.UNKNOWN;
+        }
+
         public static CL_INFO_RETURN_TYPE GetReturnType(CL_DEVICE_INFO info)
         {
 

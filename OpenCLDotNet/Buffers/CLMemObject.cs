@@ -10,8 +10,6 @@ namespace OpenCLDotNet.Buffers
     public abstract class CLMemObject : CLObject
     {
 
-        public cl_mem Id { get; protected set; }
-
         public CL_MEM_FLAGS Flags { get; protected set; }
 
         public CL_MEM_OBJECT_TYPE MemType { get; protected set; }

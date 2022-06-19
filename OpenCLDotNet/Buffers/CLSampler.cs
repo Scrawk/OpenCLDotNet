@@ -33,14 +33,12 @@ namespace OpenCLDotNet.Buffers
             Create(context, properties);
         }
 
-        public cl_sampler Id { get; private set; }
-
         public CLContext Context { get; private set; }
 
         public override string ToString()
         {
             return String.Format("[CLSampler: Id={0}, ContextId={1}, Error={2}]",
-                Id.Value, Context.Id.Value, Error);
+                Id, Context.Id, Error);
         }
 
         private void Create(CLContext context, UInt64[] properties)

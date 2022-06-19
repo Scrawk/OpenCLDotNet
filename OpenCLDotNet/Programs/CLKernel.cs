@@ -17,8 +17,6 @@ namespace OpenCLDotNet.Programs
             Create(program, name);
         }
 
-        public cl_kernel Id { get; private set; }
-
         public string Name { get; private set; }
 
         public CLProgram Program { get; private set; }
@@ -28,7 +26,7 @@ namespace OpenCLDotNet.Programs
         public override string ToString()
         {
             return String.Format("[CLKernel: Id={0}, Name={1}, NumArguments={2}, ProgramID={3}, Error={4}]",
-                Id.Value, Name, NumArguments, Program.Id.Value, Error);
+                Id, Name, NumArguments, Program.Id, Error);
         }
 
         private void Create(CLProgram program, string name)
@@ -50,27 +48,30 @@ namespace OpenCLDotNet.Programs
 
         public CL_ERROR SetBufferArg(CLBuffer arg, uint index)
         {
-            return Core.CL.SetKernelArg(Id, index, arg.Id);
+            cl_mem arg_id = arg.Id;
+            return CL.SetKernelArg(Id, index, arg_id);
         }
 
         public CL_ERROR SetBufferArg(CLSubBuffer arg, uint index)
         {
-            return Core.CL.SetKernelArg(Id, index, arg.Id);
+            cl_mem arg_id = arg.Id;
+            return CL.SetKernelArg(Id, index, arg_id);
         }
 
-        public CL_ERROR SetSamplerArg(cl_sampler arg, uint index)
+        public CL_ERROR SetSamplerArg(CLSampler arg, uint index)
         {
-            return Core.CL.SetKernelArg(Id, index, arg);
+            cl_sampler arg_id = arg.Id;
+            return CL.SetKernelArg(Id, index, arg_id);
         }
 
         public CL_ERROR SetIntArg(int arg, uint index)
         {
-            return Core.CL.SetKernelArg(Id, index, arg);
+            return CL.SetKernelArg(Id, index, arg);
         }
 
         public CL_ERROR SetFloatArg(float arg, uint index)
         {
-            return Core.CL.SetKernelArg(Id, index, arg);
+            return CL.SetKernelArg(Id, index, arg);
         }
 
         public override void Print(StringBuilder builder)

@@ -23,7 +23,7 @@ namespace OpenCLDotNet.Buffers
             read_write += CanWrite ? "T" : "F";
 
             return String.Format("[CLBuffer: Id={0}, ContextId={1}, ReadWrite={2}, Error={3}]",
-                Id.Value, Context.Id.Value, read_write, Error);
+                Id, Context.Id, read_write, Error);
         }
 
         private void Create(CLContext context, CLBufferData data)

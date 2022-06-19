@@ -27,6 +27,8 @@ namespace OpenCLDotNet.Buffers
 
         public CLBufferRegion Region { get; private set; }
 
+        public override bool IsValid => Buffer.IsValid;
+
         public override string ToString()
         {
             var read_write = "";
@@ -35,8 +37,8 @@ namespace OpenCLDotNet.Buffers
 
             string region = "{" + Region.Origion + ", " + Region.Size + "}";
 
-            return String.Format("[CLSubBuffer: Id={0}, BufferId={1}, ReadWrite={2}, Region={3}, Error={4}]",
-                Id.Value, Buffer.Id.Value, read_write, region, Error);
+            return String.Format("[CLSubBuffer: BufferId={0}, ReadWrite={1}, Region={2}, Error={3}]",
+                Buffer.Id, read_write, region, Error);
         }
 
         private void Create(CLBuffer buffer, CLBufferRegion region, CL_MEM_FLAGS flags)

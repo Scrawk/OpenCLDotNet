@@ -20,7 +20,7 @@ namespace OpenCLDotNet.Core
         /// </summary>
         internal CLObject()
         {
-            
+            ResetErrorCode();
         }
 
         /// <summary>
@@ -32,12 +32,25 @@ namespace OpenCLDotNet.Core
         }
 
         /// <summary>
+        /// The objects OpenCL id.
+        /// </summary>
+        public UIntPtr Id {  get; protected set; }
+
+        /// <summary>
         /// Has the object been disposed.
         /// </summary>
         public bool IsDisposed { get; private set; }
 
         /// <summary>
-        /// 
+        /// Is the object in a valid state to use.
+        /// </summary>
+        /// <returns>Is the object in a valid state to use.</returns>
+        public virtual bool IsValid => Id != UIntPtr.Zero;   
+
+        /// <summary>
+        /// The last error code that occured.
+        /// Will be NONE if never used.
+        /// Will be SUCCUSS if last operation to run was successful.
         /// </summary>
         public string Error { get; protected set; }
 
@@ -54,9 +67,17 @@ namespace OpenCLDotNet.Core
         /// Resets the error code to the value used when 
         /// nothing has been ran the generates a error.
         /// </summary>
-        public void ResetErrorCode()
+        protected void ResetErrorCode()
         {
             Error = CL_ERROR.NONE.ToString();   
+        }
+
+        /// <summary>
+        /// Sets the error code to SUCCESS.
+        /// </summary>
+        protected void SetErrorCodeToSuccess()
+        {
+            Error = CL_ERROR.SUCCESS.ToString();
         }
 
         /// <summary>
@@ -103,6 +124,7 @@ namespace OpenCLDotNet.Core
             {
                 Release();
                 IsDisposed = true;
+                Id = UIntPtr.Zero;
             }
         }
 

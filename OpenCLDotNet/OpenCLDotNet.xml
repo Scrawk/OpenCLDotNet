@@ -237,14 +237,27 @@
             The destuctor.
             </summary>
         </member>
+        <member name="P:OpenCLDotNet.Core.CLObject.Id">
+            <summary>
+            The objects OpenCL id.
+            </summary>
+        </member>
         <member name="P:OpenCLDotNet.Core.CLObject.IsDisposed">
             <summary>
             Has the object been disposed.
             </summary>
         </member>
+        <member name="P:OpenCLDotNet.Core.CLObject.IsValid">
+            <summary>
+            Is the object in a valid state to use.
+            </summary>
+            <returns>Is the object in a valid state to use.</returns>
+        </member>
         <member name="P:OpenCLDotNet.Core.CLObject.Error">
             <summary>
-            
+            The last error code that occured.
+            Will be NONE if never used.
+            Will be SUCCUSS if last operation to run was successful.
             </summary>
         </member>
         <member name="M:OpenCLDotNet.Core.CLObject.Dispose">
@@ -256,6 +269,11 @@
             <summary>
             Resets the error code to the value used when 
             nothing has been ran the generates a error.
+            </summary>
+        </member>
+        <member name="M:OpenCLDotNet.Core.CLObject.SetErrorCodeToSuccess">
+            <summary>
+            Sets the error code to SUCCESS.
             </summary>
         </member>
         <member name="P:OpenCLDotNet.Core.CLObject.HasError">

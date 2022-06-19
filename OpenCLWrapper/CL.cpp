@@ -591,3 +591,43 @@ cl_int CL_ReleaseSampler(cl_sampler sampler)
 {
     return clReleaseSampler(sampler);
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+//                                Command FUNCTIONS                                          ///
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+cl_command_queue CL_CreateCommandQueueWithProperties(
+    cl_context context,
+    cl_device_id device,
+    const cl_queue_properties* properties,
+    cl_int* error)
+{
+    return clCreateCommandQueueWithProperties(context, device, properties, error);
+}
+
+cl_int CL_GetCommandQueueInfoSize(
+    cl_command_queue command,
+    cl_command_queue_info name,
+    size_t* size)
+{
+    return clGetCommandQueueInfo(command, name, 0, nullptr, size);
+}
+
+cl_int CL_GetCommandQueueInfo(
+    cl_command_queue command,
+    cl_command_queue_info name,
+    size_t size,
+    void* info)
+{
+    return clGetCommandQueueInfo(command, name, size, info, nullptr);
+}
+
+cl_int CL_RetainCommandQueue(cl_command_queue command)
+{
+    return clRetainCommandQueue(command);
+}
+
+cl_int CL_ReleaseCommandQueue(cl_command_queue command)
+{
+    return clReleaseCommandQueue(command);
+}

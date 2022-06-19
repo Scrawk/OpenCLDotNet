@@ -15,13 +15,13 @@ namespace OpenCLDotNetConsole
 		static void Main(string[] args)
 		{
 
-			var context = new CLContext(CL_DEVICE_TYPE.GPU);
-			//context.Print();
+			var context = new CLContext();
+			context.Print();
 
 			var filename = "F:/Projects/Visual Studio Projects/OpenCLDotNet/Programs/Convolution.cl";
 
-			var options = "-cl-kernel-arg-info";
-			var program = new CLProgram(context, filename, options);
+			//var options = "-cl-kernel-arg-info";
+			//var program = new CLProgram(context, filename, options);
 			//program.Print();
 
 			//var kernel = new CLKernel(program, "convolve");
@@ -52,8 +52,8 @@ namespace OpenCLDotNetConsole
 			image.Print();
 			*/
 
-			var sampler = new CLSampler(context);
-			sampler.Print();
+			//var sampler = new CLSampler(context);
+			//sampler.Print();
 
 		}
 

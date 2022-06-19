@@ -29,8 +29,6 @@ namespace OpenCLDotNet.Programs
             CheckForKernelArgumentInfo(options);
         }
 
-        public cl_program Id { get; private set; }
-
         public CLContext Context { get; private set; }
 
         public string Options { get; private set; }
@@ -43,7 +41,7 @@ namespace OpenCLDotNet.Programs
         {
             var options = string.IsNullOrEmpty(Options) ? "NONE" : Options;
             return String.Format("[CLProgram: Id={0}, ContextID={1}, Source={2}, Error={3}]",
-                Id.Value, Context.Id.Value, Source, Error);
+                Id, Context.Id, Source, Error);
         }
 
         private void Create(CLContext context, string filename, string options = "")
@@ -56,7 +54,7 @@ namespace OpenCLDotNet.Programs
             var file = File.ReadAllText(filename, Encoding.UTF8);
 
             CL_ERROR error;
-            Id = Core.CL.CreateProgramWithSource(context.Id, file, out error);
+            Id = CL.CreateProgramWithSource(context.Id, file, out error);
             if(error != CL_ERROR.SUCCESS)
             {
                 Error = error.ToString();
@@ -65,7 +63,7 @@ namespace OpenCLDotNet.Programs
 
             var devices = context.GetDeviceIds();
 
-            error = Core.CL.BuildProgram(Id, (uint)devices.Length, devices, options);
+            error = CL.BuildProgram(Id, (uint)devices.Length, devices, options);
             if (error != CL_ERROR.SUCCESS)
             {
                 Error = error.ToString();
@@ -80,7 +78,7 @@ namespace OpenCLDotNet.Programs
             Context = context;
             Source = CL_PROGRAM_SOURCE.BINARY;
 
-            var devices = context.GetDeviceIds();
+            var devices = context.GetDeviceIds().ToArray();
             uint num_devices = (uint)devices.Length;
             if (num_devices != binarys.Count)
             {
@@ -107,7 +105,7 @@ namespace OpenCLDotNet.Programs
             }
 
             CL_ERROR error;
-            Id = Core.CL.CreateProgramWithBinary(Context.Id, num_devices, devices, 
+            Id = CL.CreateProgramWithBinary(Context.Id, num_devices, devices, 
                 sizes, bytes, status, out error);
 
             if (error != CL_ERROR.SUCCESS)
@@ -116,7 +114,7 @@ namespace OpenCLDotNet.Programs
                 return;
             }
 
-            error = Core.CL.BuildProgram(Id, (uint)devices.Length, devices, options);
+            error = CL.BuildProgram(Id, (uint)devices.Length, devices, options);
             if (error != CL_ERROR.SUCCESS)
             {
                 Error = error.ToString();

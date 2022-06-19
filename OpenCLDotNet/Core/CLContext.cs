@@ -15,77 +15,61 @@ namespace OpenCLDotNet.Core
 
         public CLContext(CL_DEVICE_TYPE device_type)
         {
-            var platfrom_ids = new List<cl_platform_id>();
-            CL.GetPlatformIDs(platfrom_ids);
-
-            if (platfrom_ids.Count == 0)
-                return;
-
-            Platform = new CLPlatform(platfrom_ids[0]);
-    
-            var device_ids = new List<cl_device_id>();
-            CL.GetDeviceIDs(Platform.Id, device_type, device_ids);
-
-            CreateContext(device_ids);
-            CreateDevices(device_ids);
+            CreatePlatforms(device_type);
+            CreateContext();
         }
 
-        public CLContext(CLPlatform platform, List<cl_device_id> device_ids)
+        public override bool IsValid
         {
-            Platform = platform;
-            CreateContext(device_ids);
-            CreateDevices(device_ids);
+            get 
+            {  
+                return Id != UIntPtr.Zero &&
+                       Platform != null && 
+                       Platform.IsValid; 
+            }
         }
 
-        public cl_context Id { get; private set; }
+        public int NumDevices
+        {
+            get
+            {
+                if(!IsValid)
+                    return 0;
+                else
+                    return Platform.NumDevices;
+            }
+        }
+
+        public int NumPlatforms => Platforms.Count;
 
         private CLPlatform Platform { get; set; }
 
-        public int NumDevices => Devices.Count;
-
-        private List<CLDevice> Devices { get; set; }
+        private List<CLPlatform> Platforms { get; set; }
 
         public override string ToString()
         {
-            return String.Format("[CLContext: Id={0}, PlatformID={1}, Devices={2}]", 
-                Id.Value, Platform.Id.Value, NumDevices);
+            var platform = Platform != null ? Platform.Id : UIntPtr.Zero;
+            
+            return String.Format("[CLContext: Id={0}, PlatformID={1}, NumPlatforms={2}, NumDevices={3}, Error={4}]", 
+                Id, platform, NumPlatforms, NumDevices, Error);
         }
 
         public cl_device_id[] GetDeviceIds()
         {
-            var ids = new cl_device_id[Devices.Count];
-            for(int i = 0; i < Devices.Count; i++)
-                ids[i] = Devices[i].Id;
-
-            return ids;
-        }
-
-        public bool HasDevice(CL_DEVICE_TYPE type)
-        {
-            foreach(var device in Devices)
-                if(device.Type == type)
-                    return true;
-
-            return false;
-        }
-
-        public bool DeviceSupportsImages(int index)
-        {
-            return Devices[index].SupportsImages;
-        }
-
-        public bool SupportsImages()
-        {
-            foreach (var device in Devices)
-                if (!device.SupportsImages)
-                    return false;
-
-            return true;    
+            if (!IsValid)
+                return new cl_device_id[0];
+            else
+                return Platform.GetDeviceIds();
         }
 
         public override void Print(StringBuilder builder)
         {
             builder.AppendLine(ToString());
+
+            if (!IsValid)
+                return;
+
+            builder.AppendLine();
             var values = Enum.GetValues<CL_CONTEXT_INFO>();
 
             foreach (var e in values)
@@ -94,19 +78,32 @@ namespace OpenCLDotNet.Core
             }
 
             builder.AppendLine();
+            builder.AppendLine("Prefered Platform.");
+            builder.AppendLine();
             Platform.Print(builder);
 
-            foreach(var device in Devices)
+            if (Platforms.Count <= 1)
+                return;
+
+            builder.AppendLine();
+            builder.AppendLine("Other Platforms.");
+            builder.AppendLine();
+
+            foreach (var platform in Platforms)
             {
-                builder.AppendLine();
-                device.Print(builder);
+                if (platform == Platform)
+                    continue;
+
+                platform.Print(builder);
             }
-                
 
         }
 
         public string GetInfo(CL_CONTEXT_INFO info)
         {
+            if (!IsValid)
+                return "UNKNOWN";
+
             var type = CL.GetReturnType(info);
 
             string str = "";
@@ -116,7 +113,7 @@ namespace OpenCLDotNet.Core
             else if (type == CL_INFO_RETURN_TYPE.OBJECT_ARRAY)
                 str = GetInfoObjectArray(info);
             else
-                str = "Unknown";
+                str = "UNKNOWN";
 
             return str;
         }
@@ -130,16 +127,11 @@ namespace OpenCLDotNet.Core
             return info;
         }
 
-        private string GetInfoObjectArray(CL_CONTEXT_INFO name)
+        private unsafe string GetInfoObjectArray(CL_CONTEXT_INFO name)
         {
-            int size_of = 0;
-            unsafe
-            {
-                size_of = sizeof(cl_object);
-            }
-
             CL.GetContextInfoSize(Id, name, out uint size);
 
+            int size_of = sizeof(cl_object);
             var info = new cl_object[size / size_of];
             CL.GetContextInfo(Id, name, size, info);
 
@@ -148,19 +140,50 @@ namespace OpenCLDotNet.Core
             return str;
         }
 
-        private void CreateContext(IList<cl_device_id> devices)
+        private void CreatePlatforms(CL_DEVICE_TYPE device_type)
         {
+            Platforms = new List<CLPlatform>();
+
+            var platform_ids = new List<cl_platform_id>();
+            var error = CL.GetPlatformIDs(platform_ids);
+            if (error != CL_ERROR.SUCCESS)
+            {
+                Error = error.ToString();
+                return;
+            }
+
+            if (platform_ids.Count == 0)
+            {
+                Error = "NO_PLATFORMS_FOUND";
+                return;
+            }
+
+            Platform = null;
+
+            foreach (var id in platform_ids)
+            {
+                var platform = new CLPlatform(id);
+
+                if(Platform == null && platform.HasDevice(device_type))
+                    Platform = platform;
+
+                Platforms.Add(platform);
+            }
+
+            if(Platform == null && Platforms.Count > 0)
+                Platform = Platforms[0];
+                
+            SetErrorCodeToSuccess();
+        }
+         
+        private void CreateContext()
+        {
+            if (Platform == null) return;
+
             Id = CL.CreateContext(
                 Platform.Id,
-                (uint)devices.Count,
-                devices.ToArray());
-        }
-
-        private void CreateDevices(IList<cl_device_id> devices)
-        {
-            Devices = new List<CLDevice>(devices.Count);
-            foreach (var device_id in devices)
-                Devices.Add(new CLDevice(device_id, Platform));
+                (uint)Platform.NumDevices,
+                Platform.GetDeviceIds());
         }
 
         protected override void Release()

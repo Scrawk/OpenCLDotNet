@@ -26,7 +26,7 @@ namespace OpenCLDotNet.Buffers
             read_write += CanWrite ? "T" : "F";
 
             return String.Format("[CLImage2D: Id={0}, ContextId={1}, Width={2}, Height={3}, Channels={4}, ReadWrite={5}, Error={6}]",
-                Id.Value, Context.Id.Value, Width, Height, Channels, read_write, Error);
+                Id, Context.Id, Width, Height, Channels, read_write, Error);
         }
 
         private void Create(CLContext context, CLImageData2D data)

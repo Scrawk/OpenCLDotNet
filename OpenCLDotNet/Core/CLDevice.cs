@@ -16,8 +16,6 @@ namespace OpenCLDotNet.Core
             GetExtensions();
         }
 
-        public cl_device_id Id { get; private set; }
-
         private CLPlatform Platform { get; set; }
 
         public string Vendor { get; private set; }
@@ -38,8 +36,8 @@ namespace OpenCLDotNet.Core
 
         public override string ToString()
         {
-            return String.Format("[CLDevice: Id={0}, PlatformID={1}, Type={2}]", 
-                Id.Value, Platform.Id.Value, Type);
+            return String.Format("[CLDevice: Id={0}, PlatformID={1}, Type={2}, Vendor={3}, Error={4}]", 
+                Id, Platform.Id, Type, Vendor, Error);
         }
 
         public bool HasExtension(string name)
@@ -51,6 +49,9 @@ namespace OpenCLDotNet.Core
         public override void Print(StringBuilder builder)
         {
             builder.AppendLine(ToString());
+
+            if (!IsValid)
+                return;
 
             builder.AppendLine("Vendor: " + Vendor);
             builder.AppendLine("Name: " + Name);
@@ -86,6 +87,9 @@ namespace OpenCLDotNet.Core
 
         public string GetInfo(CL_DEVICE_INFO info)
         {
+            if (!IsValid)
+                return "UNKNOWN";
+
             var type = CL.GetReturnType(info);
 
             string str = "";
@@ -105,7 +109,7 @@ namespace OpenCLDotNet.Core
             else if (type == CL_INFO_RETURN_TYPE.OBJECT_ARRAY)
                 str = GetInfoObjectArray(info);
             else
-                str = "Unknown";
+                str = "UNKNOWN";
 
             return str; 
         }
@@ -202,7 +206,7 @@ namespace OpenCLDotNet.Core
 
         private void GetExtensions()
         {
-            if (Extensions != null)
+            if (Extensions != null || !IsValid)
                 return;
 
             string info = GetInfoString(CL_DEVICE_INFO.EXTENSIONS);

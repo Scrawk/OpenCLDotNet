@@ -339,6 +339,31 @@ extern "C"
 
     CL_WRAPPER_API cl_int CL_ReleaseSampler(cl_sampler sampler);
 
+/////////////////////////////////////////////////////////////////////////////////////////////////
+//                                Command FUNCTIONS                                          ///
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+    CL_WRAPPER_API cl_command_queue CL_CreateCommandQueueWithProperties(
+        cl_context context,
+        cl_device_id device,
+        const cl_queue_properties* properties,
+        cl_int* error);
+
+    CL_WRAPPER_API cl_int CL_GetCommandQueueInfoSize(
+        cl_command_queue command,
+        cl_command_queue_info name,
+        size_t* size);
+
+    CL_WRAPPER_API cl_int CL_GetCommandQueueInfo(
+        cl_command_queue command,
+            cl_command_queue_info name,
+            size_t size,
+            void* info);
+
+    CL_WRAPPER_API cl_int CL_RetainCommandQueue(cl_command_queue command);
+
+    CL_WRAPPER_API cl_int CL_ReleaseCommandQueue(cl_command_queue command);
+
 
 
 }
