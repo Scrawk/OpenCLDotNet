@@ -526,12 +526,12 @@ namespace OpenCLDotNet.Core
 
                 case CL_SAMPLER_INFO.ADDRESSING_MODE:
                 case CL_SAMPLER_INFO.FILTER_MODE:
-                case CL_SAMPLER_INFO.MIP_FILTER_MODE:
+                //case CL_SAMPLER_INFO.MIP_FILTER_MODE:
                     return CL_INFO_RETURN_TYPE.ENUM;
 
-                case CL_SAMPLER_INFO.LOD_MIN:
-                case CL_SAMPLER_INFO.LOD_MAX:
-                    return CL_INFO_RETURN_TYPE.FLOAT;
+                //case CL_SAMPLER_INFO.LOD_MIN:
+                //case CL_SAMPLER_INFO.LOD_MAX:
+                //    return CL_INFO_RETURN_TYPE.FLOAT;
 
                 //case CL_SAMPLER_INFO.PROPERTIES:
                 //    break;

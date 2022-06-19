@@ -9,27 +9,15 @@ namespace OpenCLDotNet.Buffers
 {
     public class CLSampler : CLObject
     {
-        public CLSampler(CLContext context, UInt64[] properties)
+
+        public CLSampler(CLContext context) 
+            : this(context, CLSamplerProperties.Default)
         {
 
-            Create(context, properties);
         }
 
-        public CLSampler(CLContext context)
+        public CLSampler(CLContext context, CLSamplerProperties properties)
         {
-            var properties = new UInt64[]
-            {
-                (UInt64)CL_SAMPLER_PROPERTIES.NORMALIZED_COORDS,
-                (UInt64)cl_bool.True,
-                0,
-                (UInt64)CL_SAMPLER_PROPERTIES.ADDRESSING_MODE,
-                (UInt64)CL_SAMPLER_ADDRESSING_MODE.MIRRORED_REPEAT,
-                0,
-                (UInt64)CL_SAMPLER_PROPERTIES.FILTER_MODE,
-                (UInt64)CL_SAMPLER_FILTER_MODE.LINEAR,
-                0
-            };
-
             Create(context, properties);
         }
 
@@ -41,7 +29,7 @@ namespace OpenCLDotNet.Buffers
                 Id, Context.Id, Error);
         }
 
-        private void Create(CLContext context, UInt64[] properties)
+        private void Create(CLContext context, CLSamplerProperties properties)
         {
             ResetErrorCode();
             Context = context;
@@ -53,14 +41,20 @@ namespace OpenCLDotNet.Buffers
                 Error = error.ToString();
                 return;
             }
+
+            SetErrorCodeToSuccess();
         }
 
         public override void Print(StringBuilder builder)
         {
-            base.Print(builder);
+            builder.AppendLine(ToString());
+
+            if (!IsValid)
+                return;
 
             var values = Enum.GetValues<CL_SAMPLER_INFO>();
 
+            builder.AppendLine();
             foreach (var e in values)
             {
                 builder.AppendLine(e + ": " + GetInfo(e));
@@ -69,6 +63,9 @@ namespace OpenCLDotNet.Buffers
 
         public string GetInfo(CL_SAMPLER_INFO info)
         {
+            if (!IsValid)
+                return "UNKNOWN";
+
             var type = CL.GetReturnType(info);
 
             string str = CL_INFO_RETURN_TYPE.UNKNOWN.ToString();
@@ -81,8 +78,8 @@ namespace OpenCLDotNet.Buffers
                     str = ((CL_SAMPLER_ADDRESSING_MODE)i).ToString();
                 else if (info == CL_SAMPLER_INFO.FILTER_MODE)
                     str = ((CL_SAMPLER_FILTER_MODE)i).ToString();
-                else if (info == CL_SAMPLER_INFO.MIP_FILTER_MODE)
-                    str = ((CL_SAMPLER_FILTER_MODE)i).ToString();
+                //else if (info == CL_SAMPLER_INFO.MIP_FILTER_MODE)
+                //    str = ((CL_SAMPLER_FILTER_MODE)i).ToString();
 
             }
             else if (type == CL_INFO_RETURN_TYPE.UINT ||
@@ -102,6 +99,10 @@ namespace OpenCLDotNet.Buffers
             else if (type == CL_INFO_RETURN_TYPE.OBJECT)
             {
                 str = GetInfoObject(info).ToString();
+            }
+            else
+            {
+                str = "UNKNOWN";
             }
 
             return str;

@@ -26,6 +26,21 @@ namespace OpenCLDotNet.Core
         /// <summary>
         /// 
         /// </summary>
+        public readonly static cl_float MAX_FLOAT = 340282346638528859811704183484516925440.0f;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public readonly static cl_float MIN_FLOAT = 1.175494350822287507969e-38f;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public readonly static cl_float EPSILON = 1.1920928955078125e-7f;
+
+        /// <summary>
+        /// 
+        /// </summary>
         public static string Version
         {
             get

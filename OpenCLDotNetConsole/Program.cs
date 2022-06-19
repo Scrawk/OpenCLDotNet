@@ -52,8 +52,13 @@ namespace OpenCLDotNetConsole
 			image.Print();
 			*/
 
-			//var sampler = new CLSampler(context);
-			//sampler.Print();
+			var props = new CLSamplerProperties();
+			props.NormalizedCoords = false;
+			props.AddressingMode = CL_SAMPLER_ADDRESSING_MODE.REPEAT;
+			props.FilterMode = CL_SAMPLER_FILTER_MODE.NEAREST;
+
+			var sampler = new CLSampler(context, props);
+			sampler.Print();
 
 		}
 

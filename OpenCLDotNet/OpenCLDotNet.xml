@@ -66,6 +66,21 @@
             
             </summary>
         </member>
+        <member name="F:OpenCLDotNet.Core.CL.MAX_FLOAT">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:OpenCLDotNet.Core.CL.MIN_FLOAT">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:OpenCLDotNet.Core.CL.EPSILON">
+            <summary>
+            
+            </summary>
+        </member>
         <member name="P:OpenCLDotNet.Core.CL.Version">
             <summary>
             
@@ -306,6 +321,132 @@
         <member name="M:OpenCLDotNet.Core.CLObject.Release">
             <summary>
             Allow derived class to release the unmanaged memory.
+            </summary>
+        </member>
+        <member name="T:OpenCLDotNet.Core.CLPlatform">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:OpenCLDotNet.Core.CLPlatform.#ctor(OpenCLDotNet.Core.cl_platform_id)">
+            <summary>
+            
+            </summary>
+            <param name="id"></param>
+        </member>
+        <member name="P:OpenCLDotNet.Core.CLPlatform.Vendor">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:OpenCLDotNet.Core.CLPlatform.Name">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:OpenCLDotNet.Core.CLPlatform.Version">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:OpenCLDotNet.Core.CLPlatform.Profile">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:OpenCLDotNet.Core.CLPlatform.Extensions">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:OpenCLDotNet.Core.CLPlatform.NumDevices">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:OpenCLDotNet.Core.CLPlatform.Devices">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:OpenCLDotNet.Core.CLPlatform.ToString">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Core.CLPlatform.GetDeviceIds">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Core.CLPlatform.HasDevice(OpenCLDotNet.Core.CL_DEVICE_TYPE)">
+            <summary>
+            
+            </summary>
+            <param name="type"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Core.CLPlatform.DeviceSupportsImages(System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="index"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Core.CLPlatform.SupportsImages">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Core.CLPlatform.HasExtension(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Core.CLPlatform.UnloadComplier">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Core.CLPlatform.Print(System.Text.StringBuilder)">
+            <summary>
+            
+            </summary>
+            <param name="builder"></param>
+        </member>
+        <member name="M:OpenCLDotNet.Core.CLPlatform.GetInfo(OpenCLDotNet.Core.CL_PLATFORM_INFO)">
+            <summary>
+            
+            </summary>
+            <param name="info"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Core.CLPlatform.GetInfo">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:OpenCLDotNet.Core.CLPlatform.GetInfoString(OpenCLDotNet.Core.CL_PLATFORM_INFO)">
+            <summary>
+            
+            </summary>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Core.CLPlatform.CreateDevices">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:OpenCLDotNet.Core.CLPlatform.GetExtensions">
+            <summary>
+            
             </summary>
         </member>
         <member name="M:OpenCLDotNet.Utility.ErrorUtil.CheckArray(System.Array,System.UInt32)">

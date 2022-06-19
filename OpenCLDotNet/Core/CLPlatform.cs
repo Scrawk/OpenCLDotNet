@@ -6,9 +6,15 @@ using OpenCLDotNet.Utility;
 
 namespace OpenCLDotNet.Core
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class CLPlatform : CLObject
     {
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
         public CLPlatform(cl_platform_id id)
         {
             Id = id;
@@ -17,26 +23,55 @@ namespace OpenCLDotNet.Core
             GetExtensions();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public string Vendor { get; private set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public string Name { get; private set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public string Version { get; private set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public string Profile { get; private set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
         private List<string> Extensions { get; set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public int NumDevices => Devices.Count;
 
+        /// <summary>
+        /// 
+        /// </summary>
         private List<CLDevice> Devices { get; set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public override string ToString()
         {
             return String.Format("[CLPlatform: Id={0}, Vendor={1}, NumDevices={2}, Error={3}]", 
                 Id, Vendor, NumDevices, Error);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public cl_device_id[] GetDeviceIds()
         {
             var ids = new cl_device_id[Devices.Count];
@@ -47,6 +82,11 @@ namespace OpenCLDotNet.Core
             return ids;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
         public bool HasDevice(CL_DEVICE_TYPE type)
         {
             foreach (var device in Devices)
@@ -56,11 +96,20 @@ namespace OpenCLDotNet.Core
             return false;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="index"></param>
+        /// <returns></returns>
         public bool DeviceSupportsImages(int index)
         {
             return Devices[index].SupportsImages;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public bool SupportsImages()
         {
             foreach (var device in Devices)
@@ -70,17 +119,30 @@ namespace OpenCLDotNet.Core
             return true;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
         public bool HasExtension(string name)
         {
             GetExtensions();
             return Extensions.Contains(name);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public CL_ERROR UnloadComplier()
         {
             return CL.UnloadPlatformCompiler(Id);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="builder"></param>
         public override void Print(StringBuilder builder)
         {
             builder.AppendLine(ToString());
@@ -126,6 +188,11 @@ namespace OpenCLDotNet.Core
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="info"></param>
+        /// <returns></returns>
         public string GetInfo(CL_PLATFORM_INFO info)
         {
             if (!IsValid)
@@ -143,6 +210,9 @@ namespace OpenCLDotNet.Core
             return str;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         private void  GetInfo()
         {
             Vendor = GetInfoString(CL_PLATFORM_INFO.VENDOR);
@@ -151,6 +221,11 @@ namespace OpenCLDotNet.Core
             Profile = GetInfoString(CL_PLATFORM_INFO.PROFILE);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
         private string GetInfoString(CL_PLATFORM_INFO name)
         {
             string info;
@@ -162,6 +237,9 @@ namespace OpenCLDotNet.Core
                 return info;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         private void CreateDevices()
         {
             Devices = new List<CLDevice>();
@@ -183,6 +261,9 @@ namespace OpenCLDotNet.Core
             SetErrorCodeToSuccess();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         private void GetExtensions()
         {
             if (Extensions != null || !IsValid)

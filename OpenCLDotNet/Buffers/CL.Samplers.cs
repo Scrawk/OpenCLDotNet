@@ -5,6 +5,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 
 using OpenCLDotNet.Utility;
+using OpenCLDotNet.Buffers;
 
 namespace OpenCLDotNet.Core
 {
@@ -13,7 +14,7 @@ namespace OpenCLDotNet.Core
 
         public static cl_sampler CreateSamplerWithProperties(
             cl_context context,
-            UInt64[] properties,
+            CLSamplerProperties properties,
             out CL_ERROR error)
         {
             return CL_CreateSamplerWithProperties(context, properties, out error);
@@ -79,7 +80,7 @@ namespace OpenCLDotNet.Core
         [DllImport(DLL_NAME, CallingConvention = CDECL)]
         private static extern cl_sampler CL_CreateSamplerWithProperties(
             cl_context context,
-            UInt64[] sampler_properties,
+            CLSamplerProperties sampler_properties,
             [Out] out CL_ERROR errcode_ret);
 
         [DllImport(DLL_NAME, CallingConvention = CDECL)]

@@ -3,6 +3,22 @@
 #include "OpenCLWrapper.h"
 #include <CL/cl.h>
 
+struct SamplerProperties
+{
+    cl_bool normalizedCoords;
+    int addressingMode;
+    int filtergMode;
+    int mipFilterMode;
+    cl_float LODMin;
+    cl_float LODMax;
+};
+
+struct ContextProperties
+{
+    cl_long platform;
+    //cl_bool interopUserSync;
+};
+
 extern "C"
 {
 
@@ -67,7 +83,7 @@ extern "C"
     ///////////////////////////////////////////////////////////////////////////////////////////////
 
     CL_WRAPPER_API cl_context CL_CreateContext(
-        const cl_context_properties* properties,
+        ContextProperties properties,
         cl_uint num_devices,
         const cl_device_id* devices);
 
@@ -112,6 +128,15 @@ extern "C"
         const cl_device_id* device_list,
         const char* options);
 
+    CL_WRAPPER_API cl_program CL_LinkProgram(
+        cl_context context,
+        cl_uint num_devices,
+        const cl_device_id* device_list,
+        const char* options,
+        cl_uint num_input_programs,
+        const cl_program* input_programs,
+        cl_int* errcode_ret);
+
     CL_WRAPPER_API cl_int CL_GetProgramBuildInfoSize(
         cl_program program,
         cl_device_id device,
@@ -154,6 +179,10 @@ extern "C"
     CL_WRAPPER_API cl_kernel CL_CreateKernel(
         cl_program program,
         const char* kernel_name,
+        cl_int* errcode_ret);
+
+    CL_WRAPPER_API cl_kernel CL_CloneKernel(
+        cl_kernel source_kernel,
         cl_int* errcode_ret);
 
     CL_WRAPPER_API cl_int CL_SetKernelArgMem(
@@ -312,7 +341,7 @@ extern "C"
 
     CL_WRAPPER_API cl_sampler CL_CreateSamplerWithProperties(
         cl_context context,
-        const cl_sampler_properties* sampler_properties,
+        SamplerProperties sampler_properties,
         cl_int* errcode_ret);
 
     /*

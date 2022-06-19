@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
+
 namespace OpenCLDotNet.Core
 {
     public enum CL_PROGRAM_SOURCE
@@ -506,9 +507,9 @@ namespace OpenCLDotNet.Core
         // These enumerants are for the khr_mipmap_image extension.
         // They have since been added to ext.h with an appropriate
         // KHR suffix, but are left here for backwards compatibility. 
-        MIP_FILTER_MODE = 0x1155,
-        LOD_MIN = 0x1156,
-        LOD_MAX = 0x1157,
+        //MIP_FILTER_MODE = 0x1155,
+        //LOD_MIN = 0x1156,
+        //LOD_MAX = 0x1157,
         PROPERTIES = 0x1158
     }
 

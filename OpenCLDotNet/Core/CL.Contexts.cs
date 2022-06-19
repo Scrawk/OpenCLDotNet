@@ -22,12 +22,8 @@ namespace OpenCLDotNet.Core
             uint num_devices,
             cl_device_id[] devices)
         {
-            var properties = new UInt64[]
-            {
-                (UInt64)CL_CONTEXT_PROPERTIES.PLATFORM,
-                (UInt64)platform.Value,
-                0
-            };
+            var properties = new CLContextProperties();
+            properties.Platform = platform;
 
             return CL_CreateContext(properties, num_devices, devices);
         }
@@ -111,7 +107,7 @@ namespace OpenCLDotNet.Core
 
         [DllImport(DLL_NAME, CallingConvention = CDECL)]
         private static extern cl_context CL_CreateContext(
-            UInt64[] properties,
+            CLContextProperties properties,
             cl_uint num_devices,
             cl_device_id[] devices);
 
