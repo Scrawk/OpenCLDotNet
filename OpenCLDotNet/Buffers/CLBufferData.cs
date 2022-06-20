@@ -9,7 +9,7 @@ namespace OpenCLDotNet.Buffers
     /// <summary>
     /// 
     /// </summary>
-    public struct CLBufferData
+    public class CLBufferData
     {
         /// <summary>
         /// 
@@ -19,7 +19,7 @@ namespace OpenCLDotNet.Buffers
         /// <summary>
         /// 
         /// </summary>
-        public Array Source {  get; private set; }
+        internal CLMemData Source {  get; private set; }
 
         /// <summary>
         /// 
@@ -27,73 +27,122 @@ namespace OpenCLDotNet.Buffers
         /// <returns></returns>
         public override string ToString()
         {
-            string len_or_null = Source != null ? Source.Length.ToString() : "NULL";
-  
-            return String.Format("[CLImageData: Flags={0}, SourceLen={1}]", 
-                Flags, len_or_null);
+            string source_or_null = Source == null ? "NULL" : Source.ToString();
+
+            return String.Format("[CLImageData: Flags={0}, Source={1}]", 
+                Flags, source_or_null);
         }
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="source"></param>
+        /// <exception cref="ArgumentNullException"></exception>
         public void SetSource(float[] source)
         {
-            Source = source;
+            if(source == null)
+                throw new ArgumentNullException("Source is null");
+
+            var type = CL_MEM_DATA_TYPE.FLOAT;
+            uint size = sizeof(float);
+            uint rowPitch = 0;
+            Source = new CLMemData(source, type, size, rowPitch);
         }
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="source"></param>
+        /// <exception cref="ArgumentNullException"></exception>
         public void SetSource(int[] source)
         {
-            Source = source;
+            if (source == null)
+                throw new ArgumentNullException("Source is null");
+
+            var type = CL_MEM_DATA_TYPE.INT;
+            uint size = sizeof(int);
+            uint rowPitch = 0;
+            Source = new CLMemData(source, type, size, rowPitch);
         }
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="source"></param>
+        /// <exception cref="ArgumentNullException"></exception>
         public void SetSource(uint[] source)
         {
-            Source = source;
+            if (source == null)
+                throw new ArgumentNullException("Source is null");
+
+            var type = CL_MEM_DATA_TYPE.UINT;
+            uint size = sizeof(uint);
+            uint rowPitch = 0;
+            Source = new CLMemData(source, type, size, rowPitch);
         }
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="source"></param>
+        /// <exception cref="ArgumentNullException"></exception>
         public void SetSource(short[] source)
         {
-            Source = source;
+            if (source == null)
+                throw new ArgumentNullException("Source is null");
+
+            var type = CL_MEM_DATA_TYPE.SHORT;
+            uint size = sizeof(short);
+            uint rowPitch = 0;
+            Source = new CLMemData(source, type, size, rowPitch);
         }
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="source"></param>
+        /// <exception cref="ArgumentNullException"></exception>
         public void SetSource(ushort[] source)
         {
-            Source = source;
+            if (source == null)
+                throw new ArgumentNullException("Source is null");
+
+            var type = CL_MEM_DATA_TYPE.USHORT;
+            uint size = sizeof(ushort);
+            uint rowPitch = 0;
+            Source = new CLMemData(source, type, size, rowPitch);
         }
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="source"></param>
+        /// <exception cref="ArgumentNullException"></exception>
         public void SetSource(byte[] source)
         {
-            Source = source;
+            if (source == null)
+                throw new ArgumentNullException("Source is null");
+
+            var type = CL_MEM_DATA_TYPE.BYTE;
+            uint size = sizeof(byte);
+            uint rowPitch = 0;
+            Source = new CLMemData(source, type, size, rowPitch);
         }
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="source"></param>
+        /// <exception cref="ArgumentNullException"></exception>
         public void SetSource(sbyte[] source)
         {
-            Source = source;
+            if (source == null)
+                throw new ArgumentNullException("Source is null");
+
+            var type = CL_MEM_DATA_TYPE.SBYTE;
+            uint size = sizeof(sbyte);
+            uint rowPitch = 0;
+            Source = new CLMemData(source, type, size, rowPitch);
         }
     }
 }

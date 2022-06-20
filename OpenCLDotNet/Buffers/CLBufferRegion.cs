@@ -8,17 +8,17 @@ namespace OpenCLDotNet.Buffers
     /// <summary>
     /// 
     /// </summary>
-    public readonly record struct CLBufferRegion
+    public record struct CLBufferRegion
     {
         /// <summary>
         /// 
         /// </summary>
-        public readonly size_t Origion;
+        public size_t Origion;
 
         /// <summary>
         /// 
         /// </summary>
-        public readonly size_t Size;
+        public size_t Size;
 
         /// <summary>
         /// 

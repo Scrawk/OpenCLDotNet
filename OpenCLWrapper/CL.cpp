@@ -766,3 +766,24 @@ cl_int CL_SetUserEventStatus(
 {
     return clSetUserEventStatus(event, status);
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+//                                ENQUEUE FUNCTIONS                                          ///
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+cl_int CL_EnqueueReadImage(
+    cl_command_queue command,
+    cl_mem image,
+    cl_bool blocking_read,
+    const size_t* origin,
+    const size_t* region,
+    size_t row_pitch,
+    size_t slice_pitch,
+    void* ptr,
+    cl_uint wait_list_size,
+    const cl_event* wait_list,
+    cl_event* event)
+{
+    return clEnqueueReadImage(command, image, blocking_read, origin, region, 
+        row_pitch, slice_pitch, ptr, wait_list_size, wait_list, event);
+}

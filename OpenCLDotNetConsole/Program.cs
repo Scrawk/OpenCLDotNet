@@ -16,6 +16,7 @@ namespace OpenCLDotNetConsole
 		static void Main(string[] args)
 		{
 
+
 			var context = new CLContext();
 			//context.Print();
 
@@ -32,7 +33,7 @@ namespace OpenCLDotNetConsole
 			//kernel.SetIntArg(10, 3);
 			//kernel.Print();
 
-			/*
+		
 			var buffer_data = new CLBufferData();
 			buffer_data.Flags = CL_MEM_FLAGS.READ_WRITE | CL_MEM_FLAGS.USE_HOST_PTR;
 			buffer_data.SetSource(new float[100]);
@@ -54,7 +55,7 @@ namespace OpenCLDotNetConsole
 
 			var image = new CLImage2D(context, image_data);
 			image.Print();
-			*/
+		
 
 			/*
 			var sampler_props = new CLSamplerProperties();
@@ -69,9 +70,9 @@ namespace OpenCLDotNetConsole
 			//var cmd = new CLCommandQueue(context);
 			//cmd.Print();
 
-			var _event = new CLEvent(context);
-			_event.Print();
-			
+			//var _event = new CLEvent(context);
+			//_event.Print();
+
 		}
 
 	}

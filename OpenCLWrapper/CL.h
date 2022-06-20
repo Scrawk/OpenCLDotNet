@@ -68,7 +68,7 @@ extern "C"
         cl_platform_id   platform,
         cl_device_type   device_type,
         cl_uint* num_devices);
-        
+
     CL_WRAPPER_API cl_int CL_GetDeviceInfoSize(
         cl_device_id    device,
         cl_device_info  param_name,
@@ -290,9 +290,9 @@ extern "C"
         cl_int* errcode_ret);
 
     CL_WRAPPER_API cl_int CL_GetMemObjectInfoSize(
-            cl_mem memobj,
-            cl_mem_info param_name,
-            size_t* param_value_size_ret);
+        cl_mem memobj,
+        cl_mem_info param_name,
+        size_t* param_value_size_ret);
 
     CL_WRAPPER_API cl_int CL_GetMemObjectInfo(
         cl_mem memobj,
@@ -304,9 +304,9 @@ extern "C"
 
     CL_WRAPPER_API cl_int CL_ReleaseMemObject(cl_mem mem);
 
-/////////////////////////////////////////////////////////////////////////////////////////////////
-//                                IMAGE FUNCTIONS                                            ///
-///////////////////////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////////////////////////////
+    //                                IMAGE FUNCTIONS                                            ///
+    ///////////////////////////////////////////////////////////////////////////////////////////////
 
     CL_WRAPPER_API cl_mem CL_CreateImage(
         cl_context context,
@@ -341,9 +341,9 @@ extern "C"
         size_t param_value_size,
         void* param_value);
 
-/////////////////////////////////////////////////////////////////////////////////////////////////
-//                                SAMPLER FUNCTIONS                                          ///
-///////////////////////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////////////////////////////
+    //                                SAMPLER FUNCTIONS                                          ///
+    ///////////////////////////////////////////////////////////////////////////////////////////////
 
     CL_WRAPPER_API cl_sampler CL_CreateSamplerWithProperties(
         cl_context context,
@@ -361,8 +361,8 @@ extern "C"
 
     CL_WRAPPER_API cl_int CL_GetSamplerInfoSize(
         cl_sampler sampler,
-            cl_sampler_info param_name,
-            size_t* param_value_size_ret);
+        cl_sampler_info param_name,
+        size_t* param_value_size_ret);
 
     CL_WRAPPER_API cl_int CL_GetSamplerInfo(
         cl_sampler sampler,
@@ -374,9 +374,9 @@ extern "C"
 
     CL_WRAPPER_API cl_int CL_ReleaseSampler(cl_sampler sampler);
 
-/////////////////////////////////////////////////////////////////////////////////////////////////
-//                                Command FUNCTIONS                                          ///
-///////////////////////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////////////////////////////
+    //                                Command FUNCTIONS                                          ///
+    ///////////////////////////////////////////////////////////////////////////////////////////////
 
     CL_WRAPPER_API cl_command_queue CL_CreateCommandQueueWithProperties(
         cl_context context,
@@ -403,9 +403,9 @@ extern "C"
 
     CL_WRAPPER_API cl_int CL_Finish(cl_command_queue command);
 
-/////////////////////////////////////////////////////////////////////////////////////////////////
-//                                EVENT FUNCTIONS                                            ///
-///////////////////////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////////////////////////////
+    //                                EVENT FUNCTIONS                                            ///
+    ///////////////////////////////////////////////////////////////////////////////////////////////
 
     CL_WRAPPER_API cl_int CL_WaitForEvents(
         cl_uint num_events,
@@ -444,5 +444,307 @@ extern "C"
     CL_WRAPPER_API cl_int CL_SetUserEventStatus(
         cl_event event,
         cl_int status);
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////
+    //                                ENQUEUE FUNCTIONS                                          ///
+    ///////////////////////////////////////////////////////////////////////////////////////////////
+
+    CL_WRAPPER_API cl_int CL_EnqueueReadBuffer(
+        cl_command_queue command_queue,
+        cl_mem buffer,
+        cl_bool blocking_read,
+        size_t offset,
+        size_t size,
+        void* ptr,
+        cl_uint num_events_in_wait_list,
+        const cl_event* event_wait_list,
+        cl_event* event);
+
+    CL_WRAPPER_API cl_int CL_EnqueueReadBufferRect(
+        cl_command_queue command_queue,
+        cl_mem buffer,
+        cl_bool blocking_read,
+        const size_t* buffer_origin,
+        const size_t* host_origin,
+        const size_t* region,
+        size_t buffer_row_pitch,
+        size_t buffer_slice_pitch,
+        size_t host_row_pitch,
+        size_t host_slice_pitch,
+        void* ptr,
+        cl_uint             num_events_in_wait_list,
+        const cl_event* event_wait_list,
+        cl_event* event);
+
+    CL_WRAPPER_API cl_int CL_EnqueueWriteBuffer(
+        cl_command_queue command_queue,
+        cl_mem buffer,
+        cl_bool blocking_write,
+        size_t offset,
+        size_t size,
+        const void* ptr,
+        cl_uint num_events_in_wait_list,
+        const cl_event* event_wait_list,
+        cl_event* event);
+
+    CL_WRAPPER_API cl_int CL_EnqueueWriteBufferRect(
+        cl_command_queue command_queue,
+        cl_mem              buffer,
+        cl_bool             blocking_write,
+        const size_t* buffer_origin,
+        const size_t* host_origin,
+        const size_t* region,
+        size_t              buffer_row_pitch,
+        size_t              buffer_slice_pitch,
+        size_t              host_row_pitch,
+        size_t              host_slice_pitch,
+        const void* ptr,
+        cl_uint             num_events_in_wait_list,
+        const cl_event* event_wait_list,
+        cl_event* event);
+
+    CL_WRAPPER_API cl_int CL_EnqueueFillBuffer(
+        cl_command_queue command_queue,
+        cl_mem             buffer,
+        const void* pattern,
+        size_t             pattern_size,
+        size_t             offset,
+        size_t             size,
+        cl_uint            num_events_in_wait_list,
+        const cl_event* event_wait_list,
+        cl_event* event);
+
+    CL_WRAPPER_API cl_int CL_EnqueueCopyBuffer(
+        cl_command_queue command_queue,
+        cl_mem              src_buffer,
+        cl_mem              dst_buffer,
+        size_t              src_offset,
+        size_t              dst_offset,
+        size_t              size,
+        cl_uint             num_events_in_wait_list,
+        const cl_event* event_wait_list,
+        cl_event* event);
+
+    CL_WRAPPER_API cl_int CL_EnqueueCopyBufferRect(
+        cl_command_queue command_queue,
+        cl_mem              src_buffer,
+        cl_mem              dst_buffer,
+        const size_t* src_origin,
+        const size_t* dst_origin,
+        const size_t* region,
+        size_t              src_row_pitch,
+        size_t              src_slice_pitch,
+        size_t              dst_row_pitch,
+        size_t              dst_slice_pitch,
+        cl_uint             num_events_in_wait_list,
+        const cl_event* event_wait_list,
+        cl_event* event);
+
+    CL_WRAPPER_API cl_int CL_EnqueueReadImage(
+        cl_command_queue  command_queue,
+        cl_mem image,
+        cl_bool blocking_read,
+        const size_t* origin,
+        const size_t* region,
+        size_t row_pitch,
+        size_t slice_pitch,
+        void* ptr,
+        cl_uint num_events_in_wait_list,
+        const cl_event* event_wait_list,
+        cl_event* event);
+
+    CL_WRAPPER_API cl_int CL_EnqueueWriteImage(
+        cl_command_queue command_queue,
+        cl_mem              image,
+        cl_bool             blocking_write,
+        const size_t* origin,
+        const size_t* region,
+        size_t              input_row_pitch,
+        size_t              input_slice_pitch,
+        const void* ptr,
+        cl_uint             num_events_in_wait_list,
+        const cl_event* event_wait_list,
+        cl_event* event);
+
+    CL_WRAPPER_API cl_int CL_EnqueueFillImage(
+        cl_command_queue command_queue,
+        cl_mem             image,
+        const void* fill_color,
+        const size_t* origin,
+        const size_t* region,
+        cl_uint            num_events_in_wait_list,
+        const cl_event* event_wait_list,
+        cl_event* event);
+
+    CL_WRAPPER_API cl_int CL_EnqueueCopyImage(
+        cl_command_queue command_queue,
+        cl_mem               src_image,
+        cl_mem               dst_image,
+        const size_t* src_origin,
+        const size_t* dst_origin,
+        const size_t* region,
+        cl_uint              num_events_in_wait_list,
+        const cl_event* event_wait_list,
+        cl_event* event);
+
+    CL_WRAPPER_API cl_int CL_EnqueueCopyImageToBuffer(
+        cl_command_queue command_queue,
+        cl_mem           src_image,
+        cl_mem           dst_buffer,
+        const size_t* src_origin,
+        const size_t* region,
+        size_t           dst_offset,
+        cl_uint          num_events_in_wait_list,
+        const cl_event* event_wait_list,
+        cl_event* event);
+
+    CL_WRAPPER_API cl_int CL_EnqueueCopyBufferToImage(
+        cl_command_queue command_queue,
+        cl_mem           src_buffer,
+        cl_mem           dst_image,
+        size_t           src_offset,
+        const size_t* dst_origin,
+        const size_t* region,
+        cl_uint          num_events_in_wait_list,
+        const cl_event* event_wait_list,
+        cl_event* event);
+
+    CL_WRAPPER_API void* CL_EnqueueMapBuffer(
+        cl_command_queue command_queue,
+        cl_mem           buffer,
+        cl_bool          blocking_map,
+        cl_map_flags     map_flags,
+        size_t           offset,
+        size_t           size,
+        cl_uint          num_events_in_wait_list,
+        const cl_event* event_wait_list,
+        cl_event* event,
+        cl_int* errcode_ret);
+
+    CL_WRAPPER_API void* CL_EnqueueMapImage(
+        cl_command_queue  command_queue,
+        cl_mem            image,
+        cl_bool           blocking_map,
+        cl_map_flags      map_flags,
+        const size_t* origin,
+        const size_t* region,
+        size_t* image_row_pitch,
+        size_t* image_slice_pitch,
+        cl_uint           num_events_in_wait_list,
+        const cl_event* event_wait_list,
+        cl_event* event,
+        cl_int* errcode_ret);
+
+    CL_WRAPPER_API cl_int CL_EnqueueUnmapMemObject(
+        cl_command_queue command_queue,
+        cl_mem           memobj,
+        void* mapped_ptr,
+        cl_uint          num_events_in_wait_list,
+        const cl_event* event_wait_list,
+        cl_event* event);
+
+    CL_WRAPPER_API cl_int CL_EnqueueMigrateMemObjects(
+        cl_command_queue command_queue,
+        cl_uint                num_mem_objects,
+        const cl_mem* mem_objects,
+        cl_mem_migration_flags flags,
+        cl_uint                num_events_in_wait_list,
+        const cl_event* event_wait_list,
+        cl_event* event);
+
+    CL_WRAPPER_API cl_int CL_EnqueueNDRangeKernel(
+        cl_command_queue command_queue,
+        cl_kernel        kernel,
+        cl_uint          work_dim,
+        const size_t* global_work_offset,
+        const size_t* global_work_size,
+        const size_t* local_work_size,
+        cl_uint          num_events_in_wait_list,
+        const cl_event* event_wait_list,
+        cl_event* event);
+
+    CL_WRAPPER_API cl_int CL_EnqueueNativeKernel(
+        cl_command_queue  command_queue,
+        void (CL_CALLBACK* user_func)(void*),
+        void* args,
+        size_t            cb_args,
+        cl_uint           num_mem_objects,
+        const cl_mem* mem_list,
+        const void** args_mem_loc,
+        cl_uint           num_events_in_wait_list,
+        const cl_event* event_wait_list,
+        cl_event* event);
+
+    CL_WRAPPER_API cl_int CL_EnqueueMarkerWithWaitList(
+        cl_command_queue command_queue,
+        cl_uint           num_events_in_wait_list,
+        const cl_event* event_wait_list,
+        cl_event* event);
+
+    CL_WRAPPER_API cl_int CL_EnqueueBarrierWithWaitList(
+        cl_command_queue command_queue,
+        cl_uint           num_events_in_wait_list,
+        const cl_event* event_wait_list,
+        cl_event* event);
+
+    CL_WRAPPER_API cl_int CL_EnqueueSVMFree(
+        cl_command_queue command_queue,
+        cl_uint           num_svm_pointers,
+        void* svm_pointers[],
+        void (CL_CALLBACK* pfn_free_func)(cl_command_queue queue,
+            cl_uint          num_svm_pointers,
+            void* svm_pointers[],
+            void* user_data),
+        void* user_data,
+        cl_uint           num_events_in_wait_list,
+        const cl_event* event_wait_list,
+        cl_event* event);
+
+    CL_WRAPPER_API cl_int CL_EnqueueSVMMemcpy(
+        cl_command_queue command_queue,
+        cl_bool           blocking_copy,
+        void* dst_ptr,
+        const void* src_ptr,
+        size_t            size,
+        cl_uint           num_events_in_wait_list,
+        const cl_event* event_wait_list,
+        cl_event* event);
+
+    CL_WRAPPER_API cl_int CL_EnqueueSVMMemFill(
+        cl_command_queue command_queue,
+        void* svm_ptr,
+        const void* pattern,
+        size_t            pattern_size,
+        size_t            size,
+        cl_uint           num_events_in_wait_list,
+        const cl_event* event_wait_list,
+        cl_event* event);
+
+    CL_WRAPPER_API cl_int CL_EnqueueSVMMap(
+        cl_command_queue command_queue,
+        cl_bool           blocking_map,
+        cl_map_flags      flags,
+        void* svm_ptr,
+        size_t            size,
+        cl_uint           num_events_in_wait_list,
+        const cl_event* event_wait_list,
+        cl_event* event);
+
+    CL_WRAPPER_API cl_int CL_EnqueueSVMUnmap(
+        cl_command_queue  command_queue,
+        void* svm_ptr,
+        cl_uint           num_events_in_wait_list,
+        const cl_event* event_wait_list,
+        cl_event* event);
+
+    CL_WRAPPER_API cl_int CL_EnqueueSVMMigrateMem(
+        cl_command_queue  command_queue,
+        cl_uint                  num_svm_pointers,
+        const void** svm_pointers,
+        const size_t* sizes,
+        cl_mem_migration_flags   flags,
+        cl_uint                  num_events_in_wait_list,
+        const cl_event* event_wait_list,
+        cl_event* event);
 
 }

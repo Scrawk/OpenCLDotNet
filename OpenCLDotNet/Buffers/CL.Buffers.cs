@@ -16,20 +16,17 @@ namespace OpenCLDotNet.Core
         /// </summary>
         /// <param name="context"></param>
         /// <param name="flags"></param>
+        /// <param name="size"></param>
         /// <param name="data"></param>
         /// <param name="error"></param>
         /// <returns></returns>
         public static cl_mem CreateBuffer(
             cl_context context,
             CL_MEM_FLAGS flags,
+            uint size,
             Array data,
             out CL_ERROR error)
         {
-            size_t size = 0;
-
-            if(data != null)
-                size = (size_t)(sizeof(float) * data.Length);
-
             return CL_CreateBuffer(context, flags, size, data, out error);
         }
 

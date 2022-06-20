@@ -9,7 +9,7 @@ namespace OpenCLDotNet.Buffers
     /// <summary>
     /// 
     /// </summary>
-    public struct CLImageData2D
+    public class CLImageData2D
     {
 
         /// <summary>
@@ -45,7 +45,7 @@ namespace OpenCLDotNet.Buffers
         /// <summary>
         /// 
         /// </summary>
-        public Array Source { get; private set; }
+        internal CLMemData Source { get; private set; }
 
         /// <summary>
         /// 
@@ -53,10 +53,10 @@ namespace OpenCLDotNet.Buffers
         /// <returns></returns>
         public override string ToString()
         {
-            string len_or_null = Source != null ? Source.Length.ToString() : "NULL";
+            string source_or_null = Source == null ? "NULL" : Source.ToString();
 
-            return String.Format("[CLImageData: Width={0}, Height={1}, Order={2}, Type={3}, SourceLen={4}]",
-                Width, Height, ChannelOrder, ChannelType, len_or_null);
+            return String.Format("[CLImageData: Width={0}, Height={1}, Order={2}, Type={3}, Source={4}]",
+                Width, Height, ChannelOrder, ChannelType, source_or_null);
         }
 
         /// <summary>
@@ -82,7 +82,7 @@ namespace OpenCLDotNet.Buffers
             if(Source == null)
                 return false;
             else
-                return Width * Height * Channels == Source.Length;
+                return Width * Height * Channels == Source.DataLength;
         }
 
         /// <summary>
@@ -104,7 +104,7 @@ namespace OpenCLDotNet.Buffers
             if (Source == null)
                 throw new NullReferenceException("Source is null");
 
-            return CL.IsValidArrayData(ChannelType, Source);
+            return CL.IsValidArrayData(ChannelType, Source.Data);
         }
 
         /// <summary>
@@ -141,10 +141,9 @@ namespace OpenCLDotNet.Buffers
         {
             Channels = CL.GetNumChannels(ChannelOrder);
 
-            uint size = CL.SizeOf(ChannelType);
             uint width = Width;
             uint height = Height;
-            uint row_pitch = Channels * size * Width;
+            uint row_pitch = Source.RowPitch;
             uint slice_pitch = 0; // row_pitch * Height;
 
             var des = new CLImageDescription();
@@ -166,63 +165,112 @@ namespace OpenCLDotNet.Buffers
         /// 
         /// </summary>
         /// <param name="source"></param>
+        /// <exception cref="ArgumentNullException"></exception>
         public void SetSource(float[] source)
         {
-            Source = source;
+            if (source == null)
+                throw new ArgumentNullException("Source is null");
+
+            var type = CL_MEM_DATA_TYPE.FLOAT;
+            uint size = sizeof(float);
+            uint rowPitch = Channels * size * Width;
+            Source = new CLMemData(source, type, size, rowPitch);
         }
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="source"></param>
+        /// <exception cref="ArgumentNullException"></exception>
         public void SetSource(int[] source)
         {
-            Source = source;
+            if (source == null)
+                throw new ArgumentNullException("Source is null");
+
+            var type = CL_MEM_DATA_TYPE.INT;
+            uint size = sizeof(int);
+            uint rowPitch = Channels * size * Width;
+            Source = new CLMemData(source, type, size, rowPitch);
         }
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="source"></param>
+        /// <exception cref="ArgumentNullException"></exception>
         public void SetSource(uint[] source)
         {
-            Source = source;
+            if (source == null)
+                throw new ArgumentNullException("Source is null");
+
+            var type = CL_MEM_DATA_TYPE.UINT;
+            uint size = sizeof(uint);
+            uint rowPitch = Channels * size * Width;
+            Source = new CLMemData(source, type, size, rowPitch);
         }
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="source"></param>
+        /// <exception cref="ArgumentNullException"></exception>
         public void SetSource(short[] source)
         {
-            Source = source;
+            if (source == null)
+                throw new ArgumentNullException("Source is null");
+
+            var type = CL_MEM_DATA_TYPE.SHORT;
+            uint size = sizeof(short);
+            uint rowPitch = Channels * size * Width;
+            Source = new CLMemData(source, type, size, rowPitch);
         }
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="source"></param>
+        /// <exception cref="ArgumentNullException"></exception>
         public void SetSource(ushort[] source)
         {
-            Source = source;
+            if (source == null)
+                throw new ArgumentNullException("Source is null");
+
+            var type = CL_MEM_DATA_TYPE.USHORT;
+            uint size = sizeof(ushort);
+            uint rowPitch = Channels * size * Width;
+            Source = new CLMemData(source, type, size, rowPitch);
         }
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="source"></param>
+        /// <exception cref="ArgumentNullException"></exception>
         public void SetSource(byte[] source)
         {
-            Source = source;
+            if (source == null)
+                throw new ArgumentNullException("Source is null");
+
+            var type = CL_MEM_DATA_TYPE.BYTE;
+            uint size = sizeof(byte);
+            uint rowPitch = Channels * size * Width;
+            Source = new CLMemData(source, type, size, rowPitch);
         }
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="source"></param>
+        /// <exception cref="ArgumentNullException"></exception>
         public void SetSource(sbyte[] source)
         {
-            Source = source;
+            if (source == null)
+                throw new ArgumentNullException("Source is null");
+
+            var type = CL_MEM_DATA_TYPE.SBYTE;
+            uint size = sizeof(sbyte);
+            uint rowPitch = Channels * size * Width;
+            Source = new CLMemData(source, type, size, rowPitch);
         }
 
     }

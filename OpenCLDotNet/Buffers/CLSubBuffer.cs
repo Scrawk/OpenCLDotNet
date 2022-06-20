@@ -18,7 +18,7 @@ namespace OpenCLDotNet.Buffers
         /// <param name="buffer"></param>
         /// <param name="region"></param>
         public CLSubBuffer(CLBuffer buffer, CLBufferRegion region) 
-            : base(buffer.Context, buffer.Data)
+            : base(buffer.Context, buffer.Source)
         {
             CL_MEM_FLAGS flags = 0;
 

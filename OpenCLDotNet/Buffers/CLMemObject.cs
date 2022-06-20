@@ -27,12 +27,17 @@ namespace OpenCLDotNet.Buffers
         /// 
         /// </summary>
         /// <param name="context"></param>
-        /// <param name="data"></param>
-        public CLMemObject(CLContext context, Array data)
+        /// <param name="source"></param>
+        public CLMemObject(CLContext context, CLMemData source)
         {
             Context = context;
-            Data = data;
+            Source = source;
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        internal CLMemData Source { get; private set; }
 
         /// <summary>
         /// 
@@ -77,11 +82,6 @@ namespace OpenCLDotNet.Buffers
                        Flags.HasFlag(CL_MEM_FLAGS.READ_WRITE);
             }
         }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        internal Array Data {  get; private set; }
 
         /// <summary>
         /// 

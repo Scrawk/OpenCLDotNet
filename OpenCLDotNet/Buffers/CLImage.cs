@@ -17,7 +17,7 @@ namespace OpenCLDotNet.Buffers
         /// </summary>
         /// <param name="context"></param>
         /// <param name="data"></param>
-        public CLImage(CLContext context, Array data)
+        public CLImage(CLContext context, CLMemData data)
             : base(context, data)
         {
 

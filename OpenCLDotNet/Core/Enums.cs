@@ -27,6 +27,15 @@ namespace OpenCLDotNet.Core
         UNKNOWN
     }
 
+    public enum CL_MEM_DATA_TYPE
+    {
+        SBYTE, BYTE,
+        SHORT, USHORT,
+        INT, UINT,
+        FLOAT,
+        UNKNOWN
+    }
+
     public enum CL_ERROR
     {
         SUCCESS = 0,

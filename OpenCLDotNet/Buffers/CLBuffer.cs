@@ -12,6 +12,11 @@ namespace OpenCLDotNet.Buffers
     /// </summary>
     public class CLBuffer : CLMemObject
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="data"></param>
         public CLBuffer(CLContext context, CLBufferData data)
             : base(context, data.Source)
         {
@@ -39,12 +44,19 @@ namespace OpenCLDotNet.Buffers
         /// <param name="data"></param>
         private void Create(CLContext context, CLBufferData data)
         {
+            if (data.Source == null)
+            {
+                Error = ERROR_SOURCE_DATA_IS_NULL;
+                return;
+            }
+
             ResetErrorCode();
             Flags = data.Flags;
             MemType = CL_MEM_OBJECT_TYPE.BUFFER;
+            uint size = data.Source.DataByteSize;
 
             CL_ERROR error;
-            Id = CL.CreateBuffer(context.Id, Flags, data.Source, out error);
+            Id = CL.CreateBuffer(context.Id, Flags, size, data.Source.Data, out error);
             if (error != CL_ERROR.SUCCESS)
             {
                 Error = error.ToString();
