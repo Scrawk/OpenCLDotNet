@@ -687,3 +687,82 @@ cl_int CL_ReleaseCommandQueue(cl_command_queue command)
 {
     return clReleaseCommandQueue(command);
 }
+
+cl_int CL_Flush(cl_command_queue command)
+{
+    return clFlush(command);
+}
+
+cl_int CL_Finish(cl_command_queue command)
+{
+    return clFinish(command);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+//                                Event FUNCTIONS                                            ///
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+cl_int CL_WaitForEvents(
+    cl_uint num_events,
+    const cl_event* event_list)
+{
+    return clWaitForEvents(num_events, event_list);
+}
+
+cl_event CL_CreateUserEvent(
+    cl_context context,
+    cl_int* error)
+{
+    return clCreateUserEvent(context, error);
+}
+
+cl_int CL_GetEventInfoSize(
+    cl_event event,
+    cl_event_info name,
+    size_t* size)
+{
+    return clGetEventInfo(event, name, 0, nullptr, size);
+}
+
+cl_int CL_GetEventInfo(
+    cl_event event,
+    cl_event_info name,
+    size_t size,
+    void* value)
+{
+    return clGetEventInfo(event, name, size, value, nullptr);
+}
+
+cl_int CL_GetEventProfilingInfoSize(
+    cl_event event,
+    cl_profiling_info name,
+    size_t* size)
+{
+    return clGetEventProfilingInfo(event, name, 0, nullptr, size);
+}
+
+cl_int CL_GetEventProfilingInfo(
+    cl_event event,
+    cl_profiling_info name,
+    size_t size,
+    void* value)
+{
+    return clGetEventProfilingInfo(event, name, size, value, nullptr);
+}
+
+cl_int CL_RetainEvent(cl_event event)
+{
+    return clRetainEvent(event);
+}
+
+cl_int CL_ReleaseEvent(cl_event event)
+{
+    return clReleaseEvent(event);
+}
+
+cl_int CL_SetUserEventStatus(
+    cl_event event,
+    cl_int status)
+{
+    return clSetUserEventStatus(event, status);
+}

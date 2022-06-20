@@ -118,6 +118,26 @@ namespace OpenCLDotNet.Core
             return CL_ReleaseCommandQueue(command);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="command"></param>
+        /// <returns></returns>
+        public static CL_ERROR Flush(cl_command_queue command)
+        {
+            return CL_Flush(command);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="command"></param>
+        /// <returns></returns>
+        public static CL_ERROR Finish(cl_command_queue command)
+        {
+            return CL_Finish(command);
+        }
+
         /////////////////////////////////////////////////////////////////////////////////////////////////
         //                                 EXTERN FUNCTIONS                                          ///
         ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -161,5 +181,11 @@ namespace OpenCLDotNet.Core
 
         [DllImport(DLL_NAME, CallingConvention = CDECL)]
         private static extern CL_ERROR CL_ReleaseCommandQueue(cl_command_queue command);
+
+        [DllImport(DLL_NAME, CallingConvention = CDECL)]
+        private static extern CL_ERROR CL_Flush(cl_command_queue command);
+
+        [DllImport(DLL_NAME, CallingConvention = CDECL)]
+        private static extern CL_ERROR CL_Finish(cl_command_queue command);
     }
 }

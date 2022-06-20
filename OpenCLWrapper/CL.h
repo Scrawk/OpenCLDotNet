@@ -391,14 +391,58 @@ extern "C"
 
     CL_WRAPPER_API cl_int CL_GetCommandQueueInfo(
         cl_command_queue command,
-            cl_command_queue_info name,
-            size_t size,
-            void* info);
+        cl_command_queue_info name,
+        size_t size,
+        void* info);
 
     CL_WRAPPER_API cl_int CL_RetainCommandQueue(cl_command_queue command);
 
     CL_WRAPPER_API cl_int CL_ReleaseCommandQueue(cl_command_queue command);
 
+    CL_WRAPPER_API cl_int CL_Flush(cl_command_queue command);
 
+    CL_WRAPPER_API cl_int CL_Finish(cl_command_queue command);
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+//                                EVENT FUNCTIONS                                            ///
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+    CL_WRAPPER_API cl_int CL_WaitForEvents(
+        cl_uint num_events,
+        const cl_event* event_list);
+
+    CL_WRAPPER_API cl_event CL_CreateUserEvent(
+        cl_context context,
+        cl_int* error);
+
+    CL_WRAPPER_API cl_int CL_GetEventInfoSize(
+        cl_event event,
+        cl_event_info name,
+        size_t* size);
+
+    CL_WRAPPER_API cl_int CL_GetEventInfo(
+        cl_event event,
+        cl_event_info name,
+        size_t size,
+        void* value);
+
+    CL_WRAPPER_API cl_int CL_GetEventProfilingInfoSize(
+        cl_event event,
+        cl_profiling_info name,
+        size_t* size);
+
+    CL_WRAPPER_API cl_int CL_GetEventProfilingInfo(
+        cl_event event,
+        cl_profiling_info name,
+        size_t size,
+        void* value);
+
+    CL_WRAPPER_API cl_int CL_RetainEvent(cl_event event);
+
+    CL_WRAPPER_API cl_int CL_ReleaseEvent(cl_event event);
+
+    CL_WRAPPER_API cl_int CL_SetUserEventStatus(
+        cl_event event,
+        cl_int status);
 
 }

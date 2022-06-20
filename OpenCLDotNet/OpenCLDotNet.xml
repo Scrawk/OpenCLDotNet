@@ -478,6 +478,83 @@
             <param name="info"></param>
             <returns></returns>
         </member>
+        <member name="M:OpenCLDotNet.Core.CL.CreateCommandQueueWithProperties(OpenCLDotNet.Core.cl_context,OpenCLDotNet.Core.cl_device_id,OpenCLDotNet.Events.CLCommandQueueProperties,OpenCLDotNet.Core.CL_ERROR@)">
+            <summary>
+            
+            </summary>
+            <param name="context"></param>
+            <param name="device"></param>
+            <param name="properties"></param>
+            <param name="error"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Core.CL.GetCommandQueueInfoSize(OpenCLDotNet.Core.cl_command_queue,OpenCLDotNet.Core.CL_COMMAND_QUEUE_INFO,System.UInt32@)">
+            <summary>
+            
+            </summary>
+            <param name="command"></param>
+            <param name="name"></param>
+            <param name="size"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Core.CL.GetCommandQueueInfo(OpenCLDotNet.Core.cl_command_queue,OpenCLDotNet.Core.CL_COMMAND_QUEUE_INFO,System.UInt32,System.UInt64@)">
+            <summary>
+            
+            </summary>
+            <param name="command"></param>
+            <param name="name"></param>
+            <param name="size"></param>
+            <param name="info"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Core.CL.GetCommandQueueInfo(OpenCLDotNet.Core.cl_command_queue,OpenCLDotNet.Core.CL_COMMAND_QUEUE_INFO,System.UInt32,OpenCLDotNet.Core.cl_object@)">
+            <summary>
+            
+            </summary>
+            <param name="command"></param>
+            <param name="name"></param>
+            <param name="size"></param>
+            <param name="info"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Core.CL.GetCommandQueueInfo(OpenCLDotNet.Core.cl_command_queue,OpenCLDotNet.Core.CL_COMMAND_QUEUE_INFO,System.UInt32,OpenCLDotNet.Core.cl_object[])">
+            <summary>
+            
+            </summary>
+            <param name="command"></param>
+            <param name="name"></param>
+            <param name="size"></param>
+            <param name="info"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Core.CL.RetainCommandQueue(OpenCLDotNet.Core.cl_command_queue)">
+            <summary>
+            
+            </summary>
+            <param name="command"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Core.CL.ReleaseCommandQueue(OpenCLDotNet.Core.cl_command_queue)">
+            <summary>
+            
+            </summary>
+            <param name="command"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Core.CL.Flush(OpenCLDotNet.Core.cl_command_queue)">
+            <summary>
+            
+            </summary>
+            <param name="command"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Core.CL.Finish(OpenCLDotNet.Core.cl_command_queue)">
+            <summary>
+            
+            </summary>
+            <param name="command"></param>
+            <returns></returns>
+        </member>
         <member name="M:OpenCLDotNet.Core.CL.CreateKernel(OpenCLDotNet.Core.cl_program,OpenCLDotNet.Core.cl_char[],OpenCLDotNet.Core.CL_ERROR@)">
             <summary>
             
@@ -1975,6 +2052,19 @@
             <param name="region"></param>
             <param name="flags"></param>
         </member>
+        <member name="M:OpenCLDotNet.Events.CLCommandQueue.#ctor(OpenCLDotNet.Core.CLContext)">
+            <summary>
+            
+            </summary>
+            <param name="context"></param>
+        </member>
+        <member name="M:OpenCLDotNet.Events.CLCommandQueue.#ctor(OpenCLDotNet.Core.CLContext,OpenCLDotNet.Events.CLCommandQueueProperties)">
+            <summary>
+            
+            </summary>
+            <param name="context"></param>
+            <param name="properties"></param>
+        </member>
         <member name="P:OpenCLDotNet.Events.CLCommandQueue.Context">
             <summary>
             
@@ -1992,6 +2082,19 @@
             </summary>
             <param name="context"></param>
             <param name="properties"></param>
+        </member>
+        <member name="M:OpenCLDotNet.Events.CLCommandQueue.Print(System.Text.StringBuilder)">
+            <summary>
+            
+            </summary>
+            <param name="builder"></param>
+        </member>
+        <member name="M:OpenCLDotNet.Events.CLCommandQueue.GetInfo(OpenCLDotNet.Core.CL_COMMAND_QUEUE_INFO)">
+            <summary>
+            
+            </summary>
+            <param name="info"></param>
+            <returns></returns>
         </member>
         <member name="M:OpenCLDotNet.Events.CLCommandQueue.GetInfoUInt64(OpenCLDotNet.Core.CL_COMMAND_QUEUE_INFO)">
             <summary>
