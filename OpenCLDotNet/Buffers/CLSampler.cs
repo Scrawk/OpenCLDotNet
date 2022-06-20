@@ -172,6 +172,25 @@ namespace OpenCLDotNet.Buffers
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
+        private unsafe string GetInfoObjectArray(CL_SAMPLER_INFO name)
+        {
+            int size_of = sizeof(cl_object);
+
+            CL.GetSamplerInfoSize(Id, name, out uint size);
+
+            var info = new cl_object[size / size_of];
+            CL.GetSamplerInfo(Id, name, size, info);
+
+            string str = $"[cl_object_array: Count={info.Length}]";
+
+            return str;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
         private bool GetInfoBool(CL_SAMPLER_INFO name)
         {
             CL.GetSamplerInfoSize(Id, name, out uint size);

@@ -89,10 +89,17 @@ namespace OpenCLDotNet.Core
         /// <returns></returns>
         public cl_device_id[] GetDeviceIds()
         {
-            if (!IsValid)
-                return new cl_device_id[0];
-            else
-                return Platform.GetDeviceIds();
+            return Platform.GetDeviceIds();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="index"></param>
+        /// <returns></returns>
+        public cl_device_id GetDeviceID(int index)
+        {
+            return Platform.GetDeviceID(index);
         }
 
         /// <summary>

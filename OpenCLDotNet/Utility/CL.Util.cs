@@ -521,6 +521,9 @@ namespace OpenCLDotNet.Core
                 case CL_SAMPLER_INFO.CONTEXT:
                     return CL_INFO_RETURN_TYPE.OBJECT;
 
+                case CL_SAMPLER_INFO.PROPERTIES:
+                    return CL_INFO_RETURN_TYPE.OBJECT_ARRAY;
+
                 case CL_SAMPLER_INFO.NORMALIZED_COORDS:
                     return CL_INFO_RETURN_TYPE.BOOL;
 
@@ -532,9 +535,28 @@ namespace OpenCLDotNet.Core
                 //case CL_SAMPLER_INFO.LOD_MIN:
                 //case CL_SAMPLER_INFO.LOD_MAX:
                 //    return CL_INFO_RETURN_TYPE.FLOAT;
+            }
 
-                //case CL_SAMPLER_INFO.PROPERTIES:
-                //    break;
+            return CL_INFO_RETURN_TYPE.UNKNOWN;
+        }
+
+        public static CL_INFO_RETURN_TYPE GetReturnType(CL_COMMAND_QUEUE_INFO info)
+        {
+
+            switch(info)
+            {
+                case CL_COMMAND_QUEUE_INFO.CONTEXT:
+                case CL_COMMAND_QUEUE_INFO.DEVICE:
+                case CL_COMMAND_QUEUE_INFO.PROPERTIES:
+                case CL_COMMAND_QUEUE_INFO.DEVICE_DEFAULT:
+                    return CL_INFO_RETURN_TYPE.OBJECT;
+
+                case CL_COMMAND_QUEUE_INFO.REFERENCE_COUNT:
+                case CL_COMMAND_QUEUE_INFO.SIZE:
+                    return CL_INFO_RETURN_TYPE.UINT;
+
+                case CL_COMMAND_QUEUE_INFO.PROPERTIES_ARRAY:
+                    return CL_INFO_RETURN_TYPE.OBJECT_ARRAY;
             }
 
             return CL_INFO_RETURN_TYPE.UNKNOWN;

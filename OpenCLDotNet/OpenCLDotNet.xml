@@ -221,6 +221,16 @@
             <param name="info"></param>
             <returns></returns>
         </member>
+        <member name="M:OpenCLDotNet.Core.CL.GetSamplerInfo(OpenCLDotNet.Core.cl_sampler,OpenCLDotNet.Core.CL_SAMPLER_INFO,System.UInt32,OpenCLDotNet.Core.cl_object[])">
+            <summary>
+            
+            </summary>
+            <param name="sampler"></param>
+            <param name="name"></param>
+            <param name="size"></param>
+            <param name="info"></param>
+            <returns></returns>
+        </member>
         <member name="M:OpenCLDotNet.Core.CL.RetainSampler(OpenCLDotNet.Core.cl_sampler)">
             <summary>
             
@@ -841,6 +851,13 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:OpenCLDotNet.Core.CLContext.GetDeviceID(System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="index"></param>
+            <returns></returns>
+        </member>
         <member name="M:OpenCLDotNet.Core.CLContext.Print(System.Text.StringBuilder)">
             <summary>
             
@@ -1160,6 +1177,13 @@
             <summary>
             
             </summary>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Core.CLPlatform.GetDeviceID(System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="index"></param>
             <returns></returns>
         </member>
         <member name="M:OpenCLDotNet.Core.CLPlatform.GetDeviceIds">
@@ -1569,6 +1593,129 @@
             </summary>
             <param name="source"></param>
         </member>
+        <member name="T:OpenCLDotNet.Buffers.CLImageDescription">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:OpenCLDotNet.Buffers.CLImageDescription.MemType">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:OpenCLDotNet.Buffers.CLImageDescription.Width">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:OpenCLDotNet.Buffers.CLImageDescription.Height">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:OpenCLDotNet.Buffers.CLImageDescription.Depth">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:OpenCLDotNet.Buffers.CLImageDescription.ArraySize">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:OpenCLDotNet.Buffers.CLImageDescription.RowPitch">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:OpenCLDotNet.Buffers.CLImageDescription.SlicePitch">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:OpenCLDotNet.Buffers.CLImageDescription.NumMipLevels">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:OpenCLDotNet.Buffers.CLImageDescription.NumSamples">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:OpenCLDotNet.Buffers.CLImageDescription.Buffer">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:OpenCLDotNet.Buffers.CLImageDescription.ToString">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:OpenCLDotNet.Buffers.CLImageFormat">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:OpenCLDotNet.Buffers.CLImageFormat.ChannelOrder">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:OpenCLDotNet.Buffers.CLImageFormat.ChannelType">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:OpenCLDotNet.Buffers.CLImageFormat.#ctor(OpenCLDotNet.Core.CL_CHANNEL_ORDER,OpenCLDotNet.Core.CL_CHANNEL_TYPE)">
+            <summary>
+            
+            </summary>
+            <param name="order"></param>
+            <param name="type"></param>
+        </member>
+        <member name="M:OpenCLDotNet.Buffers.CLImageFormat.ToString">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:OpenCLDotNet.Buffers.CLImageFormatKey">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:OpenCLDotNet.Buffers.CLImageFormatKey.Context">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:OpenCLDotNet.Buffers.CLImageFormatKey.Flags">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:OpenCLDotNet.Buffers.CLImageFormatKey.MemType">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:OpenCLDotNet.Buffers.CLImageFormatKey.#ctor(OpenCLDotNet.Core.cl_context,OpenCLDotNet.Core.CL_MEM_FLAGS,OpenCLDotNet.Core.CL_MEM_OBJECT_TYPE)">
+            <summary>
+            
+            </summary>
+            <param name="context"></param>
+            <param name="flags"></param>
+            <param name="type"></param>
+        </member>
+        <member name="M:OpenCLDotNet.Buffers.CLImageFormatKey.ToString">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
         <member name="T:OpenCLDotNet.Buffers.CLMemObject">
             <summary>
             
@@ -1662,6 +1809,131 @@
             
             </summary>
         </member>
+        <member name="T:OpenCLDotNet.Buffers.CLSampler">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:OpenCLDotNet.Buffers.CLSampler.#ctor(OpenCLDotNet.Core.CLContext)">
+            <summary>
+            
+            </summary>
+            <param name="context"></param>
+        </member>
+        <member name="M:OpenCLDotNet.Buffers.CLSampler.#ctor(OpenCLDotNet.Core.CLContext,OpenCLDotNet.Buffers.CLSamplerProperties)">
+            <summary>
+            
+            </summary>
+            <param name="context"></param>
+            <param name="properties"></param>
+        </member>
+        <member name="P:OpenCLDotNet.Buffers.CLSampler.Context">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:OpenCLDotNet.Buffers.CLSampler.ToString">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Buffers.CLSampler.Create(OpenCLDotNet.Core.CLContext,OpenCLDotNet.Buffers.CLSamplerProperties)">
+            <summary>
+            
+            </summary>
+            <param name="context"></param>
+            <param name="properties"></param>
+        </member>
+        <member name="M:OpenCLDotNet.Buffers.CLSampler.Print(System.Text.StringBuilder)">
+            <summary>
+            
+            </summary>
+            <param name="builder"></param>
+        </member>
+        <member name="M:OpenCLDotNet.Buffers.CLSampler.GetInfo(OpenCLDotNet.Core.CL_SAMPLER_INFO)">
+            <summary>
+            
+            </summary>
+            <param name="info"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Buffers.CLSampler.GetInfoUInt64(OpenCLDotNet.Core.CL_SAMPLER_INFO)">
+            <summary>
+            
+            </summary>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Buffers.CLSampler.GetInfoObject(OpenCLDotNet.Core.CL_SAMPLER_INFO)">
+            <summary>
+            
+            </summary>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Buffers.CLSampler.GetInfoObjectArray(OpenCLDotNet.Core.CL_SAMPLER_INFO)">
+            <summary>
+            
+            </summary>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Buffers.CLSampler.GetInfoBool(OpenCLDotNet.Core.CL_SAMPLER_INFO)">
+            <summary>
+            
+            </summary>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Buffers.CLSampler.GetInfoFloat(OpenCLDotNet.Core.CL_SAMPLER_INFO)">
+            <summary>
+            
+            </summary>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Buffers.CLSampler.Release">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:OpenCLDotNet.Buffers.CLSamplerProperties">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:OpenCLDotNet.Buffers.CLSamplerProperties.NormalizedCoords">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:OpenCLDotNet.Buffers.CLSamplerProperties.AddressingMode">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:OpenCLDotNet.Buffers.CLSamplerProperties.FilterMode">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:OpenCLDotNet.Buffers.CLSamplerProperties.#ctor">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:OpenCLDotNet.Buffers.CLSamplerProperties.Default">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:OpenCLDotNet.Buffers.CLSamplerProperties.ToString">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
         <member name="T:OpenCLDotNet.Buffers.CLSubBuffer">
             <summary>
             
@@ -1702,6 +1974,76 @@
             <param name="buffer"></param>
             <param name="region"></param>
             <param name="flags"></param>
+        </member>
+        <member name="P:OpenCLDotNet.Events.CLCommandQueue.Context">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:OpenCLDotNet.Events.CLCommandQueue.ToString">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Events.CLCommandQueue.Create(OpenCLDotNet.Core.CLContext,OpenCLDotNet.Events.CLCommandQueueProperties)">
+            <summary>
+            
+            </summary>
+            <param name="context"></param>
+            <param name="properties"></param>
+        </member>
+        <member name="M:OpenCLDotNet.Events.CLCommandQueue.GetInfoUInt64(OpenCLDotNet.Core.CL_COMMAND_QUEUE_INFO)">
+            <summary>
+            
+            </summary>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Events.CLCommandQueue.GetInfoObject(OpenCLDotNet.Core.CL_COMMAND_QUEUE_INFO)">
+            <summary>
+            
+            </summary>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Events.CLCommandQueue.GetInfoObjectArray(OpenCLDotNet.Core.CL_COMMAND_QUEUE_INFO)">
+            <summary>
+            
+            </summary>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
+        <member name="T:OpenCLDotNet.Events.CLCommandQueueProperties">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:OpenCLDotNet.Events.CLCommandQueueProperties.Properties">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:OpenCLDotNet.Events.CLCommandQueueProperties.QueueSize">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:OpenCLDotNet.Events.CLCommandQueueProperties.#ctor">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:OpenCLDotNet.Events.CLCommandQueueProperties.Default">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:OpenCLDotNet.Events.CLCommandQueueProperties.ToString">
+            <summary>
+            
+            </summary>
+            <returns></returns>
         </member>
         <member name="T:OpenCLDotNet.Programs.CLKernel">
             <summary>

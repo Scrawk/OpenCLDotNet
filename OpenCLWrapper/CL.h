@@ -19,6 +19,12 @@ struct ContextProperties
     //cl_bool interopUserSync;
 };
 
+struct CommandQueueProperties
+{
+    cl_command_queue_properties properties;
+    cl_uint queueSize;
+};
+
 extern "C"
 {
 
@@ -375,7 +381,7 @@ extern "C"
     CL_WRAPPER_API cl_command_queue CL_CreateCommandQueueWithProperties(
         cl_context context,
         cl_device_id device,
-        const cl_queue_properties* properties,
+        CommandQueueProperties properties,
         cl_int* error);
 
     CL_WRAPPER_API cl_int CL_GetCommandQueueInfoSize(

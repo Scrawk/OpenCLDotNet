@@ -646,10 +646,19 @@ cl_int CL_ReleaseSampler(cl_sampler sampler)
 cl_command_queue CL_CreateCommandQueueWithProperties(
     cl_context context,
     cl_device_id device,
-    const cl_queue_properties* properties,
+    CommandQueueProperties properties,
     cl_int* error)
 {
-    return clCreateCommandQueueWithProperties(context, device, properties, error);
+    cl_queue_properties props[] =
+    {
+        CL_QUEUE_PROPERTIES,
+        properties.properties,
+        CL_QUEUE_SIZE,
+        properties.queueSize,
+        0
+    };
+
+    return clCreateCommandQueueWithProperties(context, device, props, error);
 }
 
 cl_int CL_GetCommandQueueInfoSize(

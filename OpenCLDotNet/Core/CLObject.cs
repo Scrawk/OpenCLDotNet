@@ -21,6 +21,8 @@ namespace OpenCLDotNet.Core
 
         protected static readonly string ERROR_NO_PLATFORMS_FOUND = "CLDOTNET_NO_PLATFORMS_FOUND";
 
+        protected static readonly string ERROR_NO_DEVICES_FOUND = "CLDOTNET_NO_DEVICES_FOUND";
+
         protected static readonly string ERROR_NO_KERNEL_ARGS_FOUND = "CLDOTNET_NO_KERNEL_ARGS_FOUND";
 
         /// <summary>

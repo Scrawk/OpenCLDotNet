@@ -104,6 +104,23 @@ namespace OpenCLDotNet.Core
         /// 
         /// </summary>
         /// <param name="sampler"></param>
+        /// <param name="name"></param>
+        /// <param name="size"></param>
+        /// <param name="info"></param>
+        /// <returns></returns>
+        public static CL_ERROR GetSamplerInfo(
+            cl_sampler sampler,
+            CL_SAMPLER_INFO name,
+            uint size,
+            cl_object[] info)
+        {
+            return CL_GetSamplerInfo(sampler, name, size, info);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sampler"></param>
         /// <returns></returns>
         public static CL_ERROR RetainSampler(cl_sampler sampler)
         {
@@ -156,6 +173,13 @@ namespace OpenCLDotNet.Core
             CL_SAMPLER_INFO param_name,
             size_t param_value_size,
             [Out] out cl_object param_value);
+
+        [DllImport(DLL_NAME, CallingConvention = CDECL)]
+        private static extern CL_ERROR CL_GetSamplerInfo(
+            cl_sampler sampler,
+            CL_SAMPLER_INFO param_name,
+            size_t param_value_size,
+            [Out] cl_object[] param_value);
 
         [DllImport(DLL_NAME, CallingConvention = CDECL)]
         private static extern CL_ERROR CL_RetainSampler(cl_sampler sampler);

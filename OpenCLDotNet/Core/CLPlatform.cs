@@ -71,6 +71,16 @@ namespace OpenCLDotNet.Core
         /// <summary>
         /// 
         /// </summary>
+        /// <param name="index"></param>
+        /// <returns></returns>
+        public cl_device_id GetDeviceID(int index)
+        {
+            return Devices[index].Id;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
         /// <returns></returns>
         public cl_device_id[] GetDeviceIds()
         {

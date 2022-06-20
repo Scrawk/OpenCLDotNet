@@ -8,7 +8,7 @@ namespace OpenCLDotNet.Buffers
     /// <summary>
     /// 
     /// </summary>
-    internal readonly record struct CLImageFormatKey
+    public readonly record struct CLImageFormatKey
     {
         /// <summary>
         /// 
