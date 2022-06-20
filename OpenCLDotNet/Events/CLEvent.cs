@@ -65,10 +65,24 @@ namespace OpenCLDotNet.Events
             if (!IsValid)
                 return;
 
-            var values = Enum.GetValues<CL_EVENT_INFO>();
+            builder.AppendLine();
+            builder.AppendLine("Event Info:");
+            builder.AppendLine();
+
+            var event_values = Enum.GetValues<CL_EVENT_INFO>();
+
+            foreach (var e in event_values)
+            {
+                builder.AppendLine(e + ": " + GetInfo(e));
+            }
 
             builder.AppendLine();
-            foreach (var e in values)
+            builder.AppendLine("Event Profiling Info:");
+            builder.AppendLine();
+
+            var profiling_values = Enum.GetValues<CL_PROFILING_INFO>();
+
+            foreach (var e in profiling_values)
             {
                 builder.AppendLine(e + ": " + GetInfo(e));
             }
@@ -90,7 +104,16 @@ namespace OpenCLDotNet.Events
 
             string str = ERROR_UNKNOWN_TYPE;
 
-            if (type == CL_INFO_RETURN_TYPE.UINT)
+            if (type == CL_INFO_RETURN_TYPE.ENUM)
+            {
+                var i = GetInfoUInt64(info);
+
+                if (info == CL_EVENT_INFO.COMMAND_TYPE)
+                    str = ((CL_COMMAND_TYPE)i).ToString();
+                else if(info == CL_EVENT_INFO.COMMAND_EXECUTION_STATUS)
+                    str = ((CL_COMMAND_EXECUTION_STATUS)i).ToString();
+            }
+            else if (type == CL_INFO_RETURN_TYPE.UINT)
             {
                 str = GetInfoUInt64(info).ToString();
             }
@@ -98,9 +121,27 @@ namespace OpenCLDotNet.Events
             {
                 str = GetInfoObject(info).ToString();
             }
-            else if (type == CL_INFO_RETURN_TYPE.OBJECT_ARRAY)
+
+            return str;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="info"></param>
+        /// <returns></returns>
+        public string GetInfo(CL_PROFILING_INFO info)
+        {
+            if (!IsValid)
+                return ERROR_INVALID_OBJECT;
+
+            var type = CL.GetReturnType(info);
+
+            string str = ERROR_UNKNOWN_TYPE;
+
+            if (type == CL_INFO_RETURN_TYPE.ULONG)
             {
-                str = GetInfoObjectArray(info).ToString();
+                str = GetInfoUInt64(info).ToString();
             }
 
             return str;
@@ -125,13 +166,12 @@ namespace OpenCLDotNet.Events
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
-        private cl_object GetInfoObject(CL_EVENT_INFO name)
+        private UInt64 GetInfoUInt64(CL_PROFILING_INFO name)
         {
-            CL.GetEventInfoSize(Id, name, out uint size);
+            Core.CL.GetEventProfilingInfoSize(Id, name, out uint size);
 
-            cl_object info;
-            CL.GetEventInfo(Id, name, size, out info);
-
+            UInt64 info;
+            CL.GetEventProfilingInfo(Id, name, size, out info);
             return info;
         }
 
@@ -140,18 +180,14 @@ namespace OpenCLDotNet.Events
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
-        private unsafe string GetInfoObjectArray(CL_EVENT_INFO name)
+        private cl_object GetInfoObject(CL_EVENT_INFO name)
         {
-            int size_of = sizeof(cl_object);
-
             CL.GetEventInfoSize(Id, name, out uint size);
 
-            var info = new cl_object[size / size_of];
-            CL.GetEventInfo(Id, name, size, info);
+            cl_object info;
+            CL.GetEventInfo(Id, name, size, out info);
 
-            string str = $"[cl_object_array: Count={info.Length}]";
-
-            return str;
+            return info;
         }
 
     }

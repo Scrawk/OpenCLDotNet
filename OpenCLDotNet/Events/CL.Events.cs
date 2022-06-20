@@ -41,9 +41,18 @@ namespace OpenCLDotNet.Core
             cl_event _event,
             CL_EVENT_INFO name,
             uint size,
-            out UInt64 value)
+            out UInt64 info)
         {
-            return CL_GetEventInfo(_event, name, size, out value);
+            return CL_GetEventInfo(_event, name, size, out info);
+        }
+
+        public static CL_ERROR GetEventInfo(
+            cl_event _event,
+            CL_EVENT_INFO name,
+            uint size,
+            out cl_object info)
+        {
+            return CL_GetEventInfo(_event, name, size, out info);
         }
 
         public static CL_ERROR GetEventProfilingInfoSize(
@@ -108,6 +117,13 @@ namespace OpenCLDotNet.Core
             CL_EVENT_INFO name,
             size_t size,
             [Out] out UInt64 value);
+
+        [DllImport(DLL_NAME, CallingConvention = CDECL)]
+        private static extern CL_ERROR CL_GetEventInfo(
+            cl_event _event,
+            CL_EVENT_INFO name,
+            size_t size,
+            [Out] out cl_object value);
 
         [DllImport(DLL_NAME, CallingConvention = CDECL)]
         private static extern CL_ERROR CL_GetEventProfilingInfoSize(

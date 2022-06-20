@@ -56,7 +56,7 @@ namespace OpenCLDotNetConsole
 			image.Print();
 			*/
 
-			
+			/*
 			var sampler_props = new CLSamplerProperties();
 			sampler_props.NormalizedCoords = false;
 			sampler_props.AddressingMode = CL_SAMPLER_ADDRESSING_MODE.REPEAT;
@@ -64,12 +64,13 @@ namespace OpenCLDotNetConsole
 
 			var sampler = new CLSampler(context, sampler_props);
 			sampler.Print();
-			
+			*/
 
-			var cmd_props = new CLCommandQueueProperties();
+			//var cmd = new CLCommandQueue(context);
+			//cmd.Print();
 
-			var cmd = new CLCommandQueue(context, cmd_props);
-			cmd.Print();
+			var _event = new CLEvent(context);
+			_event.Print();
 			
 		}
 

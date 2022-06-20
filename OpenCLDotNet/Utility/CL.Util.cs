@@ -562,5 +562,42 @@ namespace OpenCLDotNet.Core
             return CL_INFO_RETURN_TYPE.UNKNOWN;
         }
 
+        public static CL_INFO_RETURN_TYPE GetReturnType(CL_EVENT_INFO info)
+        {
+
+            switch (info)
+            {
+                case CL_EVENT_INFO.COMMAND_TYPE:
+                case CL_EVENT_INFO.COMMAND_EXECUTION_STATUS:
+                    return CL_INFO_RETURN_TYPE.ENUM;
+
+                case CL_EVENT_INFO.COMMAND_QUEUE:
+                case CL_EVENT_INFO.CONTEXT:
+                    return CL_INFO_RETURN_TYPE.OBJECT;
+
+                case CL_EVENT_INFO.REFERENCE_COUNT:
+                    return CL_INFO_RETURN_TYPE.UINT;
+            }
+
+            return CL_INFO_RETURN_TYPE.UNKNOWN;
+        }
+
+        public static CL_INFO_RETURN_TYPE GetReturnType(CL_PROFILING_INFO info)
+        {
+
+            switch (info)
+            {
+                case CL_PROFILING_INFO.COMPLETE:
+                case CL_PROFILING_INFO.START:
+                case CL_PROFILING_INFO.END:
+                case CL_PROFILING_INFO.QUEUED:
+                case CL_PROFILING_INFO.SUBMIT:
+                    return CL_INFO_RETURN_TYPE.ULONG;
+
+            }
+
+            return CL_INFO_RETURN_TYPE.UNKNOWN;
+        }
+
     }
 }

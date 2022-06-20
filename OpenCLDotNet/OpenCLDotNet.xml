@@ -2148,6 +2148,70 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:OpenCLDotNet.Events.CLEvent.#ctor(OpenCLDotNet.Core.CLContext)">
+            <summary>
+            
+            </summary>
+            <param name="context"></param>
+        </member>
+        <member name="P:OpenCLDotNet.Events.CLEvent.Context">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:OpenCLDotNet.Events.CLEvent.ToString">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Events.CLEvent.Create(OpenCLDotNet.Core.CLContext)">
+            <summary>
+            
+            </summary>
+            <param name="context"></param>
+        </member>
+        <member name="M:OpenCLDotNet.Events.CLEvent.Print(System.Text.StringBuilder)">
+            <summary>
+            
+            </summary>
+            <param name="builder"></param>
+        </member>
+        <member name="M:OpenCLDotNet.Events.CLEvent.GetInfo(OpenCLDotNet.Core.CL_EVENT_INFO)">
+            <summary>
+            
+            </summary>
+            <param name="info"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Events.CLEvent.GetInfo(OpenCLDotNet.Core.CL_PROFILING_INFO)">
+            <summary>
+            
+            </summary>
+            <param name="info"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Events.CLEvent.GetInfoUInt64(OpenCLDotNet.Core.CL_EVENT_INFO)">
+            <summary>
+            
+            </summary>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Events.CLEvent.GetInfoUInt64(OpenCLDotNet.Core.CL_PROFILING_INFO)">
+            <summary>
+            
+            </summary>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Events.CLEvent.GetInfoObject(OpenCLDotNet.Core.CL_EVENT_INFO)">
+            <summary>
+            
+            </summary>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
         <member name="T:OpenCLDotNet.Programs.CLKernel">
             <summary>
             
