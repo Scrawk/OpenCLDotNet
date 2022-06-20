@@ -7,9 +7,18 @@ using OpenCLDotNet.Utility;
 
 namespace OpenCLDotNet.Buffers
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class CLSubBuffer : CLMemObject
     {
-        public CLSubBuffer(CLBuffer buffer, CLBufferRegion region)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="buffer"></param>
+        /// <param name="region"></param>
+        public CLSubBuffer(CLBuffer buffer, CLBufferRegion region) 
+            : base(buffer.Context, buffer.Data)
         {
             CL_MEM_FLAGS flags = 0;
 
@@ -23,12 +32,25 @@ namespace OpenCLDotNet.Buffers
             Create(buffer, region, flags);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public CLBuffer Buffer { get; private set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public CLBufferRegion Region { get; private set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public override bool IsValid => Buffer.IsValid;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public override string ToString()
         {
             var read_write = "";
@@ -41,6 +63,12 @@ namespace OpenCLDotNet.Buffers
                 Buffer.Id, read_write, region, Error);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="buffer"></param>
+        /// <param name="region"></param>
+        /// <param name="flags"></param>
         private void Create(CLBuffer buffer, CLBufferRegion region, CL_MEM_FLAGS flags)
         {
             ResetErrorCode();
@@ -57,6 +85,8 @@ namespace OpenCLDotNet.Buffers
                 Error = error.ToString();
                 return;
             }
+
+            SetErrorCodeToSuccess();
         }
 
 

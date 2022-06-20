@@ -6,12 +6,24 @@ using OpenCLDotNet.Utility;
 
 namespace OpenCLDotNet.Buffers
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public struct CLSamplerProperties
     {
+        /// <summary>
+        /// 
+        /// </summary>
         public cl_bool NormalizedCoords;
 
+        /// <summary>
+        /// 
+        /// </summary>
         public CL_SAMPLER_ADDRESSING_MODE AddressingMode;
-
+        
+        /// <summary>
+        /// 
+        /// </summary>
         public CL_SAMPLER_FILTER_MODE FilterMode;
 
         //public CL_SAMPLER_FILTER_MODE MipFilterMode;
@@ -20,6 +32,9 @@ namespace OpenCLDotNet.Buffers
 
         //public cl_float LODMax;
 
+        /// <summary>
+        /// 
+        /// </summary>
         public CLSamplerProperties()
         {
             NormalizedCoords = cl_bool.True;
@@ -30,6 +45,9 @@ namespace OpenCLDotNet.Buffers
             //LODMax = CL.MAX_FLOAT;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public static CLSamplerProperties Default
         {
             get
@@ -39,6 +57,10 @@ namespace OpenCLDotNet.Buffers
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public override string ToString()
         {
             return String.Format("[CLSamplerProperties: NormalizedCoords={0}, AddressingMode={1}, FilterMode={2}]",

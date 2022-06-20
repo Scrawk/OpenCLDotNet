@@ -8,27 +8,51 @@ using OpenCLDotNet.Buffers;
 
 namespace OpenCLDotNet.Programs
 {
-
+    /// <summary>
+    /// 
+    /// </summary>
     public class CLKernel : CLObject
     {
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="program"></param>
+        /// <param name="name"></param>
         public CLKernel(CLProgram program, string name)
         {
             Create(program, name);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public string Name { get; private set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public CLProgram Program { get; private set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public uint NumArguments { get; private set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public override string ToString()
         {
             return String.Format("[CLKernel: Id={0}, Name={1}, NumArguments={2}, ProgramID={3}, Error={4}]",
                 Id, Name, NumArguments, Program.Id, Error);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="program"></param>
+        /// <param name="name"></param>
         private void Create(CLProgram program, string name)
         {
             ResetErrorCode();
@@ -44,39 +68,76 @@ namespace OpenCLDotNet.Programs
             }
 
             NumArguments = (uint)GetInfoUInt64(CL_KERNEL_INFO.NUM_ARGS);
+            SetErrorCodeToSuccess();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="arg"></param>
+        /// <param name="index"></param>
+        /// <returns></returns>
         public CL_ERROR SetBufferArg(CLBuffer arg, uint index)
         {
             cl_mem arg_id = arg.Id;
             return CL.SetKernelArg(Id, index, arg_id);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="arg"></param>
+        /// <param name="index"></param>
+        /// <returns></returns>
         public CL_ERROR SetBufferArg(CLSubBuffer arg, uint index)
         {
             cl_mem arg_id = arg.Id;
             return CL.SetKernelArg(Id, index, arg_id);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="arg"></param>
+        /// <param name="index"></param>
+        /// <returns></returns>
         public CL_ERROR SetSamplerArg(CLSampler arg, uint index)
         {
             cl_sampler arg_id = arg.Id;
             return CL.SetKernelArg(Id, index, arg_id);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="arg"></param>
+        /// <param name="index"></param>
+        /// <returns></returns>
         public CL_ERROR SetIntArg(int arg, uint index)
         {
             return CL.SetKernelArg(Id, index, arg);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="arg"></param>
+        /// <param name="index"></param>
+        /// <returns></returns>
         public CL_ERROR SetFloatArg(float arg, uint index)
         {
             return CL.SetKernelArg(Id, index, arg);
         }
-
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="builder"></param>
         public override void Print(StringBuilder builder)
         {
             builder.AppendLine(ToString());
+
+            if (!IsValid) return;
 
             builder.AppendLine("");
             builder.AppendLine("Kernel info:");
@@ -131,11 +192,19 @@ namespace OpenCLDotNet.Programs
 
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="info"></param>
+        /// <returns></returns>
         public string GetInfo(CL_KERNEL_INFO info)
         {
+            if (!IsValid)
+                return ERROR_INVALID_OBJECT;
+
             var type = CL.GetReturnType(info);
 
-            string str = "";
+            string str = ERROR_UNKNOWN_TYPE;
 
             if (type == CL_INFO_RETURN_TYPE.UINT)
                 str = GetInfoUInt64(info).ToString();
@@ -143,20 +212,24 @@ namespace OpenCLDotNet.Programs
                 str = GetInfoString(info);
             else if (type == CL_INFO_RETURN_TYPE.OBJECT)
                 str = GetInfoObject(info).ToString();
-            else
-                str = "Unknown";
 
             return str;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="info"></param>
+        /// <param name="index"></param>
+        /// <returns></returns>
         public string GetInfo(CL_KERNEL_ARG_INFO info, uint index)
         {
             if (!Program.HasKernelArgumentInfo)
-                return "Unavailable";
+                return ERROR_NO_KERNEL_ARGS_FOUND;
 
             var type = CL.GetReturnType(info);
 
-            string str = "";
+            string str = ERROR_UNKNOWN_TYPE;
 
             if(type == CL_INFO_RETURN_TYPE.ENUM)
             {
@@ -173,20 +246,24 @@ namespace OpenCLDotNet.Programs
                 str = GetInfoUInt64(info, index).ToString();
             else if (type == CL_INFO_RETURN_TYPE.CHAR_ARRAY)
                 str = GetInfoString(info, index);
-            else
-                str = "Unknown";
 
             return str;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="info"></param>
+        /// <param name="device"></param>
+        /// <returns></returns>
         public string GetInfo(CL_KERNEL_WORK_GROUP_INFO info, cl_device_id device)
         {
             if (!Program.HasKernelArgumentInfo)
-                return "Unavailable";
+                return ERROR_NO_KERNEL_ARGS_FOUND;
 
             var type = CL.GetReturnType(info);
 
-            string str = "";
+            string str = ERROR_UNKNOWN_TYPE;
 
             if (type == CL_INFO_RETURN_TYPE.UINT ||
                 type == CL_INFO_RETURN_TYPE.ULONG ||
@@ -194,12 +271,15 @@ namespace OpenCLDotNet.Programs
                 str = GetInfoUInt64(info, device).ToString();
             else if (type == CL_INFO_RETURN_TYPE.SIZET_ARRAY)
                 str = GetInfoSizetArray(info, device);
-            else
-                str = "Unknown";
 
             return str;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
         private UInt64 GetInfoUInt64(CL_KERNEL_INFO name)
         {
             Core.CL.GetKernelInfoSize(Id, name, out uint size);
@@ -209,6 +289,12 @@ namespace OpenCLDotNet.Programs
             return info;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="index"></param>
+        /// <returns></returns>
         private UInt64 GetInfoUInt64(CL_KERNEL_ARG_INFO name, uint index)
         {
             Core.CL.GetKernelArgInfoSize(Id, index, name, out uint size);
@@ -218,6 +304,12 @@ namespace OpenCLDotNet.Programs
             return info;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="device"></param>
+        /// <returns></returns>
         private UInt64 GetInfoUInt64(CL_KERNEL_WORK_GROUP_INFO name, cl_device_id device)
         {
             Core.CL.GetKernelWorkGroupInfoSize(Id, device, name, out uint size);
@@ -227,6 +319,11 @@ namespace OpenCLDotNet.Programs
             return info;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
         private string GetInfoString(CL_KERNEL_INFO name)
         {
             Core.CL.GetKernelInfoSize(Id, name, out uint size);
@@ -241,6 +338,11 @@ namespace OpenCLDotNet.Programs
                 return text;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
         private cl_object GetInfoObject(CL_KERNEL_INFO name)
         {
             Core.CL.GetKernelInfoSize(Id, name, out uint size);
@@ -250,6 +352,12 @@ namespace OpenCLDotNet.Programs
             return info;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="index"></param>
+        /// <returns></returns>
         private string GetInfoString(CL_KERNEL_ARG_INFO name, uint index)
         {
             Core.CL.GetKernelArgInfoSize(Id, index, name, out uint size);
@@ -264,6 +372,12 @@ namespace OpenCLDotNet.Programs
                 return text;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="device"></param>
+        /// <returns></returns>
         private unsafe string GetInfoSizetArray(CL_KERNEL_WORK_GROUP_INFO name, cl_device_id device)
         {
             int size_of = sizeof(size_t);
@@ -286,6 +400,9 @@ namespace OpenCLDotNet.Programs
             return str;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         protected override void Release()
         {
             Core.CL.ReleaseKernel(Id);

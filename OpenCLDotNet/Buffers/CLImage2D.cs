@@ -7,18 +7,36 @@ using OpenCLDotNet.Utility;
 
 namespace OpenCLDotNet.Buffers
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class CLImage2D : CLImage
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="data"></param>
         public CLImage2D(CLContext context, CLImageData2D data)
-            : base(context)
+            : base(context, data.Source)
         {
             Create(context, data);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public uint Width { get; private set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public uint Height { get; private set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public override string ToString()
         {
             var read_write = "";
@@ -29,8 +47,19 @@ namespace OpenCLDotNet.Buffers
                 Id, Context.Id, Width, Height, Channels, read_write, Error);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="data"></param>
         private void Create(CLContext context, CLImageData2D data)
         {
+            if(data.Source == null)
+            {
+                Error = ERROR_SOURCE_DATA_IS_NULL;
+                return;
+            }    
+
             var format = data.CreateImageFormat();
             var desc = data.CreateImageDescription();
 
@@ -46,19 +75,19 @@ namespace OpenCLDotNet.Buffers
 
             if(!data.IsValidSize())
             {
-                Error = "INVALID_SOURCE_SIZE";
+                Error = ERROR_INVALID_SOURCE_SIZE;
                 return;
             }
 
             if (!data.IsValidChannel())
             {
-                Error = "INVALID_CHANNEL_ORDER_TYPE";
+                Error = ERROR_INVALID_CHANNEL_ORDER_TYPE;
                 return;
             }
 
             if(!data.IsValidArrayData())
             {
-                Error = "INVALID_DATA_TYPE";
+                Error = ERROR_INVALID_DATA_TYPE;
                 return;
             }
 
@@ -68,7 +97,7 @@ namespace OpenCLDotNet.Buffers
                 if (error != CL_ERROR.SUCCESS)
                     Error = error.ToString();
                 else
-                    Error = "CHANNEL_FORMAT_NOT_SUPPORTED";
+                    Error = ERROR_CHANNEL_FORMAT_NOT_SUPPORTED;
 
                 return;
             }
@@ -81,7 +110,7 @@ namespace OpenCLDotNet.Buffers
                 return;
             }
 
-
+            SetErrorCodeToSuccess();
         }
     }
 }

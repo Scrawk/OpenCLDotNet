@@ -16,22 +16,25 @@ namespace OpenCLDotNetConsole
 		{
 
 			var context = new CLContext();
-			context.Print();
+			//context.Print();
 
 			var filename = "F:/Projects/Visual Studio Projects/OpenCLDotNet/Programs/Convolution.cl";
 
-			//var options = "-cl-kernel-arg-info";
-			//var program = new CLProgram(context, filename, options);
+			var options = CLProgram.OPTION_KERNEL_ARG_INFO;
+			options += " ";
+			options += CLProgram.OPTION_MAD_ENABLED;
+
+			var program = new CLProgram(context, filename, options);
 			//program.Print();
 
-			//var kernel = new CLKernel(program, "convolve");
-			//kernel.SetIntArg(10, 3);
+			var kernel = new CLKernel(program, "convolve");
+			kernel.SetIntArg(10, 3);
 			//kernel.Print();
 
-			/*
+			
 			var buffer_data = new CLBufferData();
 			buffer_data.Flags = CL_MEM_FLAGS.READ_WRITE | CL_MEM_FLAGS.USE_HOST_PTR;
-			buffer_data.Source = new float[100];
+			buffer_data.SetSource(new float[100]);
 
 			var buffer = new CLBuffer(context, buffer_data);
 			buffer.Print();
@@ -46,12 +49,13 @@ namespace OpenCLDotNetConsole
 			image_data.ChannelOrder = CL_CHANNEL_ORDER.R;
 			image_data.ChannelType = CL_CHANNEL_TYPE.FLOAT;
 			image_data.Flags = CL_MEM_FLAGS.READ_WRITE | CL_MEM_FLAGS.USE_HOST_PTR;
-			image_data.Source = new float[100];
+			image_data.SetSource(new float[100]);
 
 			var image = new CLImage2D(context, image_data);
 			image.Print();
-			*/
+			
 
+			/*
 			var props = new CLSamplerProperties();
 			props.NormalizedCoords = false;
 			props.AddressingMode = CL_SAMPLER_ADDRESSING_MODE.REPEAT;
@@ -59,7 +63,7 @@ namespace OpenCLDotNetConsole
 
 			var sampler = new CLSampler(context, props);
 			sampler.Print();
-
+			*/
 		}
 
 	}

@@ -7,15 +7,21 @@ using OpenCLDotNet.Utility;
 
 namespace OpenCLDotNet.Buffers
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class CLBuffer : CLMemObject
     {
         public CLBuffer(CLContext context, CLBufferData data)
+            : base(context, data.Source)
         {
             Create(context, data);
         }
 
-        public CLContext Context { get; private set; }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public override string ToString()
         {
             var read_write = "";
@@ -26,10 +32,14 @@ namespace OpenCLDotNet.Buffers
                 Id, Context.Id, read_write, Error);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="data"></param>
         private void Create(CLContext context, CLBufferData data)
         {
             ResetErrorCode();
-            Context = context;
             Flags = data.Flags;
             MemType = CL_MEM_OBJECT_TYPE.BUFFER;
 
@@ -40,6 +50,8 @@ namespace OpenCLDotNet.Buffers
                 Error = error.ToString();
                 return;
             }
+
+            SetErrorCodeToSuccess();
         }
 
     }

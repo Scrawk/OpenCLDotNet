@@ -7,28 +7,51 @@ using OpenCLDotNet.Utility;
 
 namespace OpenCLDotNet.Buffers
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class CLSampler : CLObject
     {
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="context"></param>
         public CLSampler(CLContext context) 
             : this(context, CLSamplerProperties.Default)
         {
 
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="properties"></param>
         public CLSampler(CLContext context, CLSamplerProperties properties)
         {
             Create(context, properties);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public CLContext Context { get; private set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public override string ToString()
         {
             return String.Format("[CLSampler: Id={0}, ContextId={1}, Error={2}]",
                 Id, Context.Id, Error);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="properties"></param>
         private void Create(CLContext context, CLSamplerProperties properties)
         {
             ResetErrorCode();
@@ -45,6 +68,10 @@ namespace OpenCLDotNet.Buffers
             SetErrorCodeToSuccess();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="builder"></param>
         public override void Print(StringBuilder builder)
         {
             builder.AppendLine(ToString());
@@ -59,16 +86,23 @@ namespace OpenCLDotNet.Buffers
             {
                 builder.AppendLine(e + ": " + GetInfo(e));
             }
+
+            SetErrorCodeToSuccess();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="info"></param>
+        /// <returns></returns>
         public string GetInfo(CL_SAMPLER_INFO info)
         {
             if (!IsValid)
-                return "UNKNOWN";
+                return ERROR_INVALID_OBJECT;
 
             var type = CL.GetReturnType(info);
 
-            string str = CL_INFO_RETURN_TYPE.UNKNOWN.ToString();
+            string str = ERROR_UNKNOWN_TYPE;
 
             if (type == CL_INFO_RETURN_TYPE.ENUM)
             {
@@ -100,14 +134,15 @@ namespace OpenCLDotNet.Buffers
             {
                 str = GetInfoObject(info).ToString();
             }
-            else
-            {
-                str = "UNKNOWN";
-            }
 
             return str;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
         private UInt64 GetInfoUInt64(CL_SAMPLER_INFO name)
         {
             Core.CL.GetSamplerInfoSize(Id, name, out uint size);
@@ -117,6 +152,11 @@ namespace OpenCLDotNet.Buffers
             return info;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
         private cl_object GetInfoObject(CL_SAMPLER_INFO name)
         {
             CL.GetSamplerInfoSize(Id, name, out uint size);
@@ -127,6 +167,11 @@ namespace OpenCLDotNet.Buffers
             return info;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
         private bool GetInfoBool(CL_SAMPLER_INFO name)
         {
             CL.GetSamplerInfoSize(Id, name, out uint size);
@@ -136,6 +181,11 @@ namespace OpenCLDotNet.Buffers
             return info > 0;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
         private float GetInfoFloat(CL_SAMPLER_INFO name)
         {
             CL.GetSamplerInfoSize(Id, name, out uint size);
@@ -145,6 +195,9 @@ namespace OpenCLDotNet.Buffers
             return info;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         protected override void Release()
         {
             CL.ReleaseSampler(Id);

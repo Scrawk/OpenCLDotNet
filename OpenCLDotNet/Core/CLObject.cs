@@ -15,6 +15,14 @@ namespace OpenCLDotNet.Core
 
         protected const CallingConvention CDECL = CallingConvention.Cdecl;
 
+        protected static readonly string ERROR_UNKNOWN_TYPE = "CLDOTNET_UNKNOWN_TYPE";
+
+        protected static readonly string ERROR_INVALID_OBJECT = "CLDOTNET_INVALID_OBJECT";
+
+        protected static readonly string ERROR_NO_PLATFORMS_FOUND = "CLDOTNET_NO_PLATFORMS_FOUND";
+
+        protected static readonly string ERROR_NO_KERNEL_ARGS_FOUND = "CLDOTNET_NO_KERNEL_ARGS_FOUND";
+
         /// <summary>
         /// Default constructor.
         /// </summary>
@@ -67,7 +75,7 @@ namespace OpenCLDotNet.Core
         /// Resets the error code to the value used when 
         /// nothing has been ran the generates a error.
         /// </summary>
-        protected void ResetErrorCode()
+        public void ResetErrorCode()
         {
             Error = CL_ERROR.NONE.ToString();   
         }
@@ -75,7 +83,7 @@ namespace OpenCLDotNet.Core
         /// <summary>
         /// Sets the error code to SUCCESS.
         /// </summary>
-        protected void SetErrorCodeToSuccess()
+        public void SetErrorCodeToSuccess()
         {
             Error = CL_ERROR.SUCCESS.ToString();
         }

@@ -10,6 +10,13 @@ namespace OpenCLDotNet.Core
 {
     public static partial class CL
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="program"></param>
+        /// <param name="kernel_name"></param>
+        /// <param name="error"></param>
+        /// <returns></returns>
         public static cl_kernel CreateKernel(
             cl_program program,
             cl_char[] kernel_name,
@@ -19,6 +26,13 @@ namespace OpenCLDotNet.Core
             return kernel;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="kernel"></param>
+        /// <param name="arg_index"></param>
+        /// <param name="arg_value"></param>
+        /// <returns></returns>
         public static CL_ERROR SetKernelArg(
             cl_kernel kernel,
             uint arg_index,
@@ -27,6 +41,13 @@ namespace OpenCLDotNet.Core
             return CL_SetKernelArgMem(kernel, arg_index, arg_value); 
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="kernel"></param>
+        /// <param name="arg_index"></param>
+        /// <param name="arg_value"></param>
+        /// <returns></returns>
         public static CL_ERROR SetKernelArg(
             cl_kernel kernel,
             uint arg_index,
@@ -35,6 +56,13 @@ namespace OpenCLDotNet.Core
             return CL_SetKernelArgSampler(kernel, arg_index, arg_value);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="kernel"></param>
+        /// <param name="arg_index"></param>
+        /// <param name="arg_value"></param>
+        /// <returns></returns>
         public static CL_ERROR SetKernelArg(
             cl_kernel kernel,
             uint arg_index,
@@ -43,6 +71,13 @@ namespace OpenCLDotNet.Core
             return CL_SetKernelArgInt(kernel, arg_index, arg_value);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="kernel"></param>
+        /// <param name="arg_index"></param>
+        /// <param name="arg_value"></param>
+        /// <returns></returns>
         public static CL_ERROR SetKernelArg(
             cl_kernel kernel,
             uint arg_index,
@@ -51,6 +86,13 @@ namespace OpenCLDotNet.Core
             return CL_SetKernelArgFloat(kernel, arg_index, arg_value);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="kernel"></param>
+        /// <param name="name"></param>
+        /// <param name="size"></param>
+        /// <returns></returns>
         public static CL_ERROR GetKernelInfoSize(
             cl_kernel kernel,
             CL_KERNEL_INFO name,
@@ -63,6 +105,14 @@ namespace OpenCLDotNet.Core
             return err;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="kernel"></param>
+        /// <param name="name"></param>
+        /// <param name="size"></param>
+        /// <param name="info"></param>
+        /// <returns></returns>
         public static CL_ERROR GetKernelInfo(
             cl_kernel kernel,
             CL_KERNEL_INFO name,
@@ -72,6 +122,14 @@ namespace OpenCLDotNet.Core
             return CL_GetKernelInfo(kernel, name, size, out info);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="kernel"></param>
+        /// <param name="name"></param>
+        /// <param name="size"></param>
+        /// <param name="info"></param>
+        /// <returns></returns>
         public static CL_ERROR GetKernelInfo(
             cl_kernel kernel,
             CL_KERNEL_INFO name,
@@ -81,6 +139,14 @@ namespace OpenCLDotNet.Core
             return CL_GetKernelInfo(kernel, name, size, out info);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="kernel"></param>
+        /// <param name="name"></param>
+        /// <param name="size"></param>
+        /// <param name="info"></param>
+        /// <returns></returns>
         public static CL_ERROR GetKernelInfo(
             cl_kernel kernel,
             CL_KERNEL_INFO name,
@@ -90,6 +156,14 @@ namespace OpenCLDotNet.Core
             return CL_GetKernelInfo(kernel, name, size, info);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="kernel"></param>
+        /// <param name="index"></param>
+        /// <param name="name"></param>
+        /// <param name="size"></param>
+        /// <returns></returns>
         public static CL_ERROR GetKernelArgInfoSize(
             cl_kernel kernel,
             uint index,
@@ -103,6 +177,15 @@ namespace OpenCLDotNet.Core
             return err;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="kernel"></param>
+        /// <param name="index"></param>
+        /// <param name="name"></param>
+        /// <param name="size"></param>
+        /// <param name="info"></param>
+        /// <returns></returns>
         public static CL_ERROR GetKernelArgInfo(
             cl_kernel kernel,
             uint index,
@@ -113,6 +196,15 @@ namespace OpenCLDotNet.Core
             return CL_GetKernelArgInfo(kernel, index, name, size, out info);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="kernel"></param>
+        /// <param name="index"></param>
+        /// <param name="name"></param>
+        /// <param name="size"></param>
+        /// <param name="info"></param>
+        /// <returns></returns>
         public static CL_ERROR GetKernelArgInfo(
             cl_kernel kernel,
             uint index,
@@ -123,6 +215,15 @@ namespace OpenCLDotNet.Core
             return CL_GetKernelArgInfo(kernel, index, name, size, out info);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="kernel"></param>
+        /// <param name="index"></param>
+        /// <param name="name"></param>
+        /// <param name="size"></param>
+        /// <param name="info"></param>
+        /// <returns></returns>
         public static CL_ERROR GetKernelArgInfo(
             cl_kernel kernel,
             uint index,
@@ -133,6 +234,14 @@ namespace OpenCLDotNet.Core
             return CL_GetKernelArgInfo(kernel, index, name, size, info);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="kernel"></param>
+        /// <param name="device"></param>
+        /// <param name="name"></param>
+        /// <param name="size"></param>
+        /// <returns></returns>
         public static CL_ERROR GetKernelWorkGroupInfoSize(
             cl_kernel kernel,
             cl_device_id device,
@@ -146,6 +255,15 @@ namespace OpenCLDotNet.Core
             return err;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="kernel"></param>
+        /// <param name="device"></param>
+        /// <param name="name"></param>
+        /// <param name="size"></param>
+        /// <param name="info"></param>
+        /// <returns></returns>
         public static CL_ERROR GetKernelWorkGroupInfo(
             cl_kernel kernel,
             cl_device_id device,
@@ -156,6 +274,15 @@ namespace OpenCLDotNet.Core
             return CL_GetKernelWorkGroupInfo(kernel, device, name, size, out info);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="kernel"></param>
+        /// <param name="device"></param>
+        /// <param name="name"></param>
+        /// <param name="size"></param>
+        /// <param name="info"></param>
+        /// <returns></returns>
         public static CL_ERROR GetKernelWorkGroupInfo(
             cl_kernel kernel,
             cl_device_id device,
@@ -166,11 +293,21 @@ namespace OpenCLDotNet.Core
             return CL_GetKernelWorkGroupInfo(kernel, device, name, size, info);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="kernel"></param>
+        /// <returns></returns>
         public static CL_ERROR RetainKernel(cl_kernel kernel)
         {
             return CL_RetainKernel(kernel); 
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="kernel"></param>
+        /// <returns></returns>
         public static CL_ERROR ReleaseKernel(cl_kernel kernel)
         {
             return CL_ReleaseKernel(kernel);

@@ -25,6 +25,19 @@ namespace OpenCLDotNet.Utility
             return str_char;    
         }
 
+        public static string RemoveWhiteSpaces(this string str)
+        {
+            string result = "";
+
+            for (int i = 0; i < str.Length; i++)
+            {
+                if (str[i] != ' ')
+                    result += str[i];
+            }
+                 
+            return result;
+        }
+
         public static bool IsEmpty(this cl_char[] array)
         {
             int size = array.Length;

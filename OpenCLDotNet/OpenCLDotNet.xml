@@ -4,6 +4,237 @@
         <name>OpenCLDotNet</name>
     </assembly>
     <members>
+        <member name="M:OpenCLDotNet.Core.CL.CreateBuffer(OpenCLDotNet.Core.cl_context,OpenCLDotNet.Core.CL_MEM_FLAGS,System.Array,OpenCLDotNet.Core.CL_ERROR@)">
+            <summary>
+            
+            </summary>
+            <param name="context"></param>
+            <param name="flags"></param>
+            <param name="data"></param>
+            <param name="error"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Core.CL.CreateSubBuffer(OpenCLDotNet.Core.cl_mem,OpenCLDotNet.Core.CL_MEM_FLAGS,OpenCLDotNet.Buffers.CLBufferRegion,OpenCLDotNet.Core.CL_ERROR@)">
+            <summary>
+            
+            </summary>
+            <param name="buffer"></param>
+            <param name="flags"></param>
+            <param name="region"></param>
+            <param name="error"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Core.CL.GetMemObjectInfoSize(OpenCLDotNet.Core.cl_mem,OpenCLDotNet.Core.CL_MEM_INFO,System.UInt32@)">
+            <summary>
+            
+            </summary>
+            <param name="memobj"></param>
+            <param name="name"></param>
+            <param name="size"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Core.CL.GetMemObjectInfo(OpenCLDotNet.Core.cl_mem,OpenCLDotNet.Core.CL_MEM_INFO,System.UInt32,System.UInt64@)">
+            <summary>
+            
+            </summary>
+            <param name="memobj"></param>
+            <param name="name"></param>
+            <param name="size"></param>
+            <param name="info"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Core.CL.GetMemObjectInfo(OpenCLDotNet.Core.cl_mem,OpenCLDotNet.Core.CL_MEM_INFO,System.UInt32,System.UIntPtr@)">
+            <summary>
+            
+            </summary>
+            <param name="memobj"></param>
+            <param name="name"></param>
+            <param name="size"></param>
+            <param name="info"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Core.CL.GetMemObjectInfo(OpenCLDotNet.Core.cl_mem,OpenCLDotNet.Core.CL_MEM_INFO,System.UInt32,OpenCLDotNet.Core.cl_object@)">
+            <summary>
+            
+            </summary>
+            <param name="memobj"></param>
+            <param name="name"></param>
+            <param name="size"></param>
+            <param name="info"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Core.CL.RetainMemObject(OpenCLDotNet.Core.cl_mem)">
+            <summary>
+            
+            </summary>
+            <param name="mem"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Core.CL.ReleaseMemObject(OpenCLDotNet.Core.cl_mem)">
+            <summary>
+            
+            </summary>
+            <param name="mem"></param>
+            <returns></returns>
+        </member>
+        <member name="P:OpenCLDotNet.Core.CL.FormatTable">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:OpenCLDotNet.Core.CL.CreateImage(OpenCLDotNet.Core.cl_context,OpenCLDotNet.Core.CL_MEM_FLAGS,OpenCLDotNet.Buffers.CLImageFormat,OpenCLDotNet.Buffers.CLImageDescription,System.Array,OpenCLDotNet.Core.CL_ERROR@)">
+            <summary>
+            
+            </summary>
+            <param name="context"></param>
+            <param name="flags"></param>
+            <param name="format"></param>
+            <param name="desc"></param>
+            <param name="data"></param>
+            <param name="error"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Core.CL.GetSupportedImageFormatsSize(OpenCLDotNet.Core.cl_context,OpenCLDotNet.Core.CL_MEM_FLAGS,OpenCLDotNet.Core.CL_MEM_OBJECT_TYPE,System.UInt32@)">
+            <summary>
+            
+            </summary>
+            <param name="context"></param>
+            <param name="flags"></param>
+            <param name="type"></param>
+            <param name="num_formats"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Core.CL.GetSupportedImageFormats(OpenCLDotNet.Core.cl_context,OpenCLDotNet.Core.CL_MEM_FLAGS,OpenCLDotNet.Core.CL_MEM_OBJECT_TYPE,OpenCLDotNet.Buffers.CLImageFormat[])">
+            <summary>
+            
+            </summary>
+            <param name="context"></param>
+            <param name="flags"></param>
+            <param name="type"></param>
+            <param name="formats"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Core.CL.ClearFormatTable">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:OpenCLDotNet.Core.CL.GetSupportedImageFormats(OpenCLDotNet.Buffers.CLImageFormatKey,System.Collections.Generic.List{OpenCLDotNet.Buffers.CLImageFormat})">
+            <summary>
+            
+            </summary>
+            <param name="key"></param>
+            <param name="formats"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Core.CL.ImageFormatIsSupported(OpenCLDotNet.Buffers.CLImageFormatKey,OpenCLDotNet.Buffers.CLImageFormat,OpenCLDotNet.Core.CL_ERROR@)">
+            <summary>
+            
+            </summary>
+            <param name="key"></param>
+            <param name="format"></param>
+            <param name="error"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Core.CL.AddImageFormat(OpenCLDotNet.Buffers.CLImageFormatKey,OpenCLDotNet.Buffers.CLImageFormat[]@)">
+            <summary>
+            
+            </summary>
+            <param name="key"></param>
+            <param name="formats"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Core.CL.GetImageInfoSize(OpenCLDotNet.Core.cl_mem,OpenCLDotNet.Core.CL_IMAGE_INFO,System.UInt32@)">
+            <summary>
+            
+            </summary>
+            <param name="image"></param>
+            <param name="name"></param>
+            <param name="size"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Core.CL.GetImageInfo(OpenCLDotNet.Core.cl_mem,OpenCLDotNet.Core.CL_IMAGE_INFO,OpenCLDotNet.Core.size_t,System.UInt64@)">
+            <summary>
+            
+            </summary>
+            <param name="image"></param>
+            <param name="name"></param>
+            <param name="size"></param>
+            <param name="info"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Core.CL.GetImageInfo(OpenCLDotNet.Core.cl_mem,OpenCLDotNet.Core.CL_IMAGE_INFO,OpenCLDotNet.Core.size_t,OpenCLDotNet.Buffers.CLImageFormat@)">
+            <summary>
+            
+            </summary>
+            <param name="image"></param>
+            <param name="name"></param>
+            <param name="size"></param>
+            <param name="info"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Core.CL.CreateSamplerWithProperties(OpenCLDotNet.Core.cl_context,OpenCLDotNet.Buffers.CLSamplerProperties,OpenCLDotNet.Core.CL_ERROR@)">
+            <summary>
+            
+            </summary>
+            <param name="context"></param>
+            <param name="properties"></param>
+            <param name="error"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Core.CL.GetSamplerInfoSize(OpenCLDotNet.Core.cl_sampler,OpenCLDotNet.Core.CL_SAMPLER_INFO,System.UInt32@)">
+            <summary>
+            
+            </summary>
+            <param name="sampler"></param>
+            <param name="name"></param>
+            <param name="size"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Core.CL.GetSamplerInfo(OpenCLDotNet.Core.cl_sampler,OpenCLDotNet.Core.CL_SAMPLER_INFO,System.UInt32,System.UInt64@)">
+            <summary>
+            
+            </summary>
+            <param name="sampler"></param>
+            <param name="name"></param>
+            <param name="size"></param>
+            <param name="info"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Core.CL.GetSamplerInfo(OpenCLDotNet.Core.cl_sampler,OpenCLDotNet.Core.CL_SAMPLER_INFO,System.UInt32,System.Single@)">
+            <summary>
+            
+            </summary>
+            <param name="sampler"></param>
+            <param name="name"></param>
+            <param name="size"></param>
+            <param name="info"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Core.CL.GetSamplerInfo(OpenCLDotNet.Core.cl_sampler,OpenCLDotNet.Core.CL_SAMPLER_INFO,System.UInt32,OpenCLDotNet.Core.cl_object@)">
+            <summary>
+            
+            </summary>
+            <param name="sampler"></param>
+            <param name="name"></param>
+            <param name="size"></param>
+            <param name="info"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Core.CL.RetainSampler(OpenCLDotNet.Core.cl_sampler)">
+            <summary>
+            
+            </summary>
+            <param name="sampler"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Core.CL.ReleaseSampler(OpenCLDotNet.Core.cl_sampler)">
+            <summary>
+            
+            </summary>
+            <param name="sampler"></param>
+            <returns></returns>
+        </member>
         <member name="M:OpenCLDotNet.Core.CL.CreateContext(OpenCLDotNet.Core.cl_platform_id,System.UInt32,OpenCLDotNet.Core.cl_device_id[])">
             <summary>
             
@@ -237,6 +468,562 @@
             <param name="info"></param>
             <returns></returns>
         </member>
+        <member name="M:OpenCLDotNet.Core.CL.CreateKernel(OpenCLDotNet.Core.cl_program,OpenCLDotNet.Core.cl_char[],OpenCLDotNet.Core.CL_ERROR@)">
+            <summary>
+            
+            </summary>
+            <param name="program"></param>
+            <param name="kernel_name"></param>
+            <param name="error"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Core.CL.SetKernelArg(OpenCLDotNet.Core.cl_kernel,System.UInt32,OpenCLDotNet.Core.cl_mem)">
+            <summary>
+            
+            </summary>
+            <param name="kernel"></param>
+            <param name="arg_index"></param>
+            <param name="arg_value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Core.CL.SetKernelArg(OpenCLDotNet.Core.cl_kernel,System.UInt32,OpenCLDotNet.Core.cl_sampler)">
+            <summary>
+            
+            </summary>
+            <param name="kernel"></param>
+            <param name="arg_index"></param>
+            <param name="arg_value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Core.CL.SetKernelArg(OpenCLDotNet.Core.cl_kernel,System.UInt32,System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="kernel"></param>
+            <param name="arg_index"></param>
+            <param name="arg_value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Core.CL.SetKernelArg(OpenCLDotNet.Core.cl_kernel,System.UInt32,System.Single)">
+            <summary>
+            
+            </summary>
+            <param name="kernel"></param>
+            <param name="arg_index"></param>
+            <param name="arg_value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Core.CL.GetKernelInfoSize(OpenCLDotNet.Core.cl_kernel,OpenCLDotNet.Core.CL_KERNEL_INFO,System.UInt32@)">
+            <summary>
+            
+            </summary>
+            <param name="kernel"></param>
+            <param name="name"></param>
+            <param name="size"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Core.CL.GetKernelInfo(OpenCLDotNet.Core.cl_kernel,OpenCLDotNet.Core.CL_KERNEL_INFO,System.UInt32,System.UInt64@)">
+            <summary>
+            
+            </summary>
+            <param name="kernel"></param>
+            <param name="name"></param>
+            <param name="size"></param>
+            <param name="info"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Core.CL.GetKernelInfo(OpenCLDotNet.Core.cl_kernel,OpenCLDotNet.Core.CL_KERNEL_INFO,System.UInt32,OpenCLDotNet.Core.cl_object@)">
+            <summary>
+            
+            </summary>
+            <param name="kernel"></param>
+            <param name="name"></param>
+            <param name="size"></param>
+            <param name="info"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Core.CL.GetKernelInfo(OpenCLDotNet.Core.cl_kernel,OpenCLDotNet.Core.CL_KERNEL_INFO,System.UInt32,OpenCLDotNet.Core.cl_char[])">
+            <summary>
+            
+            </summary>
+            <param name="kernel"></param>
+            <param name="name"></param>
+            <param name="size"></param>
+            <param name="info"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Core.CL.GetKernelArgInfoSize(OpenCLDotNet.Core.cl_kernel,System.UInt32,OpenCLDotNet.Core.CL_KERNEL_ARG_INFO,System.UInt32@)">
+            <summary>
+            
+            </summary>
+            <param name="kernel"></param>
+            <param name="index"></param>
+            <param name="name"></param>
+            <param name="size"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Core.CL.GetKernelArgInfo(OpenCLDotNet.Core.cl_kernel,System.UInt32,OpenCLDotNet.Core.CL_KERNEL_ARG_INFO,System.UInt32,System.UInt64@)">
+            <summary>
+            
+            </summary>
+            <param name="kernel"></param>
+            <param name="index"></param>
+            <param name="name"></param>
+            <param name="size"></param>
+            <param name="info"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Core.CL.GetKernelArgInfo(OpenCLDotNet.Core.cl_kernel,System.UInt32,OpenCLDotNet.Core.CL_KERNEL_ARG_INFO,System.UInt32,OpenCLDotNet.Core.cl_object@)">
+            <summary>
+            
+            </summary>
+            <param name="kernel"></param>
+            <param name="index"></param>
+            <param name="name"></param>
+            <param name="size"></param>
+            <param name="info"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Core.CL.GetKernelArgInfo(OpenCLDotNet.Core.cl_kernel,System.UInt32,OpenCLDotNet.Core.CL_KERNEL_ARG_INFO,System.UInt32,OpenCLDotNet.Core.cl_char[])">
+            <summary>
+            
+            </summary>
+            <param name="kernel"></param>
+            <param name="index"></param>
+            <param name="name"></param>
+            <param name="size"></param>
+            <param name="info"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Core.CL.GetKernelWorkGroupInfoSize(OpenCLDotNet.Core.cl_kernel,OpenCLDotNet.Core.cl_device_id,OpenCLDotNet.Core.CL_KERNEL_WORK_GROUP_INFO,System.UInt32@)">
+            <summary>
+            
+            </summary>
+            <param name="kernel"></param>
+            <param name="device"></param>
+            <param name="name"></param>
+            <param name="size"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Core.CL.GetKernelWorkGroupInfo(OpenCLDotNet.Core.cl_kernel,OpenCLDotNet.Core.cl_device_id,OpenCLDotNet.Core.CL_KERNEL_WORK_GROUP_INFO,System.UInt32,System.UInt64@)">
+            <summary>
+            
+            </summary>
+            <param name="kernel"></param>
+            <param name="device"></param>
+            <param name="name"></param>
+            <param name="size"></param>
+            <param name="info"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Core.CL.GetKernelWorkGroupInfo(OpenCLDotNet.Core.cl_kernel,OpenCLDotNet.Core.cl_device_id,OpenCLDotNet.Core.CL_KERNEL_WORK_GROUP_INFO,System.UInt32,OpenCLDotNet.Core.size_t[])">
+            <summary>
+            
+            </summary>
+            <param name="kernel"></param>
+            <param name="device"></param>
+            <param name="name"></param>
+            <param name="size"></param>
+            <param name="info"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Core.CL.RetainKernel(OpenCLDotNet.Core.cl_kernel)">
+            <summary>
+            
+            </summary>
+            <param name="kernel"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Core.CL.ReleaseKernel(OpenCLDotNet.Core.cl_kernel)">
+            <summary>
+            
+            </summary>
+            <param name="kernel"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Core.CL.CreateProgramWithSource(OpenCLDotNet.Core.cl_context,System.String,OpenCLDotNet.Core.CL_ERROR@)">
+            <summary>
+            
+            </summary>
+            <param name="context"></param>
+            <param name="program_text"></param>
+            <param name="error_code"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Core.CL.CreateProgramWithBinary(OpenCLDotNet.Core.cl_context,OpenCLDotNet.Core.cl_uint,OpenCLDotNet.Core.cl_device_id[],OpenCLDotNet.Core.size_t[],System.Byte[],OpenCLDotNet.Core.CL_ERROR[],OpenCLDotNet.Core.CL_ERROR@)">
+            <summary>
+            
+            </summary>
+            <param name="context"></param>
+            <param name="num_devices"></param>
+            <param name="device_list"></param>
+            <param name="lengths"></param>
+            <param name="binaries"></param>
+            <param name="binary_status"></param>
+            <param name="errcode"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Core.CL.BuildProgram(OpenCLDotNet.Core.cl_program,System.UInt32,OpenCLDotNet.Core.cl_device_id[],System.String)">
+            <summary>
+            
+            </summary>
+            <param name="program"></param>
+            <param name="num_devices"></param>
+            <param name="device_list"></param>
+            <param name="options"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Core.CL.GetProgramBuildInfoSize(OpenCLDotNet.Core.cl_program,OpenCLDotNet.Core.cl_device_id,OpenCLDotNet.Core.CL_PROGRAM_BUILD_INFO,System.UInt32@)">
+            <summary>
+            
+            </summary>
+            <param name="program"></param>
+            <param name="device"></param>
+            <param name="name"></param>
+            <param name="size"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Core.CL.GetProgramBuildInfo(OpenCLDotNet.Core.cl_program,OpenCLDotNet.Core.cl_device_id,OpenCLDotNet.Core.CL_PROGRAM_BUILD_INFO,System.UInt32,System.UInt64@)">
+            <summary>
+            
+            </summary>
+            <param name="program"></param>
+            <param name="device"></param>
+            <param name="name"></param>
+            <param name="size"></param>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Core.CL.GetProgramBuildInfo(OpenCLDotNet.Core.cl_program,OpenCLDotNet.Core.cl_device_id,OpenCLDotNet.Core.CL_PROGRAM_BUILD_INFO,System.UInt32,OpenCLDotNet.Core.cl_char[])">
+            <summary>
+            
+            </summary>
+            <param name="program"></param>
+            <param name="device"></param>
+            <param name="name"></param>
+            <param name="size"></param>
+            <param name="info"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Core.CL.GetProgramInfoSize(OpenCLDotNet.Core.cl_program,OpenCLDotNet.Core.CL_PROGRAM_INFO,System.UInt32@)">
+            <summary>
+            
+            </summary>
+            <param name="program"></param>
+            <param name="name"></param>
+            <param name="size"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Core.CL.GetProgramInfo(OpenCLDotNet.Core.cl_program,OpenCLDotNet.Core.CL_PROGRAM_INFO,System.UInt32,System.UInt64@)">
+            <summary>
+            
+            </summary>
+            <param name="program"></param>
+            <param name="name"></param>
+            <param name="size"></param>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Core.CL.GetProgramInfo(OpenCLDotNet.Core.cl_program,OpenCLDotNet.Core.CL_PROGRAM_INFO,System.UInt32,OpenCLDotNet.Core.cl_char[])">
+            <summary>
+            
+            </summary>
+            <param name="program"></param>
+            <param name="name"></param>
+            <param name="size"></param>
+            <param name="info"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Core.CL.GetProgramInfo(OpenCLDotNet.Core.cl_program,OpenCLDotNet.Core.CL_PROGRAM_INFO,System.UInt32,OpenCLDotNet.Core.cl_object@)">
+            <summary>
+            
+            </summary>
+            <param name="program"></param>
+            <param name="name"></param>
+            <param name="size"></param>
+            <param name="info"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Core.CL.GetProgramInfo(OpenCLDotNet.Core.cl_program,OpenCLDotNet.Core.CL_PROGRAM_INFO,System.UInt32,OpenCLDotNet.Core.cl_object[])">
+            <summary>
+            
+            </summary>
+            <param name="program"></param>
+            <param name="name"></param>
+            <param name="size"></param>
+            <param name="info"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Core.CL.GetProgramInfo(OpenCLDotNet.Core.cl_program,OpenCLDotNet.Core.CL_PROGRAM_INFO,System.UInt32,OpenCLDotNet.Core.size_t[])">
+            <summary>
+            
+            </summary>
+            <param name="program"></param>
+            <param name="name"></param>
+            <param name="size"></param>
+            <param name="info"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Core.CL.GetProgramBinaries(OpenCLDotNet.Core.cl_program,System.Int32,OpenCLDotNet.Core.size_t[],System.Byte[])">
+            <summary>
+            
+            </summary>
+            <param name="program"></param>
+            <param name="num_devices"></param>
+            <param name="sizes"></param>
+            <param name="binaries"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Core.CL.RetainProgram(OpenCLDotNet.Core.cl_program)">
+            <summary>
+            
+            </summary>
+            <param name="program"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Core.CL.ReleaseProgram(OpenCLDotNet.Core.cl_program)">
+            <summary>
+            
+            </summary>
+            <param name="program"></param>
+            <returns></returns>
+        </member>
+        <member name="T:OpenCLDotNet.Core.CLContext">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:OpenCLDotNet.Core.CLContext.#ctor">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:OpenCLDotNet.Core.CLContext.#ctor(OpenCLDotNet.Core.CL_DEVICE_TYPE)">
+            <summary>
+            
+            </summary>
+            <param name="device_type"></param>
+        </member>
+        <member name="P:OpenCLDotNet.Core.CLContext.IsValid">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:OpenCLDotNet.Core.CLContext.NumDevices">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:OpenCLDotNet.Core.CLContext.NumPlatforms">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:OpenCLDotNet.Core.CLContext.Platform">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:OpenCLDotNet.Core.CLContext.Platforms">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:OpenCLDotNet.Core.CLContext.ToString">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Core.CLContext.GetDeviceIds">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Core.CLContext.Print(System.Text.StringBuilder)">
+            <summary>
+            
+            </summary>
+            <param name="builder"></param>
+        </member>
+        <member name="M:OpenCLDotNet.Core.CLContext.GetInfo(OpenCLDotNet.Core.CL_CONTEXT_INFO)">
+            <summary>
+            
+            </summary>
+            <param name="info"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Core.CLContext.GetInfoUInt64(OpenCLDotNet.Core.CL_CONTEXT_INFO)">
+            <summary>
+            
+            </summary>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Core.CLContext.GetInfoObjectArray(OpenCLDotNet.Core.CL_CONTEXT_INFO)">
+            <summary>
+            
+            </summary>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Core.CLContext.CreatePlatforms(OpenCLDotNet.Core.CL_DEVICE_TYPE)">
+            <summary>
+            
+            </summary>
+            <param name="device_type"></param>
+        </member>
+        <member name="M:OpenCLDotNet.Core.CLContext.CreateContext">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:OpenCLDotNet.Core.CLContext.Release">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:OpenCLDotNet.Core.CLDevice">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:OpenCLDotNet.Core.CLDevice.#ctor(OpenCLDotNet.Core.cl_device_id,OpenCLDotNet.Core.CLPlatform)">
+            <summary>
+            
+            </summary>
+            <param name="id"></param>
+            <param name="platform"></param>
+        </member>
+        <member name="P:OpenCLDotNet.Core.CLDevice.Platform">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:OpenCLDotNet.Core.CLDevice.Vendor">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:OpenCLDotNet.Core.CLDevice.Name">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:OpenCLDotNet.Core.CLDevice.Version">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:OpenCLDotNet.Core.CLDevice.Profile">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:OpenCLDotNet.Core.CLDevice.Type">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:OpenCLDotNet.Core.CLDevice.SupportsImages">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:OpenCLDotNet.Core.CLDevice.IsGPU">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:OpenCLDotNet.Core.CLDevice.Extensions">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:OpenCLDotNet.Core.CLDevice.ToString">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Core.CLDevice.HasExtension(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Core.CLDevice.Print(System.Text.StringBuilder)">
+            <summary>
+            
+            </summary>
+            <param name="builder"></param>
+        </member>
+        <member name="M:OpenCLDotNet.Core.CLDevice.GetInfo(OpenCLDotNet.Core.CL_DEVICE_INFO)">
+            <summary>
+            
+            </summary>
+            <param name="info"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Core.CLDevice.GetInfoString(OpenCLDotNet.Core.CL_DEVICE_INFO)">
+            <summary>
+            
+            </summary>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Core.CLDevice.GetInfoObject(OpenCLDotNet.Core.CL_DEVICE_INFO)">
+            <summary>
+            
+            </summary>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Core.CLDevice.GetInfoBool(OpenCLDotNet.Core.CL_DEVICE_INFO)">
+            <summary>
+            
+            </summary>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Core.CLDevice.GetInfoUInt64(OpenCLDotNet.Core.CL_DEVICE_INFO)">
+            <summary>
+            
+            </summary>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Core.CLDevice.GetInfoSizetArray(OpenCLDotNet.Core.CL_DEVICE_INFO)">
+            <summary>
+            
+            </summary>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Core.CLDevice.GetInfoObjectArray(OpenCLDotNet.Core.CL_DEVICE_INFO)">
+            <summary>
+            
+            </summary>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Core.CLDevice.GetInfo">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:OpenCLDotNet.Core.CLDevice.GetExtensions">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:OpenCLDotNet.Core.CLDevice.Release">
+            <summary>
+            
+            </summary>
+        </member>
         <member name="T:OpenCLDotNet.Core.CLObject">
             <summary>
             Base class for objects that referrence a CL object.
@@ -445,6 +1232,916 @@
             </summary>
         </member>
         <member name="M:OpenCLDotNet.Core.CLPlatform.GetExtensions">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:OpenCLDotNet.Buffers.CLBuffer">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:OpenCLDotNet.Buffers.CLBuffer.ToString">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Buffers.CLBuffer.Create(OpenCLDotNet.Core.CLContext,OpenCLDotNet.Buffers.CLBufferData)">
+            <summary>
+            
+            </summary>
+            <param name="context"></param>
+            <param name="data"></param>
+        </member>
+        <member name="T:OpenCLDotNet.Buffers.CLBufferData">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:OpenCLDotNet.Buffers.CLBufferData.Flags">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:OpenCLDotNet.Buffers.CLBufferData.Source">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:OpenCLDotNet.Buffers.CLBufferData.ToString">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Buffers.CLBufferData.SetSource(System.Single[])">
+            <summary>
+            
+            </summary>
+            <param name="source"></param>
+        </member>
+        <member name="M:OpenCLDotNet.Buffers.CLBufferData.SetSource(System.Int32[])">
+            <summary>
+            
+            </summary>
+            <param name="source"></param>
+        </member>
+        <member name="M:OpenCLDotNet.Buffers.CLBufferData.SetSource(System.UInt32[])">
+            <summary>
+            
+            </summary>
+            <param name="source"></param>
+        </member>
+        <member name="M:OpenCLDotNet.Buffers.CLBufferData.SetSource(System.Int16[])">
+            <summary>
+            
+            </summary>
+            <param name="source"></param>
+        </member>
+        <member name="M:OpenCLDotNet.Buffers.CLBufferData.SetSource(System.UInt16[])">
+            <summary>
+            
+            </summary>
+            <param name="source"></param>
+        </member>
+        <member name="M:OpenCLDotNet.Buffers.CLBufferData.SetSource(System.Byte[])">
+            <summary>
+            
+            </summary>
+            <param name="source"></param>
+        </member>
+        <member name="M:OpenCLDotNet.Buffers.CLBufferData.SetSource(System.SByte[])">
+            <summary>
+            
+            </summary>
+            <param name="source"></param>
+        </member>
+        <member name="T:OpenCLDotNet.Buffers.CLBufferRegion">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:OpenCLDotNet.Buffers.CLBufferRegion.Origion">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:OpenCLDotNet.Buffers.CLBufferRegion.Size">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:OpenCLDotNet.Buffers.CLBufferRegion.#ctor(OpenCLDotNet.Core.size_t,OpenCLDotNet.Core.size_t)">
+            <summary>
+            
+            </summary>
+            <param name="origion"></param>
+            <param name="size"></param>
+        </member>
+        <member name="M:OpenCLDotNet.Buffers.CLBufferRegion.ToString">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:OpenCLDotNet.Buffers.CLImage">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:OpenCLDotNet.Buffers.CLImage.#ctor(OpenCLDotNet.Core.CLContext,System.Array)">
+            <summary>
+            
+            </summary>
+            <param name="context"></param>
+            <param name="data"></param>
+        </member>
+        <member name="P:OpenCLDotNet.Buffers.CLImage.Channels">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:OpenCLDotNet.Buffers.CLImage.ChannelOrder">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:OpenCLDotNet.Buffers.CLImage.ChannelType">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:OpenCLDotNet.Buffers.CLImage.Print(System.Text.StringBuilder)">
+            <summary>
+            
+            </summary>
+            <param name="builder"></param>
+        </member>
+        <member name="M:OpenCLDotNet.Buffers.CLImage.GetInfo(OpenCLDotNet.Core.CL_IMAGE_INFO)">
+            <summary>
+            
+            </summary>
+            <param name="info"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Buffers.CLImage.GetInfoUInt64(OpenCLDotNet.Core.CL_IMAGE_INFO)">
+            <summary>
+            
+            </summary>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Buffers.CLImage.GetInfoFormat(OpenCLDotNet.Core.CL_IMAGE_INFO)">
+            <summary>
+            
+            </summary>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
+        <member name="T:OpenCLDotNet.Buffers.CLImage2D">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:OpenCLDotNet.Buffers.CLImage2D.#ctor(OpenCLDotNet.Core.CLContext,OpenCLDotNet.Buffers.CLImageData2D)">
+            <summary>
+            
+            </summary>
+            <param name="context"></param>
+            <param name="data"></param>
+        </member>
+        <member name="P:OpenCLDotNet.Buffers.CLImage2D.Width">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:OpenCLDotNet.Buffers.CLImage2D.Height">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:OpenCLDotNet.Buffers.CLImage2D.ToString">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Buffers.CLImage2D.Create(OpenCLDotNet.Core.CLContext,OpenCLDotNet.Buffers.CLImageData2D)">
+            <summary>
+            
+            </summary>
+            <param name="context"></param>
+            <param name="data"></param>
+        </member>
+        <member name="T:OpenCLDotNet.Buffers.CLImageData2D">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:OpenCLDotNet.Buffers.CLImageData2D.Width">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:OpenCLDotNet.Buffers.CLImageData2D.Height">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:OpenCLDotNet.Buffers.CLImageData2D.Channels">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:OpenCLDotNet.Buffers.CLImageData2D.ChannelOrder">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:OpenCLDotNet.Buffers.CLImageData2D.ChannelType">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:OpenCLDotNet.Buffers.CLImageData2D.Flags">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:OpenCLDotNet.Buffers.CLImageData2D.Source">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:OpenCLDotNet.Buffers.CLImageData2D.ToString">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Buffers.CLImageData2D.GetSupportedImageFormats(OpenCLDotNet.Core.cl_context)">
+            <summary>
+            
+            </summary>
+            <param name="context"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Buffers.CLImageData2D.IsValidSize">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Buffers.CLImageData2D.IsValidChannel">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Buffers.CLImageData2D.IsValidArrayData">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+            <exception cref="T:System.NullReferenceException"></exception>
+        </member>
+        <member name="M:OpenCLDotNet.Buffers.CLImageData2D.ImageFormatIsSupported(OpenCLDotNet.Core.cl_context,OpenCLDotNet.Buffers.CLImageFormat,OpenCLDotNet.Core.CL_ERROR@)">
+            <summary>
+            
+            </summary>
+            <param name="context"></param>
+            <param name="format"></param>
+            <param name="error"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Buffers.CLImageData2D.CreateImageFormat">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Buffers.CLImageData2D.CreateImageDescription">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Buffers.CLImageData2D.SetSource(System.Single[])">
+            <summary>
+            
+            </summary>
+            <param name="source"></param>
+        </member>
+        <member name="M:OpenCLDotNet.Buffers.CLImageData2D.SetSource(System.Int32[])">
+            <summary>
+            
+            </summary>
+            <param name="source"></param>
+        </member>
+        <member name="M:OpenCLDotNet.Buffers.CLImageData2D.SetSource(System.UInt32[])">
+            <summary>
+            
+            </summary>
+            <param name="source"></param>
+        </member>
+        <member name="M:OpenCLDotNet.Buffers.CLImageData2D.SetSource(System.Int16[])">
+            <summary>
+            
+            </summary>
+            <param name="source"></param>
+        </member>
+        <member name="M:OpenCLDotNet.Buffers.CLImageData2D.SetSource(System.UInt16[])">
+            <summary>
+            
+            </summary>
+            <param name="source"></param>
+        </member>
+        <member name="M:OpenCLDotNet.Buffers.CLImageData2D.SetSource(System.Byte[])">
+            <summary>
+            
+            </summary>
+            <param name="source"></param>
+        </member>
+        <member name="M:OpenCLDotNet.Buffers.CLImageData2D.SetSource(System.SByte[])">
+            <summary>
+            
+            </summary>
+            <param name="source"></param>
+        </member>
+        <member name="T:OpenCLDotNet.Buffers.CLMemObject">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:OpenCLDotNet.Buffers.CLMemObject.#ctor(OpenCLDotNet.Core.CLContext,System.Array)">
+            <summary>
+            
+            </summary>
+            <param name="context"></param>
+            <param name="data"></param>
+        </member>
+        <member name="P:OpenCLDotNet.Buffers.CLMemObject.Context">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:OpenCLDotNet.Buffers.CLMemObject.Flags">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:OpenCLDotNet.Buffers.CLMemObject.MemType">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:OpenCLDotNet.Buffers.CLMemObject.CanReadWrite">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:OpenCLDotNet.Buffers.CLMemObject.CanRead">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:OpenCLDotNet.Buffers.CLMemObject.CanWrite">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:OpenCLDotNet.Buffers.CLMemObject.Data">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:OpenCLDotNet.Buffers.CLMemObject.Print(System.Text.StringBuilder)">
+            <summary>
+            
+            </summary>
+            <param name="builder"></param>
+        </member>
+        <member name="M:OpenCLDotNet.Buffers.CLMemObject.GetInfo(OpenCLDotNet.Core.CL_MEM_INFO)">
+            <summary>
+            
+            </summary>
+            <param name="info"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Buffers.CLMemObject.GetInfoUInt64(OpenCLDotNet.Core.CL_MEM_INFO)">
+            <summary>
+            
+            </summary>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Buffers.CLMemObject.GetInfoUIntPtr(OpenCLDotNet.Core.CL_MEM_INFO)">
+            <summary>
+            
+            </summary>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Buffers.CLMemObject.GetInfoBool(OpenCLDotNet.Core.CL_MEM_INFO)">
+            <summary>
+            
+            </summary>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Buffers.CLMemObject.GetInfoObject(OpenCLDotNet.Core.CL_MEM_INFO)">
+            <summary>
+            
+            </summary>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Buffers.CLMemObject.Release">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:OpenCLDotNet.Buffers.CLSubBuffer">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:OpenCLDotNet.Buffers.CLSubBuffer.#ctor(OpenCLDotNet.Buffers.CLBuffer,OpenCLDotNet.Buffers.CLBufferRegion)">
+            <summary>
+            
+            </summary>
+            <param name="buffer"></param>
+            <param name="region"></param>
+        </member>
+        <member name="P:OpenCLDotNet.Buffers.CLSubBuffer.Buffer">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:OpenCLDotNet.Buffers.CLSubBuffer.Region">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:OpenCLDotNet.Buffers.CLSubBuffer.IsValid">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:OpenCLDotNet.Buffers.CLSubBuffer.ToString">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Buffers.CLSubBuffer.Create(OpenCLDotNet.Buffers.CLBuffer,OpenCLDotNet.Buffers.CLBufferRegion,OpenCLDotNet.Core.CL_MEM_FLAGS)">
+            <summary>
+            
+            </summary>
+            <param name="buffer"></param>
+            <param name="region"></param>
+            <param name="flags"></param>
+        </member>
+        <member name="T:OpenCLDotNet.Programs.CLKernel">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:OpenCLDotNet.Programs.CLKernel.#ctor(OpenCLDotNet.Programs.CLProgram,System.String)">
+            <summary>
+            
+            </summary>
+            <param name="program"></param>
+            <param name="name"></param>
+        </member>
+        <member name="P:OpenCLDotNet.Programs.CLKernel.Name">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:OpenCLDotNet.Programs.CLKernel.Program">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:OpenCLDotNet.Programs.CLKernel.NumArguments">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:OpenCLDotNet.Programs.CLKernel.ToString">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Programs.CLKernel.Create(OpenCLDotNet.Programs.CLProgram,System.String)">
+            <summary>
+            
+            </summary>
+            <param name="program"></param>
+            <param name="name"></param>
+        </member>
+        <member name="M:OpenCLDotNet.Programs.CLKernel.SetBufferArg(OpenCLDotNet.Buffers.CLBuffer,System.UInt32)">
+            <summary>
+            
+            </summary>
+            <param name="arg"></param>
+            <param name="index"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Programs.CLKernel.SetBufferArg(OpenCLDotNet.Buffers.CLSubBuffer,System.UInt32)">
+            <summary>
+            
+            </summary>
+            <param name="arg"></param>
+            <param name="index"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Programs.CLKernel.SetSamplerArg(OpenCLDotNet.Buffers.CLSampler,System.UInt32)">
+            <summary>
+            
+            </summary>
+            <param name="arg"></param>
+            <param name="index"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Programs.CLKernel.SetIntArg(System.Int32,System.UInt32)">
+            <summary>
+            
+            </summary>
+            <param name="arg"></param>
+            <param name="index"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Programs.CLKernel.SetFloatArg(System.Single,System.UInt32)">
+            <summary>
+            
+            </summary>
+            <param name="arg"></param>
+            <param name="index"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Programs.CLKernel.Print(System.Text.StringBuilder)">
+            <summary>
+            
+            </summary>
+            <param name="builder"></param>
+        </member>
+        <member name="M:OpenCLDotNet.Programs.CLKernel.GetInfo(OpenCLDotNet.Core.CL_KERNEL_INFO)">
+            <summary>
+            
+            </summary>
+            <param name="info"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Programs.CLKernel.GetInfo(OpenCLDotNet.Core.CL_KERNEL_ARG_INFO,System.UInt32)">
+            <summary>
+            
+            </summary>
+            <param name="info"></param>
+            <param name="index"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Programs.CLKernel.GetInfo(OpenCLDotNet.Core.CL_KERNEL_WORK_GROUP_INFO,OpenCLDotNet.Core.cl_device_id)">
+            <summary>
+            
+            </summary>
+            <param name="info"></param>
+            <param name="device"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Programs.CLKernel.GetInfoUInt64(OpenCLDotNet.Core.CL_KERNEL_INFO)">
+            <summary>
+            
+            </summary>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Programs.CLKernel.GetInfoUInt64(OpenCLDotNet.Core.CL_KERNEL_ARG_INFO,System.UInt32)">
+            <summary>
+            
+            </summary>
+            <param name="name"></param>
+            <param name="index"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Programs.CLKernel.GetInfoUInt64(OpenCLDotNet.Core.CL_KERNEL_WORK_GROUP_INFO,OpenCLDotNet.Core.cl_device_id)">
+            <summary>
+            
+            </summary>
+            <param name="name"></param>
+            <param name="device"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Programs.CLKernel.GetInfoString(OpenCLDotNet.Core.CL_KERNEL_INFO)">
+            <summary>
+            
+            </summary>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Programs.CLKernel.GetInfoObject(OpenCLDotNet.Core.CL_KERNEL_INFO)">
+            <summary>
+            
+            </summary>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Programs.CLKernel.GetInfoString(OpenCLDotNet.Core.CL_KERNEL_ARG_INFO,System.UInt32)">
+            <summary>
+            
+            </summary>
+            <param name="name"></param>
+            <param name="index"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Programs.CLKernel.GetInfoSizetArray(OpenCLDotNet.Core.CL_KERNEL_WORK_GROUP_INFO,OpenCLDotNet.Core.cl_device_id)">
+            <summary>
+            
+            </summary>
+            <param name="name"></param>
+            <param name="device"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Programs.CLKernel.Release">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:OpenCLDotNet.Programs.CLProgram.OPTION_KERNEL_ARG_INFO">
+            <summary>
+            Enables the kerenls argument info in the program to be available.
+            </summary>
+        </member>
+        <member name="F:OpenCLDotNet.Programs.CLProgram.OPTION_SINGLE_PRECISION_CONSTANT">
+            <summary>
+            Treat double precision floating-point constant as single precision constant.
+            </summary>
+        </member>
+        <member name="F:OpenCLDotNet.Programs.CLProgram.OPTION_DENORMS_ARE_ZERO">
+            <summary>
+            This option controls how single precision and double precision denormalized numbers are handled. 
+            If specified as a build option, the single precision denormalized numbers may be flushed
+            to zero and if the optional extension for double precision is supported, double precision
+            denormalized numbers may also be flushed to zero. This is intended to be a performance 
+            hint and the OpenCL compiler can choose not to flush denorms to zero if the device supports 
+            single precision (or double precision) denormalized numbers.
+            This option is ignored for single precision numbers if the device does not support single 
+            precision denormalized numbers i.e.CL_FP_DENORM bit is not set in CL_DEVICE_SINGLE_FP_CONFIG.
+            This option is ignored for double precision numbers if the device does not support double 
+            precision or if it does support double precison but CL_FP_DENORM bit is not set in CL_DEVICE_DOUBLE_FP_CONFIG.
+            This flag only applies for scalar and vector single precision floating-point variables and
+            computations on these floating-point variables inside a program.It does not apply to reading
+            from or writing to image objects.
+            </summary>
+        </member>
+        <member name="F:OpenCLDotNet.Programs.CLProgram.OPTION_OPT_DISABLE">
+            <summary>
+            This option disables all optimizations. The default is optimizations are enabled.
+            </summary>
+        </member>
+        <member name="F:OpenCLDotNet.Programs.CLProgram.OPTION_STRICT_ALIASING">
+            <summary>
+            This option allows the compiler to assume the strictest aliasing rules.
+            </summary>
+        </member>
+        <member name="F:OpenCLDotNet.Programs.CLProgram.OPTION_MAD_ENABLED">
+            <summary>
+            Allow a * b + c to be replaced by a mad. The mad computes a * b + c with reduced accuracy. 
+            For example, some OpenCL devices implement mad as truncate the result of a * b before adding it to c.
+            </summary>
+        </member>
+        <member name="F:OpenCLDotNet.Programs.CLProgram.OPTION_NO_SIGNED_ZEROS">
+            <summary>
+            Allow optimizations for floating-point arithmetic that ignore the signedness of zero. 
+            IEEE 754 arithmetic specifies the behavior of distinct +0.0 and -0.0 values, 
+            which then prohibits simplification of expressions such as x+0.0 or 0.0*x (even with -clfinite-math only). 
+            This option implies that the sign of a zero result isn't significant.
+            </summary>
+        </member>
+        <member name="F:OpenCLDotNet.Programs.CLProgram.OPTION_UNSAFE_MATH_OPTIMIZATIONS">
+            <summary>
+            Allow optimizations for floating-point arithmetic that (a) assume that arguments and results are valid,
+            (b) may violate IEEE 754 standard and (c) may violate the OpenCL numerical compliance requirements as 
+            defined in section 7.4 for single-precision floating-point, section 9.3.9 for double-precision floating-point, 
+            and edge case behavior in section 7.5. This option includes the -cl-no-signed-zeros and -cl-mad-enable options.
+            </summary>
+        </member>
+        <member name="F:OpenCLDotNet.Programs.CLProgram.OPTION_FINITE_MATH_ONLY">
+            <summary>
+            Allow optimizations for floating-point arithmetic that assume that arguments and results are not NaNs or ±∞.
+            This option may violate the OpenCL numerical compliance requirements defined in in section 7.4 
+            for single-precision floating-point, section 9.3.9 for double-precision floating-point, 
+            and edge case behavior in section 7.5.
+            </summary>
+        </member>
+        <member name="F:OpenCLDotNet.Programs.CLProgram.OPTION_FAST_RELAXED_MATH">
+            <summary>
+            Sets the optimization options -cl-finite-math-only and -cl-unsafe-math-optimizations. 
+            This allows optimizations for floating-point arithmetic that may violate the IEEE 754 standard and the
+            OpenCL numerical compliance requirements defined in the specification in section 7.4 for single-precision
+            floating-point, section 9.3.9 for double-precision floating-point, and edge case behavior in section 7.5.
+            This option causes the preprocessor macro __FAST_RELAXED_MATH__ to be defined in the OpenCL program.
+            </summary>
+        </member>
+        <member name="F:OpenCLDotNet.Programs.CLProgram.OPTION_DISABLE_WARNINGS">
+            <summary>
+            Inhibit all warning messages.
+            </summary>
+        </member>
+        <member name="F:OpenCLDotNet.Programs.CLProgram.OPTION_WARNINGS_AS_ERRORS">
+            <summary>
+            Make all warnings into errors.
+            </summary>
+        </member>
+        <member name="M:OpenCLDotNet.Programs.CLProgram.#ctor(OpenCLDotNet.Core.CLContext,System.String,System.String)">
+            <summary>
+            
+            </summary>
+            <param name="context"></param>
+            <param name="filename"></param>
+            <param name="options"></param>
+        </member>
+        <member name="M:OpenCLDotNet.Programs.CLProgram.#ctor(OpenCLDotNet.Core.CLContext,System.Collections.Generic.IList{System.Byte[]},System.String)">
+            <summary>
+            
+            </summary>
+            <param name="context"></param>
+            <param name="binaries"></param>
+            <param name="options"></param>
+        </member>
+        <member name="M:OpenCLDotNet.Programs.CLProgram.#ctor(OpenCLDotNet.Core.CLContext,System.Byte[],System.String)">
+            <summary>
+            
+            </summary>
+            <param name="context"></param>
+            <param name="binary"></param>
+            <param name="options"></param>
+        </member>
+        <member name="P:OpenCLDotNet.Programs.CLProgram.Context">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:OpenCLDotNet.Programs.CLProgram.Options">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:OpenCLDotNet.Programs.CLProgram.HasKernelArgumentInfo">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:OpenCLDotNet.Programs.CLProgram.Source">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:OpenCLDotNet.Programs.CLProgram.ToString">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Programs.CLProgram.Create(OpenCLDotNet.Core.CLContext,System.String,System.String)">
+            <summary>
+            
+            </summary>
+            <param name="context"></param>
+            <param name="filename"></param>
+            <param name="options"></param>
+        </member>
+        <member name="M:OpenCLDotNet.Programs.CLProgram.Create(OpenCLDotNet.Core.CLContext,System.Collections.Generic.IList{System.Byte[]},System.String)">
+            <summary>
+            
+            </summary>
+            <param name="context"></param>
+            <param name="binarys"></param>
+            <param name="options"></param>
+        </member>
+        <member name="M:OpenCLDotNet.Programs.CLProgram.Create(OpenCLDotNet.Core.CLContext,System.Byte[],System.String)">
+            <summary>
+            
+            </summary>
+            <param name="context"></param>
+            <param name="binary"></param>
+            <param name="options"></param>
+        </member>
+        <member name="M:OpenCLDotNet.Programs.CLProgram.HasOption(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="option"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Programs.CLProgram.CheckForKernelArgumentInfo(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="options"></param>
+        </member>
+        <member name="M:OpenCLDotNet.Programs.CLProgram.CreateOptions(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="options"></param>
+        </member>
+        <member name="M:OpenCLDotNet.Programs.CLProgram.GetBinary">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Programs.CLProgram.GetBinary(System.Collections.Generic.List{System.Byte[]})">
+            <summary>
+            
+            </summary>
+            <param name="binaries"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Programs.CLProgram.Print(System.Text.StringBuilder)">
+            <summary>
+            
+            </summary>
+            <param name="builder"></param>
+        </member>
+        <member name="M:OpenCLDotNet.Programs.CLProgram.GetInfo(OpenCLDotNet.Core.CL_PROGRAM_BUILD_INFO,OpenCLDotNet.Core.cl_device_id)">
+            <summary>
+            
+            </summary>
+            <param name="info"></param>
+            <param name="device"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Programs.CLProgram.GetInfo(OpenCLDotNet.Core.CL_PROGRAM_INFO)">
+            <summary>
+            
+            </summary>
+            <param name="info"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Programs.CLProgram.GetBuildInfoUInt64(OpenCLDotNet.Core.CL_PROGRAM_BUILD_INFO,OpenCLDotNet.Core.cl_device_id)">
+            <summary>
+            
+            </summary>
+            <param name="name"></param>
+            <param name="device"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Programs.CLProgram.GetInfoUInt64(OpenCLDotNet.Core.CL_PROGRAM_INFO)">
+            <summary>
+            
+            </summary>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Programs.CLProgram.GetBuildInfoString(OpenCLDotNet.Core.CL_PROGRAM_BUILD_INFO,OpenCLDotNet.Core.cl_device_id)">
+            <summary>
+            
+            </summary>
+            <param name="name"></param>
+            <param name="device"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Programs.CLProgram.GetInfoString(OpenCLDotNet.Core.CL_PROGRAM_INFO)">
+            <summary>
+            
+            </summary>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Programs.CLProgram.GetInfoBool(OpenCLDotNet.Core.CL_PROGRAM_INFO)">
+            <summary>
+            
+            </summary>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Programs.CLProgram.GetInfoObject(OpenCLDotNet.Core.CL_PROGRAM_INFO)">
+            <summary>
+            
+            </summary>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Programs.CLProgram.GetInfoObjectArray(OpenCLDotNet.Core.CL_PROGRAM_INFO)">
+            <summary>
+            
+            </summary>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Programs.CLProgram.GetInfoSizetArray(OpenCLDotNet.Core.CL_PROGRAM_INFO)">
+            <summary>
+            
+            </summary>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Programs.CLProgram.Release">
             <summary>
             
             </summary>

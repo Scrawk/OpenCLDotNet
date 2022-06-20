@@ -11,7 +11,21 @@ namespace OpenCLDotNet.Core
 {
     public static partial class CL
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        private static Dictionary<CLImageFormatKey, CLImageFormat[]> FormatTable { get; set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="flags"></param>
+        /// <param name="format"></param>
+        /// <param name="desc"></param>
+        /// <param name="data"></param>
+        /// <param name="error"></param>
+        /// <returns></returns>
         public static cl_mem CreateImage(
             cl_context context,
             CL_MEM_FLAGS flags,
@@ -23,6 +37,14 @@ namespace OpenCLDotNet.Core
             return CL_CreateImage(context, flags, format, desc, data, out error);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="flags"></param>
+        /// <param name="type"></param>
+        /// <param name="num_formats"></param>
+        /// <returns></returns>
         public static CL_ERROR GetSupportedImageFormatsSize(
             cl_context context,
             CL_MEM_FLAGS flags,
@@ -36,6 +58,14 @@ namespace OpenCLDotNet.Core
             return error;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="flags"></param>
+        /// <param name="type"></param>
+        /// <param name="formats"></param>
+        /// <returns></returns>
         public static CL_ERROR GetSupportedImageFormats(
             cl_context context,
             CL_MEM_FLAGS flags,
@@ -46,13 +76,20 @@ namespace OpenCLDotNet.Core
             return CL_GetSupportedImageFormats(context, flags, type, num_entries, formats);
         }
 
-        private static Dictionary<CLImageFormatKey, CLImageFormat[]> FormatTable { get; set; }
-
+        /// <summary>
+        /// 
+        /// </summary>
         public static void ClearFormatTable()
         {
             FormatTable = null;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="formats"></param>
+        /// <returns></returns>
         public static CL_ERROR GetSupportedImageFormats(CLImageFormatKey key, List<CLImageFormat> formats)
         {
             CLImageFormat[] formats_array = null;
@@ -64,6 +101,13 @@ namespace OpenCLDotNet.Core
             return error;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="format"></param>
+        /// <param name="error"></param>
+        /// <returns></returns>
         public static bool ImageFormatIsSupported(CLImageFormatKey key, CLImageFormat format, out CL_ERROR error)
         {
             CLImageFormat[] formats = null;
@@ -80,6 +124,12 @@ namespace OpenCLDotNet.Core
 
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="formats"></param>
+        /// <returns></returns>
         private static CL_ERROR AddImageFormat(CLImageFormatKey key, out CLImageFormat[] formats)
         {
             if (FormatTable == null)
@@ -115,6 +165,13 @@ namespace OpenCLDotNet.Core
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="image"></param>
+        /// <param name="name"></param>
+        /// <param name="size"></param>
+        /// <returns></returns>
         public static CL_ERROR GetImageInfoSize(
             cl_mem image,
             CL_IMAGE_INFO name,
@@ -126,6 +183,14 @@ namespace OpenCLDotNet.Core
             return err;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="image"></param>
+        /// <param name="name"></param>
+        /// <param name="size"></param>
+        /// <param name="info"></param>
+        /// <returns></returns>
         public static CL_ERROR GetImageInfo(
             cl_mem image,
             CL_IMAGE_INFO name,
@@ -135,6 +200,14 @@ namespace OpenCLDotNet.Core
             return CL_GetImageInfo(image, name, size, out info);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="image"></param>
+        /// <param name="name"></param>
+        /// <param name="size"></param>
+        /// <param name="info"></param>
+        /// <returns></returns>
         public static CL_ERROR GetImageInfo(
             cl_mem image,
             CL_IMAGE_INFO name,

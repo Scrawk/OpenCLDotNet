@@ -6,8 +6,16 @@ using OpenCLDotNet.Utility;
 
 namespace OpenCLDotNet.Core
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class CLDevice : CLObject
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="platform"></param>
         public CLDevice(cl_device_id id, CLPlatform platform)
         {
             Id = id;
@@ -16,36 +24,76 @@ namespace OpenCLDotNet.Core
             GetExtensions();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         private CLPlatform Platform { get; set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public string Vendor { get; private set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public string Name { get; private set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public string Version { get; private set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public string Profile { get; private set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public CL_DEVICE_TYPE Type { get; private set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public bool SupportsImages { get; private set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public bool IsGPU => Type == CL_DEVICE_TYPE.GPU;
 
+        /// <summary>
+        /// 
+        /// </summary>
         private List<string> Extensions { get; set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public override string ToString()
         {
             return String.Format("[CLDevice: Id={0}, PlatformID={1}, Type={2}, Vendor={3}, Error={4}]", 
                 Id, Platform.Id, Type, Vendor, Error);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
         public bool HasExtension(string name)
         {
             GetExtensions();
             return Extensions.Contains(name);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="builder"></param>
         public override void Print(StringBuilder builder)
         {
             builder.AppendLine(ToString());
@@ -85,14 +133,19 @@ namespace OpenCLDotNet.Core
 
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="info"></param>
+        /// <returns></returns>
         public string GetInfo(CL_DEVICE_INFO info)
         {
             if (!IsValid)
-                return "UNKNOWN";
+                return ERROR_INVALID_OBJECT;
 
             var type = CL.GetReturnType(info);
 
-            string str = "";
+            string str = ERROR_UNKNOWN_TYPE;
 
             if (type == CL_INFO_RETURN_TYPE.UINT ||
                 type == CL_INFO_RETURN_TYPE.ULONG ||
@@ -108,12 +161,15 @@ namespace OpenCLDotNet.Core
                 str = GetInfoSizetArray(info);
             else if (type == CL_INFO_RETURN_TYPE.OBJECT_ARRAY)
                 str = GetInfoObjectArray(info);
-            else
-                str = "UNKNOWN";
 
             return str; 
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
         private string GetInfoString(CL_DEVICE_INFO name)
         {
             CL.GetDeviceInfoSize(Id, name, out uint size);
@@ -128,6 +184,11 @@ namespace OpenCLDotNet.Core
                 return text;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
         private cl_object GetInfoObject(CL_DEVICE_INFO name)
         {
             CL.GetDeviceInfoSize(Id, name, out uint size);
@@ -138,6 +199,11 @@ namespace OpenCLDotNet.Core
             return info;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
         private bool GetInfoBool(CL_DEVICE_INFO name)
         {
             CL.GetDeviceInfoSize(Id, name, out uint size);
@@ -147,6 +213,11 @@ namespace OpenCLDotNet.Core
             return info > 0;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
         private UInt64 GetInfoUInt64(CL_DEVICE_INFO name)
         {
             CL.GetDeviceInfoSize(Id, name, out uint size);
@@ -156,6 +227,11 @@ namespace OpenCLDotNet.Core
             return info;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
         private unsafe string GetInfoSizetArray(CL_DEVICE_INFO name)
         {
             int size_of = sizeof(size_t);
@@ -178,6 +254,11 @@ namespace OpenCLDotNet.Core
             return str;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
         private unsafe string GetInfoObjectArray(CL_DEVICE_INFO name)
         {
             int size_of = sizeof(cl_object);
@@ -192,6 +273,9 @@ namespace OpenCLDotNet.Core
             return str;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         private void GetInfo()
         {
             Vendor = GetInfoString(CL_DEVICE_INFO.VENDOR);
@@ -204,6 +288,9 @@ namespace OpenCLDotNet.Core
             Type = (CL_DEVICE_TYPE)type;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         private void GetExtensions()
         {
             if (Extensions != null || !IsValid)
@@ -214,6 +301,9 @@ namespace OpenCLDotNet.Core
             Extensions = new List<string>(info.Split(' '));
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         protected override void Release()
         {
             CL.ReleaseDevice(Id);

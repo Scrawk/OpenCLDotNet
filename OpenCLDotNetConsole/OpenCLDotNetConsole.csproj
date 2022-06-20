@@ -14,7 +14,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\OpenCLDotNet\OpenCLDotNet.csproj" />
-    <ProjectReference Include="..\OpenCLWrapper\OpenCLWrapper.vcxproj" />
   </ItemGroup>
 
 </Project>

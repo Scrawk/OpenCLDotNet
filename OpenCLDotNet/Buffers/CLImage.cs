@@ -7,24 +7,46 @@ using OpenCLDotNet.Utility;
 
 namespace OpenCLDotNet.Buffers
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public abstract class CLImage : CLMemObject
     {
-        public CLImage(CLContext context)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="data"></param>
+        public CLImage(CLContext context, Array data)
+            : base(context, data)
         {
-            Context = context;
+
         }
 
-        public CLContext Context { get; protected set; }
-
+        /// <summary>
+        /// 
+        /// </summary>
         public uint Channels { get; protected set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public CL_CHANNEL_ORDER ChannelOrder { get; protected set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public CL_CHANNEL_TYPE ChannelType { get; protected set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="builder"></param>
         public override void Print(StringBuilder builder)
         {
             base.Print(builder);
+
+            if (!IsValid) return;
 
             var values = Enum.GetValues<CL_IMAGE_INFO>();
 
@@ -39,11 +61,19 @@ namespace OpenCLDotNet.Buffers
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="info"></param>
+        /// <returns></returns>
         public string GetInfo(CL_IMAGE_INFO info)
         {
+            if (!IsValid)
+                return ERROR_INVALID_OBJECT;
+
             var type = CL.GetReturnType(info);
 
-            string str = CL_INFO_RETURN_TYPE.UNKNOWN.ToString();
+            string str = ERROR_UNKNOWN_TYPE;
 
             if (type == CL_INFO_RETURN_TYPE.STRUCT)
             {
@@ -63,6 +93,11 @@ namespace OpenCLDotNet.Buffers
             return str;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
         private UInt64 GetInfoUInt64(CL_IMAGE_INFO name)
         {
             Core.CL.GetImageInfoSize(Id, name, out uint size);
@@ -72,6 +107,11 @@ namespace OpenCLDotNet.Buffers
             return info;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
         private string GetInfoFormat(CL_IMAGE_INFO name)
         {
             Core.CL.GetImageInfoSize(Id, name, out uint size);

@@ -7,15 +7,56 @@ using OpenCLDotNet.Utility;
 
 namespace OpenCLDotNet.Buffers
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public abstract class CLMemObject : CLObject
     {
 
+        protected static readonly string ERROR_SOURCE_DATA_IS_NULL = "CLDOTNET_SOURCE_DATA_IS_NULL";
+
+        protected static readonly string ERROR_INVALID_SOURCE_SIZE = "CLDOTNET_INVALID_SOURCE_SIZE";
+
+        protected static readonly string ERROR_INVALID_CHANNEL_ORDER_TYPE = "CLDOTNET_INVALID_CHANNEL_ORDER_TYPE";
+
+        protected static readonly string ERROR_INVALID_DATA_TYPE = "CLDOTNET_INVALID_DATA_TYPE";
+
+        protected static readonly string ERROR_CHANNEL_FORMAT_NOT_SUPPORTED = "CLDOTNET_CHANNEL_FORMAT_NOT_SUPPORTED";
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="data"></param>
+        public CLMemObject(CLContext context, Array data)
+        {
+            Context = context;
+            Data = data;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public CLContext Context { get; private set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
         public CL_MEM_FLAGS Flags { get; protected set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public CL_MEM_OBJECT_TYPE MemType { get; protected set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public bool CanReadWrite => CanRead && CanWrite;
 
+        /// <summary>
+        /// 
+        /// </summary>
         public bool CanRead
         {
             get
@@ -25,6 +66,9 @@ namespace OpenCLDotNet.Buffers
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public bool CanWrite
         {
             get
@@ -34,9 +78,20 @@ namespace OpenCLDotNet.Buffers
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        internal Array Data {  get; private set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="builder"></param>
         public override void Print(StringBuilder builder)
         {
             builder.AppendLine(ToString());
+
+            if (!IsValid) return;
 
             builder.AppendLine("FLAGS: " + Flags);
 
@@ -51,11 +106,19 @@ namespace OpenCLDotNet.Buffers
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="info"></param>
+        /// <returns></returns>
         public string GetInfo(CL_MEM_INFO info)
         {
+            if (!IsValid)
+                return ERROR_UNKNOWN_TYPE;
+
             var type = CL.GetReturnType(info);
 
-            string str = CL_INFO_RETURN_TYPE.UNKNOWN.ToString();
+            string str = ERROR_UNKNOWN_TYPE;
 
             if (type == CL_INFO_RETURN_TYPE.ENUM)
             {
@@ -88,6 +151,11 @@ namespace OpenCLDotNet.Buffers
             return str;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
         private UInt64 GetInfoUInt64(CL_MEM_INFO name)
         {
             Core.CL.GetMemObjectInfoSize(Id, name, out uint size);
@@ -97,6 +165,11 @@ namespace OpenCLDotNet.Buffers
             return info;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
         private UIntPtr GetInfoUIntPtr(CL_MEM_INFO name)
         {
             Core.CL.GetMemObjectInfoSize(Id, name, out uint size);
@@ -106,6 +179,11 @@ namespace OpenCLDotNet.Buffers
             return info;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
         private bool GetInfoBool(CL_MEM_INFO name)
         {
             Core.CL.GetMemObjectInfoSize(Id, name, out uint size);
@@ -115,6 +193,11 @@ namespace OpenCLDotNet.Buffers
             return info > 0;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
         private cl_object GetInfoObject(CL_MEM_INFO name)
         {
             Core.CL.GetMemObjectInfoSize(Id, name, out uint size);
@@ -124,6 +207,9 @@ namespace OpenCLDotNet.Buffers
             return info;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         protected override void Release()
         {
             Core.CL.ReleaseMemObject(Id);

@@ -6,54 +6,87 @@ using OpenCLDotNet.Utility;
 
 namespace OpenCLDotNet.Core
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class CLContext : CLObject
     {
+        /// <summary>
+        /// 
+        /// </summary>
         public CLContext() : this(CL_DEVICE_TYPE.GPU)
         {
 
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="device_type"></param>
         public CLContext(CL_DEVICE_TYPE device_type)
         {
             CreatePlatforms(device_type);
             CreateContext();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public override bool IsValid
         {
-            get 
-            {  
+            get
+            {
                 return Id != UIntPtr.Zero &&
-                       Platform != null && 
-                       Platform.IsValid; 
+                       Platform != null &&
+                       Platform.IsValid;
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public int NumDevices
         {
             get
             {
-                if(!IsValid)
+                if (!IsValid)
                     return 0;
                 else
                     return Platform.NumDevices;
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public int NumPlatforms => Platforms.Count;
 
+        /// <summary>
+        /// 
+        /// </summary>
         private CLPlatform Platform { get; set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
         private List<CLPlatform> Platforms { get; set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public override string ToString()
         {
             var platform = Platform != null ? Platform.Id : UIntPtr.Zero;
-            
-            return String.Format("[CLContext: Id={0}, PlatformID={1}, NumPlatforms={2}, NumDevices={3}, Error={4}]", 
+
+            return String.Format("[CLContext: Id={0}, PlatformID={1}, NumPlatforms={2}, NumDevices={3}, Error={4}]",
                 Id, platform, NumPlatforms, NumDevices, Error);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public cl_device_id[] GetDeviceIds()
         {
             if (!IsValid)
@@ -62,6 +95,10 @@ namespace OpenCLDotNet.Core
                 return Platform.GetDeviceIds();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="builder"></param>
         public override void Print(StringBuilder builder)
         {
             builder.AppendLine(ToString());
@@ -99,25 +136,33 @@ namespace OpenCLDotNet.Core
 
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="info"></param>
+        /// <returns></returns>
         public string GetInfo(CL_CONTEXT_INFO info)
         {
             if (!IsValid)
-                return "UNKNOWN";
+                return ERROR_INVALID_OBJECT;
 
             var type = CL.GetReturnType(info);
 
-            string str = "";
+            string str = ERROR_UNKNOWN_TYPE;
 
             if (type == CL_INFO_RETURN_TYPE.UINT)
                 str = GetInfoUInt64(info).ToString();
             else if (type == CL_INFO_RETURN_TYPE.OBJECT_ARRAY)
                 str = GetInfoObjectArray(info);
-            else
-                str = "UNKNOWN";
 
             return str;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
         private UInt64 GetInfoUInt64(CL_CONTEXT_INFO name)
         {
             CL.GetContextInfoSize(Id, name, out uint size);
@@ -127,6 +172,11 @@ namespace OpenCLDotNet.Core
             return info;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
         private unsafe string GetInfoObjectArray(CL_CONTEXT_INFO name)
         {
             CL.GetContextInfoSize(Id, name, out uint size);
@@ -140,6 +190,10 @@ namespace OpenCLDotNet.Core
             return str;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="device_type"></param>
         private void CreatePlatforms(CL_DEVICE_TYPE device_type)
         {
             Platforms = new List<CLPlatform>();
@@ -154,7 +208,7 @@ namespace OpenCLDotNet.Core
 
             if (platform_ids.Count == 0)
             {
-                Error = "NO_PLATFORMS_FOUND";
+                Error = ERROR_NO_PLATFORMS_FOUND;
                 return;
             }
 
@@ -164,18 +218,21 @@ namespace OpenCLDotNet.Core
             {
                 var platform = new CLPlatform(id);
 
-                if(Platform == null && platform.HasDevice(device_type))
+                if (Platform == null && platform.HasDevice(device_type))
                     Platform = platform;
 
                 Platforms.Add(platform);
             }
 
-            if(Platform == null && Platforms.Count > 0)
+            if (Platform == null && Platforms.Count > 0)
                 Platform = Platforms[0];
-                
+
             SetErrorCodeToSuccess();
         }
-         
+
+        /// <summary>
+        /// 
+        /// </summary>
         private void CreateContext()
         {
             if (Platform == null) return;
@@ -186,6 +243,9 @@ namespace OpenCLDotNet.Core
                 Platform.GetDeviceIds());
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         protected override void Release()
         {
             CL.ReleaseContext(Id);

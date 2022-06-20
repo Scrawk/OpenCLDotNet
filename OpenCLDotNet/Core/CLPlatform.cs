@@ -196,16 +196,14 @@ namespace OpenCLDotNet.Core
         public string GetInfo(CL_PLATFORM_INFO info)
         {
             if (!IsValid)
-                return "UNKNOWN";
+                return ERROR_INVALID_OBJECT;
 
             var type = CL.GetReturnType(info);
 
-            string str = "";
+            string str = ERROR_UNKNOWN_TYPE;
 
             if (type == CL_INFO_RETURN_TYPE.CHAR_ARRAY)
                 str = GetInfoString(info);
-            else
-                str = "UNKNOWN";
 
             return str;
         }

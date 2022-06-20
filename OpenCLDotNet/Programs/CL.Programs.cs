@@ -10,6 +10,13 @@ namespace OpenCLDotNet.Core
 {
     public static partial class CL
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="program_text"></param>
+        /// <param name="error_code"></param>
+        /// <returns></returns>
         public static cl_program CreateProgramWithSource(
             cl_context context,
             string program_text,
@@ -26,6 +33,17 @@ namespace OpenCLDotNet.Core
             return program;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="num_devices"></param>
+        /// <param name="device_list"></param>
+        /// <param name="lengths"></param>
+        /// <param name="binaries"></param>
+        /// <param name="binary_status"></param>
+        /// <param name="errcode"></param>
+        /// <returns></returns>
         public static cl_program CreateProgramWithBinary(
             cl_context context,
             cl_uint num_devices,
@@ -39,6 +57,14 @@ namespace OpenCLDotNet.Core
                     lengths, binaries, binary_status, out errcode);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="program"></param>
+        /// <param name="num_devices"></param>
+        /// <param name="device_list"></param>
+        /// <param name="options"></param>
+        /// <returns></returns>
         public static CL_ERROR BuildProgram(
             cl_program program,
             uint num_devices,
@@ -52,6 +78,14 @@ namespace OpenCLDotNet.Core
             return CL_BuildProgram(program, num_devices, device_list, options_char);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="program"></param>
+        /// <param name="device"></param>
+        /// <param name="name"></param>
+        /// <param name="size"></param>
+        /// <returns></returns>
         public static CL_ERROR GetProgramBuildInfoSize(
             cl_program program,
             cl_device_id device,
@@ -65,6 +99,15 @@ namespace OpenCLDotNet.Core
             return error;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="program"></param>
+        /// <param name="device"></param>
+        /// <param name="name"></param>
+        /// <param name="size"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
         public static CL_ERROR GetProgramBuildInfo(
             cl_program program,
             cl_device_id device,
@@ -76,6 +119,15 @@ namespace OpenCLDotNet.Core
             return error;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="program"></param>
+        /// <param name="device"></param>
+        /// <param name="name"></param>
+        /// <param name="size"></param>
+        /// <param name="info"></param>
+        /// <returns></returns>
         public static CL_ERROR GetProgramBuildInfo(
             cl_program program,
             cl_device_id device,
@@ -87,6 +139,13 @@ namespace OpenCLDotNet.Core
             return error;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="program"></param>
+        /// <param name="name"></param>
+        /// <param name="size"></param>
+        /// <returns></returns>
         public static CL_ERROR GetProgramInfoSize(
             cl_program program,
             CL_PROGRAM_INFO name,
@@ -99,6 +158,14 @@ namespace OpenCLDotNet.Core
             return error;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="program"></param>
+        /// <param name="name"></param>
+        /// <param name="size"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
         public static CL_ERROR GetProgramInfo(
             cl_program program,
             CL_PROGRAM_INFO name,
@@ -109,6 +176,14 @@ namespace OpenCLDotNet.Core
             return error;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="program"></param>
+        /// <param name="name"></param>
+        /// <param name="size"></param>
+        /// <param name="info"></param>
+        /// <returns></returns>
         public static CL_ERROR GetProgramInfo(
             cl_program program,
             CL_PROGRAM_INFO name,
@@ -119,6 +194,14 @@ namespace OpenCLDotNet.Core
             return error;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="program"></param>
+        /// <param name="name"></param>
+        /// <param name="size"></param>
+        /// <param name="info"></param>
+        /// <returns></returns>
         public static CL_ERROR GetProgramInfo(
             cl_program program,
             CL_PROGRAM_INFO name,
@@ -129,6 +212,14 @@ namespace OpenCLDotNet.Core
             return error;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="program"></param>
+        /// <param name="name"></param>
+        /// <param name="size"></param>
+        /// <param name="info"></param>
+        /// <returns></returns>
         public static CL_ERROR GetProgramInfo(
             cl_program program,
             CL_PROGRAM_INFO name,
@@ -139,6 +230,14 @@ namespace OpenCLDotNet.Core
             return error;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="program"></param>
+        /// <param name="name"></param>
+        /// <param name="size"></param>
+        /// <param name="info"></param>
+        /// <returns></returns>
         public static CL_ERROR GetProgramInfo(
             cl_program program,
             CL_PROGRAM_INFO name,
@@ -149,6 +248,14 @@ namespace OpenCLDotNet.Core
             return error;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="program"></param>
+        /// <param name="num_devices"></param>
+        /// <param name="sizes"></param>
+        /// <param name="binaries"></param>
+        /// <returns></returns>
         public static CL_ERROR GetProgramBinaries(
             cl_program program,
             int num_devices,
@@ -158,11 +265,21 @@ namespace OpenCLDotNet.Core
             return CL_GetProgramBinaries(program, num_devices, sizes, binaries);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="program"></param>
+        /// <returns></returns>
         public static CL_ERROR RetainProgram(cl_program program)
         {
             return CL_RetainProgram(program);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="program"></param>
+        /// <returns></returns>
         public static CL_ERROR ReleaseProgram(cl_program program)
         {
             return CL_ReleaseProgram(program);

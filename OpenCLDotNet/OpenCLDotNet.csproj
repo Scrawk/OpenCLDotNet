@@ -9,8 +9,4 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\OpenCLWrapper\OpenCLWrapper.vcxproj" />
-  </ItemGroup>
-
 </Project>

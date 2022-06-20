@@ -11,7 +11,13 @@ namespace OpenCLDotNet.Core
 {
     public static partial class CL
     {
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="properties"></param>
+        /// <param name="error"></param>
+        /// <returns></returns>
         public static cl_sampler CreateSamplerWithProperties(
             cl_context context,
             CLSamplerProperties properties,
@@ -20,6 +26,13 @@ namespace OpenCLDotNet.Core
             return CL_CreateSamplerWithProperties(context, properties, out error);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sampler"></param>
+        /// <param name="name"></param>
+        /// <param name="size"></param>
+        /// <returns></returns>
         public static CL_ERROR GetSamplerInfoSize(
             cl_sampler sampler,
             CL_SAMPLER_INFO name,
@@ -32,6 +45,14 @@ namespace OpenCLDotNet.Core
             return error;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sampler"></param>
+        /// <param name="name"></param>
+        /// <param name="size"></param>
+        /// <param name="info"></param>
+        /// <returns></returns>
         public static CL_ERROR GetSamplerInfo(
             cl_sampler sampler,
             CL_SAMPLER_INFO name,
@@ -41,6 +62,14 @@ namespace OpenCLDotNet.Core
             return CL_GetSamplerInfo(sampler, name, size, out info);  
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sampler"></param>
+        /// <param name="name"></param>
+        /// <param name="size"></param>
+        /// <param name="info"></param>
+        /// <returns></returns>
         public static CL_ERROR GetSamplerInfo(
             cl_sampler sampler,
             CL_SAMPLER_INFO name,
@@ -54,6 +83,14 @@ namespace OpenCLDotNet.Core
             return error;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sampler"></param>
+        /// <param name="name"></param>
+        /// <param name="size"></param>
+        /// <param name="info"></param>
+        /// <returns></returns>
         public static CL_ERROR GetSamplerInfo(
             cl_sampler sampler,
             CL_SAMPLER_INFO name,
@@ -63,11 +100,21 @@ namespace OpenCLDotNet.Core
             return CL_GetSamplerInfo(sampler, name, size, out info);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sampler"></param>
+        /// <returns></returns>
         public static CL_ERROR RetainSampler(cl_sampler sampler)
         {
             return CL_RetainSampler(sampler);   
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sampler"></param>
+        /// <returns></returns>
         public static CL_ERROR ReleaseSampler(cl_sampler sampler)
         {
             return CL_ReleaseSampler(sampler);
