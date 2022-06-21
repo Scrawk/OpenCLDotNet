@@ -18,7 +18,7 @@ namespace OpenCLDotNet.Buffers
         /// <param name="context"></param>
         /// <param name="data"></param>
         public CLImage2D(CLContext context, CLImageData2D data)
-            : base(context, data.Source)
+            : base(context)
         {
             Create(context, data);
 
@@ -34,6 +34,11 @@ namespace OpenCLDotNet.Buffers
         /// 
         /// </summary>
         public uint Height { get; private set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        internal override uint RowPitch => Channels * ElementSize * Width;
 
         /// <summary>
         /// 
@@ -110,7 +115,7 @@ namespace OpenCLDotNet.Buffers
             }
             */
 
-            Id = CL.CreateImage(context.Id, Flags, format, desc, data.Source.Data, out error);
+            Id = CL.CreateImage(context.Id, Flags, format, desc, data.Source, out error);
             if (error != CL_ERROR.SUCCESS)
             {
                 Error = error.ToString();

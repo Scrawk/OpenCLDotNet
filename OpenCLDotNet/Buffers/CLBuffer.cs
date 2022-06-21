@@ -12,16 +12,24 @@ namespace OpenCLDotNet.Buffers
     /// </summary>
     public class CLBuffer : CLMemObject
     {
+  
+
+        public CLBuffer(CLContext context, CL_READ_WRITE rw, CL_MEM_DATA_TYPE type, uint length)
+            : base(context)
+        {
+            Create(context, rw, type, length);
+        }
+
+        public CLBuffer(CLContext context, CL_READ_WRITE rw, Array data)
+            : base(context)
+        {
+            Create(context, rw, data);
+        }
+
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="context"></param>
-        /// <param name="data"></param>
-        public CLBuffer(CLContext context, CLBufferData data)
-            : base(context, data.Source)
-        {
-            Create(context, data);
-        }
+        internal override uint RowPitch => 0;
 
         /// <summary>
         /// 
@@ -37,31 +45,18 @@ namespace OpenCLDotNet.Buffers
                 Id, Context.Id, read_write, Error);
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="context"></param>
-        /// <param name="data"></param>
-        private void Create(CLContext context, CLBufferData data)
+
+        private void Create(CLContext context, CL_READ_WRITE rw, CL_MEM_DATA_TYPE type, uint length)
         {
-            if (data.Source == null)
-            {
-                Error = ERROR_SOURCE_DATA_IS_NULL;
-                return;
-            }
-
             ResetErrorCode();
-            Flags = data.Flags;
+            Flags = CreateFlags(rw);
             MemType = CL_MEM_OBJECT_TYPE.BUFFER;
-            uint size = data.Source.DataByteSize;
-
-            if(!Flags.HasFlag(CL_MEM_FLAGS.USE_HOST_PTR))
-            {
-                Flags |= CL_MEM_FLAGS.USE_HOST_PTR;
-            }
-
+            Length = length;
+            DataType = type;
+            ElementSize = CL.SizeOf(type);
+           
             CL_ERROR error;
-            Id = CL.CreateBuffer(context.Id, Flags, size, data.Source.Data, out error);
+            Id = CL.CreateBuffer(context.Id, Flags, ByteSize, null, out error);
             if (error != CL_ERROR.SUCCESS)
             {
                 Error = error.ToString();
@@ -69,6 +64,57 @@ namespace OpenCLDotNet.Buffers
             }
 
             SetErrorCodeToSuccess();
+        }
+
+        private void Create(CLContext context, CL_READ_WRITE rw, Array data)
+        {
+            if(data == null)
+            {
+                Error = ERROR_SOURCE_DATA_IS_NULL;
+                return;
+            }
+
+            ResetErrorCode();
+            Flags = CreateFlags(rw);
+            MemType = CL_MEM_OBJECT_TYPE.BUFFER;
+            DataType = CL.TypeOf(data);
+            ElementSize = CL.SizeOf(DataType);
+            Length = (uint)data.Length;
+
+            var fdata = data as float[];
+            SetSource(data as float[]);
+
+            CL_ERROR error;
+            Id = CL.CreateBuffer(context.Id, Flags, ByteSize, fdata, out error);
+            if (error != CL_ERROR.SUCCESS)
+            {
+                Error = error.ToString();
+                return;
+            }
+
+            SetErrorCodeToSuccess();
+        }
+
+        private CL_MEM_FLAGS CreateFlags(CL_READ_WRITE rw)
+        {
+            CL_MEM_FLAGS flag = 0;
+
+            switch (rw)
+            {
+                case CL_READ_WRITE.WRITE:
+                    flag = CL_MEM_FLAGS.WRITE_ONLY;
+                    //flag |= CL_MEM_FLAGS.HOST_WRITE_ONLY;
+                    flag |= CL_MEM_FLAGS.ALLOC_HOST_PTR;
+                    break;
+
+                case CL_READ_WRITE.READ:
+                    flag = CL_MEM_FLAGS.READ_ONLY;
+                    flag |= CL_MEM_FLAGS.HOST_READ_ONLY;
+                    flag |= CL_MEM_FLAGS.COPY_HOST_PTR;
+                    break;
+            }
+
+            return flag;
         }
 
     }

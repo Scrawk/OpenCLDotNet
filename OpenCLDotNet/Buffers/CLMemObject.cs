@@ -27,17 +27,35 @@ namespace OpenCLDotNet.Buffers
         /// 
         /// </summary>
         /// <param name="context"></param>
-        /// <param name="source"></param>
-        public CLMemObject(CLContext context, CLMemData source)
+        public CLMemObject(CLContext context)
         {
             Context = context;
-            Source = source;
         }
 
         /// <summary>
         /// 
         /// </summary>
-        internal CLMemData Source { get; private set; }
+        public CL_MEM_DATA_TYPE DataType { get; protected set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public uint ElementSize { get; protected set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public uint Length { get; protected set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        internal abstract uint RowPitch { get; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public uint ByteSize => ElementSize * Length;
 
         /// <summary>
         /// 
@@ -81,6 +99,28 @@ namespace OpenCLDotNet.Buffers
                 return Flags.HasFlag(CL_MEM_FLAGS.WRITE_ONLY) ||
                        Flags.HasFlag(CL_MEM_FLAGS.READ_WRITE);
             }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public bool IsReadOnly => CanRead && !CanWrite;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public bool IsWriteOnly => CanWrite && !CanRead;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="source"></param>
+        /// <exception cref="ArgumentNullException"></exception>
+        public void SetSource(float[] source)
+        {
+            DataType = CL_MEM_DATA_TYPE.FLOAT;
+            ElementSize = sizeof(float);
+            Length = (uint)source.Length;
         }
 
         /// <summary>

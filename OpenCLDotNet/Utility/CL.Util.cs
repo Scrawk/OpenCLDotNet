@@ -127,6 +127,49 @@ namespace OpenCLDotNet.Core
             return 0;
         }
 
+        public static uint SizeOf(CL_MEM_DATA_TYPE type)
+        {
+            switch (type)
+            {
+                case CL_MEM_DATA_TYPE.SBYTE:
+                    return sizeof(sbyte);
+                case CL_MEM_DATA_TYPE.BYTE:
+                    return sizeof(byte);
+                case CL_MEM_DATA_TYPE.SHORT:
+                    return sizeof(short);
+                case CL_MEM_DATA_TYPE.USHORT:
+                    return sizeof(ushort);
+                case CL_MEM_DATA_TYPE.INT:
+                    return sizeof(int);
+                case CL_MEM_DATA_TYPE.UINT:
+                    return sizeof(uint);
+                case CL_MEM_DATA_TYPE.FLOAT:
+                    return sizeof(float);
+            }
+
+            return 0;
+        }
+
+        public static CL_MEM_DATA_TYPE TypeOf(Array array)
+        {
+            if (array is float[])
+                return CL_MEM_DATA_TYPE.FLOAT;
+            if (array is int[])
+                return CL_MEM_DATA_TYPE.INT;
+            if (array is uint[])
+                return CL_MEM_DATA_TYPE.UINT;
+            if (array is short[])
+                return CL_MEM_DATA_TYPE.SHORT;
+            if (array is ushort[])
+                return CL_MEM_DATA_TYPE.USHORT;
+            if (array is byte[])
+                return CL_MEM_DATA_TYPE.BYTE;
+            if (array is sbyte[])
+                return CL_MEM_DATA_TYPE.SBYTE;
+
+            return CL_MEM_DATA_TYPE.UNKNOWN;
+        }
+
         public static bool IsValidArrayData(CL_CHANNEL_TYPE type, Array array)
         {
             switch (type)

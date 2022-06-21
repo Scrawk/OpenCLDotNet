@@ -18,7 +18,7 @@ namespace OpenCLDotNet.Buffers
         /// <param name="buffer"></param>
         /// <param name="region"></param>
         public CLSubBuffer(CLBuffer buffer, CLBufferRegion region) 
-            : base(buffer.Context, buffer.Source)
+            : base(buffer.Context)
         {
             CL_MEM_FLAGS flags = 0;
 
@@ -46,6 +46,11 @@ namespace OpenCLDotNet.Buffers
         /// 
         /// </summary>
         public override bool IsValid => Buffer.IsValid;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        internal override uint RowPitch => 0;
 
         /// <summary>
         /// 

@@ -36,6 +36,12 @@ namespace OpenCLDotNet.Core
         UNKNOWN
     }
 
+    public enum CL_READ_WRITE
+    {
+        READ,
+        WRITE
+    }
+
     public enum CL_ERROR
     {
         SUCCESS = 0,

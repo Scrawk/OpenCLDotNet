@@ -4,7 +4,7 @@
         <name>OpenCLDotNet</name>
     </assembly>
     <members>
-        <member name="M:OpenCLDotNet.Core.CL.CreateBuffer(OpenCLDotNet.Core.cl_context,OpenCLDotNet.Core.CL_MEM_FLAGS,System.UInt32,System.Array,OpenCLDotNet.Core.CL_ERROR@)">
+        <member name="M:OpenCLDotNet.Core.CL.CreateBuffer(OpenCLDotNet.Core.cl_context,OpenCLDotNet.Core.CL_MEM_FLAGS,System.UInt32,System.Single[],OpenCLDotNet.Core.CL_ERROR@)">
             <summary>
             
             </summary>
@@ -885,6 +885,54 @@
             <param name="program"></param>
             <returns></returns>
         </member>
+        <member name="T:OpenCLDotNet.Core.CLColorRGBA">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:OpenCLDotNet.Core.CLColorRGBA.r">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:OpenCLDotNet.Core.CLColorRGBA.g">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:OpenCLDotNet.Core.CLColorRGBA.b">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:OpenCLDotNet.Core.CLColorRGBA.a">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:OpenCLDotNet.Core.CLColorRGBA.#ctor(System.Single,System.Single,System.Single)">
+            <summary>
+            
+            </summary>
+            <param name="r"></param>
+            <param name="g"></param>
+            <param name="b"></param>
+        </member>
+        <member name="M:OpenCLDotNet.Core.CLColorRGBA.#ctor(System.Single,System.Single,System.Single,System.Single)">
+            <summary>
+            
+            </summary>
+            <param name="r"></param>
+            <param name="g"></param>
+            <param name="b"></param>
+            <param name="a"></param>
+        </member>
+        <member name="M:OpenCLDotNet.Core.CLColorRGBA.ToString">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
         <member name="T:OpenCLDotNet.Core.CLContext">
             <summary>
             
@@ -1393,95 +1441,16 @@
             
             </summary>
         </member>
-        <member name="M:OpenCLDotNet.Buffers.CLBuffer.#ctor(OpenCLDotNet.Core.CLContext,OpenCLDotNet.Buffers.CLBufferData)">
+        <member name="P:OpenCLDotNet.Buffers.CLBuffer.RowPitch">
             <summary>
             
             </summary>
-            <param name="context"></param>
-            <param name="data"></param>
         </member>
         <member name="M:OpenCLDotNet.Buffers.CLBuffer.ToString">
             <summary>
             
             </summary>
             <returns></returns>
-        </member>
-        <member name="M:OpenCLDotNet.Buffers.CLBuffer.Create(OpenCLDotNet.Core.CLContext,OpenCLDotNet.Buffers.CLBufferData)">
-            <summary>
-            
-            </summary>
-            <param name="context"></param>
-            <param name="data"></param>
-        </member>
-        <member name="T:OpenCLDotNet.Buffers.CLBufferData">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="F:OpenCLDotNet.Buffers.CLBufferData.Flags">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="P:OpenCLDotNet.Buffers.CLBufferData.Source">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="M:OpenCLDotNet.Buffers.CLBufferData.ToString">
-            <summary>
-            
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:OpenCLDotNet.Buffers.CLBufferData.SetSource(System.Single[])">
-            <summary>
-            
-            </summary>
-            <param name="source"></param>
-            <exception cref="T:System.ArgumentNullException"></exception>
-        </member>
-        <member name="M:OpenCLDotNet.Buffers.CLBufferData.SetSource(System.Int32[])">
-            <summary>
-            
-            </summary>
-            <param name="source"></param>
-            <exception cref="T:System.ArgumentNullException"></exception>
-        </member>
-        <member name="M:OpenCLDotNet.Buffers.CLBufferData.SetSource(System.UInt32[])">
-            <summary>
-            
-            </summary>
-            <param name="source"></param>
-            <exception cref="T:System.ArgumentNullException"></exception>
-        </member>
-        <member name="M:OpenCLDotNet.Buffers.CLBufferData.SetSource(System.Int16[])">
-            <summary>
-            
-            </summary>
-            <param name="source"></param>
-            <exception cref="T:System.ArgumentNullException"></exception>
-        </member>
-        <member name="M:OpenCLDotNet.Buffers.CLBufferData.SetSource(System.UInt16[])">
-            <summary>
-            
-            </summary>
-            <param name="source"></param>
-            <exception cref="T:System.ArgumentNullException"></exception>
-        </member>
-        <member name="M:OpenCLDotNet.Buffers.CLBufferData.SetSource(System.Byte[])">
-            <summary>
-            
-            </summary>
-            <param name="source"></param>
-            <exception cref="T:System.ArgumentNullException"></exception>
-        </member>
-        <member name="M:OpenCLDotNet.Buffers.CLBufferData.SetSource(System.SByte[])">
-            <summary>
-            
-            </summary>
-            <param name="source"></param>
-            <exception cref="T:System.ArgumentNullException"></exception>
         </member>
         <member name="T:OpenCLDotNet.Buffers.CLBufferRegion">
             <summary>
@@ -1516,12 +1485,11 @@
             
             </summary>
         </member>
-        <member name="M:OpenCLDotNet.Buffers.CLImage.#ctor(OpenCLDotNet.Core.CLContext,OpenCLDotNet.Buffers.CLMemData)">
+        <member name="M:OpenCLDotNet.Buffers.CLImage.#ctor(OpenCLDotNet.Core.CLContext)">
             <summary>
             
             </summary>
             <param name="context"></param>
-            <param name="data"></param>
         </member>
         <member name="P:OpenCLDotNet.Buffers.CLImage.Channels">
             <summary>
@@ -1588,6 +1556,11 @@
             </summary>
         </member>
         <member name="P:OpenCLDotNet.Buffers.CLImage2D.Height">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:OpenCLDotNet.Buffers.CLImage2D.RowPitch">
             <summary>
             
             </summary>
@@ -1697,55 +1670,6 @@
             
             </summary>
             <returns></returns>
-        </member>
-        <member name="M:OpenCLDotNet.Buffers.CLImageData2D.SetSource(System.Single[])">
-            <summary>
-            
-            </summary>
-            <param name="source"></param>
-            <exception cref="T:System.ArgumentNullException"></exception>
-        </member>
-        <member name="M:OpenCLDotNet.Buffers.CLImageData2D.SetSource(System.Int32[])">
-            <summary>
-            
-            </summary>
-            <param name="source"></param>
-            <exception cref="T:System.ArgumentNullException"></exception>
-        </member>
-        <member name="M:OpenCLDotNet.Buffers.CLImageData2D.SetSource(System.UInt32[])">
-            <summary>
-            
-            </summary>
-            <param name="source"></param>
-            <exception cref="T:System.ArgumentNullException"></exception>
-        </member>
-        <member name="M:OpenCLDotNet.Buffers.CLImageData2D.SetSource(System.Int16[])">
-            <summary>
-            
-            </summary>
-            <param name="source"></param>
-            <exception cref="T:System.ArgumentNullException"></exception>
-        </member>
-        <member name="M:OpenCLDotNet.Buffers.CLImageData2D.SetSource(System.UInt16[])">
-            <summary>
-            
-            </summary>
-            <param name="source"></param>
-            <exception cref="T:System.ArgumentNullException"></exception>
-        </member>
-        <member name="M:OpenCLDotNet.Buffers.CLImageData2D.SetSource(System.Byte[])">
-            <summary>
-            
-            </summary>
-            <param name="source"></param>
-            <exception cref="T:System.ArgumentNullException"></exception>
-        </member>
-        <member name="M:OpenCLDotNet.Buffers.CLImageData2D.SetSource(System.SByte[])">
-            <summary>
-            
-            </summary>
-            <param name="source"></param>
-            <exception cref="T:System.ArgumentNullException"></exception>
         </member>
         <member name="T:OpenCLDotNet.Buffers.CLImageDescription">
             <summary>
@@ -1918,75 +1842,38 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:OpenCLDotNet.Buffers.CLMemData.#ctor">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="M:OpenCLDotNet.Buffers.CLMemData.#ctor(System.Array)">
-            <summary>
-            
-            </summary>
-            <param name="data"></param>
-        </member>
-        <member name="M:OpenCLDotNet.Buffers.CLMemData.#ctor(System.Array,OpenCLDotNet.Core.CL_MEM_DATA_TYPE,System.UInt32,System.UInt32)">
-            <summary>
-            
-            </summary>
-            <param name="data"></param>
-            <param name="type"></param>
-            <param name="elementSize"></param>
-            <param name="rowPitch"></param>
-        </member>
-        <member name="P:OpenCLDotNet.Buffers.CLMemData.Data">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="P:OpenCLDotNet.Buffers.CLMemData.DataType">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="P:OpenCLDotNet.Buffers.CLMemData.ElementSize">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="P:OpenCLDotNet.Buffers.CLMemData.RowPitch">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="P:OpenCLDotNet.Buffers.CLMemData.DataLength">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="P:OpenCLDotNet.Buffers.CLMemData.DataByteSize">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="M:OpenCLDotNet.Buffers.CLMemData.ToString">
-            <summary>
-            
-            </summary>
-            <returns></returns>
-        </member>
         <member name="T:OpenCLDotNet.Buffers.CLMemObject">
             <summary>
             
             </summary>
         </member>
-        <member name="M:OpenCLDotNet.Buffers.CLMemObject.#ctor(OpenCLDotNet.Core.CLContext,OpenCLDotNet.Buffers.CLMemData)">
+        <member name="M:OpenCLDotNet.Buffers.CLMemObject.#ctor(OpenCLDotNet.Core.CLContext)">
             <summary>
             
             </summary>
             <param name="context"></param>
-            <param name="source"></param>
         </member>
-        <member name="P:OpenCLDotNet.Buffers.CLMemObject.Source">
+        <member name="P:OpenCLDotNet.Buffers.CLMemObject.DataType">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:OpenCLDotNet.Buffers.CLMemObject.ElementSize">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:OpenCLDotNet.Buffers.CLMemObject.Length">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:OpenCLDotNet.Buffers.CLMemObject.RowPitch">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:OpenCLDotNet.Buffers.CLMemObject.ByteSize">
             <summary>
             
             </summary>
@@ -2020,6 +1907,23 @@
             <summary>
             
             </summary>
+        </member>
+        <member name="P:OpenCLDotNet.Buffers.CLMemObject.IsReadOnly">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:OpenCLDotNet.Buffers.CLMemObject.IsWriteOnly">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:OpenCLDotNet.Buffers.CLMemObject.SetSource(System.Single[])">
+            <summary>
+            
+            </summary>
+            <param name="source"></param>
+            <exception cref="T:System.ArgumentNullException"></exception>
         </member>
         <member name="M:OpenCLDotNet.Buffers.CLMemObject.Print(System.Text.StringBuilder)">
             <summary>
@@ -2215,6 +2119,11 @@
             </summary>
         </member>
         <member name="P:OpenCLDotNet.Buffers.CLSubBuffer.IsValid">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:OpenCLDotNet.Buffers.CLSubBuffer.RowPitch">
             <summary>
             
             </summary>
