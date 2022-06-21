@@ -18,44 +18,55 @@ namespace OpenCLDotNetConsole
 
 
 			var context = new CLContext();
-			//context.Print();
+			context.Print();
 
 			//var filename = "F:/Projects/Visual Studio Projects/OpenCLDotNet/Programs/Convolution.cl";
 
-			//var options = CLProgram.OPTION_KERNEL_ARG_INFO;
-			//options += " ";
-			//options += CLProgram.OPTION_MAD_ENABLED;
+			var program_text =
+			@"__kernel void Kernel(__global int* result)
+			{
+				int gid = get_global_id(0);
+				result[gid] = gid;
+			}
+			";
 
-			//var program = new CLProgram(context, filename, options);
-			//program.Print();
+			var options = CLProgram.OPTION_KERNEL_ARG_INFO;
 
-			//var kernel = new CLKernel(program, "convolve");
-			//kernel.SetIntArg(10, 3);
-			//kernel.Print();
+			var program = new CLProgram(context, program_text, options);
+			program.Print();
 
-		
 			var buffer_data = new CLBufferData();
-			buffer_data.Flags = CL_MEM_FLAGS.READ_WRITE | CL_MEM_FLAGS.USE_HOST_PTR;
-			buffer_data.SetSource(new float[100]);
+			buffer_data.Flags = CL_MEM_FLAGS.READ_WRITE;
+			buffer_data.SetSource(new int[100]);
 
 			var buffer = new CLBuffer(context, buffer_data);
 			buffer.Print();
 
-			var region = new CLBufferRegion(0, 10);
-			var sub_buffer = new CLSubBuffer(buffer, region);
-			sub_buffer.Print();
+			var kernel = new CLKernel(program, "Kernel");
+			
+			kernel.SetBufferArg(buffer, 0);
+			kernel.Print();
 
+			//var region = new CLBufferRegion(0, 10);
+			//var sub_buffer = new CLSubBuffer(buffer, region);
+			//sub_buffer.Print();
+
+
+			/*
 			var image_data = new CLImageData2D();
 			image_data.Width = 10;
 			image_data.Height = 10;
 			image_data.ChannelOrder = CL_CHANNEL_ORDER.R;
 			image_data.ChannelType = CL_CHANNEL_TYPE.FLOAT;
-			image_data.Flags = CL_MEM_FLAGS.READ_WRITE | CL_MEM_FLAGS.USE_HOST_PTR;
+			image_data.Flags = CL_MEM_FLAGS.READ_WRITE;
 			image_data.SetSource(new float[100]);
 
 			var image = new CLImage2D(context, image_data);
-			image.Print();
-		
+			//image.Print();
+			*/
+
+			var cmd = new CLCommandQueue(context);
+			//cmd.Print();	
 
 			/*
 			var sampler_props = new CLSamplerProperties();

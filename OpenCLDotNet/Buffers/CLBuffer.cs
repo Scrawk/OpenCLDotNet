@@ -55,6 +55,11 @@ namespace OpenCLDotNet.Buffers
             MemType = CL_MEM_OBJECT_TYPE.BUFFER;
             uint size = data.Source.DataByteSize;
 
+            if(!Flags.HasFlag(CL_MEM_FLAGS.USE_HOST_PTR))
+            {
+                Flags |= CL_MEM_FLAGS.USE_HOST_PTR;
+            }
+
             CL_ERROR error;
             Id = CL.CreateBuffer(context.Id, Flags, size, data.Source.Data, out error);
             if (error != CL_ERROR.SUCCESS)

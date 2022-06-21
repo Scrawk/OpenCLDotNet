@@ -41,6 +41,11 @@ namespace OpenCLDotNet.Buffers
         /// <summary>
         /// 
         /// </summary>
+        public CLImageRegion Region { get; protected set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
         /// <param name="builder"></param>
         public override void Print(StringBuilder builder)
         {

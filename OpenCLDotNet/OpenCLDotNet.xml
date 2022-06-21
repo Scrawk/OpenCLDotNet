@@ -479,6 +479,15 @@
             <param name="info"></param>
             <returns></returns>
         </member>
+        <member name="M:OpenCLDotNet.Core.CL.CreateCommandQueue(OpenCLDotNet.Core.cl_context,OpenCLDotNet.Core.cl_device_id,OpenCLDotNet.Core.CL_ERROR@)">
+            <summary>
+            
+            </summary>
+            <param name="context"></param>
+            <param name="device"></param>
+            <param name="error"></param>
+            <returns></returns>
+        </member>
         <member name="M:OpenCLDotNet.Core.CL.CreateCommandQueueWithProperties(OpenCLDotNet.Core.cl_context,OpenCLDotNet.Core.cl_device_id,OpenCLDotNet.Events.CLCommandQueueProperties,OpenCLDotNet.Core.CL_ERROR@)">
             <summary>
             
@@ -1338,34 +1347,34 @@
             
             </summary>
         </member>
-        <member name="T:OpenCLDotNet.Core.CLPoint3ui">
+        <member name="T:OpenCLDotNet.Core.CLPoint3t">
             <summary>
             
             </summary>
         </member>
-        <member name="F:OpenCLDotNet.Core.CLPoint3ui.x">
+        <member name="F:OpenCLDotNet.Core.CLPoint3t.x">
             <summary>
             
             </summary>
         </member>
-        <member name="F:OpenCLDotNet.Core.CLPoint3ui.y">
+        <member name="F:OpenCLDotNet.Core.CLPoint3t.y">
             <summary>
             
             </summary>
         </member>
-        <member name="F:OpenCLDotNet.Core.CLPoint3ui.z">
+        <member name="F:OpenCLDotNet.Core.CLPoint3t.z">
             <summary>
             
             </summary>
         </member>
-        <member name="M:OpenCLDotNet.Core.CLPoint3ui.#ctor(System.UInt32,System.UInt32)">
+        <member name="M:OpenCLDotNet.Core.CLPoint3t.#ctor(System.UInt32,System.UInt32)">
             <summary>
             
             </summary>
             <param name="x"></param>
             <param name="y"></param>
         </member>
-        <member name="M:OpenCLDotNet.Core.CLPoint3ui.#ctor(System.UInt32,System.UInt32,System.UInt32)">
+        <member name="M:OpenCLDotNet.Core.CLPoint3t.#ctor(System.UInt32,System.UInt32,System.UInt32)">
             <summary>
             
             </summary>
@@ -1373,7 +1382,7 @@
             <param name="y"></param>
             <param name="z"></param>
         </member>
-        <member name="M:OpenCLDotNet.Core.CLPoint3ui.ToString">
+        <member name="M:OpenCLDotNet.Core.CLPoint3t.ToString">
             <summary>
             
             </summary>
@@ -1525,6 +1534,11 @@
             </summary>
         </member>
         <member name="P:OpenCLDotNet.Buffers.CLImage.ChannelType">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:OpenCLDotNet.Buffers.CLImage.Region">
             <summary>
             
             </summary>
@@ -1871,7 +1885,7 @@
             
             </summary>
         </member>
-        <member name="M:OpenCLDotNet.Buffers.CLImageRegion.#ctor(OpenCLDotNet.Core.CLPoint3ui,OpenCLDotNet.Core.CLPoint3ui)">
+        <member name="M:OpenCLDotNet.Buffers.CLImageRegion.#ctor(OpenCLDotNet.Core.CLPoint3t,OpenCLDotNet.Core.CLPoint3t)">
             <summary>
             
             </summary>
@@ -2243,6 +2257,12 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:OpenCLDotNet.Events.CLCommandQueue.Create(OpenCLDotNet.Core.CLContext)">
+            <summary>
+            
+            </summary>
+            <param name="context"></param>
+        </member>
         <member name="M:OpenCLDotNet.Events.CLCommandQueue.Create(OpenCLDotNet.Core.CLContext,OpenCLDotNet.Events.CLCommandQueueProperties)">
             <summary>
             
@@ -2426,6 +2446,7 @@
             <param name="arg"></param>
             <param name="index"></param>
             <returns></returns>
+            <exception cref="T:System.NullReferenceException"></exception>
         </member>
         <member name="M:OpenCLDotNet.Programs.CLKernel.SetBufferArg(OpenCLDotNet.Buffers.CLSubBuffer,System.UInt32)">
             <summary>
@@ -2434,6 +2455,7 @@
             <param name="arg"></param>
             <param name="index"></param>
             <returns></returns>
+            <exception cref="T:System.NullReferenceException"></exception>
         </member>
         <member name="M:OpenCLDotNet.Programs.CLKernel.SetSamplerArg(OpenCLDotNet.Buffers.CLSampler,System.UInt32)">
             <summary>
@@ -2442,6 +2464,7 @@
             <param name="arg"></param>
             <param name="index"></param>
             <returns></returns>
+            <exception cref="T:System.NullReferenceException"></exception>
         </member>
         <member name="M:OpenCLDotNet.Programs.CLKernel.SetIntArg(System.Int32,System.UInt32)">
             <summary>
@@ -2632,12 +2655,21 @@
             Make all warnings into errors.
             </summary>
         </member>
-        <member name="M:OpenCLDotNet.Programs.CLProgram.#ctor(OpenCLDotNet.Core.CLContext,System.String,System.String)">
+        <member name="M:OpenCLDotNet.Programs.CLProgram.#ctor(OpenCLDotNet.Core.CLContext,System.String,System.Text.Encoding,System.String)">
             <summary>
             
             </summary>
             <param name="context"></param>
             <param name="filename"></param>
+            <param name="encoding"></param>
+            <param name="options"></param>
+        </member>
+        <member name="M:OpenCLDotNet.Programs.CLProgram.#ctor(OpenCLDotNet.Core.CLContext,System.String,System.String)">
+            <summary>
+            
+            </summary>
+            <param name="context"></param>
+            <param name="program_text"></param>
             <param name="options"></param>
         </member>
         <member name="M:OpenCLDotNet.Programs.CLProgram.#ctor(OpenCLDotNet.Core.CLContext,System.Collections.Generic.IList{System.Byte[]},System.String)">
@@ -2687,7 +2719,7 @@
             
             </summary>
             <param name="context"></param>
-            <param name="filename"></param>
+            <param name="program_text"></param>
             <param name="options"></param>
         </member>
         <member name="M:OpenCLDotNet.Programs.CLProgram.Create(OpenCLDotNet.Core.CLContext,System.Collections.Generic.IList{System.Byte[]},System.String)">

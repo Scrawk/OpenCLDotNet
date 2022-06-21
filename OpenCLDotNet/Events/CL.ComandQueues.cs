@@ -16,6 +16,21 @@ namespace OpenCLDotNet.Core
         /// </summary>
         /// <param name="context"></param>
         /// <param name="device"></param>
+        /// <param name="error"></param>
+        /// <returns></returns>
+        public static cl_command_queue CreateCommandQueue(
+            cl_context context,
+            cl_device_id device,
+            [Out] out CL_ERROR error)
+        {
+            return CL_CreateCommandQueue(context, device, out error);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="device"></param>
         /// <param name="properties"></param>
         /// <param name="error"></param>
         /// <returns></returns>
@@ -141,6 +156,12 @@ namespace OpenCLDotNet.Core
         /////////////////////////////////////////////////////////////////////////////////////////////////
         //                                 EXTERN FUNCTIONS                                          ///
         ///////////////////////////////////////////////////////////////////////////////////////////////
+
+        [DllImport(DLL_NAME, CallingConvention = CDECL)]
+        private static extern cl_command_queue CL_CreateCommandQueue(
+            cl_context context,
+            cl_device_id device,
+            [Out] out CL_ERROR error);
 
         [DllImport(DLL_NAME, CallingConvention = CDECL)]
         private static extern cl_command_queue CL_CreateCommandQueueWithProperties(

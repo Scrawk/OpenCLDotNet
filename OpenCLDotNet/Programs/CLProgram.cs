@@ -121,11 +121,26 @@ namespace OpenCLDotNet.Programs
         /// </summary>
         /// <param name="context"></param>
         /// <param name="filename"></param>
+        /// <param name="encoding"></param>
         /// <param name="options"></param>
-        public CLProgram(CLContext context, string filename, string options = "") :
+        public CLProgram(CLContext context, string filename, Encoding encoding, string options = "") :
             this(context, options)
         {
-            Create(context, filename, options);
+            var file = File.ReadAllText(filename, encoding);
+
+            Create(context, file, options);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="program_text"></param>
+        /// <param name="options"></param>
+        public CLProgram(CLContext context, string program_text, string options = "") :
+            this(context, options)
+        {
+            Create(context, program_text, options);
         }
 
         /// <summary>
@@ -192,18 +207,16 @@ namespace OpenCLDotNet.Programs
         /// 
         /// </summary>
         /// <param name="context"></param>
-        /// <param name="filename"></param>
+        /// <param name="program_text"></param>
         /// <param name="options"></param>
-        private void Create(CLContext context, string filename, string options = "")
+        private void Create(CLContext context, string program_text, string options = "")
         {
             ResetErrorCode();
             Context = context;
             Source = CL_PROGRAM_SOURCE.TEXT;
 
-            var file = File.ReadAllText(filename, Encoding.UTF8);
-
             CL_ERROR error;
-            Id = CL.CreateProgramWithSource(context.Id, file, out error);
+            Id = CL.CreateProgramWithSource(context.Id, program_text, out error);
             if (error != CL_ERROR.SUCCESS)
             {
                 Error = error.ToString();

@@ -14,9 +14,8 @@ namespace OpenCLDotNet.Events
         /// </summary>
         /// <param name="context"></param>
         public CLCommandQueue(CLContext context)
-            : this(context, CLCommandQueueProperties.Default)
         {
-
+            Create(context);
         }
 
         /// <summary>
@@ -42,6 +41,34 @@ namespace OpenCLDotNet.Events
         {
             return String.Format("[CLCommandQueue: Id={0}, ContextId={1}, Error={2}]",
                 Id, Context.Id, Error);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="context"></param>
+        private void Create(CLContext context)
+        {
+            ResetErrorCode();
+            Context = context;
+
+            if (context.NumDevices <= 0)
+            {
+                Error = ERROR_NO_DEVICES_FOUND;
+                return;
+            }
+
+            var device = context.GetDeviceID(0);
+
+            CL_ERROR error;
+            Id = CL.CreateCommandQueue(context.Id, device, out error);
+            if (error != CL_ERROR.SUCCESS)
+            {
+                Error = error.ToString();
+                return;
+            }
+
+            SetErrorCodeToSuccess();
         }
 
         /// <summary>

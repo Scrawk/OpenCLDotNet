@@ -13,19 +13,19 @@ namespace OpenCLDotNet.Buffers
         /// <summary>
         /// 
         /// </summary>
-        public CLPoint3ui Origion;
+        public CLPoint3t Origion;
 
         /// <summary>
         /// 
         /// </summary>
-        public CLPoint3ui Size;
+        public CLPoint3t Size;
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="origion"></param>
         /// <param name="size"></param>
-        public CLImageRegion(CLPoint3ui origion, CLPoint3ui size)
+        public CLImageRegion(CLPoint3t origion, CLPoint3t size)
         {
             Origion = origion;
             Size = size;
@@ -40,8 +40,8 @@ namespace OpenCLDotNet.Buffers
         /// <param name="height"></param>
         public CLImageRegion(uint x, uint y, uint width, uint height)
         {
-            Origion = new CLPoint3ui(x, y);
-            Size =new CLPoint3ui(width, height);
+            Origion = new CLPoint3t(x, y);
+            Size =new CLPoint3t(width, height, 1);
         }
 
         /// <summary>
@@ -55,8 +55,8 @@ namespace OpenCLDotNet.Buffers
         /// <param name="depth"></param>
         public CLImageRegion(uint x, uint y, uint z, uint width, uint height, uint depth)
         {
-            Origion = new CLPoint3ui(x, y, z);
-            Size = new CLPoint3ui(width, height, depth);
+            Origion = new CLPoint3t(x, y, z);
+            Size = new CLPoint3t(width, height, depth);
         }
 
         /// <summary>

@@ -77,8 +77,12 @@ namespace OpenCLDotNet.Programs
         /// <param name="arg"></param>
         /// <param name="index"></param>
         /// <returns></returns>
+        /// <exception cref="NullReferenceException"></exception>
         public CL_ERROR SetBufferArg(CLBuffer arg, uint index)
         {
+            if (arg == null)
+                throw new NullReferenceException("CLBuffer arg is null.");
+
             cl_mem arg_id = arg.Id;
             return CL.SetKernelArg(Id, index, arg_id);
         }
@@ -89,8 +93,12 @@ namespace OpenCLDotNet.Programs
         /// <param name="arg"></param>
         /// <param name="index"></param>
         /// <returns></returns>
+        /// <exception cref="NullReferenceException"></exception>
         public CL_ERROR SetBufferArg(CLSubBuffer arg, uint index)
         {
+            if (arg == null)
+                throw new NullReferenceException("CLSubBuffer arg is null.");
+
             cl_mem arg_id = arg.Id;
             return CL.SetKernelArg(Id, index, arg_id);
         }
@@ -101,8 +109,12 @@ namespace OpenCLDotNet.Programs
         /// <param name="arg"></param>
         /// <param name="index"></param>
         /// <returns></returns>
+        /// <exception cref="NullReferenceException"></exception>
         public CL_ERROR SetSamplerArg(CLSampler arg, uint index)
         {
+            if (arg == null)
+                throw new NullReferenceException("CLSampler arg is null.");
+
             cl_sampler arg_id = arg.Id;
             return CL.SetKernelArg(Id, index, arg_id);
         }

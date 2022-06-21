@@ -171,10 +171,13 @@ namespace OpenCLDotNet.Buffers
             if (source == null)
                 throw new ArgumentNullException("Source is null");
 
+            var copy = new float[source.Length];
+            Array.Copy(source, copy, source.Length);
+
             var type = CL_MEM_DATA_TYPE.FLOAT;
             uint size = sizeof(float);
             uint rowPitch = Channels * size * Width;
-            Source = new CLMemData(source, type, size, rowPitch);
+            Source = new CLMemData(copy, type, size, rowPitch);
         }
 
         /// <summary>
@@ -186,6 +189,9 @@ namespace OpenCLDotNet.Buffers
         {
             if (source == null)
                 throw new ArgumentNullException("Source is null");
+
+            var copy = new int[source.Length];
+            Array.Copy(source, copy, source.Length);
 
             var type = CL_MEM_DATA_TYPE.INT;
             uint size = sizeof(int);
@@ -203,6 +209,9 @@ namespace OpenCLDotNet.Buffers
             if (source == null)
                 throw new ArgumentNullException("Source is null");
 
+            var copy = new uint[source.Length];
+            Array.Copy(source, copy, source.Length);
+
             var type = CL_MEM_DATA_TYPE.UINT;
             uint size = sizeof(uint);
             uint rowPitch = Channels * size * Width;
@@ -218,6 +227,9 @@ namespace OpenCLDotNet.Buffers
         {
             if (source == null)
                 throw new ArgumentNullException("Source is null");
+
+            var copy = new short[source.Length];
+            Array.Copy(source, copy, source.Length);
 
             var type = CL_MEM_DATA_TYPE.SHORT;
             uint size = sizeof(short);
@@ -235,6 +247,9 @@ namespace OpenCLDotNet.Buffers
             if (source == null)
                 throw new ArgumentNullException("Source is null");
 
+            var copy = new ushort[source.Length];
+            Array.Copy(source, copy, source.Length);
+
             var type = CL_MEM_DATA_TYPE.USHORT;
             uint size = sizeof(ushort);
             uint rowPitch = Channels * size * Width;
@@ -251,6 +266,9 @@ namespace OpenCLDotNet.Buffers
             if (source == null)
                 throw new ArgumentNullException("Source is null");
 
+            var copy = new byte[source.Length];
+            Array.Copy(source, copy, source.Length);
+
             var type = CL_MEM_DATA_TYPE.BYTE;
             uint size = sizeof(byte);
             uint rowPitch = Channels * size * Width;
@@ -266,6 +284,9 @@ namespace OpenCLDotNet.Buffers
         {
             if (source == null)
                 throw new ArgumentNullException("Source is null");
+
+            var copy = new sbyte[source.Length];
+            Array.Copy(source, copy, source.Length);
 
             var type = CL_MEM_DATA_TYPE.SBYTE;
             uint size = sizeof(sbyte);

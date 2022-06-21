@@ -7,10 +7,10 @@ struct SamplerProperties
 {
     cl_bool normalizedCoords;
     int addressingMode;
-    int filtergMode;
-    int mipFilterMode;
-    cl_float LODMin;
-    cl_float LODMax;
+    int filterMode;
+    //int mipFilterMode;
+    //cl_float LODMin;
+    //cl_float LODMax;
 };
 
 struct ContextProperties
@@ -378,6 +378,11 @@ extern "C"
     //                                Command FUNCTIONS                                          ///
     ///////////////////////////////////////////////////////////////////////////////////////////////
 
+    CL_WRAPPER_API cl_command_queue CL_CreateCommandQueue(
+        cl_context context,
+        cl_device_id device,
+        cl_int* error);
+
     CL_WRAPPER_API cl_command_queue CL_CreateCommandQueueWithProperties(
         cl_context context,
         cl_device_id device,
@@ -663,6 +668,7 @@ extern "C"
         const cl_event* event_wait_list,
         cl_event* event);
 
+    /*
     CL_WRAPPER_API cl_int CL_EnqueueNativeKernel(
         cl_command_queue  command_queue,
         void (CL_CALLBACK* user_func)(void*),
@@ -674,6 +680,7 @@ extern "C"
         cl_uint           num_events_in_wait_list,
         const cl_event* event_wait_list,
         cl_event* event);
+        */
 
     CL_WRAPPER_API cl_int CL_EnqueueMarkerWithWaitList(
         cl_command_queue command_queue,
@@ -687,6 +694,7 @@ extern "C"
         const cl_event* event_wait_list,
         cl_event* event);
 
+    /*
     CL_WRAPPER_API cl_int CL_EnqueueSVMFree(
         cl_command_queue command_queue,
         cl_uint           num_svm_pointers,
@@ -699,6 +707,7 @@ extern "C"
         cl_uint           num_events_in_wait_list,
         const cl_event* event_wait_list,
         cl_event* event);
+        */
 
     CL_WRAPPER_API cl_int CL_EnqueueSVMMemcpy(
         cl_command_queue command_queue,

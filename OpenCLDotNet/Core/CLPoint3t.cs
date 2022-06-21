@@ -6,19 +6,19 @@ namespace OpenCLDotNet.Core
     /// <summary>
     /// 
     /// </summary>
-    public record struct CLPoint3ui
+    public record struct CLPoint3t
     {
         /// <summary>
         /// 
         /// </summary>
-        public uint x, y, z;
+        public size_t x, y, z;
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="x"></param>
         /// <param name="y"></param>
-        public CLPoint3ui(uint x, uint y)
+        public CLPoint3t(uint x, uint y)
         {
             this.x = x;
             this.y = y;
@@ -31,7 +31,7 @@ namespace OpenCLDotNet.Core
         /// <param name="x"></param>
         /// <param name="y"></param>
         /// <param name="z"></param>
-        public CLPoint3ui(uint x, uint y, uint z)
+        public CLPoint3t(uint x, uint y, uint z)
         {
             this.x = x;
             this.y = y;

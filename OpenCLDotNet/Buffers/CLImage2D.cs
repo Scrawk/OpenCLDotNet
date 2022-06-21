@@ -21,6 +21,8 @@ namespace OpenCLDotNet.Buffers
             : base(context, data.Source)
         {
             Create(context, data);
+
+            Region = new CLImageRegion(0, 0, Width, Height);
         }
 
         /// <summary>
@@ -73,7 +75,12 @@ namespace OpenCLDotNet.Buffers
             Flags = data.Flags;
             MemType = desc.MemType;
 
-            if(!data.IsValidSize())
+            if (!Flags.HasFlag(CL_MEM_FLAGS.USE_HOST_PTR))
+            {
+                Flags |= CL_MEM_FLAGS.USE_HOST_PTR;
+            }
+
+            if (!data.IsValidSize())
             {
                 Error = ERROR_INVALID_SOURCE_SIZE;
                 return;
