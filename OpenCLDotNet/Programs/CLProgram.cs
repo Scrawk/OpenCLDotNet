@@ -494,6 +494,44 @@ namespace OpenCLDotNet.Programs
         /// 
         /// </summary>
         /// <param name="kernel_name"></param>
+        /// <param name="index"></param>
+        /// <param name="param"></param>
+        /// <exception cref="NullReferenceException"></exception>
+        public void CreateReadImage2D(string kernel_name, uint index, CLImageParameters2D param)
+        {
+            var kernel = FindKernel(kernel_name);
+            if (kernel == null)
+                throw new NullReferenceException($"Kernel named {kernel_name} not found.");
+
+            var image = CLImage2D.CreateReadImage2D(Context, param);
+            kernel.SetImage2D(image, index);
+
+            Error = image.Error;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="kernel_name"></param>
+        /// <param name="index"></param>
+        /// <param name="param"></param>
+        /// <exception cref="NullReferenceException"></exception>
+        public void CreateWriteImage2D(string kernel_name, uint index, CLImageParameters2D param)
+        {
+            var kernel = FindKernel(kernel_name);
+            if (kernel == null)
+                throw new NullReferenceException($"Kernel named {kernel_name} not found.");
+
+            var image = CLImage2D.CreateWriteImage2D(Context, param);
+            kernel.SetImage2D(image, index);
+
+            Error = image.Error;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="kernel_name"></param>
         /// <param name="buffer"></param>
         /// <param name="index"></param>
         /// <returns></returns>

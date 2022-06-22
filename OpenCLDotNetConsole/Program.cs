@@ -56,9 +56,6 @@ namespace OpenCLDotNetConsole
 			image_params.DataLength = ARRAY_SIZE;
 			//image_params.Source = new float[100];
 
-			var image = CLImage2D.CreateWriteImage2D(context, image_params);
-			image.Print();
-
 			program.CreateReadBuffer("Kernel1", 0, data0);
 			program.CreateReadBuffer("Kernel1", 1, data1);
 			program.CreateWriteBuffer("Kernel1", 2, CL_MEM_DATA_TYPE.FLOAT, ARRAY_SIZE);

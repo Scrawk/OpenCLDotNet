@@ -84,8 +84,8 @@ namespace OpenCLDotNet.Buffers
         /// <param name="data"></param>
         private void Create(CLContext context, CLImageParameters2D data, CL_READ_WRITE rw)
         {
-            //source data can be null for write only images
-            var source = data.Source;
+            //source data needs to be null for write only images
+            var source = rw == CL_READ_WRITE.WRITE ? null : data.Source;
 
             CL_ERROR error;
             ResetErrorCode();

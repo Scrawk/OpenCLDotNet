@@ -1660,6 +1660,22 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:OpenCLDotNet.Buffers.CLImage2D.CreateReadImage2D(OpenCLDotNet.Core.CLContext,OpenCLDotNet.Buffers.CLImageParameters2D)">
+            <summary>
+            
+            </summary>
+            <param name="context"></param>
+            <param name="param"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Buffers.CLImage2D.CreateWriteImage2D(OpenCLDotNet.Core.CLContext,OpenCLDotNet.Buffers.CLImageParameters2D)">
+            <summary>
+            
+            </summary>
+            <param name="context"></param>
+            <param name="param"></param>
+            <returns></returns>
+        </member>
         <member name="M:OpenCLDotNet.Buffers.CLImage2D.Create(OpenCLDotNet.Core.CLContext,OpenCLDotNet.Buffers.CLImageParameters2D,OpenCLDotNet.Core.CL_READ_WRITE)">
             <summary>
             
@@ -2484,13 +2500,22 @@
             <param name="index"></param>
             <exception cref="T:System.NullReferenceException"></exception>
         </member>
-        <member name="M:OpenCLDotNet.Programs.CLKernel.SetBuffer(OpenCLDotNet.Buffers.CLSubBuffer,System.UInt32)">
+        <member name="M:OpenCLDotNet.Programs.CLKernel.SetSubBuffer(OpenCLDotNet.Buffers.CLSubBuffer,System.UInt32)">
             <summary>
             
             </summary>
             <param name="arg"></param>
             <param name="index"></param>
             <exception cref="T:System.NullReferenceException"></exception>
+        </member>
+        <member name="M:OpenCLDotNet.Programs.CLKernel.SetImage2D(OpenCLDotNet.Buffers.CLImage2D,System.UInt32)">
+            <summary>
+            
+            </summary>
+            <param name="arg"></param>
+            <param name="index"></param>
+            <exception cref="T:System.NullReferenceException"></exception>
+            <exception cref="T:System.ArgumentOutOfRangeException"></exception>
         </member>
         <member name="M:OpenCLDotNet.Programs.CLKernel.SetSampler(OpenCLDotNet.Buffers.CLSampler,System.UInt32)">
             <summary>
@@ -2898,6 +2923,24 @@
             <param name="index"></param>
             <param name="type"></param>
             <param name="length"></param>
+            <exception cref="T:System.NullReferenceException"></exception>
+        </member>
+        <member name="M:OpenCLDotNet.Programs.CLProgram.CreateReadImage2D(System.String,System.UInt32,OpenCLDotNet.Buffers.CLImageParameters2D)">
+            <summary>
+            
+            </summary>
+            <param name="kernel_name"></param>
+            <param name="index"></param>
+            <param name="param"></param>
+            <exception cref="T:System.NullReferenceException"></exception>
+        </member>
+        <member name="M:OpenCLDotNet.Programs.CLProgram.CreateWriteImage2D(System.String,System.UInt32,OpenCLDotNet.Buffers.CLImageParameters2D)">
+            <summary>
+            
+            </summary>
+            <param name="kernel_name"></param>
+            <param name="index"></param>
+            <param name="param"></param>
             <exception cref="T:System.NullReferenceException"></exception>
         </member>
         <member name="M:OpenCLDotNet.Programs.CLProgram.SetBuffer(System.String,OpenCLDotNet.Buffers.CLBuffer,System.UInt32)">

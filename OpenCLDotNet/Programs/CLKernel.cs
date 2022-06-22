@@ -139,7 +139,7 @@ namespace OpenCLDotNet.Programs
         public void SetBuffer(CLBuffer arg, uint index)
         {
             if (arg == null)
-                throw new NullReferenceException("CLBuffer is null.");
+                throw new NullReferenceException("Buffer is null.");
 
             var kernel_arg = GetArgument(index);
             kernel_arg.Arg = arg;
@@ -155,10 +155,10 @@ namespace OpenCLDotNet.Programs
         /// <param name="arg"></param>
         /// <param name="index"></param>
         /// <exception cref="NullReferenceException"></exception>
-        public void SetBuffer(CLSubBuffer arg, uint index)
+        public void SetSubBuffer(CLSubBuffer arg, uint index)
         {
             if (arg == null)
-                throw new NullReferenceException("CLSubBuffer is null.");
+                throw new NullReferenceException("Buffer is null.");
 
             if(index >= NumArguments)
                 throw new ArgumentOutOfRangeException($"Index {index} out of argumant range.");
@@ -166,6 +166,29 @@ namespace OpenCLDotNet.Programs
             var kernel_arg = GetArgument(index);
             kernel_arg.Arg = arg;
             kernel_arg.ArgType = typeof(CLSubBuffer).Name;
+
+            cl_mem arg_id = arg.Id;
+            Error = CL.SetKernelArg(Id, index, arg_id).ToString();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="arg"></param>
+        /// <param name="index"></param>
+        /// <exception cref="NullReferenceException"></exception>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
+        public void SetImage2D(CLImage2D arg, uint index)
+        {
+            if (arg == null)
+                throw new NullReferenceException("Image is null.");
+
+            if (index >= NumArguments)
+                throw new ArgumentOutOfRangeException($"Index {index} out of argumant range.");
+
+            var kernel_arg = GetArgument(index);
+            kernel_arg.Arg = arg;
+            kernel_arg.ArgType = typeof(CLImage2D).Name;
 
             cl_mem arg_id = arg.Id;
             Error = CL.SetKernelArg(Id, index, arg_id).ToString();
