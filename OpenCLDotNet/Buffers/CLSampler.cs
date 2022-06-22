@@ -26,6 +26,18 @@ namespace OpenCLDotNet.Buffers
         /// 
         /// </summary>
         /// <param name="context"></param>
+        /// <param name="mode"></param>
+        /// <param name="filter"></param>
+        public CLSampler(CLContext context, CL_SAMPLER_ADDRESSING_MODE mode, CL_SAMPLER_FILTER_MODE filter)
+    :       this(context, new CLSamplerProperties(true, mode, filter))
+        {
+
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="context"></param>
         /// <param name="properties"></param>
         public CLSampler(CLContext context, CLSamplerProperties properties)
         {

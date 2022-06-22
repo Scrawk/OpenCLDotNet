@@ -37,9 +37,25 @@ namespace OpenCLDotNet.Buffers
         /// </summary>
         public CLSamplerProperties()
         {
-            NormalizedCoords = cl_bool.True;
+            NormalizedCoords = true;
             AddressingMode = CL_SAMPLER_ADDRESSING_MODE.CLAMP_TO_EDGE;
             FilterMode = CL_SAMPLER_FILTER_MODE.LINEAR;
+            //MipFilterMode = CL_SAMPLER_FILTER_MODE.LINEAR;
+            //LODMin = 0;
+            //LODMax = CL.MAX_FLOAT;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="normalizeCoords"></param>
+        /// <param name="mode"></param>
+        /// <param name="filter"></param>
+        public CLSamplerProperties(bool normalizeCoords, CL_SAMPLER_ADDRESSING_MODE mode, CL_SAMPLER_FILTER_MODE filter)
+        {
+            NormalizedCoords = normalizeCoords;
+            AddressingMode = mode;
+            FilterMode = filter;
             //MipFilterMode = CL_SAMPLER_FILTER_MODE.LINEAR;
             //LODMin = 0;
             //LODMax = CL.MAX_FLOAT;
