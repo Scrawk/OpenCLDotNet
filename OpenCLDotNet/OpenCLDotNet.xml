@@ -4,7 +4,16 @@
         <name>OpenCLDotNet</name>
     </assembly>
     <members>
-        <member name="M:OpenCLDotNet.Core.CL.CreateBuffer(OpenCLDotNet.Core.cl_context,OpenCLDotNet.Core.CL_MEM_FLAGS,System.UInt32,System.Single[],OpenCLDotNet.Core.CL_ERROR@)">
+        <member name="M:OpenCLDotNet.Core.CL.CreateBuffer(OpenCLDotNet.Core.cl_context,OpenCLDotNet.Core.CL_MEM_FLAGS,OpenCLDotNet.Core.CL_ERROR@)">
+            <summary>
+            
+            </summary>
+            <param name="context"></param>
+            <param name="flags"></param>
+            <param name="error"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Core.CL.CreateBuffer(OpenCLDotNet.Core.cl_context,OpenCLDotNet.Core.CL_MEM_FLAGS,System.UInt32,System.Array,OpenCLDotNet.Core.CL_MEM_DATA_TYPE,OpenCLDotNet.Core.CL_ERROR@)">
             <summary>
             
             </summary>
@@ -12,6 +21,7 @@
             <param name="flags"></param>
             <param name="size"></param>
             <param name="data"></param>
+            <param name="type"></param>
             <param name="error"></param>
             <returns></returns>
         </member>
@@ -1441,6 +1451,23 @@
             
             </summary>
         </member>
+        <member name="M:OpenCLDotNet.Buffers.CLBuffer.#ctor(OpenCLDotNet.Core.CLContext,OpenCLDotNet.Core.CL_READ_WRITE,OpenCLDotNet.Core.CL_MEM_DATA_TYPE,System.UInt32)">
+            <summary>
+            
+            </summary>
+            <param name="context"></param>
+            <param name="rw"></param>
+            <param name="type"></param>
+            <param name="length"></param>
+        </member>
+        <member name="M:OpenCLDotNet.Buffers.CLBuffer.#ctor(OpenCLDotNet.Core.CLContext,OpenCLDotNet.Core.CL_READ_WRITE,System.Array)">
+            <summary>
+            
+            </summary>
+            <param name="context"></param>
+            <param name="rw"></param>
+            <param name="data"></param>
+        </member>
         <member name="P:OpenCLDotNet.Buffers.CLBuffer.RowPitch">
             <summary>
             
@@ -1451,6 +1478,73 @@
             
             </summary>
             <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Buffers.CLBuffer.CreateReadBuffer(OpenCLDotNet.Core.CLContext,System.Array)">
+            <summary>
+            
+            </summary>
+            <param name="context"></param>
+            <param name="source"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Buffers.CLBuffer.CreateWriteBuffer(OpenCLDotNet.Core.CLContext,OpenCLDotNet.Core.CL_MEM_DATA_TYPE,System.UInt32)">
+            <summary>
+            
+            </summary>
+            <param name="context"></param>
+            <param name="type"></param>
+            <param name="length"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Buffers.CLBuffer.Create(OpenCLDotNet.Core.CLContext,OpenCLDotNet.Core.CL_READ_WRITE,OpenCLDotNet.Core.CL_MEM_DATA_TYPE,System.UInt32)">
+            <summary>
+            
+            </summary>
+            <param name="context"></param>
+            <param name="rw"></param>
+            <param name="type"></param>
+            <param name="length"></param>
+        </member>
+        <member name="M:OpenCLDotNet.Buffers.CLBuffer.Create(OpenCLDotNet.Core.CLContext,OpenCLDotNet.Core.CL_READ_WRITE,System.Array)">
+            <summary>
+            
+            </summary>
+            <param name="context"></param>
+            <param name="rw"></param>
+            <param name="data"></param>
+        </member>
+        <member name="M:OpenCLDotNet.Buffers.CLBuffer.CreateFlags(OpenCLDotNet.Core.CL_READ_WRITE)">
+            <summary>
+            
+            </summary>
+            <param name="rw"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Buffers.CLBuffer.ReadBuffer(OpenCLDotNet.Events.CLCommandQueue,System.Array,System.Boolean)">
+            <summary>
+            
+            </summary>
+            <param name="cmd"></param>
+            <param name="data"></param>
+            <param name="blocking"></param>
+            <exception cref="T:OpenCLDotNet.Utility.InvalidObjectExeception"></exception>
+        </member>
+        <member name="M:OpenCLDotNet.Buffers.CLBuffer.CheckCommand(OpenCLDotNet.Events.CLCommandQueue)">
+            <summary>
+            
+            </summary>
+            <param name="cmd"></param>
+            <exception cref="T:System.NullReferenceException"></exception>
+            <exception cref="T:OpenCLDotNet.Utility.InvalidObjectExeception"></exception>
+        </member>
+        <member name="M:OpenCLDotNet.Buffers.CLBuffer.CheckData(System.Array)">
+            <summary>
+            
+            </summary>
+            <param name="data"></param>
+            <exception cref="T:System.NullReferenceException"></exception>
+            <exception cref="T:OpenCLDotNet.Utility.InvalidDataSizeExeception"></exception>
+            <exception cref="T:OpenCLDotNet.Utility.InvalidDataTypeExeception"></exception>
         </member>
         <member name="T:OpenCLDotNet.Buffers.CLBufferRegion">
             <summary>
@@ -1918,13 +2012,6 @@
             
             </summary>
         </member>
-        <member name="M:OpenCLDotNet.Buffers.CLMemObject.SetSource(System.Single[])">
-            <summary>
-            
-            </summary>
-            <param name="source"></param>
-            <exception cref="T:System.ArgumentNullException"></exception>
-        </member>
         <member name="M:OpenCLDotNet.Buffers.CLMemObject.Print(System.Text.StringBuilder)">
             <summary>
             
@@ -2335,6 +2422,11 @@
             
             </summary>
         </member>
+        <member name="P:OpenCLDotNet.Programs.CLKernel.Arguments">
+            <summary>
+            
+            </summary>
+        </member>
         <member name="M:OpenCLDotNet.Programs.CLKernel.ToString">
             <summary>
             
@@ -2348,48 +2440,43 @@
             <param name="program"></param>
             <param name="name"></param>
         </member>
-        <member name="M:OpenCLDotNet.Programs.CLKernel.SetBufferArg(OpenCLDotNet.Buffers.CLBuffer,System.UInt32)">
+        <member name="M:OpenCLDotNet.Programs.CLKernel.SetBuffer(OpenCLDotNet.Buffers.CLBuffer,System.UInt32)">
             <summary>
             
             </summary>
             <param name="arg"></param>
             <param name="index"></param>
-            <returns></returns>
             <exception cref="T:System.NullReferenceException"></exception>
         </member>
-        <member name="M:OpenCLDotNet.Programs.CLKernel.SetBufferArg(OpenCLDotNet.Buffers.CLSubBuffer,System.UInt32)">
+        <member name="M:OpenCLDotNet.Programs.CLKernel.SetBuffer(OpenCLDotNet.Buffers.CLSubBuffer,System.UInt32)">
             <summary>
             
             </summary>
             <param name="arg"></param>
             <param name="index"></param>
-            <returns></returns>
             <exception cref="T:System.NullReferenceException"></exception>
         </member>
-        <member name="M:OpenCLDotNet.Programs.CLKernel.SetSamplerArg(OpenCLDotNet.Buffers.CLSampler,System.UInt32)">
+        <member name="M:OpenCLDotNet.Programs.CLKernel.SetSampler(OpenCLDotNet.Buffers.CLSampler,System.UInt32)">
             <summary>
             
             </summary>
             <param name="arg"></param>
             <param name="index"></param>
-            <returns></returns>
             <exception cref="T:System.NullReferenceException"></exception>
         </member>
-        <member name="M:OpenCLDotNet.Programs.CLKernel.SetIntArg(System.Int32,System.UInt32)">
+        <member name="M:OpenCLDotNet.Programs.CLKernel.SetInt(System.Int32,System.UInt32)">
             <summary>
             
             </summary>
             <param name="arg"></param>
             <param name="index"></param>
-            <returns></returns>
         </member>
-        <member name="M:OpenCLDotNet.Programs.CLKernel.SetFloatArg(System.Single,System.UInt32)">
+        <member name="M:OpenCLDotNet.Programs.CLKernel.SetFloat(System.Single,System.UInt32)">
             <summary>
             
             </summary>
             <param name="arg"></param>
             <param name="index"></param>
-            <returns></returns>
         </member>
         <member name="M:OpenCLDotNet.Programs.CLKernel.Print(System.Text.StringBuilder)">
             <summary>
@@ -2477,6 +2564,50 @@
             <summary>
             
             </summary>
+        </member>
+        <member name="T:OpenCLDotNet.Programs.CLKernelArg">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:OpenCLDotNet.Programs.CLKernelArg.Name">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:OpenCLDotNet.Programs.CLKernelArg.ArgType">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:OpenCLDotNet.Programs.CLKernelArg.Arg">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:OpenCLDotNet.Programs.CLKernelArg.#ctor">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:OpenCLDotNet.Programs.CLKernelArg.#ctor(System.String)">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:OpenCLDotNet.Programs.CLKernelArg.#ctor(System.String,System.String,System.Object)">
+            <summary>
+            
+            </summary>
+            <param name="name"></param>
+            <param name="argType"></param>
+            <param name="arg"></param>
+        </member>
+        <member name="M:OpenCLDotNet.Programs.CLKernelArg.ToString">
+            <summary>
+            
+            </summary>
+            <returns></returns>
         </member>
         <member name="F:OpenCLDotNet.Programs.CLProgram.OPTION_KERNEL_ARG_INFO">
             <summary>
@@ -2617,6 +2748,21 @@
             
             </summary>
         </member>
+        <member name="P:OpenCLDotNet.Programs.CLProgram.NumKernels">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:OpenCLDotNet.Programs.CLProgram.Kernels">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:OpenCLDotNet.Programs.CLProgram.Command">
+            <summary>
+            
+            </summary>
+        </member>
         <member name="M:OpenCLDotNet.Programs.CLProgram.ToString">
             <summary>
             
@@ -2646,6 +2792,54 @@
             <param name="context"></param>
             <param name="binary"></param>
             <param name="options"></param>
+        </member>
+        <member name="M:OpenCLDotNet.Programs.CLProgram.Create(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="options"></param>
+        </member>
+        <member name="M:OpenCLDotNet.Programs.CLProgram.CreateCommand">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:OpenCLDotNet.Programs.CLProgram.CreateKerels">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:OpenCLDotNet.Programs.CLProgram.FindKernel(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Programs.CLProgram.HasKernel(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Programs.CLProgram.GetKernelName(System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="index"></param>
+            <returns></returns>
+            <exception cref="T:System.ArgumentOutOfRangeException"></exception>
+        </member>
+        <member name="M:OpenCLDotNet.Programs.CLProgram.SetBuffer(System.String,OpenCLDotNet.Buffers.CLBuffer,System.UInt32)">
+            <summary>
+            
+            </summary>
+            <param name="kernel_name"></param>
+            <param name="buffer"></param>
+            <param name="index"></param>
+            <returns></returns>
+            <exception cref="T:System.NullReferenceException"></exception>
         </member>
         <member name="M:OpenCLDotNet.Programs.CLProgram.HasOption(System.String)">
             <summary>
@@ -2783,6 +2977,21 @@
             </summary>
         </member>
         <member name="T:OpenCLDotNet.Utility.InvalidArrayExeception">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:OpenCLDotNet.Utility.InvalidObjectExeception">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:OpenCLDotNet.Utility.InvalidDataSizeExeception">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:OpenCLDotNet.Utility.InvalidDataTypeExeception">
             <summary>
             
             </summary>

@@ -15,15 +15,15 @@ namespace OpenCLDotNet.Core
 
         protected const CallingConvention CDECL = CallingConvention.Cdecl;
 
-        protected static readonly string ERROR_UNKNOWN_TYPE = "CLDOTNET_UNKNOWN_TYPE";
+        protected static readonly string ERROR_UNKNOWN_TYPE = "UNKNOWN_TYPE";
 
-        protected static readonly string ERROR_INVALID_OBJECT = "CLDOTNET_INVALID_OBJECT";
+        protected static readonly string ERROR_INVALID_OBJECT = "INVALID_OBJECT";
 
-        protected static readonly string ERROR_NO_PLATFORMS_FOUND = "CLDOTNET_NO_PLATFORMS_FOUND";
+        protected static readonly string ERROR_NO_PLATFORMS_FOUND = "NO_PLATFORMS_FOUND";
 
-        protected static readonly string ERROR_NO_DEVICES_FOUND = "CLDOTNET_NO_DEVICES_FOUND";
+        protected static readonly string ERROR_NO_DEVICES_FOUND = "NO_DEVICES_FOUND";
 
-        protected static readonly string ERROR_NO_KERNEL_ARGS_FOUND = "CLDOTNET_NO_KERNEL_ARGS_FOUND";
+        protected static readonly string ERROR_NO_KERNEL_ARGS_FOUND = "NO_KERNEL_ARGS_FOUND";
 
         /// <summary>
         /// Default constructor.

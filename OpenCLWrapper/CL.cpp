@@ -466,6 +466,15 @@ cl_int CL_ReleaseKernel(cl_kernel kernel)
 //                                BUFFERS FUNCTIONS                                          ///
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
+
+cl_mem CL_CreateEmptyBuffer(
+    cl_context   context,
+    cl_mem_flags flags,
+    cl_int* error)
+{
+    return clCreateBuffer(context, flags, 0, nullptr, error);
+}
+
  cl_mem CL_CreateBuffer(
     cl_context context,
     cl_mem_flags flags,

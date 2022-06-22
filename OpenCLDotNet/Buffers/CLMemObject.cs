@@ -13,15 +13,15 @@ namespace OpenCLDotNet.Buffers
     public abstract class CLMemObject : CLObject
     {
 
-        protected static readonly string ERROR_SOURCE_DATA_IS_NULL = "CLDOTNET_SOURCE_DATA_IS_NULL";
+        protected static readonly string ERROR_SOURCE_DATA_IS_NULL = "SOURCE_DATA_IS_NULL";
 
-        protected static readonly string ERROR_INVALID_SOURCE_SIZE = "CLDOTNET_INVALID_SOURCE_SIZE";
+        protected static readonly string ERROR_INVALID_SOURCE_SIZE = "INVALID_SOURCE_SIZE";
 
-        protected static readonly string ERROR_INVALID_CHANNEL_ORDER_TYPE = "CLDOTNET_INVALID_CHANNEL_ORDER_TYPE";
+        protected static readonly string ERROR_INVALID_CHANNEL_ORDER_TYPE = "CINVALID_CHANNEL_ORDER_TYPE";
 
-        protected static readonly string ERROR_INVALID_DATA_TYPE = "CLDOTNET_INVALID_DATA_TYPE";
+        protected static readonly string ERROR_INVALID_DATA_TYPE = "INVALID_DATA_TYPE";
 
-        protected static readonly string ERROR_CHANNEL_FORMAT_NOT_SUPPORTED = "CLDOTNET_CHANNEL_FORMAT_NOT_SUPPORTED";
+        protected static readonly string ERROR_CHANNEL_FORMAT_NOT_SUPPORTED = "CHANNEL_FORMAT_NOT_SUPPORTED";
 
         /// <summary>
         /// 
@@ -110,18 +110,6 @@ namespace OpenCLDotNet.Buffers
         /// 
         /// </summary>
         public bool IsWriteOnly => CanWrite && !CanRead;
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="source"></param>
-        /// <exception cref="ArgumentNullException"></exception>
-        public void SetSource(float[] source)
-        {
-            DataType = CL_MEM_DATA_TYPE.FLOAT;
-            ElementSize = sizeof(float);
-            Length = (uint)source.Length;
-        }
 
         /// <summary>
         /// 

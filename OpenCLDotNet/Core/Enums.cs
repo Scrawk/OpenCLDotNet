@@ -108,6 +108,9 @@ namespace OpenCLDotNet.Core
         INVALID_SPEC_ID = -71,
         MAX_SIZE_RESTRICTION_EXCEEDED = -72,
 
+        //Added by OpenCLDotNet, Not found in spec
+        INVALID_DATA_TYPE = -73,
+        NULL_OBJECT = -74,
         NONE = 1
     }
 

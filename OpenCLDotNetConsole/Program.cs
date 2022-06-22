@@ -23,7 +23,19 @@ namespace OpenCLDotNetConsole
 			//var filename = "F:/Projects/Visual Studio Projects/OpenCLDotNet/Programs/Convolution.cl";
 
 			var program_text =
-			@"__kernel void Kernel(__global const float* a, __global const float* b, __global float* result)
+			@"__kernel void Kernel1(__global const float* a, __global const float* b, __global float* result)
+			{
+				int gid = get_global_id(0);
+				result[gid] = a[gid] + b[gid];
+			}
+
+			__kernel void Kernel2(__global const float* a, __global const float* b, __global float* result)
+			{
+				int gid = get_global_id(0);
+				result[gid] = a[gid] + b[gid];
+			}
+
+			__kernel void Kernel3(__global const float* a, __global const float* b, __global float* result)
 			{
 				int gid = get_global_id(0);
 				result[gid] = a[gid] + b[gid];
@@ -47,45 +59,34 @@ namespace OpenCLDotNetConsole
 				data1[i] = i;
 			}
 
-			var buffer0 = new CLBuffer(context, CL_READ_WRITE.READ, data0);
-			buffer0.Print();
+			var buffer0 = CLBuffer.CreateReadBuffer(context, data0);
+			//buffer0.Print();
 
-			var buffer1 = new CLBuffer(context, CL_READ_WRITE.READ, data1);
-			buffer1.Print();
+			var buffer1 = CLBuffer.CreateReadBuffer(context, data0);
+			//buffer1.Print();
 
-			var buffer2 = new CLBuffer(context, CL_READ_WRITE.WRITE, CL_MEM_DATA_TYPE.FLOAT, ARRAY_SIZE);
-			buffer2.Print();
+			var buffer2 = CLBuffer.CreateWriteBuffer(context, CL_MEM_DATA_TYPE.FLOAT, ARRAY_SIZE);
+			//buffer2.Print();
 
-			var kernel = new CLKernel(program, "Kernel");
+			program.SetBuffer("Kernel1", buffer0, 0);
+			program.SetBuffer("Kernel1", buffer1, 1);
+			program.SetBuffer("Kernel1", buffer2, 2);
 
-			kernel.SetBufferArg(buffer0, 0);
-			kernel.SetBufferArg(buffer1, 1);
-			kernel.SetBufferArg(buffer2, 2);
-			kernel.Print();
+			//program.Print();
 
-			var cmd = new CLCommandQueue(context);
-			cmd.Print();
+			return;
 
-
-			size_t[] globalWorkSize = { ARRAY_SIZE };
-			size_t[] localWorkSize = { 1 };
-			cl_event e;
-
-			var error = CL.EnqueueNDRangeKernel(cmd.Id, kernel.Id, 1, null, globalWorkSize, localWorkSize, 0, null, out e);
-
-			Console.WriteLine("EnqueueNDRangeKernel: " + error);
-			if (error != CL_ERROR.SUCCESS)
-				return;
+			program.Run("Kernel1", 0, 100);
+			Console.WriteLine("Program error " + program.Error);
 
 			var result = new float[ARRAY_SIZE];
+			var cmd = new CLCommandQueue(context);
+			buffer2.ReadBuffer(cmd, result, true);
 
-			error = CL.EnqueueReadBuffer(cmd.Id, buffer2.Id, true, 0, buffer2.ByteSize, result, 0, null, out e);
-			Console.WriteLine("EnqueueReadBuffer: " + error);
-			if (error != CL_ERROR.SUCCESS)
-				return;
+			Console.WriteLine("Buffer error " + buffer2.Error);
 
-			for (int i = 0; i < result.Length; i++)
-				Console.WriteLine(result[i]);
+			//for (int i = 0; i < result.Length; i++)
+			//	Console.WriteLine(result[i]);
 
 			//var region = new CLBufferRegion(0, 10);
 			//var sub_buffer = new CLSubBuffer(buffer, region);

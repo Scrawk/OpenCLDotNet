@@ -62,4 +62,64 @@ namespace OpenCLDotNet.Utility
         {
         }
     }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public class InvalidObjectExeception : Exception
+    {
+        public InvalidObjectExeception()
+        {
+        }
+
+        public InvalidObjectExeception(string message)
+            : base(message)
+        {
+        }
+
+        public InvalidObjectExeception(string message, Exception inner)
+            : base(message, inner)
+        {
+        }
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public class InvalidDataSizeExeception : Exception
+    {
+        public InvalidDataSizeExeception()
+        {
+        }
+
+        public InvalidDataSizeExeception(string message)
+            : base(message)
+        {
+        }
+
+        public InvalidDataSizeExeception(string message, Exception inner)
+            : base(message, inner)
+        {
+        }
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public class InvalidDataTypeExeception : Exception
+    {
+        public InvalidDataTypeExeception()
+        {
+        }
+
+        public InvalidDataTypeExeception(string message)
+            : base(message)
+        {
+        }
+
+        public InvalidDataTypeExeception(string message, Exception inner)
+            : base(message, inner)
+        {
+        }
+    }
 }

@@ -5,6 +5,8 @@ using System.IO;
 
 using OpenCLDotNet.Core;
 using OpenCLDotNet.Utility;
+using OpenCLDotNet.Buffers;
+using OpenCLDotNet.Events;
 
 namespace OpenCLDotNet.Programs
 {
@@ -123,12 +125,11 @@ namespace OpenCLDotNet.Programs
         /// <param name="filename"></param>
         /// <param name="encoding"></param>
         /// <param name="options"></param>
-        public CLProgram(CLContext context, string filename, Encoding encoding, string options = "") :
-            this(context, options)
+        public CLProgram(CLContext context, string filename, Encoding encoding, string options = "")
         {
             var file = File.ReadAllText(filename, encoding);
-
             Create(context, file, options);
+            Create(options);
         }
 
         /// <summary>
@@ -137,10 +138,10 @@ namespace OpenCLDotNet.Programs
         /// <param name="context"></param>
         /// <param name="program_text"></param>
         /// <param name="options"></param>
-        public CLProgram(CLContext context, string program_text, string options = "") :
-            this(context, options)
+        public CLProgram(CLContext context, string program_text, string options = "")
         {
             Create(context, program_text, options);
+            Create(options);
         }
 
         /// <summary>
@@ -149,10 +150,10 @@ namespace OpenCLDotNet.Programs
         /// <param name="context"></param>
         /// <param name="binaries"></param>
         /// <param name="options"></param>
-        public CLProgram(CLContext context, IList<byte[]> binaries, string options = "") :
-            this(context, options)
+        public CLProgram(CLContext context, IList<byte[]> binaries, string options = "")
         {
             Create(context, binaries, options);
+            Create(options);
         }
 
         /// <summary>
@@ -161,16 +162,10 @@ namespace OpenCLDotNet.Programs
         /// <param name="context"></param>
         /// <param name="binary"></param>
         /// <param name="options"></param>
-        public CLProgram(CLContext context, byte[] binary, string options = "") :
-            this(context, options)
+        public CLProgram(CLContext context, byte[] binary, string options = "")
         {
             Create(context, binary, options);
-        }
-
-        private CLProgram(CLContext context, string options = "")
-        {
-            CreateOptions(options);
-            CheckForKernelArgumentInfo(options);
+            Create(options);
         }
 
         /// <summary>
@@ -196,11 +191,26 @@ namespace OpenCLDotNet.Programs
         /// <summary>
         /// 
         /// </summary>
+        public int NumKernels => Kernels.Count;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        private List<CLKernel> Kernels { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        private CLCommandQueue Command { get; set; } 
+
+        /// <summary>
+        /// 
+        /// </summary>
         /// <returns></returns>
         public override string ToString()
         {
-            return String.Format("[CLProgram: Id={0}, ContextID={1}, Source={2}, Error={3}]",
-                Id, Context.Id, Source, Error);
+            return String.Format("[CLProgram: Id={0}, ContextID={1}, Source={2}, Kernels={3}, Error={4}]",
+                Id, Context.Id, Source, Kernels.Count, Error);
         }
 
         /// <summary>
@@ -301,7 +311,7 @@ namespace OpenCLDotNet.Programs
         /// <param name="options"></param>
         private unsafe void Create(CLContext context, byte[] binary, string options = "")
         {
-            Error = "NONE";
+            ResetErrorCode();
             Context = context;
             Source = CL_PROGRAM_SOURCE.BINARY;
 
@@ -335,6 +345,135 @@ namespace OpenCLDotNet.Programs
             }
 
             SetErrorCodeToSuccess();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="options"></param>
+        private void Create(string options)
+        {
+            CreateOptions(options);
+            CheckForKernelArgumentInfo(options);
+            CreateCommand();
+            CreateKerels();
+        }
+
+        public void Run(string kernel_name, uint offset, uint size)
+        {
+            var kernel = FindKernel(kernel_name);
+            if (kernel == null)
+                return;
+
+            size_t[] globalOffset = { offset };
+            size_t[] globalSize = { size };
+            size_t[] localSize = { 1 };
+            cl_event e;
+
+            Error = CL.EnqueueNDRangeKernel(Command.Id, kernel.Id, 1, globalOffset, 
+                globalSize, localSize, 0, null, out e).ToString();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        private void CreateCommand()
+        {
+            Command = new CLCommandQueue(Context);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        private void CreateKerels()
+        {
+            Kernels = new List<CLKernel>();
+
+            if (!IsValid) return;
+
+            var info = GetInfo(CL_PROGRAM_INFO.KERNEL_NAMES);
+
+            var names = info.Split(';');
+            foreach(var name in names)
+            {
+                var kernel_name = name.RemoveWhiteSpaces();
+
+                if (!string.IsNullOrEmpty(kernel_name))
+                {
+                    var kernel = new CLKernel(this, kernel_name);
+                    Kernels.Add(kernel);
+                }
+            }
+
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        private CLKernel FindKernel(string name)
+        {
+            foreach(var kernel in Kernels)  
+                if (kernel.Name == name)
+                    return kernel;
+
+            return null;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public bool HasKernel(string name)
+        {
+            return FindKernel(name) != null;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="index"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
+        public string GetKernelName(int index)
+        {
+            if(index < 0 || index >= Kernels.Count) 
+                throw new ArgumentOutOfRangeException($"Kernel index {index} out of range.");
+
+            return Kernels[index].Name; 
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="kernel_name"></param>
+        /// <param name="buffer"></param>
+        /// <param name="index"></param>
+        /// <returns></returns>
+        /// <exception cref="NullReferenceException"></exception>
+        public void SetBuffer(string kernel_name, CLBuffer buffer, uint index)
+        {
+            var kernel = FindKernel(kernel_name);
+            if (kernel == null)
+                throw new NullReferenceException($"Kernel named {kernel_name} not found.");
+
+            kernel.SetBuffer(buffer, index);
+        }
+
+        public void SetInt(string kernel_name, int arg, uint index)
+        {
+            var kernel = FindKernel(kernel_name);
+            if (kernel == null)
+                throw new NullReferenceException($"Kernel named {kernel_name} not found.");
+
+            kernel.SetInt(arg, index);
+        }
+
+        public void ReadBuffer(string kernel_name)
+        {
+
         }
 
         /// <summary>
@@ -439,16 +578,34 @@ namespace OpenCLDotNet.Programs
 
             if (!IsValid) return;
 
-
-
             builder.AppendLine("");
             builder.AppendLine("Program info:");
-            builder.AppendLine("");
 
-            builder.AppendLine("OPTIONS:");
+            builder.AppendLine("");
+            builder.AppendLine("Options:");
 
             foreach(var option in Options)
                 builder.AppendLine(option);
+
+            builder.AppendLine("");
+            builder.AppendLine("Command:");
+
+            Command.Print(builder);
+
+            builder.AppendLine("");
+            builder.AppendLine("Kernels:");
+            builder.AppendLine("Kernels arg info enabled: " + HasKernelArgumentInfo);
+
+            if (HasKernelArgumentInfo)
+            {
+                foreach (var kernel in Kernels)
+                    kernel.Print(builder);
+            }
+            else
+            {
+                foreach (var kernel in Kernels)
+                    builder.AppendLine(kernel.ToString());
+            }
 
             builder.AppendLine("");
 
@@ -457,6 +614,8 @@ namespace OpenCLDotNet.Programs
             foreach (var e in values)
             {
                 if (e == CL_PROGRAM_INFO.SOURCE ||
+                    e == CL_PROGRAM_INFO.KERNEL_NAMES ||
+                    e == CL_PROGRAM_INFO.NUM_KERNELS ||
                     e == CL_PROGRAM_INFO.BINARIES)
                     continue;
 

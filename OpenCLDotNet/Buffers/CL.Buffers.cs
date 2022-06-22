@@ -16,18 +16,69 @@ namespace OpenCLDotNet.Core
         /// </summary>
         /// <param name="context"></param>
         /// <param name="flags"></param>
+        /// <param name="error"></param>
+        /// <returns></returns>
+        public static cl_mem CreateBuffer(
+            cl_context context,
+            CL_MEM_FLAGS flags,
+            out CL_ERROR error)
+        {
+            return CL_CreateEmptyBuffer(context, flags, out error);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="flags"></param>
         /// <param name="size"></param>
         /// <param name="data"></param>
+        /// <param name="type"></param>
         /// <param name="error"></param>
         /// <returns></returns>
         public static cl_mem CreateBuffer(
             cl_context context,
             CL_MEM_FLAGS flags,
             uint size,
-            float[] data,
+            Array data,
+            CL_MEM_DATA_TYPE type,  
             out CL_ERROR error)
         {
-            return CL_CreateBuffer(context, flags, size, data, out error);
+            switch (type)
+            {
+                case CL_MEM_DATA_TYPE.FLOAT:
+                    var f_data = data as float[];
+                    return CL_CreateBuffer(context, flags, size, f_data, out error);
+
+                case CL_MEM_DATA_TYPE.INT:
+                    var i_data = data as int[];
+                    return CL_CreateBuffer(context, flags, size, i_data, out error);
+
+                case CL_MEM_DATA_TYPE.UINT:
+                    var ui_data = data as uint[];
+                    return CL_CreateBuffer(context, flags, size, ui_data, out error);
+
+                case CL_MEM_DATA_TYPE.SHORT:
+                    var s_data = data as short[];
+                    return CL_CreateBuffer(context, flags, size, s_data, out error);
+
+                case CL_MEM_DATA_TYPE.USHORT:
+                    var us_data = data as ushort[];
+                    return CL_CreateBuffer(context, flags, size, us_data, out error);
+
+                case CL_MEM_DATA_TYPE.BYTE:
+                    var b_data = data as byte[];
+                    return CL_CreateBuffer(context, flags, size, b_data, out error);
+
+                case CL_MEM_DATA_TYPE.SBYTE:
+                    var sb_data = data as sbyte[];
+                    return CL_CreateBuffer(context, flags, size, sb_data, out error);
+
+                default:
+                    error = CL_ERROR.INVALID_DATA_TYPE;
+                    return new cl_mem();
+            }
+
         }
 
         /// <summary>
@@ -142,6 +193,20 @@ namespace OpenCLDotNet.Core
         ///////////////////////////////////////////////////////////////////////////////////////////////
 
         [DllImport(DLL_NAME, CallingConvention = CDECL)]
+        private static extern cl_mem CL_CreateEmptyBuffer(
+            cl_context context,
+            CL_MEM_FLAGS flags,
+            [Out] out CL_ERROR error);
+
+        [DllImport(DLL_NAME, CallingConvention = CDECL)]
+        private static extern cl_mem CL_CreateBuffer(
+            cl_context context,
+            CL_MEM_FLAGS flags,
+            size_t size,
+            float[] data,
+            [Out] out CL_ERROR error);
+
+        [DllImport(DLL_NAME, CallingConvention = CDECL)]
         private static extern cl_mem CL_CreateBuffer(
             cl_context context,
             CL_MEM_FLAGS flags,
@@ -154,7 +219,39 @@ namespace OpenCLDotNet.Core
             cl_context context,
             CL_MEM_FLAGS flags,
             size_t size,
-            float[] data,
+            uint[] data,
+            [Out] out CL_ERROR error);
+
+        [DllImport(DLL_NAME, CallingConvention = CDECL)]
+        private static extern cl_mem CL_CreateBuffer(
+            cl_context context,
+            CL_MEM_FLAGS flags,
+            size_t size,
+            short[] data,
+            [Out] out CL_ERROR error);
+
+        [DllImport(DLL_NAME, CallingConvention = CDECL)]
+        private static extern cl_mem CL_CreateBuffer(
+            cl_context context,
+            CL_MEM_FLAGS flags,
+            size_t size,
+            ushort[] data,
+            [Out] out CL_ERROR error);
+
+        [DllImport(DLL_NAME, CallingConvention = CDECL)]
+        private static extern cl_mem CL_CreateBuffer(
+            cl_context context,
+            CL_MEM_FLAGS flags,
+            size_t size,
+            byte[] data,
+            [Out] out CL_ERROR error);
+
+        [DllImport(DLL_NAME, CallingConvention = CDECL)]
+        private static extern cl_mem CL_CreateBuffer(
+            cl_context context,
+            CL_MEM_FLAGS flags,
+            size_t size,
+            sbyte[] data,
             [Out] out CL_ERROR error);
 
         [DllImport(DLL_NAME, CallingConvention = CDECL)]

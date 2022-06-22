@@ -290,6 +290,11 @@ extern "C"
         void* data,
         cl_int* errcode_ret);
 
+    CL_WRAPPER_API cl_mem CL_CreateEmptyBuffer(
+        cl_context   context,
+        cl_mem_flags flags,
+        cl_int* errcode_ret);
+
     CL_WRAPPER_API cl_mem CL_CreateSubBuffer(
         cl_mem  buffer,
         cl_mem_flags flags,
