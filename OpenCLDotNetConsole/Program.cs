@@ -68,7 +68,6 @@ namespace OpenCLDotNetConsole
 			var result = new float[ARRAY_SIZE];
 			program.ReadBuffer("Kernel1", true, 2, result);
 
-
 			//for (int i = 0; i < result.Length; i++)
 			//	Console.WriteLine(result[i]);
 
@@ -76,9 +75,6 @@ namespace OpenCLDotNetConsole
 			//var sub_buffer = new CLSubBuffer(buffer, region);
 			//sub_buffer.Print();
 
-			
-
-			
 			/*
 			var sampler_props = new CLSamplerProperties();
 			sampler_props.NormalizedCoords = false;
