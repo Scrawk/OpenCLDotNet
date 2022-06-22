@@ -28,18 +28,6 @@ namespace OpenCLDotNetConsole
 				int gid = get_global_id(0);
 				result[gid] = a[gid] + b[gid];
 			}
-
-			__kernel void Kernel2(__global const float* a, __global const float* b, __global float* result)
-			{
-				int gid = get_global_id(0);
-				result[gid] = a[gid] + b[gid];
-			}
-
-			__kernel void Kernel3(__global const float* a, __global const float* b, __global float* result)
-			{
-				int gid = get_global_id(0);
-				result[gid] = a[gid] + b[gid];
-			}
 			";
 
 			var options = CLProgram.OPTION_KERNEL_ARG_INFO;
@@ -59,31 +47,30 @@ namespace OpenCLDotNetConsole
 				data1[i] = i;
 			}
 
-			var buffer0 = CLBuffer.CreateReadBuffer(context, data0);
-			//buffer0.Print();
+			var image_params = new CLImageParameters2D();
+			image_params.Width = 10;
+			image_params.Height = 10;
+			image_params.ChannelOrder = CL_CHANNEL_ORDER.R;
+			image_params.ChannelType = CL_CHANNEL_TYPE.FLOAT;
+			image_params.DataType = CL_MEM_DATA_TYPE.FLOAT;
+			image_params.DataLength = ARRAY_SIZE;
+			//image_params.Source = new float[100];
 
-			var buffer1 = CLBuffer.CreateReadBuffer(context, data0);
-			//buffer1.Print();
+			var image = CLImage2D.CreateWriteImage2D(context, image_params);
+			image.Print();
 
-			var buffer2 = CLBuffer.CreateWriteBuffer(context, CL_MEM_DATA_TYPE.FLOAT, ARRAY_SIZE);
-			//buffer2.Print();
-
-			program.SetBuffer("Kernel1", buffer0, 0);
-			program.SetBuffer("Kernel1", buffer1, 1);
-			program.SetBuffer("Kernel1", buffer2, 2);
+			program.CreateReadBuffer("Kernel1", 0, data0);
+			program.CreateReadBuffer("Kernel1", 1, data1);
+			program.CreateWriteBuffer("Kernel1", 2, CL_MEM_DATA_TYPE.FLOAT, ARRAY_SIZE);
 
 			//program.Print();
-
-			return;
 
 			program.Run("Kernel1", 0, 100);
 			Console.WriteLine("Program error " + program.Error);
 
 			var result = new float[ARRAY_SIZE];
-			var cmd = new CLCommandQueue(context);
-			buffer2.ReadBuffer(cmd, result, true);
+			program.ReadBuffer("Kernel1", true, 2, result);
 
-			Console.WriteLine("Buffer error " + buffer2.Error);
 
 			//for (int i = 0; i < result.Length; i++)
 			//	Console.WriteLine(result[i]);
@@ -92,18 +79,9 @@ namespace OpenCLDotNetConsole
 			//var sub_buffer = new CLSubBuffer(buffer, region);
 			//sub_buffer.Print();
 
-			/*
-			var image_data = new CLImageData2D();
-			image_data.Width = 10;
-			image_data.Height = 10;
-			image_data.ChannelOrder = CL_CHANNEL_ORDER.R;
-			image_data.ChannelType = CL_CHANNEL_TYPE.FLOAT;
-			image_data.Flags = CL_MEM_FLAGS.READ_WRITE;
-			image_data.SetSource(new float[100]);
+			
 
-			var image = new CLImage2D(context, image_data);
-			//image.Print();
-			*/
+			
 			/*
 			var sampler_props = new CLSamplerProperties();
 			sampler_props.NormalizedCoords = false;

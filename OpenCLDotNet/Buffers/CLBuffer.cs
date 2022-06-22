@@ -21,7 +21,7 @@ namespace OpenCLDotNet.Buffers
         /// <param name="rw"></param>
         /// <param name="type"></param>
         /// <param name="length"></param>
-        private CLBuffer(CLContext context, CL_READ_WRITE rw, CL_MEM_DATA_TYPE type, uint length)
+        public CLBuffer(CLContext context, CL_READ_WRITE rw, CL_MEM_DATA_TYPE type, uint length)
             : base(context)
         {
             Create(context, rw, type, length);
@@ -33,7 +33,7 @@ namespace OpenCLDotNet.Buffers
         /// <param name="context"></param>
         /// <param name="rw"></param>
         /// <param name="data"></param>
-        private CLBuffer(CLContext context, CL_READ_WRITE rw, Array data)
+        public CLBuffer(CLContext context, CL_READ_WRITE rw, Array data)
             : base(context)
         {
             Create(context, rw, data);
@@ -140,32 +140,6 @@ namespace OpenCLDotNet.Buffers
             SetErrorCodeToSuccess();
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="rw"></param>
-        /// <returns></returns>
-        private CL_MEM_FLAGS CreateFlags(CL_READ_WRITE rw)
-        {
-            CL_MEM_FLAGS flag = 0;
-
-            switch (rw)
-            {
-                case CL_READ_WRITE.WRITE:
-                    flag = CL_MEM_FLAGS.WRITE_ONLY;
-                    //flag |= CL_MEM_FLAGS.HOST_WRITE_ONLY;
-                    flag |= CL_MEM_FLAGS.ALLOC_HOST_PTR;
-                    break;
-
-                case CL_READ_WRITE.READ:
-                    flag = CL_MEM_FLAGS.READ_ONLY;
-                    flag |= CL_MEM_FLAGS.HOST_READ_ONLY;
-                    flag |= CL_MEM_FLAGS.COPY_HOST_PTR;
-                    break;
-            }
-
-            return flag;
-        }
 
         /// <summary>
         /// 

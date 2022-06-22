@@ -9,7 +9,7 @@ namespace OpenCLDotNet.Buffers
     /// <summary>
     /// 
     /// </summary>
-    public class CLImageData2D
+    public class CLImageParameters2D
     {
 
         /// <summary>
@@ -25,7 +25,7 @@ namespace OpenCLDotNet.Buffers
         /// <summary>
         /// 
         /// </summary>
-        internal uint Channels;
+        internal uint Channels => CL.GetNumChannels(ChannelOrder);
 
         /// <summary>
         /// 
@@ -40,12 +40,17 @@ namespace OpenCLDotNet.Buffers
         /// <summary>
         /// 
         /// </summary>
-        public CL_MEM_FLAGS Flags;
+        public CL_MEM_DATA_TYPE DataType;
 
         /// <summary>
         /// 
         /// </summary>
-        internal Array Source { get; private set; }
+        public uint DataLength;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public Array Source;
 
         /// <summary>
         /// 
@@ -53,21 +58,22 @@ namespace OpenCLDotNet.Buffers
         /// <returns></returns>
         public override string ToString()
         {
-            string source_or_null = Source == null ? "NULL" : Source.ToString();
+            string length = Source == null ? DataLength.ToString() : Source.Length.ToString();
 
-            return String.Format("[CLImageData: Width={0}, Height={1}, Order={2}, Type={3}, Source={4}]",
-                Width, Height, ChannelOrder, ChannelType, source_or_null);
+            return String.Format("[CLImageParameters2D: Width={0}, Height={1}, ChannelOrder={2}, ChannelType={3}, DataType={4}, Length={5}]",
+                Width, Height, ChannelOrder, ChannelType, DataType, length);
         }
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="context"></param>
+        /// <param name="flags"></param>
         /// <returns></returns>
-        public List<CLImageFormat> GetSupportedImageFormats(cl_context context)
+        public List<CLImageFormat> GetSupportedImageFormats(cl_context context, CL_MEM_FLAGS flags)
         {
             var formats = new List<CLImageFormat>();
-            var key = new CLImageFormatKey(context, Flags, CL_MEM_OBJECT_TYPE.IMAGE2D);
+            var key = new CLImageFormatKey(context, flags, CL_MEM_OBJECT_TYPE.IMAGE2D);
 
             CL.GetSupportedImageFormats(key, formats);
             return formats;
@@ -79,10 +85,10 @@ namespace OpenCLDotNet.Buffers
         /// <returns></returns>
         public bool IsValidSize()
         {
-            if(Source == null)
-                return false;
+            if (Source != null)
+                return Width * Height * Channels  == Source.Length;
             else
-                return Width * Height * Channels == Source.Length;
+                return Width * Height * Channels == DataLength;
         }
 
         /// <summary>
@@ -110,13 +116,23 @@ namespace OpenCLDotNet.Buffers
         /// <summary>
         /// 
         /// </summary>
+        /// <returns></returns>
+        public bool IsValidDataType()
+        {
+            return CL.IsValidDataType(ChannelType, DataType);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
         /// <param name="context"></param>
         /// <param name="format"></param>
+        /// <param name="flags"></param>
         /// <param name="error"></param>
         /// <returns></returns>
-        public bool ImageFormatIsSupported(cl_context context, CLImageFormat format, out CL_ERROR error)
+        public bool ImageFormatIsSupported(cl_context context, CLImageFormat format, CL_MEM_FLAGS flags, out CL_ERROR error)
         {
-            var key = new CLImageFormatKey(context, Flags, CL_MEM_OBJECT_TYPE.IMAGE2D);
+            var key = new CLImageFormatKey(context, flags, CL_MEM_OBJECT_TYPE.IMAGE2D);
             return CL.ImageFormatIsSupported(key, format, out error);
         }
 
@@ -139,13 +155,12 @@ namespace OpenCLDotNet.Buffers
         /// <returns></returns>
         internal CLImageDescription CreateImageDescription()
         {
-            throw new NotImplementedException("fix row pitch");
 
-            Channels = CL.GetNumChannels(ChannelOrder);
-
+            var type = CL.TypeOf(Source);
+            uint elementSize = CL.SizeOf(type);
             uint width = Width;
             uint height = Height;
-            uint row_pitch = (uint)(Channels * 4 * Source.Length);
+            uint row_pitch = (uint)(Channels * elementSize * Width);
             uint slice_pitch = 0; // row_pitch * Height;
 
             var des = new CLImageDescription();

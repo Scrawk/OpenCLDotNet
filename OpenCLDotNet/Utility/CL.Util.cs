@@ -209,6 +209,45 @@ namespace OpenCLDotNet.Core
             return false;
         }
 
+        public static bool IsValidDataType(CL_CHANNEL_TYPE channelType, CL_MEM_DATA_TYPE dataType)
+        {
+            switch (channelType)
+            {
+                case CL_CHANNEL_TYPE.SNORM_INT8:
+                case CL_CHANNEL_TYPE.SIGNED_INT8:
+                    return dataType == CL_MEM_DATA_TYPE.SBYTE;
+
+                case CL_CHANNEL_TYPE.UNORM_INT8:
+                case CL_CHANNEL_TYPE.UNSIGNED_INT8:
+                    return dataType == CL_MEM_DATA_TYPE.BYTE;
+
+                case CL_CHANNEL_TYPE.SNORM_INT16:
+                case CL_CHANNEL_TYPE.UNORM_INT16:
+                case CL_CHANNEL_TYPE.UNORM_SHORT_565:
+                case CL_CHANNEL_TYPE.UNORM_SHORT_555:
+                case CL_CHANNEL_TYPE.SIGNED_INT16:
+                case CL_CHANNEL_TYPE.HALF_FLOAT:
+                    return dataType == CL_MEM_DATA_TYPE.SHORT;
+
+                case CL_CHANNEL_TYPE.UNSIGNED_INT16:
+                    return dataType == CL_MEM_DATA_TYPE.USHORT;
+
+                case CL_CHANNEL_TYPE.UNORM_INT_101010:
+                case CL_CHANNEL_TYPE.SIGNED_INT32:
+                case CL_CHANNEL_TYPE.UNORM_INT24:
+                case CL_CHANNEL_TYPE.UNORM_INT_101010_2:
+                    return dataType == CL_MEM_DATA_TYPE.INT;
+
+                case CL_CHANNEL_TYPE.UNSIGNED_INT32:
+                    return dataType == CL_MEM_DATA_TYPE.UINT;
+
+                case CL_CHANNEL_TYPE.FLOAT:
+                    return dataType == CL_MEM_DATA_TYPE.FLOAT;
+            }
+
+            return false;
+        }
+
         public static CL_INFO_RETURN_TYPE GetReturnType(CL_PLATFORM_INFO info)
         {
 

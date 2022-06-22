@@ -92,7 +92,10 @@ namespace OpenCLDotNet.Programs
                 if (hasArgInfo)
                 {
                     string name = GetInfo(CL_KERNEL_ARG_INFO.NAME, i);
+                    string access = GetInfo(CL_KERNEL_ARG_INFO.ADDRESS_QUALIFIER, i);
+
                     arg.Name = name;
+                    arg.AddressQualifier = access;
                 }
                 
                 Arguments.Add(arg);
@@ -106,7 +109,7 @@ namespace OpenCLDotNet.Programs
         /// <param name="index"></param>
         /// <returns></returns>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
-        private CLKernelArg GetArgument(uint index)
+       public CLKernelArg GetArgument(uint index)
         {
             if(index >= Arguments.Count) 
                 throw new ArgumentOutOfRangeException($"Argument index {index} out of range,");

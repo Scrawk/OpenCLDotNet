@@ -88,12 +88,7 @@
             <param name="mem"></param>
             <returns></returns>
         </member>
-        <member name="P:OpenCLDotNet.Core.CL.FormatTable">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="M:OpenCLDotNet.Core.CL.CreateImage(OpenCLDotNet.Core.cl_context,OpenCLDotNet.Core.CL_MEM_FLAGS,OpenCLDotNet.Buffers.CLImageFormat,OpenCLDotNet.Buffers.CLImageDescription,System.Array,OpenCLDotNet.Core.CL_ERROR@)">
+        <member name="M:OpenCLDotNet.Core.CL.CreateImage(OpenCLDotNet.Core.cl_context,OpenCLDotNet.Core.CL_MEM_FLAGS,OpenCLDotNet.Buffers.CLImageFormat,OpenCLDotNet.Buffers.CLImageDescription,OpenCLDotNet.Core.CL_MEM_DATA_TYPE,System.Array,OpenCLDotNet.Core.CL_ERROR@)">
             <summary>
             
             </summary>
@@ -101,9 +96,15 @@
             <param name="flags"></param>
             <param name="format"></param>
             <param name="desc"></param>
+            <param name="type"></param>
             <param name="data"></param>
             <param name="error"></param>
             <returns></returns>
+        </member>
+        <member name="P:OpenCLDotNet.Core.CL.FormatTable">
+            <summary>
+            
+            </summary>
         </member>
         <member name="M:OpenCLDotNet.Core.CL.GetSupportedImageFormatsSize(OpenCLDotNet.Core.cl_context,OpenCLDotNet.Core.CL_MEM_FLAGS,OpenCLDotNet.Core.CL_MEM_OBJECT_TYPE,System.UInt32@)">
             <summary>
@@ -1513,13 +1514,6 @@
             <param name="rw"></param>
             <param name="data"></param>
         </member>
-        <member name="M:OpenCLDotNet.Buffers.CLBuffer.CreateFlags(OpenCLDotNet.Core.CL_READ_WRITE)">
-            <summary>
-            
-            </summary>
-            <param name="rw"></param>
-            <returns></returns>
-        </member>
         <member name="M:OpenCLDotNet.Buffers.CLBuffer.ReadBuffer(OpenCLDotNet.Events.CLCommandQueue,System.Array,System.Boolean)">
             <summary>
             
@@ -1637,12 +1631,13 @@
             
             </summary>
         </member>
-        <member name="M:OpenCLDotNet.Buffers.CLImage2D.#ctor(OpenCLDotNet.Core.CLContext,OpenCLDotNet.Buffers.CLImageData2D)">
+        <member name="M:OpenCLDotNet.Buffers.CLImage2D.#ctor(OpenCLDotNet.Core.CLContext,OpenCLDotNet.Buffers.CLImageParameters2D,OpenCLDotNet.Core.CL_READ_WRITE)">
             <summary>
             
             </summary>
             <param name="context"></param>
-            <param name="data"></param>
+            <param name="rw"></param>
+            <param name="param"></param>
         </member>
         <member name="P:OpenCLDotNet.Buffers.CLImage2D.Width">
             <summary>
@@ -1665,105 +1660,13 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:OpenCLDotNet.Buffers.CLImage2D.Create(OpenCLDotNet.Core.CLContext,OpenCLDotNet.Buffers.CLImageData2D)">
+        <member name="M:OpenCLDotNet.Buffers.CLImage2D.Create(OpenCLDotNet.Core.CLContext,OpenCLDotNet.Buffers.CLImageParameters2D,OpenCLDotNet.Core.CL_READ_WRITE)">
             <summary>
             
             </summary>
             <param name="context"></param>
+            <param name="rw"></param>
             <param name="data"></param>
-        </member>
-        <member name="T:OpenCLDotNet.Buffers.CLImageData2D">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="F:OpenCLDotNet.Buffers.CLImageData2D.Width">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="F:OpenCLDotNet.Buffers.CLImageData2D.Height">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="F:OpenCLDotNet.Buffers.CLImageData2D.Channels">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="F:OpenCLDotNet.Buffers.CLImageData2D.ChannelOrder">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="F:OpenCLDotNet.Buffers.CLImageData2D.ChannelType">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="F:OpenCLDotNet.Buffers.CLImageData2D.Flags">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="P:OpenCLDotNet.Buffers.CLImageData2D.Source">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="M:OpenCLDotNet.Buffers.CLImageData2D.ToString">
-            <summary>
-            
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:OpenCLDotNet.Buffers.CLImageData2D.GetSupportedImageFormats(OpenCLDotNet.Core.cl_context)">
-            <summary>
-            
-            </summary>
-            <param name="context"></param>
-            <returns></returns>
-        </member>
-        <member name="M:OpenCLDotNet.Buffers.CLImageData2D.IsValidSize">
-            <summary>
-            
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:OpenCLDotNet.Buffers.CLImageData2D.IsValidChannel">
-            <summary>
-            
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:OpenCLDotNet.Buffers.CLImageData2D.IsValidArrayData">
-            <summary>
-            
-            </summary>
-            <returns></returns>
-            <exception cref="T:System.NullReferenceException"></exception>
-        </member>
-        <member name="M:OpenCLDotNet.Buffers.CLImageData2D.ImageFormatIsSupported(OpenCLDotNet.Core.cl_context,OpenCLDotNet.Buffers.CLImageFormat,OpenCLDotNet.Core.CL_ERROR@)">
-            <summary>
-            
-            </summary>
-            <param name="context"></param>
-            <param name="format"></param>
-            <param name="error"></param>
-            <returns></returns>
-        </member>
-        <member name="M:OpenCLDotNet.Buffers.CLImageData2D.CreateImageFormat">
-            <summary>
-            
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:OpenCLDotNet.Buffers.CLImageData2D.CreateImageDescription">
-            <summary>
-            
-            </summary>
-            <returns></returns>
         </member>
         <member name="T:OpenCLDotNet.Buffers.CLImageDescription">
             <summary>
@@ -1883,6 +1786,112 @@
             <param name="type"></param>
         </member>
         <member name="M:OpenCLDotNet.Buffers.CLImageFormatKey.ToString">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:OpenCLDotNet.Buffers.CLImageParameters2D">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:OpenCLDotNet.Buffers.CLImageParameters2D.Width">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:OpenCLDotNet.Buffers.CLImageParameters2D.Height">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:OpenCLDotNet.Buffers.CLImageParameters2D.Channels">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:OpenCLDotNet.Buffers.CLImageParameters2D.ChannelOrder">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:OpenCLDotNet.Buffers.CLImageParameters2D.ChannelType">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:OpenCLDotNet.Buffers.CLImageParameters2D.DataType">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:OpenCLDotNet.Buffers.CLImageParameters2D.DataLength">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:OpenCLDotNet.Buffers.CLImageParameters2D.Source">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:OpenCLDotNet.Buffers.CLImageParameters2D.ToString">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Buffers.CLImageParameters2D.GetSupportedImageFormats(OpenCLDotNet.Core.cl_context,OpenCLDotNet.Core.CL_MEM_FLAGS)">
+            <summary>
+            
+            </summary>
+            <param name="context"></param>
+            <param name="flags"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Buffers.CLImageParameters2D.IsValidSize">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Buffers.CLImageParameters2D.IsValidChannel">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Buffers.CLImageParameters2D.IsValidArrayData">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+            <exception cref="T:System.NullReferenceException"></exception>
+        </member>
+        <member name="M:OpenCLDotNet.Buffers.CLImageParameters2D.IsValidDataType">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Buffers.CLImageParameters2D.ImageFormatIsSupported(OpenCLDotNet.Core.cl_context,OpenCLDotNet.Buffers.CLImageFormat,OpenCLDotNet.Core.CL_MEM_FLAGS,OpenCLDotNet.Core.CL_ERROR@)">
+            <summary>
+            
+            </summary>
+            <param name="context"></param>
+            <param name="format"></param>
+            <param name="flags"></param>
+            <param name="error"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Buffers.CLImageParameters2D.CreateImageFormat">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Buffers.CLImageParameters2D.CreateImageDescription">
             <summary>
             
             </summary>
@@ -2011,6 +2020,13 @@
             <summary>
             
             </summary>
+        </member>
+        <member name="M:OpenCLDotNet.Buffers.CLMemObject.CreateFlags(OpenCLDotNet.Core.CL_READ_WRITE)">
+            <summary>
+            
+            </summary>
+            <param name="rw"></param>
+            <returns></returns>
         </member>
         <member name="M:OpenCLDotNet.Buffers.CLMemObject.Print(System.Text.StringBuilder)">
             <summary>
@@ -2440,6 +2456,26 @@
             <param name="program"></param>
             <param name="name"></param>
         </member>
+        <member name="M:OpenCLDotNet.Programs.CLKernel.CreateArguments(System.Boolean)">
+            <summary>
+            
+            </summary>
+            <param name="hasArgInfo"></param>
+        </member>
+        <member name="M:OpenCLDotNet.Programs.CLKernel.GetArgument(System.UInt32)">
+            <summary>
+            
+            </summary>
+            <param name="index"></param>
+            <returns></returns>
+            <exception cref="T:System.ArgumentOutOfRangeException"></exception>
+        </member>
+        <member name="M:OpenCLDotNet.Programs.CLKernel.AllArgumentSet">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:OpenCLDotNet.Programs.CLKernel.SetBuffer(OpenCLDotNet.Buffers.CLBuffer,System.UInt32)">
             <summary>
             
@@ -2580,6 +2616,11 @@
             
             </summary>
         </member>
+        <member name="P:OpenCLDotNet.Programs.CLKernelArg.AddressQualifier">
+            <summary>
+            
+            </summary>
+        </member>
         <member name="P:OpenCLDotNet.Programs.CLKernelArg.Arg">
             <summary>
             
@@ -2595,12 +2636,13 @@
             
             </summary>
         </member>
-        <member name="M:OpenCLDotNet.Programs.CLKernelArg.#ctor(System.String,System.String,System.Object)">
+        <member name="M:OpenCLDotNet.Programs.CLKernelArg.#ctor(System.String,System.String,System.String,System.Object)">
             <summary>
             
             </summary>
             <param name="name"></param>
             <param name="argType"></param>
+            <param name="addressQualifier"></param>
             <param name="arg"></param>
         </member>
         <member name="M:OpenCLDotNet.Programs.CLKernelArg.ToString">
@@ -2799,6 +2841,14 @@
             </summary>
             <param name="options"></param>
         </member>
+        <member name="M:OpenCLDotNet.Programs.CLProgram.Run(System.String,System.UInt32,System.UInt32)">
+            <summary>
+            
+            </summary>
+            <param name="kernel_name"></param>
+            <param name="offset"></param>
+            <param name="size"></param>
+        </member>
         <member name="M:OpenCLDotNet.Programs.CLProgram.CreateCommand">
             <summary>
             
@@ -2831,6 +2881,25 @@
             <returns></returns>
             <exception cref="T:System.ArgumentOutOfRangeException"></exception>
         </member>
+        <member name="M:OpenCLDotNet.Programs.CLProgram.CreateReadBuffer(System.String,System.UInt32,System.Array)">
+            <summary>
+            
+            </summary>
+            <param name="kernel_name"></param>
+            <param name="index"></param>
+            <param name="data"></param>
+            <exception cref="T:System.NullReferenceException"></exception>
+        </member>
+        <member name="M:OpenCLDotNet.Programs.CLProgram.CreateWriteBuffer(System.String,System.UInt32,OpenCLDotNet.Core.CL_MEM_DATA_TYPE,System.UInt32)">
+            <summary>
+            
+            </summary>
+            <param name="kernel_name"></param>
+            <param name="index"></param>
+            <param name="type"></param>
+            <param name="length"></param>
+            <exception cref="T:System.NullReferenceException"></exception>
+        </member>
         <member name="M:OpenCLDotNet.Programs.CLProgram.SetBuffer(System.String,OpenCLDotNet.Buffers.CLBuffer,System.UInt32)">
             <summary>
             
@@ -2840,6 +2909,27 @@
             <param name="index"></param>
             <returns></returns>
             <exception cref="T:System.NullReferenceException"></exception>
+        </member>
+        <member name="M:OpenCLDotNet.Programs.CLProgram.SetInt(System.String,System.Int32,System.UInt32)">
+            <summary>
+            
+            </summary>
+            <param name="kernel_name"></param>
+            <param name="arg"></param>
+            <param name="index"></param>
+            <exception cref="T:System.NullReferenceException"></exception>
+        </member>
+        <member name="M:OpenCLDotNet.Programs.CLProgram.ReadBuffer(System.String,System.Boolean,System.UInt32,System.Array)">
+            <summary>
+            
+            </summary>
+            <param name="kernel_name"></param>
+            <param name="blocking"></param>
+            <param name="index"></param>
+            <param name="result"></param>
+            <exception cref="T:System.NullReferenceException"></exception>
+            <exception cref="T:System.InvalidOperationException"></exception>
+            <exception cref="T:System.InvalidCastException"></exception>
         </member>
         <member name="M:OpenCLDotNet.Programs.CLProgram.HasOption(System.String)">
             <summary>

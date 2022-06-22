@@ -21,6 +21,11 @@ namespace OpenCLDotNet.Programs
         /// <summary>
         /// 
         /// </summary>
+        public string AddressQualifier { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
         public object Arg { get; set; }
 
         /// <summary>
@@ -44,11 +49,13 @@ namespace OpenCLDotNet.Programs
         /// </summary>
         /// <param name="name"></param>
         /// <param name="argType"></param>
+        /// <param name="addressQualifier"></param>
         /// <param name="arg"></param>
-        public CLKernelArg(string name, string argType, object arg)
+        public CLKernelArg(string name, string argType, string addressQualifier, object arg)
         {
             Name = name;
             ArgType = argType;
+            AddressQualifier = addressQualifier;  
             Arg = arg;
         }
 
@@ -60,8 +67,8 @@ namespace OpenCLDotNet.Programs
         {
             string arg_or_null = Arg == null ? "Null" : Arg.ToString();
 
-            return String.Format("[CLKernelArg: Name={0}, ArgType={1}, Arg={2}]",
-                Name, ArgType, arg_or_null);
+            return String.Format("[CLKernelArg: Name={0}, AddressQualifier={1}, ArgType={2}, Arg={3}]",
+                Name, AddressQualifier, ArgType, arg_or_null);
         }
 
     }

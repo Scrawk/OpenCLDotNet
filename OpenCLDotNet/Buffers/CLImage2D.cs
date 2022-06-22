@@ -16,12 +16,12 @@ namespace OpenCLDotNet.Buffers
         /// 
         /// </summary>
         /// <param name="context"></param>
-        /// <param name="data"></param>
-        public CLImage2D(CLContext context, CLImageData2D data)
+        /// <param name="rw"></param>
+        /// <param name="param"></param>
+        public CLImage2D(CLContext context, CLImageParameters2D param, CL_READ_WRITE rw)
             : base(context)
         {
-            Create(context, data);
-
+            Create(context, param, rw);
             Region = new CLImageRegion(0, 0, Width, Height);
         }
 
@@ -58,17 +58,34 @@ namespace OpenCLDotNet.Buffers
         /// 
         /// </summary>
         /// <param name="context"></param>
-        /// <param name="data"></param>
-        private void Create(CLContext context, CLImageData2D data)
+        /// <param name="param"></param>
+        /// <returns></returns>
+        public static CLImage2D CreateReadImage2D(CLContext context, CLImageParameters2D param)
         {
-            if(data.Source == null)
-            {
-                Error = ERROR_SOURCE_DATA_IS_NULL;
-                return;
-            }    
+            return new CLImage2D(context, param, CL_READ_WRITE.READ);
+        }
 
-            var format = data.CreateImageFormat();
-            var desc = data.CreateImageDescription();
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="param"></param>
+        /// <returns></returns>
+        public static CLImage2D CreateWriteImage2D(CLContext context, CLImageParameters2D param)
+        {
+            return new CLImage2D(context, param, CL_READ_WRITE.WRITE);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="rw"></param>
+        /// <param name="data"></param>
+        private void Create(CLContext context, CLImageParameters2D data, CL_READ_WRITE rw)
+        {
+            //source data can be null for write only images
+            var source = data.Source;
 
             CL_ERROR error;
             ResetErrorCode();
@@ -77,13 +94,11 @@ namespace OpenCLDotNet.Buffers
             Channels = data.Channels;
             ChannelOrder = data.ChannelOrder;
             ChannelType = data.ChannelType;
-            Flags = data.Flags;
-            MemType = desc.MemType;
-
-            if (!Flags.HasFlag(CL_MEM_FLAGS.USE_HOST_PTR))
-            {
-                Flags |= CL_MEM_FLAGS.USE_HOST_PTR;
-            }
+            Flags = CreateFlags(rw);
+            MemType = CL_MEM_OBJECT_TYPE.IMAGE2D;
+            DataType = data.DataType;
+            ElementSize = CL.SizeOf(DataType);
+            Length = source == null ? data.DataLength : (uint)source.Length;
 
             if (!data.IsValidSize())
             {
@@ -97,25 +112,27 @@ namespace OpenCLDotNet.Buffers
                 return;
             }
 
-            if(!data.IsValidArrayData())
+            if(source == null)
             {
-                Error = ERROR_INVALID_DATA_TYPE;
-                return;
+                if (!data.IsValidDataType())
+                {
+                    Error = ERROR_INVALID_DATA_TYPE;
+                    return;
+                }
+            }
+            else
+            {
+                if (!data.IsValidArrayData())
+                {
+                    Error = ERROR_INVALID_DATA_TYPE;
+                    return;
+                }
             }
 
-            /*
-            if(!data.ImageFormatIsSupported(context.Id, format, out error))
-            {
-                if (error != CL_ERROR.SUCCESS)
-                    Error = error.ToString();
-                else
-                    Error = ERROR_CHANNEL_FORMAT_NOT_SUPPORTED;
+            var format = data.CreateImageFormat();
+            var desc = data.CreateImageDescription();
 
-                return;
-            }
-            */
-
-            Id = CL.CreateImage(context.Id, Flags, format, desc, data.Source, out error);
+            Id = CL.CreateImage(context.Id, Flags, format, desc, DataType, source, out error);
             if (error != CL_ERROR.SUCCESS)
             {
                 Error = error.ToString();
@@ -124,5 +141,6 @@ namespace OpenCLDotNet.Buffers
 
             SetErrorCodeToSuccess();
         }
+
     }
 }

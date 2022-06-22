@@ -359,6 +359,12 @@ namespace OpenCLDotNet.Programs
             CreateKerels();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="kernel_name"></param>
+        /// <param name="offset"></param>
+        /// <param name="size"></param>
         public void Run(string kernel_name, uint offset, uint size)
         {
             var kernel = FindKernel(kernel_name);
@@ -391,10 +397,10 @@ namespace OpenCLDotNet.Programs
 
             if (!IsValid) return;
 
-            var info = GetInfo(CL_PROGRAM_INFO.KERNEL_NAMES);
+            var names_info = GetInfo(CL_PROGRAM_INFO.KERNEL_NAMES);
+            var names_array = names_info.Split(';');
 
-            var names = info.Split(';');
-            foreach(var name in names)
+            foreach(var name in names_array)
             {
                 var kernel_name = name.RemoveWhiteSpaces();
 
@@ -404,7 +410,7 @@ namespace OpenCLDotNet.Programs
                     Kernels.Add(kernel);
                 }
             }
-
+            
         }
 
         /// <summary>
@@ -449,6 +455,45 @@ namespace OpenCLDotNet.Programs
         /// 
         /// </summary>
         /// <param name="kernel_name"></param>
+        /// <param name="index"></param>
+        /// <param name="data"></param>
+        /// <exception cref="NullReferenceException"></exception>
+        public void CreateReadBuffer(string kernel_name, uint index, Array data)
+        {
+            var kernel = FindKernel(kernel_name);
+            if (kernel == null)
+                throw new NullReferenceException($"Kernel named {kernel_name} not found.");
+
+            var buffer = CLBuffer.CreateReadBuffer(Context, data);
+            kernel.SetBuffer(buffer, index);
+
+            Error = buffer.Error;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="kernel_name"></param>
+        /// <param name="index"></param>
+        /// <param name="type"></param>
+        /// <param name="length"></param>
+        /// <exception cref="NullReferenceException"></exception>
+        public void CreateWriteBuffer(string kernel_name, uint index, CL_MEM_DATA_TYPE type, uint length)
+        {
+            var kernel = FindKernel(kernel_name);
+            if (kernel == null)
+                throw new NullReferenceException($"Kernel named {kernel_name} not found.");
+
+            var buffer = CLBuffer.CreateWriteBuffer(Context, type, length);
+            kernel.SetBuffer(buffer, index);
+
+            Error = buffer.Error;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="kernel_name"></param>
         /// <param name="buffer"></param>
         /// <param name="index"></param>
         /// <returns></returns>
@@ -462,6 +507,13 @@ namespace OpenCLDotNet.Programs
             kernel.SetBuffer(buffer, index);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="kernel_name"></param>
+        /// <param name="arg"></param>
+        /// <param name="index"></param>
+        /// <exception cref="NullReferenceException"></exception>
         public void SetInt(string kernel_name, int arg, uint index)
         {
             var kernel = FindKernel(kernel_name);
@@ -471,9 +523,32 @@ namespace OpenCLDotNet.Programs
             kernel.SetInt(arg, index);
         }
 
-        public void ReadBuffer(string kernel_name)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="kernel_name"></param>
+        /// <param name="blocking"></param>
+        /// <param name="index"></param>
+        /// <param name="result"></param>
+        /// <exception cref="NullReferenceException"></exception>
+        /// <exception cref="InvalidOperationException"></exception>
+        /// <exception cref="InvalidCastException"></exception>
+        public void ReadBuffer(string kernel_name, bool blocking, uint index, Array result)
         {
+            var kernel = FindKernel(kernel_name);
+            if (kernel == null)
+                throw new NullReferenceException($"Kernel named {kernel_name} not found.");
 
+            if (!kernel.AllArgumentSet())
+                throw new InvalidOperationException("Not all kernel arguments are set.");
+
+            var arg = kernel.GetArgument(index);
+            var buffer = arg.Arg as CLBuffer;
+
+            if (buffer == null)
+                throw new InvalidCastException("Kernel ag");
+
+            buffer.ReadBuffer(Command, result, blocking);
         }
 
         /// <summary>
