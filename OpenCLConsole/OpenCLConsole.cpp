@@ -8,9 +8,9 @@
 //#define CL_TARGET_OPENCL_VERSION 220
 //#define CL_TARGET_OPENCL_VERSION 300
 
-#include "Books/OpenCL_Programming_Guide/HelloWorld.h"
-#include "Books/OpenCL_Programming_Guide/OpenCLInfo.h"
-#include "Books/OpenCL_Programming_Guide/Convolution.h"
+//#include "Books/OpenCL_Programming_Guide/HelloWorld.h"
+//#include "Books/OpenCL_Programming_Guide/OpenCLInfo.h"
+//#include "Books/OpenCL_Programming_Guide/Convolution.h"
 
 int main()
 {
