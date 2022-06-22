@@ -361,4 +361,4 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
-/OpenCLConsole
+/OpenCLConsole/Books/OpenCL_Programming_Guide
