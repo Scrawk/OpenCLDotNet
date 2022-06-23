@@ -52,7 +52,7 @@ namespace OpenCLDotNet.Buffers
 
             if (!IsValid) return;
 
-            var values = Enum.GetValues<CL_IMAGE_INFO>();
+            var values = CL.GetValues<CL_IMAGE_INFO>();
 
             foreach (var e in values)
             {

@@ -40,7 +40,7 @@ namespace OpenCLDotNet.Buffers
         /// <summary>
         /// 
         /// </summary>
-        public uint ElementSize { get; protected set; }
+        public uint DataSize { get; protected set; }
 
         /// <summary>
         /// 
@@ -55,7 +55,7 @@ namespace OpenCLDotNet.Buffers
         /// <summary>
         /// 
         /// </summary>
-        public uint ByteSize => ElementSize * Length;
+        public uint ByteSize => DataSize * Length;
 
         /// <summary>
         /// 
@@ -149,9 +149,16 @@ namespace OpenCLDotNet.Buffers
 
             if (!IsValid) return;
 
-            builder.AppendLine("FLAGS: " + Flags);
+            builder.AppendLine("");
+            builder.AppendLine("Flags: " + Flags);
+            builder.AppendLine("MemType: " + MemType);
+            builder.AppendLine("DataType: " + DataType);
+            builder.AppendLine("DataSize: " + DataSize);
+            builder.AppendLine("Length: " + Length);
+            builder.AppendLine("ByteSize: " + ByteSize);
+            builder.AppendLine("");
 
-            var values = Enum.GetValues<CL_MEM_INFO>();
+            var values = CL.GetValues<CL_MEM_INFO>();
 
             foreach (var e in values)
             {

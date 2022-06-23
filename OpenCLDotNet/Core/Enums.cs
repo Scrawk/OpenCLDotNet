@@ -32,7 +32,8 @@ namespace OpenCLDotNet.Core
         SBYTE, BYTE,
         SHORT, USHORT,
         INT, UINT,
-        FLOAT,
+        LONG, ULONG,
+        HALF, FLOAT, DOUBLE,
         UNKNOWN
     }
 

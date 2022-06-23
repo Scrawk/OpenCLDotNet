@@ -121,6 +121,19 @@ namespace OpenCLDotNet.Programs
         /// <summary>
         /// 
         /// </summary>
+        public static string DefaultOptions
+        {
+            get
+            {
+                var options = CLProgram.OPTION_KERNEL_ARG_INFO;
+                return options;
+            }
+        }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
         /// <param name="context"></param>
         /// <param name="filename"></param>
         /// <param name="encoding"></param>
@@ -701,28 +714,8 @@ namespace OpenCLDotNet.Programs
                 builder.AppendLine(option);
 
             builder.AppendLine("");
-            builder.AppendLine("Command:");
 
-            Command.Print(builder);
-
-            builder.AppendLine("");
-            builder.AppendLine("Kernels:");
-            builder.AppendLine("Kernels arg info enabled: " + HasKernelArgumentInfo);
-
-            if (HasKernelArgumentInfo)
-            {
-                foreach (var kernel in Kernels)
-                    kernel.Print(builder);
-            }
-            else
-            {
-                foreach (var kernel in Kernels)
-                    builder.AppendLine(kernel.ToString());
-            }
-
-            builder.AppendLine("");
-
-            var values = Enum.GetValues<CL_PROGRAM_INFO>();
+            var values = CL.GetValues<CL_PROGRAM_INFO>();
 
             foreach (var e in values)
             {
@@ -735,7 +728,7 @@ namespace OpenCLDotNet.Programs
                 builder.AppendLine(e + ": " + GetInfo(e));
             }
 
-            var build_values = Enum.GetValues<CL_PROGRAM_BUILD_INFO>();
+            var build_values = CL.GetValues<CL_PROGRAM_BUILD_INFO>();
             var devices = Context.GetDeviceIds();
 
             builder.AppendLine("");
@@ -754,6 +747,33 @@ namespace OpenCLDotNet.Programs
                     builder.AppendLine(e + ": " + GetInfo(e, device));
                 }
             }
+
+            builder.AppendLine("");
+            builder.AppendLine("Kernels:");
+            builder.AppendLine("Kernels arg info enabled: " + HasKernelArgumentInfo);
+
+            if (HasKernelArgumentInfo)
+            {
+                builder.AppendLine("");
+                foreach (var kernel in Kernels)
+                    kernel.Print(builder);
+            }
+            else
+            {
+                builder.AppendLine("");
+                foreach (var kernel in Kernels)
+                    builder.AppendLine(kernel.ToString());
+            }
+
+            builder.AppendLine("");
+            builder.AppendLine("Context:");
+
+            Context.Print(builder);
+
+            builder.AppendLine("");
+            builder.AppendLine("Command:");
+
+            Command.Print(builder);
 
         }
 

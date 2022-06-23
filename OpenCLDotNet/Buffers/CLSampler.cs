@@ -91,7 +91,7 @@ namespace OpenCLDotNet.Buffers
             if (!IsValid)
                 return;
 
-            var values = Enum.GetValues<CL_SAMPLER_INFO>();
+            var values = CL.GetValues<CL_SAMPLER_INFO>();
 
             builder.AppendLine();
             foreach (var e in values)

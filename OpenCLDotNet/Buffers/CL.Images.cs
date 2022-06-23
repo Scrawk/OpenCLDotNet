@@ -16,6 +16,35 @@ namespace OpenCLDotNet.Core
         /// </summary>
         private static Dictionary<CLImageFormatKey, CLImageFormat[]> FormatTable { get; set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="flags"></param>
+        /// <param name="format"></param>
+        /// <param name="desc"></param>
+        /// <param name="byte_size"></param>
+        /// <param name="data"></param>
+        /// <param name="error"></param>
+        /// <returns></returns>
+        public static cl_mem CreateImage(
+            cl_context context,
+            CL_MEM_FLAGS flags,
+            CLImageFormat format,
+            CLImageDescription desc,
+            uint byte_size,
+            Array data,
+            out CL_ERROR error)
+        {
+            byte[] bytes = null;
+            if (data != null)
+            {
+                bytes = new byte[byte_size];
+                Buffer.BlockCopy(data, 0, bytes, 0, bytes.Length);
+            }
+
+            return CL_CreateImage(context, flags, format, desc, bytes, out error);
+        }
 
         /// <summary>
         /// 
@@ -200,6 +229,15 @@ namespace OpenCLDotNet.Core
         /////////////////////////////////////////////////////////////////////////////////////////////////
         //                                 EXTERN FUNCTIONS                                          ///
         ///////////////////////////////////////////////////////////////////////////////////////////////
+
+        [DllImport(DLL_NAME, CallingConvention = CDECL)]
+        private static extern cl_mem CL_CreateImage(
+            cl_context context,
+            CL_MEM_FLAGS flags,
+            CLImageFormat format,
+            CLImageDescription desc,
+            byte[] data,
+            [Out] out CL_ERROR error);
 
         [DllImport(DLL_NAME, CallingConvention = CDECL)]
         private static extern CL_ERROR CL_GetSupportedImageFormatsSize(

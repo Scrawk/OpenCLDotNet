@@ -13,15 +13,14 @@
             <param name="error"></param>
             <returns></returns>
         </member>
-        <member name="M:OpenCLDotNet.Core.CL.CreateBuffer(OpenCLDotNet.Core.cl_context,OpenCLDotNet.Core.CL_MEM_FLAGS,System.UInt32,System.Array,OpenCLDotNet.Core.CL_MEM_DATA_TYPE,OpenCLDotNet.Core.CL_ERROR@)">
+        <member name="M:OpenCLDotNet.Core.CL.CreateBuffer(OpenCLDotNet.Core.cl_context,OpenCLDotNet.Core.CL_MEM_FLAGS,System.UInt32,System.Array,OpenCLDotNet.Core.CL_ERROR@)">
             <summary>
             
             </summary>
             <param name="context"></param>
             <param name="flags"></param>
-            <param name="size"></param>
+            <param name="byte_size"></param>
             <param name="data"></param>
-            <param name="type"></param>
             <param name="error"></param>
             <returns></returns>
         </member>
@@ -88,7 +87,190 @@
             <param name="mem"></param>
             <returns></returns>
         </member>
-        <member name="M:OpenCLDotNet.Core.CL.CreateImage(OpenCLDotNet.Core.cl_context,OpenCLDotNet.Core.CL_MEM_FLAGS,OpenCLDotNet.Buffers.CLImageFormat,OpenCLDotNet.Buffers.CLImageDescription,OpenCLDotNet.Core.CL_MEM_DATA_TYPE,System.Array,OpenCLDotNet.Core.CL_ERROR@)">
+        <member name="M:OpenCLDotNet.Core.CL.EnqueueReadBuffer(OpenCLDotNet.Core.cl_command_queue,OpenCLDotNet.Core.cl_mem,System.Boolean,System.UInt32,System.UInt32,System.Array,OpenCLDotNet.Core.CL_MEM_DATA_TYPE,System.UInt32,OpenCLDotNet.Core.cl_event[],OpenCLDotNet.Core.cl_event@)">
+            <summary>
+            
+            </summary>
+            <param name="command"></param>
+            <param name="buffer"></param>
+            <param name="blocking_read"></param>
+            <param name="offset"></param>
+            <param name="byte_size"></param>
+            <param name="data"></param>
+            <param name="type"></param>
+            <param name="wait_list_size"></param>
+            <param name="wait_list"></param>
+            <param name="_event"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Core.CL.EnqueueWriteBuffer(OpenCLDotNet.Core.cl_command_queue,OpenCLDotNet.Core.cl_mem,System.Boolean,System.UInt32,System.UInt32,System.Array,OpenCLDotNet.Core.CL_MEM_DATA_TYPE,System.UInt32,OpenCLDotNet.Core.cl_event[],OpenCLDotNet.Core.cl_event@)">
+            <summary>
+            
+            </summary>
+            <param name="command"></param>
+            <param name="buffer"></param>
+            <param name="blocking_write"></param>
+            <param name="offset"></param>
+            <param name="byte_size"></param>
+            <param name="data"></param>
+            <param name="type"></param>
+            <param name="wait_list_size"></param>
+            <param name="wait_list"></param>
+            <param name="_event"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Core.CL.EnqueueReadImage(OpenCLDotNet.Core.cl_command_queue,OpenCLDotNet.Buffers.CLImage,System.Boolean,OpenCLDotNet.Buffers.CLImageRegion,System.Array,System.UInt32,OpenCLDotNet.Core.cl_event[],OpenCLDotNet.Core.cl_event@)">
+            <summary>
+            
+            </summary>
+            <param name="command"></param>
+            <param name="image"></param>
+            <param name="blocking_read"></param>
+            <param name="region"></param>
+            <param name="data"></param>
+            <param name="wait_list_size"></param>
+            <param name="wait_list"></param>
+            <param name="_event"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Core.CL.EnqueueWriteImage(OpenCLDotNet.Core.cl_command_queue,OpenCLDotNet.Buffers.CLImage,System.Boolean,OpenCLDotNet.Buffers.CLImageRegion,System.Array,System.UInt32,OpenCLDotNet.Core.cl_event[],OpenCLDotNet.Core.cl_event@)">
+            <summary>
+            
+            </summary>
+            <param name="command"></param>
+            <param name="image"></param>
+            <param name="blocking_write"></param>
+            <param name="region"></param>
+            <param name="data"></param>
+            <param name="wait_list_size"></param>
+            <param name="wait_list"></param>
+            <param name="_event"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Core.CL.EnqueueCopyBuffer(OpenCLDotNet.Core.cl_command_queue,OpenCLDotNet.Core.cl_mem,OpenCLDotNet.Core.cl_mem,System.UInt32,System.UInt32,System.UInt32,System.UInt32,OpenCLDotNet.Core.cl_event[],OpenCLDotNet.Core.cl_event@)">
+            <summary>
+            
+            </summary>
+            <param name="command"></param>
+            <param name="src_buffer"></param>
+            <param name="dst_buffer"></param>
+            <param name="src_offset"></param>
+            <param name="dst_offset"></param>
+            <param name="size"></param>
+            <param name="wait_list_size"></param>
+            <param name="wait_list"></param>
+            <param name="_event"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Core.CL.EnqueueCopyBufferRect(OpenCLDotNet.Core.cl_command_queue,OpenCLDotNet.Core.cl_mem,OpenCLDotNet.Core.cl_mem,OpenCLDotNet.Core.CLPoint3t,OpenCLDotNet.Core.CLPoint3t,OpenCLDotNet.Core.CLPoint3t,System.UInt32,System.UInt32,System.UInt32,System.UInt32,System.UInt32,OpenCLDotNet.Core.cl_event[],OpenCLDotNet.Core.cl_event@)">
+            <summary>
+            
+            </summary>
+            <param name="command"></param>
+            <param name="src_buffer"></param>
+            <param name="dst_buffer"></param>
+            <param name="src_origin"></param>
+            <param name="dst_origin"></param>
+            <param name="region"></param>
+            <param name="src_row_pitch"></param>
+            <param name="src_slice_pitch"></param>
+            <param name="dst_row_pitch"></param>
+            <param name="dst_slice_pitch"></param>
+            <param name="wait_list_size"></param>
+            <param name="wait_list"></param>
+            <param name="_event"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Core.CL.EnqueueFillImage(OpenCLDotNet.Core.cl_command_queue,OpenCLDotNet.Core.cl_mem,OpenCLDotNet.Core.CLColorRGBA,OpenCLDotNet.Core.CLPoint3t,OpenCLDotNet.Core.CLPoint3t,System.UInt32,OpenCLDotNet.Core.cl_event[],OpenCLDotNet.Core.cl_event@)">
+            <summary>
+            
+            </summary>
+            <param name="command"></param>
+            <param name="image"></param>
+            <param name="fill_color"></param>
+            <param name="origin"></param>
+            <param name="region"></param>
+            <param name="wait_list_size"></param>
+            <param name="wait_list"></param>
+            <param name="_event"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Core.CL.EnqueueCopyImage(OpenCLDotNet.Core.cl_command_queue,OpenCLDotNet.Core.cl_mem,OpenCLDotNet.Core.cl_mem,OpenCLDotNet.Core.CLPoint3t,OpenCLDotNet.Core.CLPoint3t,OpenCLDotNet.Core.CLPoint3t,System.UInt32,OpenCLDotNet.Core.cl_event[],OpenCLDotNet.Core.cl_event@)">
+            <summary>
+            
+            </summary>
+            <param name="command"></param>
+            <param name="src_image"></param>
+            <param name="dst_image"></param>
+            <param name="src_origin"></param>
+            <param name="dst_origin"></param>
+            <param name="region"></param>
+            <param name="wait_list_size"></param>
+            <param name="wait_list"></param>
+            <param name="_event"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Core.CL.EnqueueCopyImageToBuffer(OpenCLDotNet.Core.cl_command_queue,OpenCLDotNet.Core.cl_mem,OpenCLDotNet.Core.cl_mem,OpenCLDotNet.Core.CLPoint3t,OpenCLDotNet.Core.CLPoint3t,System.UInt32,System.UInt32,OpenCLDotNet.Core.cl_event[],OpenCLDotNet.Core.cl_event@)">
+            <summary>
+            
+            </summary>
+            <param name="command"></param>
+            <param name="src_image"></param>
+            <param name="dst_buffer"></param>
+            <param name="src_origin"></param>
+            <param name="region"></param>
+            <param name="dst_offset"></param>
+            <param name="wait_list_size"></param>
+            <param name="wait_list"></param>
+            <param name="_event"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Core.CL.EnqueueCopyBufferToImage(OpenCLDotNet.Core.cl_command_queue,OpenCLDotNet.Core.cl_mem,OpenCLDotNet.Core.cl_mem,System.UInt32,OpenCLDotNet.Core.CLPoint3t,OpenCLDotNet.Core.CLPoint3t,System.UInt32,OpenCLDotNet.Core.cl_event[],OpenCLDotNet.Core.cl_event@)">
+            <summary>
+            
+            </summary>
+            <param name="command"></param>
+            <param name="src_buffer"></param>
+            <param name="dst_image"></param>
+            <param name="src_offset"></param>
+            <param name="dst_origin"></param>
+            <param name="region"></param>
+            <param name="wait_list_size"></param>
+            <param name="wait_list"></param>
+            <param name="_event"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Core.CL.EnqueueNDRangeKernel(OpenCLDotNet.Core.cl_command_queue,OpenCLDotNet.Core.cl_kernel,System.UInt32,OpenCLDotNet.Core.size_t[],OpenCLDotNet.Core.size_t[],OpenCLDotNet.Core.size_t[],System.UInt32,OpenCLDotNet.Core.cl_event[],OpenCLDotNet.Core.cl_event@)">
+            <summary>
+            
+            </summary>
+            <param name="command"></param>
+            <param name="kernel"></param>
+            <param name="work_dim"></param>
+            <param name="global_work_offset"></param>
+            <param name="global_work_size"></param>
+            <param name="local_work_size"></param>
+            <param name="wait_list_size"></param>
+            <param name="wait_list"></param>
+            <param name="_event"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Core.CL.EnqueueBarrierWithWaitList(OpenCLDotNet.Core.cl_command_queue,System.UInt32,OpenCLDotNet.Core.cl_event[],OpenCLDotNet.Core.cl_event@)">
+            <summary>
+            
+            </summary>
+            <param name="command"></param>
+            <param name="wait_list_size"></param>
+            <param name="wait_list"></param>
+            <param name="_event"></param>
+            <returns></returns>
+        </member>
+        <member name="P:OpenCLDotNet.Core.CL.FormatTable">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:OpenCLDotNet.Core.CL.CreateImage(OpenCLDotNet.Core.cl_context,OpenCLDotNet.Core.CL_MEM_FLAGS,OpenCLDotNet.Buffers.CLImageFormat,OpenCLDotNet.Buffers.CLImageDescription,System.UInt32,System.Array,OpenCLDotNet.Core.CL_ERROR@)">
             <summary>
             
             </summary>
@@ -96,15 +278,10 @@
             <param name="flags"></param>
             <param name="format"></param>
             <param name="desc"></param>
-            <param name="type"></param>
+            <param name="byte_size"></param>
             <param name="data"></param>
             <param name="error"></param>
             <returns></returns>
-        </member>
-        <member name="P:OpenCLDotNet.Core.CL.FormatTable">
-            <summary>
-            
-            </summary>
         </member>
         <member name="M:OpenCLDotNet.Core.CL.GetSupportedImageFormatsSize(OpenCLDotNet.Core.cl_context,OpenCLDotNet.Core.CL_MEM_FLAGS,OpenCLDotNet.Core.CL_MEM_OBJECT_TYPE,System.UInt32@)">
             <summary>
@@ -896,6 +1073,15 @@
             <param name="program"></param>
             <returns></returns>
         </member>
+        <member name="M:OpenCLDotNet.Core.CL.GetValues``1(System.Boolean)">
+            <summary>
+            Get all the enums values, sort and return in a list.
+            TODO - must be better way of doing this.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="sort"></param>
+            <returns></returns>
+        </member>
         <member name="T:OpenCLDotNet.Core.CLColorRGBA">
             <summary>
             
@@ -1090,6 +1276,11 @@
             </summary>
         </member>
         <member name="P:OpenCLDotNet.Core.CLDevice.SupportsImages">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:OpenCLDotNet.Core.CLDevice.SupportsFP64">
             <summary>
             
             </summary>
@@ -1977,7 +2168,7 @@
             
             </summary>
         </member>
-        <member name="P:OpenCLDotNet.Buffers.CLMemObject.ElementSize">
+        <member name="P:OpenCLDotNet.Buffers.CLMemObject.DataSize">
             <summary>
             
             </summary>
@@ -2101,6 +2292,14 @@
             </summary>
             <param name="context"></param>
         </member>
+        <member name="M:OpenCLDotNet.Buffers.CLSampler.#ctor(OpenCLDotNet.Core.CLContext,OpenCLDotNet.Core.CL_SAMPLER_ADDRESSING_MODE,OpenCLDotNet.Core.CL_SAMPLER_FILTER_MODE)">
+            <summary>
+            
+            </summary>
+            <param name="context"></param>
+            <param name="mode"></param>
+            <param name="filter"></param>
+        </member>
         <member name="M:OpenCLDotNet.Buffers.CLSampler.#ctor(OpenCLDotNet.Core.CLContext,OpenCLDotNet.Buffers.CLSamplerProperties)">
             <summary>
             
@@ -2203,6 +2402,14 @@
             <summary>
             
             </summary>
+        </member>
+        <member name="M:OpenCLDotNet.Buffers.CLSamplerProperties.#ctor(System.Boolean,OpenCLDotNet.Core.CL_SAMPLER_ADDRESSING_MODE,OpenCLDotNet.Core.CL_SAMPLER_FILTER_MODE)">
+            <summary>
+            
+            </summary>
+            <param name="normalizeCoords"></param>
+            <param name="mode"></param>
+            <param name="filter"></param>
         </member>
         <member name="P:OpenCLDotNet.Buffers.CLSamplerProperties.Default">
             <summary>
@@ -2646,6 +2853,11 @@
             
             </summary>
         </member>
+        <member name="P:OpenCLDotNet.Programs.CLKernelArg.AccessQualifier">
+            <summary>
+            
+            </summary>
+        </member>
         <member name="P:OpenCLDotNet.Programs.CLKernelArg.Arg">
             <summary>
             
@@ -2661,13 +2873,14 @@
             
             </summary>
         </member>
-        <member name="M:OpenCLDotNet.Programs.CLKernelArg.#ctor(System.String,System.String,System.String,System.Object)">
+        <member name="M:OpenCLDotNet.Programs.CLKernelArg.#ctor(System.String,System.String,System.String,System.String,System.Object)">
             <summary>
             
             </summary>
             <param name="name"></param>
             <param name="argType"></param>
-            <param name="addressQualifier"></param>
+            <param name="address"></param>
+            <param name="access"></param>
             <param name="arg"></param>
         </member>
         <member name="M:OpenCLDotNet.Programs.CLKernelArg.ToString">
@@ -2760,6 +2973,11 @@
         <member name="F:OpenCLDotNet.Programs.CLProgram.OPTION_WARNINGS_AS_ERRORS">
             <summary>
             Make all warnings into errors.
+            </summary>
+        </member>
+        <member name="P:OpenCLDotNet.Programs.CLProgram.DefaultOptions">
+            <summary>
+            
             </summary>
         </member>
         <member name="M:OpenCLDotNet.Programs.CLProgram.#ctor(OpenCLDotNet.Core.CLContext,System.String,System.Text.Encoding,System.String)">

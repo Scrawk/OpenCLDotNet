@@ -1,10 +1,45 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Numerics;
 
 namespace OpenCLDotNet.Core
 {
     public partial class CL
     {
+
+        /// <summary>
+        /// Get all the enums values, sort and return in a list.
+        /// TODO - must be better way of doing this.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="sort"></param>
+        /// <returns></returns>
+        public static List<T> GetValues<T>(bool sort = true) where T : Enum
+        {
+            var names = Enum.GetNames(typeof(T));
+            Array.Sort(names);
+
+            var list = new List<T>(names.Length);  
+            foreach(var name in names)
+            {
+                T e = (T)Enum.Parse(typeof(T), name);
+                list.Add(e);
+            }
+
+            return list;
+        }
+
+        private class EnumComparer : IComparable
+        {
+            public int CompareTo(object? obj)
+            {
+                string this_name = this.ToString();
+                string othery_name = obj.ToString();
+
+                return this_name.CompareTo(othery_name);
+            }
+        }
 
         public static uint GetNumChannels(CL_CHANNEL_ORDER order)
         {
@@ -127,7 +162,7 @@ namespace OpenCLDotNet.Core
             return 0;
         }
 
-        public static uint SizeOf(CL_MEM_DATA_TYPE type)
+        public unsafe static uint SizeOf(CL_MEM_DATA_TYPE type)
         {
             switch (type)
             {
@@ -142,9 +177,17 @@ namespace OpenCLDotNet.Core
                 case CL_MEM_DATA_TYPE.INT:
                     return sizeof(int);
                 case CL_MEM_DATA_TYPE.UINT:
+                    return sizeof(long);
+                case CL_MEM_DATA_TYPE.LONG:
+                    return sizeof(ulong);
+                case CL_MEM_DATA_TYPE.ULONG:
                     return sizeof(uint);
+                case CL_MEM_DATA_TYPE.HALF:
+                    return (uint)sizeof(Half);
                 case CL_MEM_DATA_TYPE.FLOAT:
                     return sizeof(float);
+                case CL_MEM_DATA_TYPE.DOUBLE:
+                    return sizeof(double);
             }
 
             return 0;
@@ -152,8 +195,16 @@ namespace OpenCLDotNet.Core
 
         public static CL_MEM_DATA_TYPE TypeOf(Array array)
         {
+            if (array is double[])
+                return CL_MEM_DATA_TYPE.DOUBLE;
             if (array is float[])
                 return CL_MEM_DATA_TYPE.FLOAT;
+            if (array is Half[])
+                return CL_MEM_DATA_TYPE.HALF;
+            if (array is long[])
+                return CL_MEM_DATA_TYPE.LONG;
+            if (array is ulong[])
+                return CL_MEM_DATA_TYPE.ULONG;
             if (array is int[])
                 return CL_MEM_DATA_TYPE.INT;
             if (array is uint[])

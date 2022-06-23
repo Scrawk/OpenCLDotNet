@@ -111,7 +111,7 @@ namespace OpenCLDotNet.Events
             if (!IsValid)
                 return;
 
-            var values = Enum.GetValues<CL_COMMAND_QUEUE_INFO>();
+            var values = CL.GetValues<CL_COMMAND_QUEUE_INFO>();
 
             builder.AppendLine();
             foreach (var e in values)

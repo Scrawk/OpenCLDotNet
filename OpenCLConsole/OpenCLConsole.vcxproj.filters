@@ -9,10 +9,38 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="OpenCL_Programming_Guide">
+      <UniqueIdentifier>{5eb63c51-e100-4bd2-8c76-325a0d7c2ee1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="OpenCL_Programming_Guide\Chapter_2">
+      <UniqueIdentifier>{e923a8f0-107d-430a-9ca4-6eb1c792441e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="OpenCL_Programming_Guide\Chapter_3">
+      <UniqueIdentifier>{5430a776-125a-434a-9344-4584e648dfba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="OpenCL_Programming_Guide\Chapter_8">
+      <UniqueIdentifier>{4b167b86-59c4-46c5-a5bf-042597a8dcdc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="OpenCLConsole.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="OpenCL_Programming_Guide\Chapter_2\HelloWorld.cl">
+      <Filter>OpenCL_Programming_Guide\Chapter_2</Filter>
+    </None>
+    <None Include="OpenCL_Programming_Guide\Chapter_8\ImageFilter2D.cl">
+      <Filter>OpenCL_Programming_Guide\Chapter_8</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="OpenCL_Programming_Guide\Chapter_2\HelloWorld.h">
+      <Filter>OpenCL_Programming_Guide\Chapter_2</Filter>
+    </ClInclude>
+    <ClInclude Include="OpenCL_Programming_Guide\Chapter_3\Convolution.h">
+      <Filter>OpenCL_Programming_Guide\Chapter_3</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

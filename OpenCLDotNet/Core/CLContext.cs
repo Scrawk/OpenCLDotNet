@@ -114,7 +114,7 @@ namespace OpenCLDotNet.Core
                 return;
 
             builder.AppendLine();
-            var values = Enum.GetValues<CL_CONTEXT_INFO>();
+            var values = CL.GetValues<CL_CONTEXT_INFO>();
 
             foreach (var e in values)
             {

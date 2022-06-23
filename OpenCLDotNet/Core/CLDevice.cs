@@ -21,7 +21,6 @@ namespace OpenCLDotNet.Core
             Id = id;
             Platform = platform;
             GetInfo();
-            GetExtensions();
         }
 
         /// <summary>
@@ -58,6 +57,11 @@ namespace OpenCLDotNet.Core
         /// 
         /// </summary>
         public bool SupportsImages { get; private set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public bool SupportsFP64 { get; private set; }
 
         /// <summary>
         /// 
@@ -107,6 +111,7 @@ namespace OpenCLDotNet.Core
             builder.AppendLine("Profile: " + Profile);
             builder.AppendLine("Type: " + Type);
             builder.AppendLine("SupportsImages: " + SupportsImages);
+            builder.AppendLine("SupportsFP64: " + SupportsFP64);
             builder.AppendLine("Extensions: ");
 
             GetExtensions();
@@ -115,7 +120,7 @@ namespace OpenCLDotNet.Core
 
             builder.AppendLine("");
 
-            var values = Enum.GetValues<CL_DEVICE_INFO>();
+            var values = CL.GetValues<CL_DEVICE_INFO>();
 
             foreach (var e in values)
             {
@@ -278,11 +283,14 @@ namespace OpenCLDotNet.Core
         /// </summary>
         private void GetInfo()
         {
+            GetExtensions();
+
             Vendor = GetInfoString(CL_DEVICE_INFO.VENDOR);
             Name = GetInfoString(CL_DEVICE_INFO.NAME);
             Version = GetInfoString(CL_DEVICE_INFO.VERSION);
             Profile = GetInfoString(CL_DEVICE_INFO.PROFILE);
             SupportsImages = GetInfoBool(CL_DEVICE_INFO.IMAGE_SUPPORT);
+            SupportsFP64 = HasExtension("cl_khr_fp64");
 
             var type = GetInfoUInt64(CL_DEVICE_INFO.TYPE);
             Type = (CL_DEVICE_TYPE)type;
@@ -299,6 +307,7 @@ namespace OpenCLDotNet.Core
             string info = GetInfoString(CL_DEVICE_INFO.EXTENSIONS);
       
             Extensions = new List<string>(info.Split(' '));
+            Extensions.Sort();  
         }
 
         /// <summary>

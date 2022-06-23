@@ -38,7 +38,7 @@ namespace OpenCLDotNet.Buffers
         /// <summary>
         /// 
         /// </summary>
-        internal override uint RowPitch => Channels * ElementSize * Width;
+        internal override uint RowPitch => Channels * DataSize * Width;
 
         /// <summary>
         /// 
@@ -97,7 +97,7 @@ namespace OpenCLDotNet.Buffers
             Flags = CreateFlags(rw);
             MemType = CL_MEM_OBJECT_TYPE.IMAGE2D;
             DataType = data.DataType;
-            ElementSize = CL.SizeOf(DataType);
+            DataSize = CL.SizeOf(DataType);
             Length = source == null ? data.DataLength : (uint)source.Length;
 
             if (!data.IsValidSize())
@@ -132,7 +132,7 @@ namespace OpenCLDotNet.Buffers
             var format = data.CreateImageFormat();
             var desc = data.CreateImageDescription();
 
-            Id = CL.CreateImage(context.Id, Flags, format, desc, DataType, source, out error);
+            Id = CL.CreateImage(context.Id, Flags, format, desc, ByteSize, source, out error);
             if (error != CL_ERROR.SUCCESS)
             {
                 Error = error.ToString();

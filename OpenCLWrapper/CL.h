@@ -8,6 +8,11 @@
 #define CL_TARGET_OPENCL_VERSION 220
 //#define CL_TARGET_OPENCL_VERSION 300
 
+#pragma OPENCL EXTENSION cl_khr_fp16 : enable
+#pragma OPENCL EXTENSION cl_khr_fp64 : enable
+#pragma OPENCL EXTENSION cles_khr_int64 : enable
+#pragma OPENCL EXTENSION cl_khr_3d_image_writes : enable
+
 #include "OpenCLWrapper.h"
 #include <CL/cl.h>
 

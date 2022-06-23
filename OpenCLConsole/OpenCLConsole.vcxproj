@@ -145,6 +145,14 @@
   <ItemGroup>
     <ClCompile Include="OpenCLConsole.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="OpenCL_Programming_Guide\Chapter_2\HelloWorld.cl" />
+    <None Include="OpenCL_Programming_Guide\Chapter_8\ImageFilter2D.cl" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="OpenCL_Programming_Guide\Chapter_2\HelloWorld.h" />
+    <ClInclude Include="OpenCL_Programming_Guide\Chapter_3\Convolution.h" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

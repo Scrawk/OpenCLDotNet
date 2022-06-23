@@ -8,14 +8,10 @@
 //#define CL_TARGET_OPENCL_VERSION 220
 //#define CL_TARGET_OPENCL_VERSION 300
 
-//#include "Books/OpenCL_Programming_Guide/HelloWorld.h"
-//#include "Books/OpenCL_Programming_Guide/OpenCLInfo.h"
-//#include "Books/OpenCL_Programming_Guide/Convolution.h"
+
+#include "OpenCL_Programming_Guide/Chapter_3/Convolution.h"
 
 int main()
 {
-
-	//OpenCL_Programming_Guide::HelloWorld();
-	//OpenCL_Programming_Guide::OpenCLInfo();
-	//OpenCL_Programming_Guide::Convolution();
+	OpenCL_Programming_Guide::Chapter_3::Convolution();
 }

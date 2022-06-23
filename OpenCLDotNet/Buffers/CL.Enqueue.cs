@@ -10,38 +10,171 @@ using OpenCLDotNet.Events;
 
 namespace OpenCLDotNet.Core
 {
-    /*
-            switch (type)
-            {
-                case CL_MEM_DATA_TYPE.FLOAT:
-                    var f_data = data as float[];
-
-                case CL_MEM_DATA_TYPE.INT:
-                    var i_data = data as int[];
-
-                case CL_MEM_DATA_TYPE.UINT:
-                    var ui_data = data as uint[];
-
-                case CL_MEM_DATA_TYPE.SHORT:
-                    var s_data = data as short[];
-
-                case CL_MEM_DATA_TYPE.USHORT:
-                    var us_data = data as ushort[];
-
-                case CL_MEM_DATA_TYPE.BYTE:
-                    var b_data = data as byte[];
-
-                case CL_MEM_DATA_TYPE.SBYTE:
-                    var sb_data = data as sbyte[];
-
-                default:
-                    _event = new cl_event();
-                    return CL_ERROR.INVALID_DATA_TYPE;
-            }
-    */
-
     public static partial class CL
     {
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="command"></param>
+        /// <param name="buffer"></param>
+        /// <param name="blocking_read"></param>
+        /// <param name="offset"></param>
+        /// <param name="byte_size"></param>
+        /// <param name="data"></param>
+        /// <param name="type"></param>
+        /// <param name="wait_list_size"></param>
+        /// <param name="wait_list"></param>
+        /// <param name="_event"></param>
+        /// <returns></returns>
+        public static CL_ERROR EnqueueReadBuffer(
+            cl_command_queue command,
+            cl_mem buffer,
+            bool blocking_read,
+            uint offset,
+            uint byte_size,
+            Array data,
+            CL_MEM_DATA_TYPE type,
+            uint wait_list_size,
+            cl_event[] wait_list,
+            out cl_event _event)
+        {
+            byte[] bytes = null;
+            if (data != null)
+            {
+                bytes = new byte[byte_size];
+            }
+
+            var error = CL_EnqueueReadBuffer(command, buffer, blocking_read, offset, byte_size,
+                bytes, wait_list_size, wait_list, out _event);
+
+            if (data != null)
+            {
+                Buffer.BlockCopy(bytes, 0, data, 0, bytes.Length);
+            }
+
+            return error;
+
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="command"></param>
+        /// <param name="buffer"></param>
+        /// <param name="blocking_write"></param>
+        /// <param name="offset"></param>
+        /// <param name="byte_size"></param>
+        /// <param name="data"></param>
+        /// <param name="type"></param>
+        /// <param name="wait_list_size"></param>
+        /// <param name="wait_list"></param>
+        /// <param name="_event"></param>
+        /// <returns></returns>
+        public static CL_ERROR EnqueueWriteBuffer(
+            cl_command_queue command,
+            cl_mem buffer,
+            bool blocking_write,
+            uint offset,
+            uint byte_size,
+            Array data,
+            CL_MEM_DATA_TYPE type,
+            uint wait_list_size,
+            cl_event[] wait_list,
+            out cl_event _event)
+        {
+            byte[] bytes = null;
+            if (data != null)
+            {
+                bytes = new byte[byte_size];
+                Buffer.BlockCopy(data, 0, bytes, 0, bytes.Length);
+            }
+
+            return CL_EnqueueWriteBuffer(command, buffer, blocking_write, offset,
+                        byte_size, bytes, wait_list_size, wait_list, out _event);
+
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="command"></param>
+        /// <param name="image"></param>
+        /// <param name="blocking_read"></param>
+        /// <param name="region"></param>
+        /// <param name="data"></param>
+        /// <param name="wait_list_size"></param>
+        /// <param name="wait_list"></param>
+        /// <param name="_event"></param>
+        /// <returns></returns>
+        public static CL_ERROR EnqueueReadImage(
+            cl_command_queue command,
+            CLImage image,
+            bool blocking_read,
+            CLImageRegion region,
+            Array data,
+            uint wait_list_size,
+            cl_event[] wait_list,
+            out cl_event _event)
+        {
+            uint row_pitch = image.RowPitch;
+            uint slice_pitch = 0;
+            var type = image.DataType;
+
+            byte[] bytes = null;
+            if (data != null)
+            {
+                bytes = new byte[image.ByteSize];
+            }
+
+            var error = CL_EnqueueReadImage(command, image.Id, blocking_read, region.Origion, region.Size,
+                row_pitch, slice_pitch, bytes, wait_list_size, wait_list, out _event);
+
+            if (data != null)
+            {
+                Buffer.BlockCopy(bytes, 0, data, 0, bytes.Length);
+            }
+
+            return error;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="command"></param>
+        /// <param name="image"></param>
+        /// <param name="blocking_write"></param>
+        /// <param name="region"></param>
+        /// <param name="data"></param>
+        /// <param name="wait_list_size"></param>
+        /// <param name="wait_list"></param>
+        /// <param name="_event"></param>
+        /// <returns></returns>
+        public static CL_ERROR EnqueueWriteImage(
+            cl_command_queue command,
+            CLImage image,
+            bool blocking_write,
+            CLImageRegion region,
+            Array data,
+            uint wait_list_size,
+            cl_event[] wait_list,
+            out cl_event _event)
+        {
+            uint input_row_pitch = image.RowPitch;
+            uint input_slice_pitch = 0;
+            var type = image.DataType;
+
+            byte[] bytes = null;
+            if (data != null)
+            {
+                bytes = new byte[image.ByteSize];
+                Buffer.BlockCopy(data, 0, bytes, 0, bytes.Length);
+            }
+
+            return CL_EnqueueWriteImage(command, image.Id, blocking_write, region.Origion, region.Size,
+                input_row_pitch, input_slice_pitch, bytes,
+                wait_list_size, wait_list, out _event);
+        }
 
         private static CL_ERROR EnqueueReadBufferRect(
             cl_command_queue command,
@@ -460,7 +593,59 @@ namespace OpenCLDotNet.Core
         //                                 EXTERN FUNCTIONS                                          ///
         ///////////////////////////////////////////////////////////////////////////////////////////////
 
-       
+        [DllImport(DLL_NAME, CallingConvention = CDECL)]
+        private static extern CL_ERROR CL_EnqueueReadBuffer(
+            cl_command_queue command,
+            cl_mem buffer,
+            cl_bool blocking_read,
+            size_t offset,
+            size_t size,
+            [Out] byte[] ptr,
+            cl_uint wait_list_size,
+            [Out] cl_event[] wait_list,
+            [Out] out cl_event _event);
+
+        [DllImport(DLL_NAME, CallingConvention = CDECL)]
+        private static extern CL_ERROR CL_EnqueueWriteBuffer(
+            cl_command_queue command,
+            cl_mem buffer,
+            cl_bool blocking_write,
+            size_t offset,
+            size_t size,
+            byte[] data,
+            cl_uint wait_list_size,
+            [Out] cl_event[] wait_list,
+            [Out] out cl_event _event);
+
+        [DllImport(DLL_NAME, CallingConvention = CDECL)]
+        private static extern CL_ERROR CL_EnqueueReadImage(
+            cl_command_queue command,
+            cl_mem image,
+            cl_bool blocking_read,
+            CLPoint3t origin,
+            CLPoint3t region,
+            size_t input_row_pitch,
+            size_t input_slice_pitch,
+            byte[] data,
+            uint wait_list_size,
+            [Out] cl_event[] wait_list,
+            [Out] out cl_event _event);
+
+        [DllImport(DLL_NAME, CallingConvention = CDECL)]
+        private static extern CL_ERROR CL_EnqueueWriteImage(
+            cl_command_queue command,
+            cl_mem image,
+            cl_bool blocking_write,
+            CLPoint3t origin,
+            CLPoint3t region,
+            size_t input_row_pitch,
+            size_t input_slice_pitch,
+            byte[] data,
+            cl_uint wait_list_size,
+            [Out] cl_event[] wait_list,
+            [Out] out cl_event _event);
+
+
         [DllImport(DLL_NAME, CallingConvention = CDECL)]
         private static extern CL_ERROR CL_EnqueueReadBufferRect(
             cl_command_queue command,

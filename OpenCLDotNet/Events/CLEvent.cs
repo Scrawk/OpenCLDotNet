@@ -69,7 +69,7 @@ namespace OpenCLDotNet.Events
             builder.AppendLine("Event Info:");
             builder.AppendLine();
 
-            var event_values = Enum.GetValues<CL_EVENT_INFO>();
+            var event_values = CL.GetValues<CL_EVENT_INFO>();
 
             foreach (var e in event_values)
             {
@@ -80,7 +80,7 @@ namespace OpenCLDotNet.Events
             builder.AppendLine("Event Profiling Info:");
             builder.AppendLine();
 
-            var profiling_values = Enum.GetValues<CL_PROFILING_INFO>();
+            var profiling_values = CL.GetValues<CL_PROFILING_INFO>();
 
             foreach (var e in profiling_values)
             {

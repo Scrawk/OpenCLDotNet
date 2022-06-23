@@ -171,7 +171,7 @@ namespace OpenCLDotNet.Core
             for (int i = 0; i < Extensions.Count; i++)
                 builder.AppendLine(Extensions[i]);
 
-            var values = Enum.GetValues<CL_PLATFORM_INFO>();
+            var values = CL.GetValues<CL_PLATFORM_INFO>();
 
             foreach (var e in values)
             {

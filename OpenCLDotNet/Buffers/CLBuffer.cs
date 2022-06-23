@@ -95,10 +95,10 @@ namespace OpenCLDotNet.Buffers
             MemType = CL_MEM_OBJECT_TYPE.BUFFER;
             Length = length;
             DataType = type;
-            ElementSize = CL.SizeOf(type);
+            DataSize = CL.SizeOf(type);
            
             CL_ERROR error;
-            Id = CL.CreateBuffer(context.Id, Flags, ByteSize, null, DataType, out error);
+            Id = CL.CreateBuffer(context.Id, Flags, ByteSize, null, out error);
             if (error != CL_ERROR.SUCCESS)
             {
                 Error = error.ToString();
@@ -126,11 +126,11 @@ namespace OpenCLDotNet.Buffers
             Flags = CreateFlags(rw);
             MemType = CL_MEM_OBJECT_TYPE.BUFFER;
             DataType = CL.TypeOf(data);
-            ElementSize = CL.SizeOf(DataType);
+            DataSize = CL.SizeOf(DataType);
             Length = (uint)data.Length;
             CL_ERROR error = CL_ERROR.NONE;
 
-            Id = CL.CreateBuffer(context.Id, Flags, ByteSize, data, DataType, out error);
+            Id = CL.CreateBuffer(context.Id, Flags, ByteSize, data, out error);
             if (error != CL_ERROR.SUCCESS)
             {
                 Error = error.ToString();

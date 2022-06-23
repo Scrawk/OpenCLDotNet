@@ -92,10 +92,11 @@ namespace OpenCLDotNet.Programs
                 if (hasArgInfo)
                 {
                     string name = GetInfo(CL_KERNEL_ARG_INFO.NAME, i);
-                    string access = GetInfo(CL_KERNEL_ARG_INFO.ADDRESS_QUALIFIER, i);
+                    string address = GetInfo(CL_KERNEL_ARG_INFO.ADDRESS_QUALIFIER, i);
+                    string access = GetInfo(CL_KERNEL_ARG_INFO.ACCESS_QUALIFIER, i);
 
                     arg.Name = name;
-                    arg.AddressQualifier = access;
+                    arg.AddressQualifier = address;
                 }
                 
                 Arguments.Add(arg);
@@ -271,7 +272,7 @@ namespace OpenCLDotNet.Programs
 
             builder.AppendLine("");
 
-            var kernel_values = Enum.GetValues<CL_KERNEL_INFO>();
+            var kernel_values = CL.GetValues<CL_KERNEL_INFO>();
 
             foreach (var e in kernel_values)
             {
@@ -284,7 +285,7 @@ namespace OpenCLDotNet.Programs
             builder.AppendLine("");
             builder.AppendLine("Kernel work group info:");
 
-            var work_values = Enum.GetValues<CL_KERNEL_WORK_GROUP_INFO>();
+            var work_values = CL.GetValues<CL_KERNEL_WORK_GROUP_INFO>();
             var devices = Program.Context.GetDeviceIds();
 
             foreach(var device in devices)
@@ -304,7 +305,7 @@ namespace OpenCLDotNet.Programs
             builder.AppendLine("");
             builder.AppendLine("Kernel arg info:");
 
-            var arg_values = Enum.GetValues<CL_KERNEL_ARG_INFO>();
+            var arg_values = CL.GetValues<CL_KERNEL_ARG_INFO>();
 
             for(uint i = 0; i < NumArguments; i++)
             {
