@@ -50,6 +50,20 @@ namespace OpenCLDotNet.Buffers
         /// <summary>
         /// 
         /// </summary>
+        public uint SourceLength
+        {
+            get
+            {
+                if (Source != null)
+                    return (uint)Source.Length;
+                else
+                    return DataLength;
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
         public Array Source;
 
         /// <summary>
@@ -58,10 +72,8 @@ namespace OpenCLDotNet.Buffers
         /// <returns></returns>
         public override string ToString()
         {
-            string length = Source == null ? DataLength.ToString() : Source.Length.ToString();
-
             return String.Format("[CLImageParameters2D: Width={0}, Height={1}, ChannelOrder={2}, ChannelType={3}, DataType={4}, Length={5}]",
-                Width, Height, ChannelOrder, ChannelType, DataType, length);
+                Width, Height, ChannelOrder, ChannelType, DataType, SourceLength);
         }
 
         /// <summary>
@@ -85,10 +97,7 @@ namespace OpenCLDotNet.Buffers
         /// <returns></returns>
         public bool IsValidSize()
         {
-            if (Source != null)
-                return Width * Height * Channels  == Source.Length;
-            else
-                return Width * Height * Channels == DataLength;
+            return Width * Height * Channels  == SourceLength;
         }
 
         /// <summary>

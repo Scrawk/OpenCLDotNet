@@ -152,6 +152,7 @@
   <ItemGroup>
     <ClInclude Include="OpenCL_Programming_Guide\Chapter_2\HelloWorld.h" />
     <ClInclude Include="OpenCL_Programming_Guide\Chapter_3\Convolution.h" />
+    <ClInclude Include="OpenCL_Programming_Guide\Chapter_8\ImageFilter2D.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -42,5 +42,8 @@
     <ClInclude Include="OpenCL_Programming_Guide\Chapter_3\Convolution.h">
       <Filter>OpenCL_Programming_Guide\Chapter_3</Filter>
     </ClInclude>
+    <ClInclude Include="OpenCL_Programming_Guide\Chapter_8\ImageFilter2D.h">
+      <Filter>OpenCL_Programming_Guide\Chapter_8</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

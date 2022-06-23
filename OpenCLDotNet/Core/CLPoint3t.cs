@@ -8,10 +8,22 @@ namespace OpenCLDotNet.Core
     /// </summary>
     public record struct CLPoint3t
     {
+
         /// <summary>
         /// 
         /// </summary>
         public size_t x, y, z;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="v"></param>
+        public CLPoint3t(uint v)
+        {
+            this.x = v;
+            this.y = v;
+            this.z = v;
+        }
 
         /// <summary>
         /// 

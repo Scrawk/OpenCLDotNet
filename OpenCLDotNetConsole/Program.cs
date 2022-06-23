@@ -70,14 +70,14 @@ namespace OpenCLDotNetConsole
 
 			var options = CLProgram.DefaultOptions;
 
-			var program = new CLProgram(context, program_text1, options);
+			var program = new CLProgram(context, program_text2, options);
 			//program.Print();
 
-			//var buffer = CLBuffer.CreateReadBuffer(context, new long[100]);
-			//buffer.Print();
+			uint WIDTH = 100;
+			uint HEIGHT = 100;
+			uint ARRAY_SIZE = WIDTH * HEIGHT;
 
-			uint ARRAY_SIZE = 100;
-
+			/*
 			var data0 = new float[ARRAY_SIZE];
 			var data1 = new float[ARRAY_SIZE];
 			var data2 = new float[ARRAY_SIZE];
@@ -87,53 +87,43 @@ namespace OpenCLDotNetConsole
 				data0[i] = i;
 				data1[i] = i;
 			}
+			*/
 
 			var image_params = new CLImageParameters2D();
-			image_params.Width = 10;
-			image_params.Height = 10;
+			image_params.Width = WIDTH;
+			image_params.Height = HEIGHT;
 			image_params.ChannelOrder = CL_CHANNEL_ORDER.R;
 			image_params.ChannelType = CL_CHANNEL_TYPE.FLOAT;
 			image_params.DataType = CL_MEM_DATA_TYPE.FLOAT;
 			image_params.DataLength = ARRAY_SIZE;
-			image_params.Source = new float[100];
+			image_params.Source = new float[ARRAY_SIZE];
 
 			var image = CLImage2D.CreateReadImage2D(context, image_params);
 			image.Print();
 
-			program.CreateReadBuffer("Kernel1", 0, data0);
-			program.CreateReadBuffer("Kernel1", 1, data1);
-			program.CreateWriteBuffer("Kernel1", 2, CL_MEM_DATA_TYPE.FLOAT, ARRAY_SIZE);
+			//program.CreateReadBuffer("Kernel1", 0, data0);
+			//program.CreateReadBuffer("Kernel1", 1, data1);
+			//program.CreateWriteBuffer("Kernel1", 2, CL_MEM_DATA_TYPE.FLOAT, ARRAY_SIZE);
 
-			//program.Print();
+			program.CreateReadImage2D("gaussian_filter", 0, image_params);
+			program.CreateWriteImage2D("gaussian_filter", 1, image_params);
+			program.CreateSampler("gaussian_filter", 2);
+			program.SetInt("gaussian_filter", (int)WIDTH, 3);
+			program.SetInt("gaussian_filter", (int)HEIGHT, 4);
 
-			program.Run("Kernel1", 0, 100);
+			program.Print();
+
+			var offset = new CLPoint3t(0);
+			var size = new CLPoint3t(WIDTH, HEIGHT);
+
+			program.Run("gaussian_filter", offset, size);
 			Console.WriteLine("Program error " + program.Error);
 
-			var result = new float[ARRAY_SIZE];
-			program.ReadBuffer("Kernel1", true, 2, result);
+			//var result = new float[ARRAY_SIZE];
+			//program.ReadBuffer("Kernel1", true, 2, result);
 
-			for (int i = 0; i < result.Length; i++)
-				Console.WriteLine(result[i]);
-
-			//var region = new CLBufferRegion(0, 10);
-			//var sub_buffer = new CLSubBuffer(buffer, region);
-			//sub_buffer.Print();
-
-			/*
-			var sampler_props = new CLSamplerProperties();
-			sampler_props.NormalizedCoords = false;
-			sampler_props.AddressingMode = CL_SAMPLER_ADDRESSING_MODE.REPEAT;
-			sampler_props.FilterMode = CL_SAMPLER_FILTER_MODE.NEAREST;
-
-			var sampler = new CLSampler(context, sampler_props);
-			sampler.Print();
-			*/
-
-			//var cmd = new CLCommandQueue(context);
-			//cmd.Print();
-
-			//var _event = new CLEvent(context);
-			//_event.Print();
+			//for (int i = 0; i < result.Length; i++)
+			//	Console.WriteLine(result[i]);
 
 		}
 

@@ -179,7 +179,7 @@ namespace OpenCLDotNet.Programs
         /// <param name="index"></param>
         /// <exception cref="NullReferenceException"></exception>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
-        public void SetImage2D(CLImage2D arg, uint index)
+        public void SetImage(CLImage arg, uint index)
         {
             if (arg == null)
                 throw new NullReferenceException("Image is null.");

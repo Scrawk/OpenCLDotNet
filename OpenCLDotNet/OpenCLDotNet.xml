@@ -1617,6 +1617,12 @@
             
             </summary>
         </member>
+        <member name="M:OpenCLDotNet.Core.CLPoint3t.#ctor(System.UInt32)">
+            <summary>
+            
+            </summary>
+            <param name="v"></param>
+        </member>
         <member name="M:OpenCLDotNet.Core.CLPoint3t.#ctor(System.UInt32,System.UInt32)">
             <summary>
             
@@ -2034,6 +2040,11 @@
             </summary>
         </member>
         <member name="F:OpenCLDotNet.Buffers.CLImageParameters2D.DataLength">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:OpenCLDotNet.Buffers.CLImageParameters2D.SourceLength">
             <summary>
             
             </summary>
@@ -2715,7 +2726,7 @@
             <param name="index"></param>
             <exception cref="T:System.NullReferenceException"></exception>
         </member>
-        <member name="M:OpenCLDotNet.Programs.CLKernel.SetImage2D(OpenCLDotNet.Buffers.CLImage2D,System.UInt32)">
+        <member name="M:OpenCLDotNet.Programs.CLKernel.SetImage(OpenCLDotNet.Buffers.CLImage,System.UInt32)">
             <summary>
             
             </summary>
@@ -3092,6 +3103,22 @@
             <param name="offset"></param>
             <param name="size"></param>
         </member>
+        <member name="M:OpenCLDotNet.Programs.CLProgram.Run(System.String,OpenCLDotNet.Core.CLPoint3t,OpenCLDotNet.Core.CLPoint3t)">
+            <summary>
+            
+            </summary>
+            <param name="kernel_name"></param>
+            <param name="offset"></param>
+            <param name="size"></param>
+        </member>
+        <member name="M:OpenCLDotNet.Programs.CLProgram.RoundUp(OpenCLDotNet.Core.size_t,OpenCLDotNet.Core.size_t)">
+            <summary>
+            
+            </summary>
+            <param name="groupSize"></param>
+            <param name="globalSize"></param>
+            <returns></returns>
+        </member>
         <member name="M:OpenCLDotNet.Programs.CLProgram.CreateCommand">
             <summary>
             
@@ -3161,6 +3188,25 @@
             <param name="param"></param>
             <exception cref="T:System.NullReferenceException"></exception>
         </member>
+        <member name="M:OpenCLDotNet.Programs.CLProgram.CreateSampler(System.String,System.UInt32,OpenCLDotNet.Core.CL_SAMPLER_ADDRESSING_MODE,OpenCLDotNet.Core.CL_SAMPLER_FILTER_MODE)">
+            <summary>
+            
+            </summary>
+            <param name="kernel_name"></param>
+            <param name="index"></param>
+            <param name="mode"></param>
+            <param name="filter"></param>
+            <exception cref="T:System.NullReferenceException"></exception>
+        </member>
+        <member name="M:OpenCLDotNet.Programs.CLProgram.CreateSampler(System.String,System.UInt32,OpenCLDotNet.Buffers.CLSamplerProperties)">
+            <summary>
+            
+            </summary>
+            <param name="kernel_name"></param>
+            <param name="index"></param>
+            <param name="properties"></param>
+            <exception cref="T:System.NullReferenceException"></exception>
+        </member>
         <member name="M:OpenCLDotNet.Programs.CLProgram.SetBuffer(System.String,OpenCLDotNet.Buffers.CLBuffer,System.UInt32)">
             <summary>
             
@@ -3169,6 +3215,24 @@
             <param name="buffer"></param>
             <param name="index"></param>
             <returns></returns>
+            <exception cref="T:System.NullReferenceException"></exception>
+        </member>
+        <member name="M:OpenCLDotNet.Programs.CLProgram.SetImage(System.String,OpenCLDotNet.Buffers.CLImage,System.UInt32)">
+            <summary>
+            
+            </summary>
+            <param name="kernel_name"></param>
+            <param name="image"></param>
+            <param name="index"></param>
+            <exception cref="T:System.NullReferenceException"></exception>
+        </member>
+        <member name="M:OpenCLDotNet.Programs.CLProgram.SetSampler(System.String,OpenCLDotNet.Buffers.CLSampler,System.UInt32)">
+            <summary>
+            
+            </summary>
+            <param name="kernel_name"></param>
+            <param name="sampler"></param>
+            <param name="index"></param>
             <exception cref="T:System.NullReferenceException"></exception>
         </member>
         <member name="M:OpenCLDotNet.Programs.CLProgram.SetInt(System.String,System.Int32,System.UInt32)">
