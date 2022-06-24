@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 
-using OpenCLDotNet.Core;
-
-namespace OpenCLDotNet.Buffers
+namespace OpenCLDotNet.Core
 {
     /// <summary>
     /// 
     /// </summary>
-    public record struct CLBufferRegion
+    public record struct CLRegion1t
     {
         /// <summary>
         /// 
@@ -25,7 +23,7 @@ namespace OpenCLDotNet.Buffers
         /// </summary>
         /// <param name="origion"></param>
         /// <param name="size"></param>
-        public CLBufferRegion(size_t origion, size_t size)
+        public CLRegion1t(size_t origion, size_t size)
         {
             Origion = origion;
             Size = size;
@@ -37,7 +35,7 @@ namespace OpenCLDotNet.Buffers
         /// <returns></returns>
         public override string ToString()
         {
-            return String.Format("[CLBufferRegion: Origin={0}, Size={1}]",
+            return String.Format("[CLRegion1t: Origin={0}, Size={1}]",
                 Origion, Size);
         }
 

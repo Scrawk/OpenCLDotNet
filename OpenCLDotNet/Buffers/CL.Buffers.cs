@@ -63,7 +63,7 @@ namespace OpenCLDotNet.Core
         public static cl_mem CreateSubBuffer(
             cl_mem buffer,
             CL_MEM_FLAGS flags,
-            CLBufferRegion region,
+            CLRegion1t region,
             out CL_ERROR error)
         {
             var type = CL_BUFFER_CREATION_TYPE.REGION;
@@ -182,7 +182,7 @@ namespace OpenCLDotNet.Core
             cl_mem buffer,
             CL_MEM_FLAGS flags,
             CL_BUFFER_CREATION_TYPE buffer_create_type,
-            CLBufferRegion region,
+            CLRegion1t region,
             [Out] out CL_ERROR error);
 
         [DllImport(DLL_NAME, CallingConvention = CDECL)]

@@ -690,11 +690,11 @@ namespace OpenCLDotNet.Programs
         /// <param name="kernel_name"></param>
         /// <param name="blocking"></param>
         /// <param name="index"></param>
-        /// <param name="result"></param>
+        /// <param name="dst"></param>
         /// <exception cref="NullReferenceException"></exception>
         /// <exception cref="InvalidOperationException"></exception>
         /// <exception cref="InvalidCastException"></exception>
-        public void ReadBuffer(string kernel_name, bool blocking, uint index, Array result)
+        public void ReadBuffer(string kernel_name, bool blocking, uint index, Array dst)
         {
             var kernel = FindKernel(kernel_name);
             if (kernel == null)
@@ -709,7 +709,91 @@ namespace OpenCLDotNet.Programs
             if (buffer == null)
                 throw new InvalidCastException("Kernel ag");
 
-            buffer.ReadBuffer(Command, result, blocking);
+            buffer.Read(Command, 0, dst, blocking);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="kernel_name"></param>
+        /// <param name="blocking"></param>
+        /// <param name="index"></param>
+        /// <param name="src"></param>
+        /// <exception cref="NullReferenceException"></exception>
+        /// <exception cref="InvalidOperationException"></exception>
+        /// <exception cref="InvalidCastException"></exception>
+        public void WriteBuffer(string kernel_name, bool blocking, uint index, Array src)
+        {
+            var kernel = FindKernel(kernel_name);
+            if (kernel == null)
+                throw new NullReferenceException($"Kernel named {kernel_name} not found.");
+
+            if (!kernel.AllArgumentSet())
+                throw new InvalidOperationException("Not all kernel arguments are set.");
+
+            var arg = kernel.GetArgument(index);
+            var buffer = arg.Arg as CLBuffer;
+
+            if (buffer == null)
+                throw new InvalidCastException("Kernel ag");
+
+            buffer.Write(Command, 0, src, blocking);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="kernel_name"></param>
+        /// <param name="blocking"></param>
+        /// <param name="index"></param>
+        /// <param name="dst"></param>
+        /// <exception cref="NullReferenceException"></exception>
+        /// <exception cref="InvalidOperationException"></exception>
+        /// <exception cref="InvalidCastException"></exception>
+        public void ReadImage(string kernel_name, bool blocking, uint index, Array dst)
+        {
+            var kernel = FindKernel(kernel_name);
+            if (kernel == null)
+                throw new NullReferenceException($"Kernel named {kernel_name} not found.");
+
+            if (!kernel.AllArgumentSet())
+                throw new InvalidOperationException("Not all kernel arguments are set.");
+
+            var arg = kernel.GetArgument(index);
+            var image = arg.Arg as CLImage;
+
+            if (image == null)
+                throw new InvalidCastException("Kernel ag");
+
+            image.Read(Command, image.Region, dst, blocking);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="kernel_name"></param>
+        /// <param name="blocking"></param>
+        /// <param name="index"></param>
+        /// <param name="src"></param>
+        /// <exception cref="NullReferenceException"></exception>
+        /// <exception cref="InvalidOperationException"></exception>
+        /// <exception cref="InvalidCastException"></exception>
+        public void WriteImage(string kernel_name, bool blocking, uint index, Array src)
+        {
+            var kernel = FindKernel(kernel_name);
+            if (kernel == null)
+                throw new NullReferenceException($"Kernel named {kernel_name} not found.");
+
+            if (!kernel.AllArgumentSet())
+                throw new InvalidOperationException("Not all kernel arguments are set.");
+
+            var arg = kernel.GetArgument(index);
+            var image = arg.Arg as CLImage;
+
+            if (image == null)
+                throw new InvalidCastException("Kernel ag");
+
+            image.Write(Command, image.Region, src, blocking);
         }
 
         /// <summary>

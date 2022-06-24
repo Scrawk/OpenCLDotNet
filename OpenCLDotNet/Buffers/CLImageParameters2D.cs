@@ -69,6 +69,27 @@ namespace OpenCLDotNet.Buffers
         /// <summary>
         /// 
         /// </summary>
+        public CLImageParameters2D()
+        {
+
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public CLImageParameters2D(CLImage2D image)
+        {
+            Width = image.Width;
+            Height = image.Height;
+            ChannelOrder = image.ChannelOrder;
+            ChannelType = image.ChannelType;
+            DataType = image.DataType;
+            DataLength = image.Length;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
         /// <returns></returns>
         public override string ToString()
         {

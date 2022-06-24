@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 
-using OpenCLDotNet.Core;
-
-namespace OpenCLDotNet.Buffers
+namespace OpenCLDotNet.Core
 {
     /// <summary>
     /// 
     /// </summary>
-    public record struct CLImageRegion
+    public record struct CLRegion3t
     {
         /// <summary>
         /// 
@@ -23,9 +21,14 @@ namespace OpenCLDotNet.Buffers
         /// <summary>
         /// 
         /// </summary>
+        public ulong Length => Size.x + Size.y + Size.z;
+
+        /// <summary>
+        /// 
+        /// </summary>
         /// <param name="origion"></param>
         /// <param name="size"></param>
-        public CLImageRegion(CLPoint3t origion, CLPoint3t size)
+        public CLRegion3t(CLPoint3t origion, CLPoint3t size)
         {
             Origion = origion;
             Size = size;
@@ -38,9 +41,9 @@ namespace OpenCLDotNet.Buffers
         /// <param name="y"></param>
         /// <param name="width"></param>
         /// <param name="height"></param>
-        public CLImageRegion(uint x, uint y, uint width, uint height)
+        public CLRegion3t(uint x, uint y, uint width, uint height)
         {
-            Origion = new CLPoint3t(x, y);
+            Origion = new CLPoint3t(x, y, 0);
             Size =new CLPoint3t(width, height, 1);
         }
 
@@ -53,7 +56,7 @@ namespace OpenCLDotNet.Buffers
         /// <param name="width"></param>
         /// <param name="height"></param>
         /// <param name="depth"></param>
-        public CLImageRegion(uint x, uint y, uint z, uint width, uint height, uint depth)
+        public CLRegion3t(uint x, uint y, uint z, uint width, uint height, uint depth)
         {
             Origion = new CLPoint3t(x, y, z);
             Size = new CLPoint3t(width, height, depth);
@@ -65,7 +68,7 @@ namespace OpenCLDotNet.Buffers
         /// <returns></returns>
         public override string ToString()
         {
-            return String.Format("[CLImageRegion: Origin={0}, Size={1}]",
+            return String.Format("[CLRegion3t: Origin={0}, Size={1}]",
                 Origion, Size);
         }
 

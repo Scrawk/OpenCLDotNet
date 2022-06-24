@@ -77,17 +77,17 @@ namespace OpenCLDotNetConsole
 			uint HEIGHT = 100;
 			uint ARRAY_SIZE = WIDTH * HEIGHT;
 
-			/*
+			
 			var data0 = new float[ARRAY_SIZE];
-			var data1 = new float[ARRAY_SIZE];
-			var data2 = new float[ARRAY_SIZE];
+			//var data1 = new float[ARRAY_SIZE];
+			//var data2 = new float[ARRAY_SIZE];
 
 			for (uint i = 0; i < ARRAY_SIZE; i++)
 			{
 				data0[i] = i;
-				data1[i] = i;
+				//data1[i] = i;
 			}
-			*/
+			
 
 			var image_params = new CLImageParameters2D();
 			image_params.Width = WIDTH;
@@ -96,10 +96,10 @@ namespace OpenCLDotNetConsole
 			image_params.ChannelType = CL_CHANNEL_TYPE.FLOAT;
 			image_params.DataType = CL_MEM_DATA_TYPE.FLOAT;
 			image_params.DataLength = ARRAY_SIZE;
-			image_params.Source = new float[ARRAY_SIZE];
+			image_params.Source = data0;
 
 			var image = CLImage2D.CreateReadImage2D(context, image_params);
-			image.Print();
+			//image.Print();
 
 			//program.CreateReadBuffer("Kernel1", 0, data0);
 			//program.CreateReadBuffer("Kernel1", 1, data1);
@@ -111,19 +111,19 @@ namespace OpenCLDotNetConsole
 			program.SetInt("gaussian_filter", (int)WIDTH, 3);
 			program.SetInt("gaussian_filter", (int)HEIGHT, 4);
 
-			program.Print();
+			//program.Print();
 
 			var offset = new CLPoint3t(0);
-			var size = new CLPoint3t(WIDTH, HEIGHT);
+			var size = new CLPoint3t(WIDTH, HEIGHT, 0);
 
 			program.Run("gaussian_filter", offset, size);
 			Console.WriteLine("Program error " + program.Error);
 
-			//var result = new float[ARRAY_SIZE];
-			//program.ReadBuffer("Kernel1", true, 2, result);
+			var result = new float[ARRAY_SIZE];
+			program.ReadImage("gaussian_filter", true, 1, result);
 
-			//for (int i = 0; i < result.Length; i++)
-			//	Console.WriteLine(result[i]);
+			for (int i = 0; i < 100; i++)
+				Console.WriteLine(result[i]);
 
 		}
 

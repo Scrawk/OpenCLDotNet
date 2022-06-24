@@ -4,6 +4,7 @@ using System.Text;
 
 using OpenCLDotNet.Core;
 using OpenCLDotNet.Utility;
+using OpenCLDotNet.Events;
 
 namespace OpenCLDotNet.Buffers
 {
@@ -40,7 +41,49 @@ namespace OpenCLDotNet.Buffers
         /// <summary>
         /// 
         /// </summary>
-        public CLImageRegion Region { get; protected set; }
+        public CLRegion3t Region { get; protected set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="cmd"></param>
+        /// <param name="region"></param>
+        /// <param name="dst"></param>
+        /// <param name="blocking"></param>
+        /// <exception cref="InvalidObjectExeception"></exception>
+        public void Read(CLCommandQueue cmd, CLRegion3t region, Array dst, bool blocking)
+        {
+            if (!IsValid)
+                throw new InvalidObjectExeception("Image is not valid.");
+
+            CheckCommand(cmd);
+            CheckData(this, dst, region);
+
+            cl_event e;
+            var error = CL.EnqueueReadImage(cmd.Id, this, blocking, region, dst, 0, null, out e);
+            Error = Error.ToString();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="cmd"></param>
+        /// <param name="region"></param>
+        /// <param name="src"></param>
+        /// <param name="blocking"></param>
+        /// <exception cref="InvalidObjectExeception"></exception>
+        public void Write(CLCommandQueue cmd, CLRegion3t region, Array src, bool blocking)
+        {
+            if (!IsValid)
+                throw new InvalidObjectExeception("Image is not valid.");
+
+            CheckCommand(cmd);
+            CheckData(this, src, region);
+
+            cl_event e;
+            var error = CL.EnqueueWriteImage(cmd.Id, this, blocking, region, src, 0, null, out e);
+            Error = Error.ToString();
+        }
 
         /// <summary>
         /// 

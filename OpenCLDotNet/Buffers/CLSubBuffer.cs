@@ -17,7 +17,7 @@ namespace OpenCLDotNet.Buffers
         /// </summary>
         /// <param name="buffer"></param>
         /// <param name="region"></param>
-        public CLSubBuffer(CLBuffer buffer, CLBufferRegion region) 
+        public CLSubBuffer(CLBuffer buffer, CLRegion1t region) 
             : base(buffer.Context)
         {
             CL_MEM_FLAGS flags = 0;
@@ -40,7 +40,7 @@ namespace OpenCLDotNet.Buffers
         /// <summary>
         /// 
         /// </summary>
-        public CLBufferRegion Region { get; private set; }
+        public CLRegion1t Region { get; private set; }
 
         /// <summary>
         /// 
@@ -74,7 +74,7 @@ namespace OpenCLDotNet.Buffers
         /// <param name="buffer"></param>
         /// <param name="region"></param>
         /// <param name="flags"></param>
-        private void Create(CLBuffer buffer, CLBufferRegion region, CL_MEM_FLAGS flags)
+        private void Create(CLBuffer buffer, CLRegion1t region, CL_MEM_FLAGS flags)
         {
             ResetErrorCode();
             Buffer = buffer;

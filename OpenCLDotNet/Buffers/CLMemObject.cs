@@ -4,6 +4,7 @@ using System.Text;
 
 using OpenCLDotNet.Core;
 using OpenCLDotNet.Utility;
+using OpenCLDotNet.Events;
 
 namespace OpenCLDotNet.Buffers
 {
@@ -17,7 +18,7 @@ namespace OpenCLDotNet.Buffers
 
         protected static readonly string ERROR_INVALID_SOURCE_SIZE = "INVALID_SOURCE_SIZE";
 
-        protected static readonly string ERROR_INVALID_CHANNEL_ORDER_TYPE = "CINVALID_CHANNEL_ORDER_TYPE";
+        protected static readonly string ERROR_INVALID_CHANNEL_ORDER_TYPE = "INVALID_CHANNEL_ORDER_TYPE";
 
         protected static readonly string ERROR_INVALID_DATA_TYPE = "INVALID_DATA_TYPE";
 
@@ -276,6 +277,115 @@ namespace OpenCLDotNet.Buffers
         protected override void Release()
         {
             Core.CL.ReleaseMemObject(Id);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="cmd"></param>
+        /// <exception cref="NullReferenceException"></exception>
+        /// <exception cref="InvalidObjectExeception"></exception>
+        protected static void CheckCommand(CLCommandQueue cmd)
+        {
+            if (cmd == null)
+                throw new NullReferenceException("Command is null.");
+
+            if (!cmd.IsValid)
+                throw new InvalidObjectExeception("Buffer is not valid.");
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <param name="data"></param>
+        /// <param name="offset"></param>
+        /// <exception cref="NullReferenceException"></exception>
+        /// <exception cref="InvalidDataSizeExeception"></exception>
+        /// <exception cref="InvalidDataTypeExeception"></exception>
+        protected static void CheckData(CLMemObject obj, Array data, uint offset)
+        {
+            if (data == null)
+                throw new NullReferenceException("Data is null.");
+
+            if ((offset + data.Length) > obj.Length)
+                throw new InvalidDataSizeExeception($"Data offset + length was {offset + data.Length} when offset + length <= {obj.Length} was expected.");
+
+            if (obj.DataType != CL.TypeOf(data))
+                throw new InvalidDataTypeExeception($"Data type is {CL.TypeOf(data)} when type {obj.DataType} was expected."); ;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <param name="offset"></param>
+        /// <param name="size"></param>
+        /// <exception cref="InvalidDataSizeExeception"></exception>
+        protected static void CheckOffset(CLMemObject obj, uint offset, uint size)
+        {
+            if ((offset + size) > obj.Length)
+                throw new InvalidDataSizeExeception($"Offset + size was {offset + size} when offset + size <= {obj.Length} was expected.");
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <param name="region"></param>
+        /// <exception cref="InvalidDataSizeExeception"></exception>
+        protected static void CheckRegion(CLImage2D obj, CLRegion2t region)
+        {
+            if ((region.Origion.x + region.Size.x) > obj.Width)
+                throw new InvalidDataSizeExeception($"Region origin.x + size.x was {region.Origion.x + region.Size.x} when origin.x + size.x <= {obj.Width} was expected.");
+
+            if ((region.Origion.y + region.Size.y) > obj.Height)
+                throw new InvalidDataSizeExeception($"Region origin.y + size.y was {region.Origion.y + region.Size.y} when origin.y + size.y <= {obj.Height} was expected.");
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <param name="region"></param>
+        /// <exception cref="InvalidDataSizeExeception"></exception>
+        protected static void CheckRegion(CLImage2D obj, CLRegion3t region)
+        {
+            if ((region.Origion.x + region.Size.x) > obj.Width)
+                throw new InvalidDataSizeExeception($"Region origin.x + size.x was {region.Origion.x + region.Size.x} when origin.x + size.x <= {obj.Width} was expected.");
+
+            if ((region.Origion.y + region.Size.y) > obj.Height)
+                throw new InvalidDataSizeExeception($"Region origin.y + size.y was {region.Origion.y + region.Size.y} when origin.y + size.y <= {obj.Height} was expected.");
+
+            //if ((region.Origion.z + region.Size.z) > obj.Depth)
+            //    throw new InvalidDataSizeExeception($"Region origin.y + size.y was {region.Origion.z + region.Size.z} when origin.z + size.z <= {obj.Depth} was expected.");
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <param name="data"></param>
+        /// <param name="region"></param>
+        /// <exception cref="NullReferenceException"></exception>
+        /// <exception cref="InvalidDataSizeExeception"></exception>
+        /// <exception cref="InvalidDataTypeExeception"></exception>
+        protected static void CheckData(CLMemObject obj, Array data, CLRegion3t region)
+        {
+            if (data == null)
+                throw new NullReferenceException("Data is null.");
+
+            if ((region.Origion.x + region.Size.x) > (ulong)data.Length)
+                throw new InvalidDataSizeExeception($"Data region.Origion.x + region.Size.x was {region.Origion.x + region.Size.x} when length <= obj.{obj.Length} was expected.");
+
+            if ((region.Origion.y + region.Size.y) > (ulong)data.Length)
+                throw new InvalidDataSizeExeception($"Data region.Origion.y + region.Size.y was {region.Origion.y + region.Size.y} when length <= {obj.Length} was expected.");
+
+            if ((region.Origion.z + region.Size.z) > (ulong)data.Length)
+                throw new InvalidDataSizeExeception($"Data region.Origion.z + region.Size.z was {region.Origion.z + region.Size.z} when length <= {obj.Length} was expected.");
+
+            if (obj.DataType != CL.TypeOf(data))
+                throw new InvalidDataTypeExeception($"Data type is {CL.TypeOf(data)} when type {obj.DataType} was expected."); ;
         }
     }
 }

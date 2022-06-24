@@ -98,7 +98,7 @@ namespace OpenCLDotNet.Core
             cl_command_queue command,
             CLImage image,
             bool blocking_read,
-            CLImageRegion region,
+            CLRegion3t region,
             Array data,
             uint wait_list_size,
             cl_event[] wait_list,
@@ -131,7 +131,7 @@ namespace OpenCLDotNet.Core
             cl_command_queue command,
             CLImage image,
             bool blocking_write,
-            CLImageRegion region,
+            CLRegion3t region,
             Array data,
             uint wait_list_size,
             cl_event[] wait_list,
@@ -303,7 +303,6 @@ namespace OpenCLDotNet.Core
         /// <param name="src_image"></param>
         /// <param name="dst_image"></param>
         /// <param name="src_origin"></param>
-        /// <param name="dst_origin"></param>
         /// <param name="region"></param>
         /// <param name="wait_list_size"></param>
         /// <param name="wait_list"></param>
@@ -314,13 +313,12 @@ namespace OpenCLDotNet.Core
             cl_mem src_image,
             cl_mem dst_image,
             CLPoint3t src_origin,
-            CLPoint3t dst_origin,
-            CLPoint3t region,
+            CLRegion3t region,
             uint wait_list_size,
             cl_event[] wait_list,
             out cl_event _event)
         {
-            return CL_EnqueueCopyImage(command, src_image, dst_image, src_origin, dst_origin, region,
+            return CL_EnqueueCopyImage(command, src_image, dst_image, src_origin, region.Origion, region.Size,
                 wait_list_size, wait_list, out _event);
         }
 

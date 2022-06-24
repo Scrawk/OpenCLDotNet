@@ -122,4 +122,25 @@ namespace OpenCLDotNet.Utility
         {
         }
     }
+
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public class ReadWriteExeception : Exception
+    {
+        public ReadWriteExeception()
+        {
+        }
+
+        public ReadWriteExeception(string message)
+            : base(message)
+        {
+        }
+
+        public ReadWriteExeception(string message, Exception inner)
+            : base(message, inner)
+        {
+        }
+    }
 }
