@@ -51,7 +51,7 @@ namespace OpenCLDotNet.Core
         /// <summary>
         /// 
         /// </summary>
-        public CL_DEVICE_TYPE Type { get; private set; }
+        public CL_DEVICE_TYPE DeviceType { get; private set; }
 
         /// <summary>
         /// 
@@ -66,7 +66,12 @@ namespace OpenCLDotNet.Core
         /// <summary>
         /// 
         /// </summary>
-        public bool IsGPU => Type == CL_DEVICE_TYPE.GPU;
+        public bool IsGPU => DeviceType == CL_DEVICE_TYPE.GPU;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public bool IsCPU => DeviceType == CL_DEVICE_TYPE.CPU;
 
         /// <summary>
         /// 
@@ -80,7 +85,7 @@ namespace OpenCLDotNet.Core
         public override string ToString()
         {
             return String.Format("[CLDevice: Id={0}, PlatformID={1}, Type={2}, Vendor={3}, Error={4}]", 
-                Id, Platform.Id, Type, Vendor, Error);
+                Id, Platform.Id, DeviceType, Vendor, Error);
         }
 
         /// <summary>
@@ -109,7 +114,7 @@ namespace OpenCLDotNet.Core
             builder.AppendLine("Name: " + Name);
             builder.AppendLine("Version: " + Version);
             builder.AppendLine("Profile: " + Profile);
-            builder.AppendLine("Type: " + Type);
+            builder.AppendLine("Type: " + DeviceType);
             builder.AppendLine("SupportsImages: " + SupportsImages);
             builder.AppendLine("SupportsFP64: " + SupportsFP64);
             builder.AppendLine("Extensions: ");
@@ -293,7 +298,7 @@ namespace OpenCLDotNet.Core
             SupportsFP64 = HasExtension("cl_khr_fp64");
 
             var type = GetInfoUInt64(CL_DEVICE_INFO.TYPE);
-            Type = (CL_DEVICE_TYPE)type;
+            DeviceType = (CL_DEVICE_TYPE)type;
         }
 
         /// <summary>

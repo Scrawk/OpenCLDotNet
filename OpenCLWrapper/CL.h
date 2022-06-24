@@ -8,10 +8,27 @@
 #define CL_TARGET_OPENCL_VERSION 220
 //#define CL_TARGET_OPENCL_VERSION 300
 
+/*
+cl_khr_fp64	//Double precision floating - point
+cl_khr_select_fprounding_mode	//Specify rounding mode
+cl_khr_global_int32_base_atomics	//32 - bit global integer base atomic operations
+cl_khr_global_int32_extended_atomics	//32 - bit global integer extended atomic operations
+cl_khr_local_int32_base_atomics	//32 - bit local integer base atomic operations
+cl_khr_local_int32_extended_atomics	//32 - bit local integer extended atomic operations
+cl_khr_int64_base_atomics	//64 - bit integer base atomic operations
+cl_khr_int64_extended_atomics	//64 - bit integer extended atomic operations
+cl_khr_3d_image_writes	//Writes to 3D image objects
+cl_khr_byte_addressable_store	//Allow byte addressible stores
+cl_khr_fp16	//Half precision floating - point
+CL_APPLE_gl_sharing	//MacOS X OpenGL sharing
+CL_KHR_gl_sharing //OpenGL sharing
+*/
+
 #pragma OPENCL EXTENSION cl_khr_fp16 : enable
 #pragma OPENCL EXTENSION cl_khr_fp64 : enable
 #pragma OPENCL EXTENSION cles_khr_int64 : enable
 #pragma OPENCL EXTENSION cl_khr_3d_image_writes : enable
+//#pragma OPENCL EXTENSION cl_amd_printf : enable
 
 #include "OpenCLWrapper.h"
 #include <CL/cl.h>
@@ -141,11 +158,33 @@ extern "C"
         cl_int* binary_status,
         cl_int* errcode_ret);
 
+    CL_WRAPPER_API cl_program CL_CreateProgramWithBuiltInKernels(
+        cl_context context,
+        cl_uint num_devices,
+        const cl_device_id* device_list,
+        const char* kernel_names,
+        cl_int* error);
+
+    CL_WRAPPER_API cl_program CL_CreateProgramWithIL(
+        cl_context context,
+        const void* il,
+        size_t length,
+        cl_int* error);
+
     CL_WRAPPER_API cl_int CL_BuildProgram(
         cl_program program,
         cl_uint num_devices,
         const cl_device_id* device_list,
         const char* options);
+
+    CL_WRAPPER_API cl_int CL_CompileProgram(
+        cl_program program,
+        cl_uint num_devices,
+        const cl_device_id* device_list,
+        const char* options,
+        cl_uint num_input_headers,
+        const cl_program* input_headers,
+        const char** header_include_names);
 
     CL_WRAPPER_API cl_program CL_LinkProgram(
         cl_context context,
@@ -214,15 +253,55 @@ extern "C"
         cl_uint arg_index,
         cl_sampler arg_value);
 
-    CL_WRAPPER_API cl_int CL_SetKernelArgInt(
+    CL_WRAPPER_API cl_int CL_SetKernelArgDouble(
         cl_kernel kernel,
         cl_uint arg_index,
-        cl_int arg_value);
+        cl_double arg_value);
 
     CL_WRAPPER_API cl_int CL_SetKernelArgFloat(
         cl_kernel kernel,
         cl_uint arg_index,
         cl_float arg_value);
+
+    CL_WRAPPER_API cl_int CL_SetKernelArgLong(
+        cl_kernel kernel,
+        cl_uint arg_index,
+        cl_long arg_value);
+
+    CL_WRAPPER_API cl_int CL_SetKernelArgULong(
+        cl_kernel kernel,
+        cl_uint arg_index,
+        cl_ulong arg_value);
+
+    CL_WRAPPER_API cl_int CL_SetKernelArgInt(
+        cl_kernel kernel,
+        cl_uint arg_index,
+        cl_int arg_value);
+
+    CL_WRAPPER_API cl_int CL_SetKernelArgUInt(
+        cl_kernel kernel,
+        cl_uint arg_index,
+        cl_uint arg_value);
+
+    CL_WRAPPER_API cl_int CL_SetKernelArgShort(
+        cl_kernel kernel,
+        cl_uint arg_index,
+        cl_short arg_value);
+
+    CL_WRAPPER_API cl_int CL_SetKernelArgUShort(
+        cl_kernel kernel,
+        cl_uint arg_index,
+        cl_ushort arg_value);
+
+    CL_WRAPPER_API cl_int CL_SetKernelArgSByte(
+        cl_kernel kernel,
+        cl_uint arg_index,
+        cl_char arg_value);
+
+    CL_WRAPPER_API cl_int CL_SetKernelArgByte(
+        cl_kernel kernel,
+        cl_uint arg_index,
+        cl_uchar arg_value);
 
     CL_WRAPPER_API cl_int CL_GetKernelInfoSize(
         cl_kernel kernel,

@@ -308,11 +308,46 @@ namespace OpenCLDotNet.Core
             [Out] out CL_ERROR errcode_ret);
 
         [DllImport(DLL_NAME, CallingConvention = CDECL)]
+        private static extern cl_program CL_CreateProgramWithBuiltInKernels(
+            cl_context context,
+            cl_uint num_devices,
+            cl_device_id[] device_list,
+            cl_char[] kernel_names,
+            [Out] out cl_int error);
+
+        [DllImport(DLL_NAME, CallingConvention = CDECL)]
+        private static extern cl_program CL_CreateProgramWithIL(
+            cl_context context,
+            byte[] il,
+            size_t length,
+            [Out] out cl_int error);
+
+        [DllImport(DLL_NAME, CallingConvention = CDECL)]
         private static extern CL_ERROR CL_BuildProgram(
             cl_program program,
             cl_uint num_devices,
             cl_device_id[] device_list,
             cl_char[] options);
+
+        [DllImport(DLL_NAME, CallingConvention = CDECL)]
+        private static extern cl_int CL_CompileProgram(
+            cl_program program,
+            cl_uint num_devices,
+            cl_device_id[] device_list,
+            cl_char[] options,
+            cl_uint num_input_headers,
+            cl_program[] input_headers);
+            //const char** header_include_names);
+
+        [DllImport(DLL_NAME, CallingConvention = CDECL)]
+        private static extern cl_program CL_LinkProgram(
+            cl_context context,
+            cl_uint num_devices,
+            cl_device_id[] device_list,
+            cl_char[] options,
+            cl_uint num_input_programs,
+            cl_program[] input_programs,
+            [Out] out cl_int errcode_ret);
 
         [DllImport(DLL_NAME, CallingConvention = CDECL)]
         private static extern CL_ERROR CL_GetProgramBuildInfoSize(

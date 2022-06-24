@@ -195,6 +195,25 @@ cl_program CL_CreateProgramWithSource(
     return id;
 }
 
+ cl_program CL_CreateProgramWithBuiltInKernels(
+     cl_context context,
+     cl_uint num_devices,
+     const cl_device_id* device_list,
+     const char* kernel_names,
+     cl_int* error)
+ {
+     return clCreateProgramWithBuiltInKernels(context, num_devices, device_list, kernel_names, error);
+}
+
+cl_program CL_CreateProgramWithIL(
+     cl_context context,
+     const void* il,
+     size_t length,
+     cl_int* error)
+ {
+    return clCreateProgramWithIL(context, il, length, error);
+ }
+
 cl_int CL_BuildProgram(
     cl_program program,
     cl_uint num_devices,
@@ -202,6 +221,20 @@ cl_int CL_BuildProgram(
     const char* options)
 {
     return clBuildProgram(program, num_devices, device_list, options, nullptr, nullptr);
+}
+
+cl_int CL_CompileProgram(
+    cl_program program,
+    cl_uint num_devices,
+    const cl_device_id* device_list,
+    const char* options,
+    cl_uint num_input_headers,
+    const cl_program* input_headers,
+    const char** header_include_names)
+{
+    return clCompileProgram(program, num_devices, device_list, options, 
+        num_input_headers, input_headers, header_include_names, 
+        nullptr, nullptr);
 }
 
 cl_program CL_LinkProgram(
@@ -348,12 +381,12 @@ cl_int CL_SetKernelArgSampler(
     return err;
 }
 
-cl_int CL_SetKernelArgInt(
+cl_int CL_SetKernelArgDouble(
     cl_kernel kernel,
     cl_uint arg_index,
-    cl_int arg_value)
+    cl_double arg_value)
 {
-    size_t size = sizeof(cl_int);
+    size_t size = sizeof(cl_float);
     cl_int err = clSetKernelArg(kernel, arg_index, size, &arg_value);
     return err;
 }
@@ -364,6 +397,86 @@ cl_int CL_SetKernelArgFloat(
     cl_float arg_value)
 {
     size_t size = sizeof(cl_float);
+    cl_int err = clSetKernelArg(kernel, arg_index, size, &arg_value);
+    return err;
+}
+
+cl_int CL_SetKernelArgLong(
+    cl_kernel kernel,
+    cl_uint arg_index,
+    cl_long arg_value)
+{
+    size_t size = sizeof(cl_int);
+    cl_int err = clSetKernelArg(kernel, arg_index, size, &arg_value);
+    return err;
+}
+
+cl_int CL_SetKernelArgULong(
+    cl_kernel kernel,
+    cl_uint arg_index,
+    cl_ulong arg_value)
+{
+    size_t size = sizeof(cl_int);
+    cl_int err = clSetKernelArg(kernel, arg_index, size, &arg_value);
+    return err;
+}
+
+cl_int CL_SetKernelArgInt(
+    cl_kernel kernel,
+    cl_uint arg_index,
+    cl_int arg_value)
+{
+    size_t size = sizeof(cl_int);
+    cl_int err = clSetKernelArg(kernel, arg_index, size, &arg_value);
+    return err;
+}
+
+cl_int CL_SetKernelArgUInt(
+    cl_kernel kernel,
+    cl_uint arg_index,
+    cl_uint arg_value)
+{
+    size_t size = sizeof(cl_int);
+    cl_int err = clSetKernelArg(kernel, arg_index, size, &arg_value);
+    return err;
+}
+
+cl_int CL_SetKernelArgShort(
+    cl_kernel kernel,
+    cl_uint arg_index,
+    cl_short arg_value)
+{
+    size_t size = sizeof(cl_int);
+    cl_int err = clSetKernelArg(kernel, arg_index, size, &arg_value);
+    return err;
+}
+
+cl_int CL_SetKernelArgUShort(
+    cl_kernel kernel,
+    cl_uint arg_index,
+    cl_ushort arg_value)
+{
+    size_t size = sizeof(cl_int);
+    cl_int err = clSetKernelArg(kernel, arg_index, size, &arg_value);
+    return err;
+}
+
+cl_int CL_SetKernelArgSByte(
+    cl_kernel kernel,
+    cl_uint arg_index,
+    cl_char arg_value)
+{
+    size_t size = sizeof(cl_int);
+    cl_int err = clSetKernelArg(kernel, arg_index, size, &arg_value);
+    return err;
+}
+
+cl_int CL_SetKernelArgByte(
+    cl_kernel kernel,
+    cl_uint arg_index,
+    cl_uchar arg_value)
+{
+    size_t size = sizeof(cl_int);
     cl_int err = clSetKernelArg(kernel, arg_index, size, &arg_value);
     return err;
 }

@@ -100,7 +100,7 @@ namespace OpenCLDotNet.Core
         public bool HasDevice(CL_DEVICE_TYPE type)
         {
             foreach (var device in Devices)
-                if (type.HasFlag(device.Type))
+                if (type.HasFlag(device.DeviceType))
                     return true;
 
             return false;

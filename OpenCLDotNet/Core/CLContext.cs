@@ -89,6 +89,7 @@ namespace OpenCLDotNet.Core
         /// <returns></returns>
         public cl_device_id[] GetDeviceIds()
         {
+            CheckContext();
             return Platform.GetDeviceIds();
         }
 
@@ -99,7 +100,19 @@ namespace OpenCLDotNet.Core
         /// <returns></returns>
         public cl_device_id GetDeviceID(int index)
         {
+            CheckContext();
             return Platform.GetDeviceID(index);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public bool HasDevice(CL_DEVICE_TYPE type)
+        {
+            CheckContext();
+            return Platform.HasDevice(type);
         }
 
         /// <summary>
@@ -256,6 +269,20 @@ namespace OpenCLDotNet.Core
         protected override void Release()
         {
             CL.ReleaseContext(Id);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <exception cref="InvalidObjectExeception"></exception>
+        /// <exception cref="NullReferenceException"></exception>
+        private void CheckContext()
+        {
+            if (!IsValid)
+                throw new InvalidObjectExeception("Context is not valid.");
+
+            if (Platform == null)
+                throw new NullReferenceException("Platform is null.");
         }
 
     }

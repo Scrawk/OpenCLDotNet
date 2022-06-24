@@ -66,9 +66,9 @@ namespace OpenCLDotNet.Core
         public static CL_ERROR SetKernelArg(
             cl_kernel kernel,
             uint arg_index,
-            int arg_value)
-        {  
-            return CL_SetKernelArgInt(kernel, arg_index, arg_value);
+            double arg_value)
+        {
+            return CL_SetKernelArgDouble(kernel, arg_index, arg_value);
         }
 
         /// <summary>
@@ -84,6 +84,126 @@ namespace OpenCLDotNet.Core
             float arg_value)
         {
             return CL_SetKernelArgFloat(kernel, arg_index, arg_value);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="kernel"></param>
+        /// <param name="arg_index"></param>
+        /// <param name="arg_value"></param>
+        /// <returns></returns>
+        public static CL_ERROR SetKernelArg(
+            cl_kernel kernel,
+            uint arg_index,
+            long arg_value)
+        {
+            return CL_SetKernelArgLong(kernel, arg_index, arg_value);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="kernel"></param>
+        /// <param name="arg_index"></param>
+        /// <param name="arg_value"></param>
+        /// <returns></returns>
+        public static CL_ERROR SetKernelArg(
+            cl_kernel kernel,
+            uint arg_index,
+            ulong arg_value)
+        {
+            return CL_SetKernelArgULong(kernel, arg_index, arg_value);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="kernel"></param>
+        /// <param name="arg_index"></param>
+        /// <param name="arg_value"></param>
+        /// <returns></returns>
+        public static CL_ERROR SetKernelArg(
+            cl_kernel kernel,
+            uint arg_index,
+            int arg_value)
+        {
+            return CL_SetKernelArgInt(kernel, arg_index, arg_value);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="kernel"></param>
+        /// <param name="arg_index"></param>
+        /// <param name="arg_value"></param>
+        /// <returns></returns>
+        public static CL_ERROR SetKernelArg(
+            cl_kernel kernel,
+            uint arg_index,
+            uint arg_value)
+        {
+            return CL_SetKernelArgUInt(kernel, arg_index, arg_value);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="kernel"></param>
+        /// <param name="arg_index"></param>
+        /// <param name="arg_value"></param>
+        /// <returns></returns>
+        public static CL_ERROR SetKernelArg(
+            cl_kernel kernel,
+            uint arg_index,
+            short arg_value)
+        {
+            return CL_SetKernelArgShort(kernel, arg_index, arg_value);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="kernel"></param>
+        /// <param name="arg_index"></param>
+        /// <param name="arg_value"></param>
+        /// <returns></returns>
+        public static CL_ERROR SetKernelArg(
+            cl_kernel kernel,
+            uint arg_index,
+            ushort arg_value)
+        {
+            return CL_SetKernelArgUShort(kernel, arg_index, arg_value);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="kernel"></param>
+        /// <param name="arg_index"></param>
+        /// <param name="arg_value"></param>
+        /// <returns></returns>
+        public static CL_ERROR SetKernelArg(
+            cl_kernel kernel,
+            uint arg_index,
+            sbyte arg_value)
+        {
+            return CL_SetKernelArgSByte(kernel, arg_index, arg_value);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="kernel"></param>
+        /// <param name="arg_index"></param>
+        /// <param name="arg_value"></param>
+        /// <returns></returns>
+        public static CL_ERROR SetKernelArg(
+            cl_kernel kernel,
+            uint arg_index,
+            byte arg_value)
+        {
+            return CL_SetKernelArgByte(kernel, arg_index, arg_value);
         }
 
         /// <summary>
@@ -336,16 +456,64 @@ namespace OpenCLDotNet.Core
             cl_sampler arg_value);
 
         [DllImport(DLL_NAME, CallingConvention = CDECL)]
-        private static extern CL_ERROR CL_SetKernelArgInt(
+        private static extern CL_ERROR CL_SetKernelArgDouble(
             cl_kernel kernel,
             cl_uint arg_index,
-            cl_int arg_value);
+            double arg_value);
 
         [DllImport(DLL_NAME, CallingConvention = CDECL)]
         private static extern CL_ERROR CL_SetKernelArgFloat(
             cl_kernel kernel,
             cl_uint arg_index,
             float arg_value);
+
+        [DllImport(DLL_NAME, CallingConvention = CDECL)]
+        private static extern CL_ERROR CL_SetKernelArgLong(
+            cl_kernel kernel,
+            cl_uint arg_index,
+            long arg_value);
+
+        [DllImport(DLL_NAME, CallingConvention = CDECL)]
+        private static extern CL_ERROR CL_SetKernelArgULong(
+            cl_kernel kernel,
+            cl_uint arg_index,
+            ulong arg_value);
+
+        [DllImport(DLL_NAME, CallingConvention = CDECL)]
+        private static extern CL_ERROR CL_SetKernelArgInt(
+            cl_kernel kernel,
+            cl_uint arg_index,
+            int arg_value);
+
+        [DllImport(DLL_NAME, CallingConvention = CDECL)]
+        private static extern CL_ERROR CL_SetKernelArgUInt(
+            cl_kernel kernel,
+            cl_uint arg_index,
+            uint arg_value);
+
+        [DllImport(DLL_NAME, CallingConvention = CDECL)]
+        private static extern CL_ERROR CL_SetKernelArgShort(
+            cl_kernel kernel,
+            cl_uint arg_index,
+            short arg_value);
+
+        [DllImport(DLL_NAME, CallingConvention = CDECL)]
+        private static extern CL_ERROR CL_SetKernelArgUShort(
+            cl_kernel kernel,
+            cl_uint arg_index,
+            ushort arg_value);
+
+        [DllImport(DLL_NAME, CallingConvention = CDECL)]
+        private static extern CL_ERROR CL_SetKernelArgSByte(
+            cl_kernel kernel,
+            cl_uint arg_index,
+            sbyte arg_value);
+
+        [DllImport(DLL_NAME, CallingConvention = CDECL)]
+        private static extern CL_ERROR CL_SetKernelArgByte(
+            cl_kernel kernel,
+            cl_uint arg_index,
+            byte arg_value);
 
         [DllImport(DLL_NAME, CallingConvention = CDECL)]
         private static extern CL_ERROR CL_GetKernelInfoSize(
@@ -448,6 +616,11 @@ namespace OpenCLDotNet.Core
             size_t param_value_size,
             [Out] out UInt64 param_value);
         */
+
+        [DllImport(DLL_NAME, CallingConvention = CDECL)]
+        private static extern cl_kernel CL_CloneKernel(
+            cl_kernel kernel,
+            [Out] out CL_ERROR error);
 
         [DllImport(DLL_NAME, CallingConvention = CDECL)]
         private static extern CL_ERROR CL_RetainKernel(cl_kernel kernel);

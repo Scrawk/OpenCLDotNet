@@ -626,14 +626,26 @@ namespace OpenCLDotNet.Programs
         /// <param name="buffer"></param>
         /// <param name="index"></param>
         /// <returns></returns>
-        /// <exception cref="NullReferenceException"></exception>
         public void SetBuffer(string kernel_name, CLBuffer buffer, uint index)
         {
             var kernel = FindKernel(kernel_name);
-            if (kernel == null)
-                throw new NullReferenceException($"Kernel named {kernel_name} not found.");
+            CheckKernel(kernel, kernel_name);
 
             kernel.SetBuffer(buffer, index);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="kernel_name"></param>
+        /// <param name="index"></param>
+        /// <returns></returns>
+        public CLBuffer GetBuffer(string kernel_name, uint index)
+        {
+            var kernel = FindKernel(kernel_name);
+            CheckKernel(kernel, kernel_name);
+
+            return kernel.GetBuffer(index);
         }
 
         /// <summary>
@@ -704,7 +716,7 @@ namespace OpenCLDotNet.Programs
                 throw new InvalidOperationException("Not all kernel arguments are set.");
 
             var arg = kernel.GetArgument(index);
-            var buffer = arg.Arg as CLBuffer;
+            var buffer = arg.ArgObject as CLBuffer;
 
             if (buffer == null)
                 throw new InvalidCastException("Kernel ag");
@@ -732,7 +744,7 @@ namespace OpenCLDotNet.Programs
                 throw new InvalidOperationException("Not all kernel arguments are set.");
 
             var arg = kernel.GetArgument(index);
-            var buffer = arg.Arg as CLBuffer;
+            var buffer = arg.ArgObject as CLBuffer;
 
             if (buffer == null)
                 throw new InvalidCastException("Kernel ag");
@@ -760,7 +772,7 @@ namespace OpenCLDotNet.Programs
                 throw new InvalidOperationException("Not all kernel arguments are set.");
 
             var arg = kernel.GetArgument(index);
-            var image = arg.Arg as CLImage;
+            var image = arg.ArgObject as CLImage;
 
             if (image == null)
                 throw new InvalidCastException("Kernel ag");
@@ -788,7 +800,7 @@ namespace OpenCLDotNet.Programs
                 throw new InvalidOperationException("Not all kernel arguments are set.");
 
             var arg = kernel.GetArgument(index);
-            var image = arg.Arg as CLImage;
+            var image = arg.ArgObject as CLImage;
 
             if (image == null)
                 throw new InvalidCastException("Kernel ag");
@@ -1182,6 +1194,35 @@ namespace OpenCLDotNet.Programs
         protected override void Release()
         {
             Core.CL.ReleaseProgram(Id);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="kernel"></param>
+        /// <param name="kernel_name"></param>
+        /// <exception cref="NullReferenceException"></exception>
+        private void CheckKernel(CLKernel kernel, string kernel_name)
+        {
+            if (kernel == null)
+                throw new NullReferenceException($"Kernel named {kernel_name} not found.");
+
+            if (!kernel.IsValid)
+                throw new NullReferenceException($"Kernel named {kernel_name} is not valid.");
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="kernel_arg"></param>
+        /// <exception cref="NullReferenceException"></exception>
+        private void CheckKernelArg(CLKernelArg kernel_arg)
+        {
+            if (kernel_arg == null)
+                throw new NullReferenceException($"Kernel arg is null.");
+
+            if (kernel_arg.ArgObject == null)
+                throw new NullReferenceException($"Kernel arg object is null.");
         }
     }
 }

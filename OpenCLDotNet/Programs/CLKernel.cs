@@ -97,6 +97,7 @@ namespace OpenCLDotNet.Programs
 
                     arg.Name = name;
                     arg.AddressQualifier = address;
+                    arg.AccessQualifier = access;
                 }
                 
                 Arguments.Add(arg);
@@ -112,9 +113,7 @@ namespace OpenCLDotNet.Programs
         /// <exception cref="ArgumentOutOfRangeException"></exception>
        public CLKernelArg GetArgument(uint index)
         {
-            if(index >= Arguments.Count) 
-                throw new ArgumentOutOfRangeException($"Argument index {index} out of range,");
-            
+            CheckIndex(index);
             return Arguments[(int)index];
         }
 
@@ -125,7 +124,7 @@ namespace OpenCLDotNet.Programs
         public bool AllArgumentSet()
         {
             foreach(CLKernelArg arg in Arguments)
-                if(arg.Arg == null)
+                if(arg.ArgObject == null)
                     return false;
             
             return true;    
@@ -136,14 +135,13 @@ namespace OpenCLDotNet.Programs
         /// </summary>
         /// <param name="arg"></param>
         /// <param name="index"></param>
-        /// <exception cref="NullReferenceException"></exception>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
         public void SetBuffer(CLBuffer arg, uint index)
         {
-            if (arg == null)
-                throw new NullReferenceException("Buffer is null.");
+            CheckIndex(index);
 
             var kernel_arg = GetArgument(index);
-            kernel_arg.Arg = arg;
+            kernel_arg.ArgObject = arg;
             kernel_arg.ArgType = typeof(CLBuffer).Name;
 
             cl_mem arg_id = arg.Id;
@@ -153,19 +151,28 @@ namespace OpenCLDotNet.Programs
         /// <summary>
         /// 
         /// </summary>
+        /// <param name="index"></param>
+        /// <returns></returns>
+        public CLBuffer GetBuffer(uint index)
+        {
+            CheckIndex(index);
+
+            var arg = GetArgument(index);
+            return arg.ArgObject as CLBuffer;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
         /// <param name="arg"></param>
         /// <param name="index"></param>
-        /// <exception cref="NullReferenceException"></exception>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
         public void SetSubBuffer(CLSubBuffer arg, uint index)
         {
-            if (arg == null)
-                throw new NullReferenceException("Buffer is null.");
-
-            if(index >= NumArguments)
-                throw new ArgumentOutOfRangeException($"Index {index} out of argumant range.");
+            CheckIndex(index);
 
             var kernel_arg = GetArgument(index);
-            kernel_arg.Arg = arg;
+            kernel_arg.ArgObject = arg;
             kernel_arg.ArgType = typeof(CLSubBuffer).Name;
 
             cl_mem arg_id = arg.Id;
@@ -175,20 +182,28 @@ namespace OpenCLDotNet.Programs
         /// <summary>
         /// 
         /// </summary>
+        /// <param name="index"></param>
+        /// <returns></returns>
+        public CLSubBuffer GetSubBuffer(uint index)
+        {
+            CheckIndex(index);
+
+            var arg = GetArgument(index);
+            return arg.ArgObject as CLSubBuffer;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
         /// <param name="arg"></param>
         /// <param name="index"></param>
-        /// <exception cref="NullReferenceException"></exception>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         public void SetImage(CLImage arg, uint index)
         {
-            if (arg == null)
-                throw new NullReferenceException("Image is null.");
-
-            if (index >= NumArguments)
-                throw new ArgumentOutOfRangeException($"Index {index} out of argumant range.");
+            CheckIndex(index);
 
             var kernel_arg = GetArgument(index);
-            kernel_arg.Arg = arg;
+            kernel_arg.ArgObject = arg;
             kernel_arg.ArgType = typeof(CLImage2D).Name;
 
             cl_mem arg_id = arg.Id;
@@ -198,19 +213,28 @@ namespace OpenCLDotNet.Programs
         /// <summary>
         /// 
         /// </summary>
+        /// <param name="index"></param>
+        /// <returns></returns>
+        public CLImage GetImage(uint index)
+        {
+            CheckIndex(index);
+
+            var arg = GetArgument(index);
+            return arg.ArgObject as CLImage;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
         /// <param name="arg"></param>
         /// <param name="index"></param>
-        /// <exception cref="NullReferenceException"></exception>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
         public void SetSampler(CLSampler arg, uint index)
         {
-            if (arg == null)
-                throw new NullReferenceException("CLSampler is null.");
-
-            if (index >= NumArguments)
-                throw new ArgumentOutOfRangeException($"Index {index} out of argumant range.");
+            CheckIndex(index);
 
             var kernel_arg = GetArgument(index);
-            kernel_arg.Arg = arg;
+            kernel_arg.ArgObject = arg;
             kernel_arg.ArgType = typeof(CLSampler).Name;
 
             cl_sampler arg_id = arg.Id;
@@ -220,15 +244,90 @@ namespace OpenCLDotNet.Programs
         /// <summary>
         /// 
         /// </summary>
+        /// <param name="index"></param>
+        /// <returns></returns>
+        public CLSampler GetSampler(uint index)
+        {
+            CheckIndex(index);
+
+            var arg = GetArgument(index);
+            return arg.ArgObject as CLSampler;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
         /// <param name="arg"></param>
         /// <param name="index"></param>
-        public void SetInt(int arg, uint index)
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
+        public void SetDouble(double arg, uint index)
         {
-            if (index >= NumArguments)
-                throw new ArgumentOutOfRangeException($"Index {index} out of argumant range.");
+            CheckIndex(index);
 
             var kernel_arg = GetArgument(index);
-            kernel_arg.Arg = arg;
+            kernel_arg.ArgObject = arg;
+            kernel_arg.ArgType = typeof(double).Name;
+
+            Error = CL.SetKernelArg(Id, index, arg).ToString();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="index"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
+        public double GetDouble(uint index)
+        {
+            CheckIndex(index);
+
+            var arg = GetArgument(index);
+            return (double)arg.ArgObject;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="arg"></param>
+        /// <param name="index"></param>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
+        public void SetFloat(float arg, uint index)
+        {
+            CheckIndex(index);
+
+            var kernel_arg = GetArgument(index);
+            kernel_arg.ArgObject = arg;
+            kernel_arg.ArgType = typeof(float).Name;
+
+            Error = CL.SetKernelArg(Id, index, arg).ToString();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="index"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
+        public float GetFloat(uint index)
+        {
+            CheckIndex(index);
+
+            var arg = GetArgument(index);
+            return (float)arg.ArgObject;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="arg"></param>
+        /// <param name="index"></param>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
+        public void SetInt(int arg, uint index)
+        {
+            CheckIndex(index);
+
+            var kernel_arg = GetArgument(index);
+            kernel_arg.ArgObject = arg;
             kernel_arg.ArgType = typeof(int).Name;
 
             Error = CL.SetKernelArg(Id, index, arg).ToString();
@@ -237,20 +336,17 @@ namespace OpenCLDotNet.Programs
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="arg"></param>
         /// <param name="index"></param>
-        public void SetFloat(float arg, uint index)
+        /// <returns></returns>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
+        public int GetInt(uint index)
         {
-            if (index >= NumArguments)
-                throw new ArgumentOutOfRangeException($"Index {index} out of argumant range.");
+            CheckIndex(index);
 
-            var kernel_arg = GetArgument(index);
-            kernel_arg.Arg = arg;
-            kernel_arg.ArgType = typeof(float).Name;
-
-            Error = CL.SetKernelArg(Id, index, arg).ToString();
+            var arg = GetArgument(index);
+            return (int)arg.ArgObject;
         }
-        
+
         /// <summary>
         /// 
         /// </summary>
@@ -534,6 +630,31 @@ namespace OpenCLDotNet.Programs
         protected override void Release()
         {
             Core.CL.ReleaseKernel(Id);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="index"></param>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
+        private void CheckIndex(uint index)
+        {
+            if (index >= NumArguments)
+                throw new ArgumentOutOfRangeException($"Index {index} out of argumant range.");
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="kernel_arg"></param>
+        /// <exception cref="NullReferenceException"></exception>
+        private void CheckKernelArg(CLKernelArg kernel_arg)
+        {
+            if (kernel_arg == null)
+                throw new NullReferenceException($"Kernel arg is null.");
+
+            if (kernel_arg.ArgObject == null)
+                throw new NullReferenceException($"Kernel arg object is null.");
         }
     }
 

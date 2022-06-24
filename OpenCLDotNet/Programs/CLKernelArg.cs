@@ -31,7 +31,7 @@ namespace OpenCLDotNet.Programs
         /// <summary>
         /// 
         /// </summary>
-        public object Arg { get; set; }
+        public object ArgObject { get; set; }
 
         /// <summary>
         /// 
@@ -63,7 +63,7 @@ namespace OpenCLDotNet.Programs
             ArgType = argType;
             AddressQualifier = address;  
             AccessQualifier = access;
-            Arg = arg;
+            ArgObject = arg;
         }
 
         /// <summary>
@@ -72,7 +72,7 @@ namespace OpenCLDotNet.Programs
         /// <returns></returns>
         public override string ToString()
         {
-            string arg_or_null = Arg == null ? "Null" : Arg.ToString();
+            string arg_or_null = ArgObject == null ? "Null" : ArgObject.ToString();
 
             return String.Format("[CLKernelArg: Name={0}, Address={1}, Access={2}, ArgType={3}, Arg={4}]",
                 Name, AddressQualifier, AccessQualifier, ArgType, arg_or_null);
