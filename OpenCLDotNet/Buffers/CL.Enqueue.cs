@@ -177,9 +177,9 @@ namespace OpenCLDotNet.Core
             CLPoint3t host_origin,
             CLPoint3t region,
             size_t buffer_row_pitch,
-            size_t buffer_slice_pitch,
-            size_t host_row_pitch,
-            size_t host_slice_pitch,
+            uint buffer_slice_pitch,
+            uint host_row_pitch,
+            uint host_slice_pitch,
             Array ptr,
             cl_uint wait_list_size,
             cl_event[] wait_list,
@@ -190,18 +190,37 @@ namespace OpenCLDotNet.Core
                 ptr, wait_list_size, wait_list, out _event);
         }
 
-        private static CL_ERROR EnqueueFillBuffer(
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="command"></param>
+        /// <param name="buffer"></param>
+        /// <param name="pattern">A pointer to the data pattern of size pattern_size in bytes.</param>
+        /// <param name="pattern_size">pattern_size in bytes.</param>
+        /// <param name="offset">The location in bytes of the region being 
+        /// filled in buffer and must be a multiple of pattern_size.</param>
+        /// <param name="size">The size in bytes of region being filled 
+        /// in buffer and must be a multiple of pattern_size.</param>
+        /// <param name="wait_list_size"></param>
+        /// <param name="wait_list"></param>
+        /// <param name="_event"></param>
+        /// <returns></returns>
+        public static CL_ERROR EnqueueFillBuffer(
             cl_command_queue command,
             cl_mem buffer,
             Array pattern,
-            size_t pattern_size,
-            size_t offset,
-            size_t size,
+            uint pattern_size,
+            uint offset,
+            uint size,
             cl_uint wait_list_size,
             cl_event[] wait_list,
             out cl_event _event)
         {
-            return CL_EnqueueFillBuffer(command, buffer, pattern, pattern_size, offset, size,
+   
+            byte[] bytes = new byte[pattern_size];
+            Buffer.BlockCopy(pattern, 0, bytes, 0, bytes.Length);
+
+            return CL_EnqueueFillBuffer(command, buffer, bytes, pattern_size, offset, size,
                 wait_list_size, wait_list, out _event);
         }
 
@@ -276,7 +295,6 @@ namespace OpenCLDotNet.Core
         /// <param name="command"></param>
         /// <param name="image"></param>
         /// <param name="fill_color"></param>
-        /// <param name="origin"></param>
         /// <param name="region"></param>
         /// <param name="wait_list_size"></param>
         /// <param name="wait_list"></param>
@@ -286,13 +304,12 @@ namespace OpenCLDotNet.Core
             cl_command_queue command,
             cl_mem image,
             CLColorRGBA fill_color,
-            CLPoint3t origin,
-            CLPoint3t region,
+            CLRegion3t region,
             uint wait_list_size,
             cl_event[] wait_list,
             out cl_event _event)
         {
-            return CL_EnqueueFillImage(command, image, fill_color, origin, region,
+            return CL_EnqueueFillImage(command, image, fill_color, region.Origion, region.Size,
                 wait_list_size, wait_list, out _event);
         }
 

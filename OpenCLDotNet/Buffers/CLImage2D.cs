@@ -235,6 +235,24 @@ namespace OpenCLDotNet.Buffers
             Error = error.ToString();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="cmd"></param>
+        /// <param name="col"></param>
+        /// <param name="region"></param>
+        /// <exception cref="InvalidObjectExeception"></exception>
+        public void Fill(CLCommandQueue cmd, CLColorRGBA col, CLRegion3t region)
+        {
+            if (!IsValid)
+                throw new InvalidObjectExeception("Image is not valid.");
+
+            CheckCommand(cmd);  
+            CheckRegion(this, region);
+
+            cl_event e;
+            CL.EnqueueFillImage(cmd.Id, Id, col, region, 0, null, out e);
+        }
 
     }
 }

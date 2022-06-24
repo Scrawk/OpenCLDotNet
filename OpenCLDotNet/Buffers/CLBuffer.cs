@@ -318,5 +318,31 @@ namespace OpenCLDotNet.Buffers
             Error = error.ToString();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="cmd"></param>
+        /// <param name="pattern"></param>
+        /// <param name="offset"></param>
+        /// <param name="size"></param>
+        /// <exception cref="InvalidObjectExeception"></exception>
+        public void Fill(CLCommandQueue cmd, Array pattern, uint offset, uint size)
+        {
+            if (!IsValid)
+                throw new InvalidObjectExeception("Buffer is not valid.");
+
+            CheckCommand(cmd);
+            CheckOffset(this, offset, size);
+
+            var type = CL.TypeOf(pattern);
+            var size_of = CL.SizeOf(type);
+            uint byte_size = (uint)pattern.Length * size_of;
+            offset *= size_of;
+            size *= size_of;
+
+            cl_event e;
+            CL.EnqueueFillBuffer(cmd.Id, Id, pattern, byte_size, offset, size, 0, null, out e);
+        }
+
     }
 }
