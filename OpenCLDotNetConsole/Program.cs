@@ -77,7 +77,7 @@ namespace OpenCLDotNetConsole
 
 			var program_text3 =
 
-			@"__kernel void gaussian_filter(__read_only image2d_t srcImg,
+			@"__kernel void read_write_test(__read_only image2d_t srcImg,
 											__write_only image2d_t dstImg,
 											sampler_t sampler,
 											int width, int height)
@@ -85,7 +85,7 @@ namespace OpenCLDotNetConsole
 
 				int2 imageCoord = (int2)(get_global_id(0), get_global_id(1));
 
-				if (oimageCoord.x < width && imageCoord.y < height)
+				if (imageCoord.x < width && imageCoord.y < height)
 				{
 					//float4 outColor = (float4)(0.0f, 0.0f, 0.0f, 0.0f);
 		
@@ -98,21 +98,29 @@ namespace OpenCLDotNetConsole
 
 			var options = CLProgram.DefaultOptions;
 
-			var program = new CLProgram(context, program_text2, options);
-			//program.Print();
+			var program = new CLProgram(context, program_text3, options);
+			if(program.HasError)
+            {
+				Console.WriteLine("Program has error");
+				Console.WriteLine(program.Error);
+				Console.WriteLine("");
+				Console.WriteLine(program.GetBuildLog(0));
+
+				return;
+            }
 
 			uint WIDTH = 100;
 			uint HEIGHT = 100;
 			uint ARRAY_SIZE = WIDTH * HEIGHT;
-
+			string kernel_name = "read_write_test";
 			
-			var data0 = new float[ARRAY_SIZE];
+			var data0 = new int[ARRAY_SIZE];
 			//var data1 = new float[ARRAY_SIZE];
 			//var data2 = new float[ARRAY_SIZE];
 
 			for (uint i = 0; i < ARRAY_SIZE; i++)
 			{
-				data0[i] = i;
+				data0[i] = (int)i;
 				//data1[i] = i;
 			}
 			
@@ -121,8 +129,8 @@ namespace OpenCLDotNetConsole
 			image_params.Width = WIDTH;
 			image_params.Height = HEIGHT;
 			image_params.ChannelOrder = CL_CHANNEL_ORDER.R;
-			image_params.ChannelType = CL_CHANNEL_TYPE.FLOAT;
-			image_params.DataType = CL_MEM_DATA_TYPE.FLOAT;
+			image_params.ChannelType = CL_CHANNEL_TYPE.SIGNED_INT32;
+			image_params.DataType = CL_MEM_DATA_TYPE.INT;
 			image_params.DataLength = ARRAY_SIZE;
 			image_params.Source = data0;
 
@@ -133,22 +141,23 @@ namespace OpenCLDotNetConsole
 			//program.CreateReadBuffer("Kernel1", 1, data1);
 			//program.CreateWriteBuffer("Kernel1", 2, CL_MEM_DATA_TYPE.FLOAT, ARRAY_SIZE);
 
-			program.CreateReadImage2D("gaussian_filter", 0, image_params);
-			program.CreateWriteImage2D("gaussian_filter", 1, image_params);
-			program.CreateSamplerIndex("gaussian_filter", 2);
-			program.SetInt("gaussian_filter", (int)WIDTH, 3);
-			program.SetInt("gaussian_filter", (int)HEIGHT, 4);
+			program.CreateReadImage2D(kernel_name, 0, image_params);
+			program.CreateWriteImage2D(kernel_name, 1, image_params);
+			program.CreateSamplerIndex(kernel_name, 2);
+			program.SetInt(kernel_name, (int)WIDTH, 3);
+			program.SetInt(kernel_name, (int)HEIGHT, 4);
 
 			//program.Print();
 
-			var offset = new CLPoint3t(0);
-			var size = new CLPoint3t(WIDTH, HEIGHT, 0);
+			var global_offset = new CLPoint2t(0);
+			var global_size = new CLPoint2t(WIDTH, HEIGHT);
+			var local_size = new CLPoint2t(16, 16);
 
-			program.Run("gaussian_filter", offset, size);
+			program.Run(kernel_name, global_offset, global_size, local_size);
 			Console.WriteLine("Program error " + program.Error);
 
-			var result = new float[ARRAY_SIZE];
-			program.ReadImage("gaussian_filter", true, 1, result);
+			var result = new int[ARRAY_SIZE];
+			program.ReadImage(kernel_name, true, 1, result);
 
 			for (int i = 0; i < 100; i++)
 				Console.WriteLine(result[i]);

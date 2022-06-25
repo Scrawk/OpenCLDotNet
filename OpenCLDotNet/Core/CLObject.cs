@@ -93,7 +93,7 @@ namespace OpenCLDotNet.Core
         /// <summary>
         /// If error code not default value or success.
         /// </summary>
-        public bool HasError => Error != CL_ERROR.NONE.ToString() || 
+        public bool HasError => Error != CL_ERROR.NONE.ToString() && 
                                 Error != CL_ERROR.SUCCESS.ToString();
 
         /// <summary>

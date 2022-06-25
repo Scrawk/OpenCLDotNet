@@ -4020,13 +4020,14 @@
             <param name="offset"></param>
             <param name="size"></param>
         </member>
-        <member name="M:OpenCLDotNet.Programs.CLProgram.Run(System.String,OpenCLDotNet.Core.CLPoint3t,OpenCLDotNet.Core.CLPoint3t)">
+        <member name="M:OpenCLDotNet.Programs.CLProgram.Run(System.String,OpenCLDotNet.Core.CLPoint2t,OpenCLDotNet.Core.CLPoint2t,OpenCLDotNet.Core.CLPoint2t)">
             <summary>
             
             </summary>
             <param name="kernel_name"></param>
-            <param name="offset"></param>
-            <param name="size"></param>
+            <param name="global_offset"></param>
+            <param name="global_size"></param>
+            <param name="local_size"></param>
         </member>
         <member name="M:OpenCLDotNet.Programs.CLProgram.RoundUp(OpenCLDotNet.Core.size_t,OpenCLDotNet.Core.size_t)">
             <summary>
@@ -4155,6 +4156,8 @@
             <param name="kernel_name"></param>
             <param name="blocking"></param>
             <param name="index"></param>
+            <param name="src"></param>
+            <exception cref="T:System.InvalidCastException"></exception>
         </member>
         <member name="M:OpenCLDotNet.Programs.CLProgram.ReadImage(System.String,System.Boolean,System.UInt32,System.Array)">
             <summary>
@@ -4192,6 +4195,13 @@
             
             </summary>
             <param name="options"></param>
+        </member>
+        <member name="M:OpenCLDotNet.Programs.CLProgram.GetBuildLog(System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="index"></param>
+            <returns></returns>
         </member>
         <member name="M:OpenCLDotNet.Programs.CLProgram.GetBinary">
             <summary>

@@ -397,19 +397,20 @@ namespace OpenCLDotNet.Programs
         /// 
         /// </summary>
         /// <param name="kernel_name"></param>
-        /// <param name="offset"></param>
-        /// <param name="size"></param>
-        public void Run(string kernel_name, CLPoint3t offset, CLPoint3t size)
+        /// <param name="global_offset"></param>
+        /// <param name="global_size"></param>
+        /// <param name="local_size"></param>
+        public void Run(string kernel_name, CLPoint2t global_offset, CLPoint2t global_size, CLPoint2t local_size)
         {
             var kernel = FindKernel(kernel_name);
             if (kernel == null)
                 return;
 
             cl_event e;
-            size_t[] globalOffset = { offset.x, offset.y };
-            size_t[] localSize = { 16, 16 };
-            size_t[] globalSize =  { RoundUp(localSize[0], size.x),
-                                     RoundUp(localSize[1], size.y) };
+            size_t[] globalOffset = { global_offset.x, global_offset.y };
+            size_t[] localSize = { local_size.x, local_size.y };
+            size_t[] globalSize =  { RoundUp(localSize[0], global_size.x),
+                                     RoundUp(localSize[1], global_size.y) };
 
             Error = CL.EnqueueNDRangeKernel(Command.Id, kernel.Id, 2, globalOffset,
                        globalSize, localSize, 0, null, out e).ToString();
@@ -661,7 +662,7 @@ namespace OpenCLDotNet.Programs
             var buffer = arg.ArgObject as CLBuffer;
 
             if (buffer == null)
-                throw new InvalidCastException("Kernel ag");
+                throw new InvalidCastException($"Kernel named {kernel_name} arg at index {index} is not a buffer");
 
             buffer.Read(Command, dst, 0, blocking);
         }
@@ -672,6 +673,8 @@ namespace OpenCLDotNet.Programs
         /// <param name="kernel_name"></param>
         /// <param name="blocking"></param>
         /// <param name="index"></param>
+        /// <param name="src"></param>
+        /// <exception cref="InvalidCastException"></exception>
         public void WriteBuffer(string kernel_name, bool blocking, uint index, Array src)
         {
             var kernel = FindKernel(kernel_name);
@@ -681,7 +684,7 @@ namespace OpenCLDotNet.Programs
             var buffer = arg.ArgObject as CLBuffer;
 
             if (buffer == null)
-                throw new InvalidCastException("Kernel ag");
+                throw new InvalidCastException($"Kernel named {kernel_name} arg at index {index} is not a buffer");
 
             buffer.Write(Command, src, 0, blocking);
         }
@@ -702,7 +705,7 @@ namespace OpenCLDotNet.Programs
             var image = arg.ArgObject as CLImage;
 
             if (image == null)
-                throw new InvalidCastException("Kernel ag");
+                throw new InvalidCastException($"Kernel named {kernel_name} arg at index {index} is not a image");
 
             image.Read(Command, dst, image.Region, blocking);
         }
@@ -723,7 +726,7 @@ namespace OpenCLDotNet.Programs
             var image = arg.ArgObject as CLImage;
 
             if (image == null)
-                throw new InvalidCastException("Kernel ag");
+                throw new InvalidCastException($"Kernel named {kernel_name} arg at index {index} is not a image");
 
             image.Write(Command, src, image.Region, blocking);
         }
@@ -767,6 +770,17 @@ namespace OpenCLDotNet.Programs
                 if(!string.IsNullOrEmpty(option))
                     Options.Add(option);
             }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="index"></param>
+        /// <returns></returns>
+        public string GetBuildLog(int index)
+        {
+            var device = Context.GetDeviceID(index);
+            return GetInfo(CL_PROGRAM_BUILD_INFO.LOG, device);
         }
 
         /// <summary>
