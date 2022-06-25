@@ -62,6 +62,15 @@ namespace OpenCLDotNetTest.Buffers
             var buffer = new CLBuffer.CreateReadBuffer(context, data);
              return buffer;
         }
+        
+        private CLBuffer CreateWritebuffer(int size)
+        {
+            var context = new CLContext(); 
+             var type = CL_MEM_DATA_TYPE.INT;
+            
+            var buffer = new CLBuffer.CreateWriteBuffer(context, type, size);
+             return buffer;
+        }
 
     }
 }
