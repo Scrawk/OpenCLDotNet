@@ -21,11 +21,6 @@ namespace OpenCLDotNet.Core
         /// <summary>
         /// 
         /// </summary>
-        public ulong Length => Size.x + Size.y + Size.z;
-
-        /// <summary>
-        /// 
-        /// </summary>
         /// <param name="origion"></param>
         /// <param name="size"></param>
         public CLRegion3t(CLPoint3t origion, CLPoint3t size)

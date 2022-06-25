@@ -101,7 +101,7 @@ namespace OpenCLDotNet.Buffers
             //source data needs to be null for write only images
             var source = rw == CL_READ_WRITE.WRITE ? null : data.Source;
 
-            Flags = CreateFlags(rw);
+            Flags = CreateImageFlags(rw);
             Create(Context, data, source);
         }
 
@@ -172,7 +172,7 @@ namespace OpenCLDotNet.Buffers
             var desc = data.CreateImageDescription();
             CL_ERROR error;
 
-            Id = CL.CreateImage(context.Id, Flags, format, desc, ByteSize, source, out error);
+            Id = CL.CreateImage(context.Id, Flags, format, desc, ByteSize, null, out error);
             if (error != CL_ERROR.SUCCESS)
             {
                 Error = error.ToString();

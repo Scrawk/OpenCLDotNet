@@ -118,7 +118,7 @@ namespace OpenCLDotNet.Buffers
         /// </summary>
         /// <param name="rw"></param>
         /// <returns></returns>
-        protected CL_MEM_FLAGS CreateFlags(CL_READ_WRITE rw)
+        protected CL_MEM_FLAGS CreateBufferFlags(CL_READ_WRITE rw)
         {
             CL_MEM_FLAGS flag = 0;
 
@@ -134,6 +134,28 @@ namespace OpenCLDotNet.Buffers
                     flag = CL_MEM_FLAGS.READ_ONLY;
                     flag |= CL_MEM_FLAGS.HOST_READ_ONLY;
                     flag |= CL_MEM_FLAGS.COPY_HOST_PTR;
+                    break;
+            }
+
+            return flag;
+        }
+
+        protected CL_MEM_FLAGS CreateImageFlags(CL_READ_WRITE rw)
+        {
+            CL_MEM_FLAGS flag = 0;
+
+            switch (rw)
+            {
+                case CL_READ_WRITE.WRITE:
+                    flag = CL_MEM_FLAGS.WRITE_ONLY;
+                    //flag |= CL_MEM_FLAGS.HOST_WRITE_ONLY;
+                    flag |= CL_MEM_FLAGS.ALLOC_HOST_PTR;
+                    break;
+
+                case CL_READ_WRITE.READ:
+                    flag = CL_MEM_FLAGS.READ_ONLY;
+                    flag |= CL_MEM_FLAGS.HOST_READ_ONLY;
+                    flag |= CL_MEM_FLAGS.ALLOC_HOST_PTR;
                     break;
             }
 
@@ -279,12 +301,6 @@ namespace OpenCLDotNet.Buffers
             Core.CL.ReleaseMemObject(Id);
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="cmd"></param>
-        /// <exception cref="NullReferenceException"></exception>
-        /// <exception cref="InvalidObjectExeception"></exception>
         protected static void CheckCommand(CLCommandQueue cmd)
         {
             if (cmd == null)
@@ -294,15 +310,6 @@ namespace OpenCLDotNet.Buffers
                 throw new InvalidObjectExeception("Buffer is not valid.");
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="obj"></param>
-        /// <param name="data"></param>
-        /// <param name="offset"></param>
-        /// <exception cref="NullReferenceException"></exception>
-        /// <exception cref="InvalidDataSizeExeception"></exception>
-        /// <exception cref="InvalidDataTypeExeception"></exception>
         protected static void CheckData(CLMemObject obj, Array data, uint offset)
         {
             if (!obj.IsValid)
@@ -318,15 +325,7 @@ namespace OpenCLDotNet.Buffers
                 throw new InvalidDataTypeExeception($"Data type is {CL.TypeOf(data)} when type {obj.DataType} was expected."); ;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="obj"></param>
-        /// <param name="offset"></param>
-        /// <param name="size"></param>
-        /// <exception cref="InvalidObjectExeception"></exception>
-        /// <exception cref="InvalidDataSizeExeception"></exception>
-        protected static void CheckBuffer(CLMemObject obj, uint offset, uint size)
+        protected static void CheckBuffer(CLBuffer obj, uint offset, uint size)
         {
             if (!obj.IsValid)
                 throw new InvalidObjectExeception("Obbject is not valid");
@@ -335,25 +334,18 @@ namespace OpenCLDotNet.Buffers
                 throw new InvalidDataSizeExeception($"Offset + size was {offset + size} when offset + length <= {obj.Length} was expected.");
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="obj"></param>
-        /// <param name="offset"></param>
-        /// <param name="size"></param>
-        /// <exception cref="InvalidDataSizeExeception"></exception>
+        protected static void CheckImage(CLImage obj)
+        {
+            if (!obj.IsValid)
+                throw new InvalidObjectExeception("Obbject is not valid");
+        }
+
         protected static void CheckOffset(CLMemObject obj, uint offset, uint size)
         {
             if ((offset + size) > obj.Length)
                 throw new InvalidDataSizeExeception($"Offset + size was {offset + size} when offset + size <= {obj.Length} was expected.");
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="obj"></param>
-        /// <param name="region"></param>
-        /// <exception cref="InvalidDataSizeExeception"></exception>
         protected static void CheckRegion(CLImage2D obj, CLRegion2t region)
         {
             if ((region.Origion.x + region.Size.x) > obj.Width)
@@ -363,12 +355,6 @@ namespace OpenCLDotNet.Buffers
                 throw new InvalidDataSizeExeception($"Region origin.y + size.y was {region.Origion.y + region.Size.y} when origin.y + size.y <= {obj.Height} was expected.");
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="obj"></param>
-        /// <param name="region"></param>
-        /// <exception cref="InvalidDataSizeExeception"></exception>
         protected static void CheckRegion(CLImage2D obj, CLRegion3t region)
         {
             if ((region.Origion.x + region.Size.x) > obj.Width)
@@ -381,15 +367,6 @@ namespace OpenCLDotNet.Buffers
             //    throw new InvalidDataSizeExeception($"Region origin.y + size.y was {region.Origion.z + region.Size.z} when origin.z + size.z <= {obj.Depth} was expected.");
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="obj"></param>
-        /// <param name="data"></param>
-        /// <param name="region"></param>
-        /// <exception cref="NullReferenceException"></exception>
-        /// <exception cref="InvalidDataSizeExeception"></exception>
-        /// <exception cref="InvalidDataTypeExeception"></exception>
         protected static void CheckData(CLMemObject obj, Array data, CLRegion3t region)
         {
             if (data == null)

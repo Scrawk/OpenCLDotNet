@@ -777,7 +777,7 @@ namespace OpenCLDotNet.Programs
             if (image == null)
                 throw new InvalidCastException("Kernel ag");
 
-            image.Read(Command, image.Region, dst, blocking);
+            image.Read(Command, dst, image.Region, blocking);
         }
 
         /// <summary>
@@ -805,7 +805,7 @@ namespace OpenCLDotNet.Programs
             if (image == null)
                 throw new InvalidCastException("Kernel ag");
 
-            image.Write(Command, image.Region, src, blocking);
+            image.Write(Command, src, image.Region, blocking);
         }
 
         /// <summary>

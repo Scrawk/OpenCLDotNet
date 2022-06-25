@@ -69,13 +69,15 @@ namespace OpenCLDotNet.Core
                         byte_size, data, 0, null, out e);
         }
 
+
         /// <summary>
-        /// 
+        /// Enqueues a command to read from a 2D or 3D image object to host memory.
         /// </summary>
-        /// <param name="command"></param>
-        /// <param name="image"></param>
-        /// <param name="blocking_read"></param>
-        /// <param name="region"></param>
+        /// <param name="command">Refers to the command-queue in which the read command will be queued. 
+        /// command_queue and image must be created with the same OpenCL context</param>
+        /// <param name="image">The image to read from.</param>
+        /// <param name="blocking_read">Indicates if the read operations are blocking or non-blocking.</param>
+        /// <param name="region">Defines the region in the image to read from.</param>
         /// <param name="data"></param>
         /// <returns></returns>
         public static CL_ERROR EnqueueReadImage(
@@ -88,14 +90,15 @@ namespace OpenCLDotNet.Core
             uint row_pitch = image.RowPitch;
             uint slice_pitch = 0;
 
-            byte[] bytes = new byte[image.ByteSize];
+            var bytes_origin = region.Origion;
+            var bytes_size = region.Size;
 
             cl_event e;
-            var error = CL_EnqueueReadImage(command, image.Id, blocking_read, region.Origion, region.Size,
-                row_pitch, slice_pitch, bytes, 0, null, out e);
+            var error = CL_EnqueueReadImage(command, image.Id, blocking_read, bytes_origin, bytes_size,
+                row_pitch, slice_pitch, null, 0, null, out e);
 
-            Buffer.BlockCopy(bytes, 0, data, 0, bytes.Length);
             return error;
+
         }
 
         /// <summary>
@@ -116,13 +119,10 @@ namespace OpenCLDotNet.Core
         {
             uint input_row_pitch = image.RowPitch;
             uint input_slice_pitch = 0;
- 
-            byte[] bytes = new byte[image.ByteSize];
-            Buffer.BlockCopy(data, 0, bytes, 0, bytes.Length);
 
             cl_event e;
             return CL_EnqueueWriteImage(command, image.Id, blocking_write, region.Origion, region.Size,
-                input_row_pitch, input_slice_pitch, bytes,
+                input_row_pitch, input_slice_pitch, data,
                 0, null, out e);
         }
 
@@ -577,7 +577,7 @@ namespace OpenCLDotNet.Core
             CLPoint3t region,
             size_t input_row_pitch,
             size_t input_slice_pitch,
-            byte[] data,
+            Array data,
             uint wait_list_size,
             [Out] cl_event[] wait_list,
             [Out] out cl_event _event);
@@ -591,7 +591,7 @@ namespace OpenCLDotNet.Core
             CLPoint3t region,
             size_t input_row_pitch,
             size_t input_slice_pitch,
-            byte[] data,
+            Array data,
             cl_uint wait_list_size,
             [Out] cl_event[] wait_list,
             [Out] out cl_event _event);

@@ -14,9 +14,9 @@ namespace OpenCLDotNetTest.Buffers
     public class CLImage2DTest
     {
 
-        private const uint WIDTH = 100;
+        private const uint WIDTH = 10;
 
-        private const uint HEIGHT = 100;
+        private const uint HEIGHT = 10;
 
         private const uint SIZE = WIDTH * HEIGHT;
 
@@ -53,6 +53,8 @@ namespace OpenCLDotNetTest.Buffers
             Assert.IsTrue(image.CanRead);
             Assert.IsFalse(image.IsWriteOnly);
             Assert.IsFalse(image.CanWrite);
+            Assert.AreEqual(WIDTH, image.Region.Size.x);
+            Assert.AreEqual(HEIGHT, image.Region.Size.y);
         }
 
         [TestMethod]
@@ -71,11 +73,28 @@ namespace OpenCLDotNetTest.Buffers
             Assert.IsFalse(image.CanRead);
             Assert.IsTrue(image.IsWriteOnly);
             Assert.IsTrue(image.CanWrite);
+            Assert.AreEqual(WIDTH, image.Region.Size.x);
+            Assert.AreEqual(HEIGHT, image.Region.Size.y);
         }
 
         [TestMethod]
         public void ReadTest()
         {
+            var image = CreateWriteImage();
+
+            image.Write(Cmd, Data, image.Region, true);
+
+            Console.WriteLine(image.Error);
+
+            var data = new float[SIZE];
+            image.Read(Cmd, data, image.Region, true);
+
+            Console.WriteLine(image.Error);
+
+            Console.WriteLine(image.Error);
+
+            for(int i = 0; i < 100; i++)
+                Console.WriteLine(data[i]);
 
         }
 

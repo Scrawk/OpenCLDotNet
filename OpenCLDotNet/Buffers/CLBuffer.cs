@@ -116,7 +116,7 @@ namespace OpenCLDotNet.Buffers
         private void Create(CLContext context, CL_READ_WRITE rw, CL_MEM_DATA_TYPE type, uint length)
         {
             ResetErrorCode();
-            Flags = CreateFlags(rw);
+            Flags = CreateBufferFlags(rw);
             MemType = CL_MEM_OBJECT_TYPE.BUFFER;
             Length = length;
             DataType = type;
@@ -175,7 +175,7 @@ namespace OpenCLDotNet.Buffers
             }
 
             ResetErrorCode();
-            Flags = CreateFlags(rw);
+            Flags = CreateBufferFlags(rw);
             MemType = CL_MEM_OBJECT_TYPE.BUFFER;
             DataType = CL.TypeOf(data);
             DataSize = CL.SizeOf(DataType);

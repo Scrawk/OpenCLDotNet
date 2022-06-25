@@ -24,7 +24,11 @@ namespace OpenCLDotNet.Core
         /// <param name="format"></param>
         /// <param name="desc"></param>
         /// <param name="byte_size"></param>
-        /// <param name="data"></param>
+        /// <param name="data">Refers to a valid buffer memory object if image_type is CL_MEM_OBJECT_IMAGE1D_BUFFER. 
+        /// Otherwise it must be NULL. For a 1D image buffer object, the image pixels are taken from the buffer 
+        /// object's data store. When the contents of a buffer object's data store are modified, those changes 
+        /// are reflected in the contents of the 1D image buffer object and vice-versa at corresponding sychronization points.
+        /// The image_width * size of element in bytes must be ≤ size of buffer object data store..</param>
         /// <param name="error"></param>
         /// <returns></returns>
         public static cl_mem CreateImage(
@@ -36,14 +40,7 @@ namespace OpenCLDotNet.Core
             Array data,
             out CL_ERROR error)
         {
-            byte[] bytes = null;
-            if (data != null)
-            {
-                bytes = new byte[byte_size];
-                Buffer.BlockCopy(data, 0, bytes, 0, bytes.Length);
-            }
-
-            return CL_CreateImage(context, flags, format, desc, bytes, out error);
+            return CL_CreateImage(context, flags, format, desc, data, out error);
         }
 
         /// <summary>
@@ -236,7 +233,7 @@ namespace OpenCLDotNet.Core
             CL_MEM_FLAGS flags,
             CLImageFormat format,
             CLImageDescription desc,
-            byte[] data,
+            Array data,
             [Out] out CL_ERROR error);
 
         [DllImport(DLL_NAME, CallingConvention = CDECL)]

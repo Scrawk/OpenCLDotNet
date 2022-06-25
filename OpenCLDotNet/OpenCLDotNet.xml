@@ -122,12 +122,13 @@
         </member>
         <member name="M:OpenCLDotNet.Core.CL.EnqueueReadImage(OpenCLDotNet.Core.cl_command_queue,OpenCLDotNet.Buffers.CLImage,System.Boolean,OpenCLDotNet.Core.CLRegion3t,System.Array)">
             <summary>
-            
+            Enqueues a command to read from a 2D or 3D image object to host memory.
             </summary>
-            <param name="command"></param>
-            <param name="image"></param>
-            <param name="blocking_read"></param>
-            <param name="region"></param>
+            <param name="command">Refers to the command-queue in which the read command will be queued. 
+            command_queue and image must be created with the same OpenCL context</param>
+            <param name="image">The image to read from.</param>
+            <param name="blocking_read">Indicates if the read operations are blocking or non-blocking.</param>
+            <param name="region">Defines the region in the image to read from.</param>
             <param name="data"></param>
             <returns></returns>
         </member>
@@ -284,7 +285,11 @@
             <param name="format"></param>
             <param name="desc"></param>
             <param name="byte_size"></param>
-            <param name="data"></param>
+            <param name="data">Refers to a valid buffer memory object if image_type is CL_MEM_OBJECT_IMAGE1D_BUFFER. 
+            Otherwise it must be NULL. For a 1D image buffer object, the image pixels are taken from the buffer 
+            object's data store. When the contents of a buffer object's data store are modified, those changes 
+            are reflected in the contents of the 1D image buffer object and vice-versa at corresponding sychronization points.
+            The image_width * size of element in bytes must be ≤ size of buffer object data store..</param>
             <param name="error"></param>
             <returns></returns>
         </member>
@@ -2252,11 +2257,6 @@
             
             </summary>
         </member>
-        <member name="P:OpenCLDotNet.Core.CLRegion3t.Length">
-            <summary>
-            
-            </summary>
-        </member>
         <member name="M:OpenCLDotNet.Core.CLRegion3t.#ctor(OpenCLDotNet.Core.CLPoint3t,OpenCLDotNet.Core.CLPoint3t)">
             <summary>
             
@@ -2487,7 +2487,7 @@
             
             </summary>
         </member>
-        <member name="M:OpenCLDotNet.Buffers.CLImage.Read(OpenCLDotNet.Events.CLCommandQueue,OpenCLDotNet.Core.CLRegion3t,System.Array,System.Boolean)">
+        <member name="M:OpenCLDotNet.Buffers.CLImage.Read(OpenCLDotNet.Events.CLCommandQueue,System.Array,OpenCLDotNet.Core.CLRegion3t,System.Boolean)">
             <summary>
             
             </summary>
@@ -2495,9 +2495,8 @@
             <param name="region"></param>
             <param name="dst"></param>
             <param name="blocking"></param>
-            <exception cref="T:OpenCLDotNet.Utility.InvalidObjectExeception"></exception>
         </member>
-        <member name="M:OpenCLDotNet.Buffers.CLImage.Write(OpenCLDotNet.Events.CLCommandQueue,OpenCLDotNet.Core.CLRegion3t,System.Array,System.Boolean)">
+        <member name="M:OpenCLDotNet.Buffers.CLImage.Write(OpenCLDotNet.Events.CLCommandQueue,System.Array,OpenCLDotNet.Core.CLRegion3t,System.Boolean)">
             <summary>
             
             </summary>
@@ -2965,7 +2964,7 @@
             
             </summary>
         </member>
-        <member name="M:OpenCLDotNet.Buffers.CLMemObject.CreateFlags(OpenCLDotNet.Core.CL_READ_WRITE)">
+        <member name="M:OpenCLDotNet.Buffers.CLMemObject.CreateBufferFlags(OpenCLDotNet.Core.CL_READ_WRITE)">
             <summary>
             
             </summary>
@@ -3017,71 +3016,6 @@
             <summary>
             
             </summary>
-        </member>
-        <member name="M:OpenCLDotNet.Buffers.CLMemObject.CheckCommand(OpenCLDotNet.Events.CLCommandQueue)">
-            <summary>
-            
-            </summary>
-            <param name="cmd"></param>
-            <exception cref="T:System.NullReferenceException"></exception>
-            <exception cref="T:OpenCLDotNet.Utility.InvalidObjectExeception"></exception>
-        </member>
-        <member name="M:OpenCLDotNet.Buffers.CLMemObject.CheckData(OpenCLDotNet.Buffers.CLMemObject,System.Array,System.UInt32)">
-            <summary>
-            
-            </summary>
-            <param name="obj"></param>
-            <param name="data"></param>
-            <param name="offset"></param>
-            <exception cref="T:System.NullReferenceException"></exception>
-            <exception cref="T:OpenCLDotNet.Utility.InvalidDataSizeExeception"></exception>
-            <exception cref="T:OpenCLDotNet.Utility.InvalidDataTypeExeception"></exception>
-        </member>
-        <member name="M:OpenCLDotNet.Buffers.CLMemObject.CheckBuffer(OpenCLDotNet.Buffers.CLMemObject,System.UInt32,System.UInt32)">
-            <summary>
-            
-            </summary>
-            <param name="obj"></param>
-            <param name="offset"></param>
-            <param name="size"></param>
-            <exception cref="T:OpenCLDotNet.Utility.InvalidObjectExeception"></exception>
-            <exception cref="T:OpenCLDotNet.Utility.InvalidDataSizeExeception"></exception>
-        </member>
-        <member name="M:OpenCLDotNet.Buffers.CLMemObject.CheckOffset(OpenCLDotNet.Buffers.CLMemObject,System.UInt32,System.UInt32)">
-            <summary>
-            
-            </summary>
-            <param name="obj"></param>
-            <param name="offset"></param>
-            <param name="size"></param>
-            <exception cref="T:OpenCLDotNet.Utility.InvalidDataSizeExeception"></exception>
-        </member>
-        <member name="M:OpenCLDotNet.Buffers.CLMemObject.CheckRegion(OpenCLDotNet.Buffers.CLImage2D,OpenCLDotNet.Core.CLRegion2t)">
-            <summary>
-            
-            </summary>
-            <param name="obj"></param>
-            <param name="region"></param>
-            <exception cref="T:OpenCLDotNet.Utility.InvalidDataSizeExeception"></exception>
-        </member>
-        <member name="M:OpenCLDotNet.Buffers.CLMemObject.CheckRegion(OpenCLDotNet.Buffers.CLImage2D,OpenCLDotNet.Core.CLRegion3t)">
-            <summary>
-            
-            </summary>
-            <param name="obj"></param>
-            <param name="region"></param>
-            <exception cref="T:OpenCLDotNet.Utility.InvalidDataSizeExeception"></exception>
-        </member>
-        <member name="M:OpenCLDotNet.Buffers.CLMemObject.CheckData(OpenCLDotNet.Buffers.CLMemObject,System.Array,OpenCLDotNet.Core.CLRegion3t)">
-            <summary>
-            
-            </summary>
-            <param name="obj"></param>
-            <param name="data"></param>
-            <param name="region"></param>
-            <exception cref="T:System.NullReferenceException"></exception>
-            <exception cref="T:OpenCLDotNet.Utility.InvalidDataSizeExeception"></exception>
-            <exception cref="T:OpenCLDotNet.Utility.InvalidDataTypeExeception"></exception>
         </member>
         <member name="T:OpenCLDotNet.Buffers.CLSampler">
             <summary>
