@@ -137,6 +137,9 @@ namespace OpenCLDotNetConsole
 			var image = CLImage2D.CreateReadImage2D(context, image_params);
 			//image.Print();
 
+			var cmd = new CLCommandQueue(context);
+			image.Fill(cmd, CLColorRGBA.Red, image.Region);
+
 			//program.CreateReadBuffer("Kernel1", 0, data0);
 			//program.CreateReadBuffer("Kernel1", 1, data1);
 			//program.CreateWriteBuffer("Kernel1", 2, CL_MEM_DATA_TYPE.FLOAT, ARRAY_SIZE);
@@ -153,8 +156,8 @@ namespace OpenCLDotNetConsole
 			var global_size = new CLPoint2t(WIDTH, HEIGHT);
 			var local_size = new CLPoint2t(16, 16);
 
-			program.Run(kernel_name, global_offset, global_size, local_size);
-			Console.WriteLine("Program error " + program.Error);
+			//program.Run(kernel_name, global_offset, global_size, local_size);
+			//Console.WriteLine("Program error " + program.Error);
 
 			var result = new int[ARRAY_SIZE];
 			program.ReadImage(kernel_name, true, 1, result);

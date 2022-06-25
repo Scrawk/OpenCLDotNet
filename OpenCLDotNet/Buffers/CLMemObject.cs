@@ -346,28 +346,36 @@ namespace OpenCLDotNet.Buffers
                 throw new InvalidDataSizeExeception($"Offset + size was {offset + size} when offset + size <= {obj.Length} was expected.");
         }
 
-        protected static void CheckRegion(CLImage2D obj, CLRegion2t region)
+        protected static void CheckRegion(CLImage obj, CLRegion2t region)
         {
-            if ((region.Origion.x + region.Size.x) > obj.Width)
-                throw new InvalidDataSizeExeception($"Region origin.x + size.x was {region.Origion.x + region.Size.x} when origin.x + size.x <= {obj.Width} was expected.");
+            var image_region = obj.Region;
+            var width = image_region.Size.x;
+            var height = image_region.Size.y;
 
-            if ((region.Origion.y + region.Size.y) > obj.Height)
-                throw new InvalidDataSizeExeception($"Region origin.y + size.y was {region.Origion.y + region.Size.y} when origin.y + size.y <= {obj.Height} was expected.");
+            if ((region.Origion.x + region.Size.x) > width)
+                throw new InvalidDataSizeExeception($"Region origin.x + size.x was {region.Origion.x + region.Size.x} when origin.x + size.x <= {width} was expected.");
+
+            if ((region.Origion.y + region.Size.y) > height)
+                throw new InvalidDataSizeExeception($"Region origin.y + size.y was {region.Origion.y + region.Size.y} when origin.y + size.y <= {height} was expected.");
         }
 
-        protected static void CheckRegion(CLImage2D obj, CLRegion3t region)
+        protected static void CheckRegion(CLImage obj, CLRegion3t region)
         {
-            if ((region.Origion.x + region.Size.x) > obj.Width)
-                throw new InvalidDataSizeExeception($"Region origin.x + size.x was {region.Origion.x + region.Size.x} when origin.x + size.x <= {obj.Width} was expected.");
+            var image_region = obj.Region;
+            var width = image_region.Size.x;
+            var height = image_region.Size.y;
 
-            if ((region.Origion.y + region.Size.y) > obj.Height)
-                throw new InvalidDataSizeExeception($"Region origin.y + size.y was {region.Origion.y + region.Size.y} when origin.y + size.y <= {obj.Height} was expected.");
+            if ((region.Origion.x + region.Size.x) > width)
+                throw new InvalidDataSizeExeception($"Region origin.x + size.x was {region.Origion.x + region.Size.x} when origin.x + size.x <= {width} was expected.");
+
+            if ((region.Origion.y + region.Size.y) > height)
+                throw new InvalidDataSizeExeception($"Region origin.y + size.y was {region.Origion.y + region.Size.y} when origin.y + size.y <= {height} was expected.");
 
             //if ((region.Origion.z + region.Size.z) > obj.Depth)
             //    throw new InvalidDataSizeExeception($"Region origin.y + size.y was {region.Origion.z + region.Size.z} when origin.z + size.z <= {obj.Depth} was expected.");
         }
 
-        protected static void CheckData(CLMemObject obj, Array data, CLRegion3t region)
+        protected static void CheckRegion(CLMemObject obj, Array data, CLRegion3t region)
         {
             if (data == null)
                 throw new NullReferenceException("Data is null.");

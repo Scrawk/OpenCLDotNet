@@ -54,7 +54,7 @@ namespace OpenCLDotNet.Buffers
         {
             CheckCommand(cmd);
             CheckImage(this);
-            CheckData(this, dst, region);
+            CheckRegion(this, dst, region);
 
             var error = CL.EnqueueReadImage(cmd.Id, this, blocking, region, dst, ByteSize);
             Error = Error.ToString();
@@ -72,9 +72,25 @@ namespace OpenCLDotNet.Buffers
         {
             CheckCommand(cmd);
             CheckImage(this);
-            CheckData(this, src, region);
+            CheckRegion(this, src, region);
 
             var error = CL.EnqueueWriteImage(cmd.Id, this, blocking, region, src, ByteSize);
+            Error = Error.ToString();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="cmd"></param>
+        /// <param name="color"></param>
+        /// <param name="region"></param>
+        public void Fill(CLCommandQueue cmd, CLColorRGBA color, CLRegion3t region)
+        {
+            CheckCommand(cmd);
+            CheckImage(this);
+            CheckRegion(this, region);
+
+            var error = CL.EnqueueFillImage(cmd.Id, Id, color, region);
             Error = Error.ToString();
         }
 

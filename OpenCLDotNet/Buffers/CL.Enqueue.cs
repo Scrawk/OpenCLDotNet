@@ -277,27 +277,32 @@ namespace OpenCLDotNet.Core
         }
 
         /// <summary>
-        /// 
+        /// Enqueues a command to fill an image object with a specified color.
         /// </summary>
-        /// <param name="command"></param>
-        /// <param name="image"></param>
-        /// <param name="fill_color"></param>
-        /// <param name="region"></param>
-        /// <param name="wait_list_size"></param>
-        /// <param name="wait_list"></param>
-        /// <param name="_event"></param>
+        /// <param name="command">command_queue refers to the host command-queue 
+        /// in which the fill command will be queued. The OpenCL context associated
+        /// with command_queue and image must be the same.</param>
+        /// <param name="image">The image to fill.</param>
+        /// <param name="fill_color">fill_color is the color used to fill the image.
+        /// The fill color is a single floating point value if the channel order is CL_​DEPTH.
+        /// Otherwise, the fill color is a four component RGBA floating-point color value 
+        /// if the image channel data type is not an unnormalized signed or unsigned integer 
+        /// type, is a four component signed integer value if the image channel data type 
+        /// is an unnormalized signed integer type and is a four component unsigned integer
+        /// value if the image channel data type is an unnormalized unsigned integer type.
+        /// The fill color will be converted to the appropriate image channel format and 
+        /// order associated with image.</param>
+        /// <param name="region">Defines the region in the image to fill.</param>
         /// <returns></returns>
         public static CL_ERROR EnqueueFillImage(
             cl_command_queue command,
             cl_mem image,
             CLColorRGBA fill_color,
-            CLRegion3t region,
-            uint wait_list_size,
-            cl_event[] wait_list,
-            out cl_event _event)
+            CLRegion3t region)
         {
+            cl_event e;
             return CL_EnqueueFillImage(command, image, fill_color, region.Origion, region.Size,
-                wait_list_size, wait_list, out _event);
+                0, null, out e);
         }
 
         /// <summary>

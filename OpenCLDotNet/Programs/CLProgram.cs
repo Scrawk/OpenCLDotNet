@@ -508,17 +508,17 @@ namespace OpenCLDotNet.Programs
         /// <param name="kernel_name"></param>
         /// <param name="index"></param>
         /// <param name="data"></param>
-        /// <exception cref="NullReferenceException"></exception>
-        public void CreateReadBuffer(string kernel_name, uint index, Array data)
+        /// <returns></returns>
+        public CLBuffer CreateReadBuffer(string kernel_name, uint index, Array data)
         {
             var kernel = FindKernel(kernel_name);
-            if (kernel == null)
-                throw new NullReferenceException($"Kernel named {kernel_name} not found.");
+            CheckKernel(kernel, kernel_name, false);
 
             var buffer = CLBuffer.CreateReadBuffer(Context, data);
             kernel.SetBuffer(buffer, index);
 
             Error = buffer.Error;
+            return buffer;  
         }
 
         /// <summary>
@@ -528,17 +528,17 @@ namespace OpenCLDotNet.Programs
         /// <param name="index"></param>
         /// <param name="type"></param>
         /// <param name="length"></param>
-        /// <exception cref="NullReferenceException"></exception>
-        public void CreateWriteBuffer(string kernel_name, uint index, CL_MEM_DATA_TYPE type, uint length)
+        /// <returns></returns>
+        public CLBuffer CreateWriteBuffer(string kernel_name, uint index, CL_MEM_DATA_TYPE type, uint length)
         {
             var kernel = FindKernel(kernel_name);
-            if (kernel == null)
-                throw new NullReferenceException($"Kernel named {kernel_name} not found.");
+            CheckKernel(kernel, kernel_name, false);
 
             var buffer = CLBuffer.CreateWriteBuffer(Context, type, length);
             kernel.SetBuffer(buffer, index);
 
             Error = buffer.Error;
+            return buffer;
         }
 
         /// <summary>
@@ -547,17 +547,17 @@ namespace OpenCLDotNet.Programs
         /// <param name="kernel_name"></param>
         /// <param name="index"></param>
         /// <param name="param"></param>
-        /// <exception cref="NullReferenceException"></exception>
-        public void CreateReadImage2D(string kernel_name, uint index, CLImageParameters2D param)
+        /// <returns></returns>
+        public CLImage2D CreateReadImage2D(string kernel_name, uint index, CLImageParameters2D param)
         {
             var kernel = FindKernel(kernel_name);
-            if (kernel == null)
-                throw new NullReferenceException($"Kernel named {kernel_name} not found.");
+            CheckKernel(kernel, kernel_name, false);
 
             var image = CLImage2D.CreateReadImage2D(Context, param);
             kernel.SetImage(image, index);
 
             Error = image.Error;
+            return image;   
         }
 
         /// <summary>
@@ -566,17 +566,17 @@ namespace OpenCLDotNet.Programs
         /// <param name="kernel_name"></param>
         /// <param name="index"></param>
         /// <param name="param"></param>
-        /// <exception cref="NullReferenceException"></exception>
-        public void CreateWriteImage2D(string kernel_name, uint index, CLImageParameters2D param)
+        /// <returns></returns>
+        public CLImage2D CreateWriteImage2D(string kernel_name, uint index, CLImageParameters2D param)
         {
             var kernel = FindKernel(kernel_name);
-            if (kernel == null)
-                throw new NullReferenceException($"Kernel named {kernel_name} not found.");
+            CheckKernel(kernel, kernel_name, false);
 
             var image = CLImage2D.CreateWriteImage2D(Context, param);
             kernel.SetImage(image, index);
 
             Error = image.Error;
+            return image;
         }
 
         /// <summary>
@@ -584,11 +584,12 @@ namespace OpenCLDotNet.Programs
         /// </summary>
         /// <param name="kernel_name"></param>
         /// <param name="index"></param>
-        public void CreateSamplerUV(string kernel_name, uint index)
+        /// <returns></returns>
+        public CLSampler CreateSamplerUV(string kernel_name, uint index)
         {
             var mode = CL_ADDRESSING_MODE.CLAMP_TO_EDGE;
             var filter = CL_FILTER_MODE.LINEAR;
-            CreateSampler(kernel_name, index, true, mode, filter);
+            return CreateSampler(kernel_name, index, true, mode, filter);
         }
 
         /// <summary>
@@ -596,11 +597,12 @@ namespace OpenCLDotNet.Programs
         /// </summary>
         /// <param name="kernel_name"></param>
         /// <param name="index"></param>
-        public void CreateSamplerIndex(string kernel_name, uint index)
+        /// <returns></returns>
+        public CLSampler CreateSamplerIndex(string kernel_name, uint index)
         {
             var mode = CL_ADDRESSING_MODE.CLAMP_TO_EDGE;
             var filter = CL_FILTER_MODE.NEAREST;
-            CreateSampler(kernel_name, index, false, mode, filter);
+            return CreateSampler(kernel_name, index, false, mode, filter);
         }
 
         /// <summary>
@@ -611,20 +613,20 @@ namespace OpenCLDotNet.Programs
         /// <param name="normalizedCoords"></param>
         /// <param name="mode"></param>
         /// <param name="filter"></param>
-        /// <exception cref="NullReferenceException"></exception>
-        public void CreateSampler(string kernel_name, uint index,
+        /// <returns></returns>
+        public CLSampler CreateSampler(string kernel_name, uint index,
             bool normalizedCoords,
             CL_ADDRESSING_MODE mode,
             CL_FILTER_MODE filter)
         {
             var kernel = FindKernel(kernel_name);
-            if (kernel == null)
-                throw new NullReferenceException($"Kernel named {kernel_name} not found.");
+            CheckKernel(kernel, kernel_name, false);
 
             var sampler = new CLSampler(Context, normalizedCoords, mode, filter);
             kernel.SetSampler(sampler, index);
 
             Error = sampler.Error;
+            return sampler;
         }
 
         /// <summary>
@@ -633,17 +635,17 @@ namespace OpenCLDotNet.Programs
         /// <param name="kernel_name"></param>
         /// <param name="index"></param>
         /// <param name="properties"></param>
-        /// <exception cref="NullReferenceException"></exception>
-        public void CreateSampler(string kernel_name, uint index, CLSamplerProperties properties)
+        /// <returns></returns>
+        public CLSampler CreateSampler(string kernel_name, uint index, CLSamplerProperties properties)
         {
             var kernel = FindKernel(kernel_name);
-            if (kernel == null)
-                throw new NullReferenceException($"Kernel named {kernel_name} not found.");
+            CheckKernel(kernel, kernel_name, false);
 
             var sampler = new CLSampler(Context, properties);
             kernel.SetSampler(sampler, index);
 
             Error = sampler.Error;
+            return sampler; 
         }
 
         /// <summary>
