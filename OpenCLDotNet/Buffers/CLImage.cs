@@ -59,8 +59,7 @@ namespace OpenCLDotNet.Buffers
             CheckCommand(cmd);
             CheckData(this, dst, region);
 
-            cl_event e;
-            var error = CL.EnqueueReadImage(cmd.Id, this, blocking, region, dst, 0, null, out e);
+            var error = CL.EnqueueReadImage(cmd.Id, this, blocking, region, dst);
             Error = Error.ToString();
         }
 
@@ -80,8 +79,7 @@ namespace OpenCLDotNet.Buffers
             CheckCommand(cmd);
             CheckData(this, src, region);
 
-            cl_event e;
-            var error = CL.EnqueueWriteImage(cmd.Id, this, blocking, region, src, 0, null, out e);
+            var error = CL.EnqueueWriteImage(cmd.Id, this, blocking, region, src);
             Error = Error.ToString();
         }
 

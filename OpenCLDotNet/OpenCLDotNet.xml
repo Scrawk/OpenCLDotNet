@@ -87,39 +87,40 @@
             <param name="mem"></param>
             <returns></returns>
         </member>
-        <member name="M:OpenCLDotNet.Core.CL.EnqueueReadBuffer(OpenCLDotNet.Core.cl_command_queue,OpenCLDotNet.Core.cl_mem,System.Boolean,System.UInt32,System.UInt32,System.Array,OpenCLDotNet.Core.CL_MEM_DATA_TYPE,System.UInt32,OpenCLDotNet.Core.cl_event[],OpenCLDotNet.Core.cl_event@)">
+        <member name="M:OpenCLDotNet.Core.CL.EnqueueReadBuffer(OpenCLDotNet.Core.cl_command_queue,OpenCLDotNet.Core.cl_mem,System.Boolean,System.UInt32,System.UInt32,System.Array)">
             <summary>
-            
+            Enqueue commands to read from a buffer object to host memory.
             </summary>
-            <param name="command"></param>
-            <param name="buffer"></param>
-            <param name="blocking_read"></param>
-            <param name="offset"></param>
-            <param name="byte_size"></param>
-            <param name="data"></param>
-            <param name="type"></param>
-            <param name="wait_list_size"></param>
-            <param name="wait_list"></param>
-            <param name="_event"></param>
-            <returns></returns>
+            <param name="command">command_queue is a valid host  
+            command-queue in which the read command will be queued. 
+            command_queue and buffer must be created with the same 
+            OpenCL context.></param>
+            <param name="buffer">The buffer to read from.</param>
+            <param name="blocking_read">If the read and write operations 
+            are blocking or non-blocking</param>
+            <param name="byte_offset">offset is the offset in bytes in the buffer
+            object to read from or write to</param>
+            <param name="byte_size">The size of the data in bytes.</param>
+            <param name="data">The buffer to read into.</param>
+            <returns>The error code.</returns>
         </member>
-        <member name="M:OpenCLDotNet.Core.CL.EnqueueWriteBuffer(OpenCLDotNet.Core.cl_command_queue,OpenCLDotNet.Core.cl_mem,System.Boolean,System.UInt32,System.UInt32,System.Array,OpenCLDotNet.Core.CL_MEM_DATA_TYPE,System.UInt32,OpenCLDotNet.Core.cl_event[],OpenCLDotNet.Core.cl_event@)">
+        <member name="M:OpenCLDotNet.Core.CL.EnqueueWriteBuffer(OpenCLDotNet.Core.cl_command_queue,OpenCLDotNet.Core.cl_mem,System.Boolean,System.UInt32,System.UInt32,System.Array)">
             <summary>
-            
+            Enqueue commands to write to a buffer object from host memory.
             </summary>
-            <param name="command"></param>
-            <param name="buffer"></param>
-            <param name="blocking_write"></param>
-            <param name="offset"></param>
-            <param name="byte_size"></param>
-            <param name="data"></param>
-            <param name="type"></param>
-            <param name="wait_list_size"></param>
-            <param name="wait_list"></param>
-            <param name="_event"></param>
-            <returns></returns>
+            <param name="command">Refers to the command-queue in which the
+            write command will be queued. command_queue and buffer must be
+            created with the same OpenCL context.</param>
+            <param name="buffer">The buffer to write to.</param>
+            <param name="blocking_write">Indicates if the write operations 
+            are blocking or nonblocking.</param>
+            <param name="byte_offset">The offset in bytes in the buffer 
+            object to write to.</param>
+            <param name="byte_size">The size of the data in bytes.</param>
+            <param name="data">The data to write from.</param>
+            <returns>The error code.</returns>
         </member>
-        <member name="M:OpenCLDotNet.Core.CL.EnqueueReadImage(OpenCLDotNet.Core.cl_command_queue,OpenCLDotNet.Buffers.CLImage,System.Boolean,OpenCLDotNet.Core.CLRegion3t,System.Array,System.UInt32,OpenCLDotNet.Core.cl_event[],OpenCLDotNet.Core.cl_event@)">
+        <member name="M:OpenCLDotNet.Core.CL.EnqueueReadImage(OpenCLDotNet.Core.cl_command_queue,OpenCLDotNet.Buffers.CLImage,System.Boolean,OpenCLDotNet.Core.CLRegion3t,System.Array)">
             <summary>
             
             </summary>
@@ -128,12 +129,9 @@
             <param name="blocking_read"></param>
             <param name="region"></param>
             <param name="data"></param>
-            <param name="wait_list_size"></param>
-            <param name="wait_list"></param>
-            <param name="_event"></param>
             <returns></returns>
         </member>
-        <member name="M:OpenCLDotNet.Core.CL.EnqueueWriteImage(OpenCLDotNet.Core.cl_command_queue,OpenCLDotNet.Buffers.CLImage,System.Boolean,OpenCLDotNet.Core.CLRegion3t,System.Array,System.UInt32,OpenCLDotNet.Core.cl_event[],OpenCLDotNet.Core.cl_event@)">
+        <member name="M:OpenCLDotNet.Core.CL.EnqueueWriteImage(OpenCLDotNet.Core.cl_command_queue,OpenCLDotNet.Buffers.CLImage,System.Boolean,OpenCLDotNet.Core.CLRegion3t,System.Array)">
             <summary>
             
             </summary>
@@ -142,12 +140,9 @@
             <param name="blocking_write"></param>
             <param name="region"></param>
             <param name="data"></param>
-            <param name="wait_list_size"></param>
-            <param name="wait_list"></param>
-            <param name="_event"></param>
             <returns></returns>
         </member>
-        <member name="M:OpenCLDotNet.Core.CL.EnqueueFillBuffer(OpenCLDotNet.Core.cl_command_queue,OpenCLDotNet.Core.cl_mem,System.Array,System.UInt32,System.UInt32,System.UInt32,OpenCLDotNet.Core.cl_uint,OpenCLDotNet.Core.cl_event[],OpenCLDotNet.Core.cl_event@)">
+        <member name="M:OpenCLDotNet.Core.CL.EnqueueFillBuffer(OpenCLDotNet.Core.cl_command_queue,OpenCLDotNet.Core.cl_mem,System.Array,System.UInt32,System.UInt32,System.UInt32)">
             <summary>
             
             </summary>
@@ -159,25 +154,20 @@
             filled in buffer and must be a multiple of pattern_size.</param>
             <param name="size">The size in bytes of region being filled 
             in buffer and must be a multiple of pattern_size.</param>
-            <param name="wait_list_size"></param>
-            <param name="wait_list"></param>
-            <param name="_event"></param>
-            <returns></returns>
+            <returns>The error code.</returns>
         </member>
-        <member name="M:OpenCLDotNet.Core.CL.EnqueueCopyBuffer(OpenCLDotNet.Core.cl_command_queue,OpenCLDotNet.Core.cl_mem,OpenCLDotNet.Core.cl_mem,System.UInt32,System.UInt32,System.UInt32,System.UInt32,OpenCLDotNet.Core.cl_event[],OpenCLDotNet.Core.cl_event@)">
+        <member name="M:OpenCLDotNet.Core.CL.EnqueueCopyBuffer(OpenCLDotNet.Core.cl_command_queue,OpenCLDotNet.Core.cl_mem,OpenCLDotNet.Core.cl_mem,System.UInt32,System.UInt32)">
             <summary>
-            
+            Enqueues a command to copy a buffer object to another buffer object.
             </summary>
-            <param name="command"></param>
-            <param name="src_buffer"></param>
-            <param name="dst_buffer"></param>
-            <param name="src_offset"></param>
-            <param name="dst_offset"></param>
-            <param name="size"></param>
-            <param name="wait_list_size"></param>
-            <param name="wait_list"></param>
-            <param name="_event"></param>
-            <returns></returns>
+            <param name="command">The command-queue in which the copy command will 
+            be queued. The OpenCL context associated with command_queue, src_buffer, 
+            and dst_buffer must be the same.</param>
+            <param name="src_buffer">The buffer to read from.</param>
+            <param name="dst_buffer">The buffer to write to.</param>
+            <param name="byte_offset">The offset in bytes where to begin copying data from src_buffer.</param>
+            <param name="byte_size">Refers to the size in bytes to copy.</param>
+            <returns>The error code.</returns>
         </member>
         <member name="M:OpenCLDotNet.Core.CL.EnqueueCopyBufferRect(OpenCLDotNet.Core.cl_command_queue,OpenCLDotNet.Core.cl_mem,OpenCLDotNet.Core.cl_mem,OpenCLDotNet.Core.CLPoint3t,OpenCLDotNet.Core.CLPoint3t,OpenCLDotNet.Core.CLPoint3t,System.UInt32,System.UInt32,System.UInt32,System.UInt32,System.UInt32,OpenCLDotNet.Core.cl_event[],OpenCLDotNet.Core.cl_event@)">
             <summary>
@@ -2401,57 +2391,70 @@
             <param name="flags"></param>
             <param name="data"></param>
         </member>
-        <member name="M:OpenCLDotNet.Buffers.CLBuffer.Read(OpenCLDotNet.Events.CLCommandQueue,System.UInt32,System.Array,System.Boolean)">
+        <member name="M:OpenCLDotNet.Buffers.CLBuffer.Read(OpenCLDotNet.Events.CLCommandQueue,System.Array)">
             <summary>
-            
+            Enqueue commands to read from a buffer object.
             </summary>
-            <param name="cmd"></param>
-            <param name="offset"></param>
-            <param name="dst"></param>
-            <param name="blocking"></param>
-            <exception cref="T:OpenCLDotNet.Utility.InvalidObjectExeception"></exception>
+            <param name="cmd">command_queue is a valid host 
+            command-queue in which the read / write command will be queued. 
+            command_queue and buffer must be created with the same OpenCL 
+            context.</param>
+            <param name="dst">The data to be read to</param>
         </member>
-        <member name="M:OpenCLDotNet.Buffers.CLBuffer.Write(OpenCLDotNet.Events.CLCommandQueue,System.UInt32,System.Array,System.Boolean)">
+        <member name="M:OpenCLDotNet.Buffers.CLBuffer.Read(OpenCLDotNet.Events.CLCommandQueue,System.Array,System.UInt32,System.Boolean)">
             <summary>
-            
+            Enqueue commands to read from a buffer object.
             </summary>
-            <param name="cmd"></param>
-            <param name="offset"></param>
-            <param name="src"></param>
-            <param name="blocking"></param>
-            <exception cref="T:OpenCLDotNet.Utility.InvalidObjectExeception"></exception>
+            <param name="cmd">command_queue is a valid host 
+            command-queue in which the read / write command will be queued. 
+            command_queue and buffer must be created with the same OpenCL 
+            context.</param>
+            <param name="src_offset">offset is the offset in the source buffer 
+            object to read from.</param>
+            <param name="dst">The data to be read to</param>
+            <param name="blocking">If the read and write operations are blocking
+            or non-blocking</param>
         </member>
-        <member name="M:OpenCLDotNet.Buffers.CLBuffer.Copy(OpenCLDotNet.Events.CLCommandQueue,System.UInt32,System.UInt32,System.UInt32)">
+        <member name="M:OpenCLDotNet.Buffers.CLBuffer.Write(OpenCLDotNet.Events.CLCommandQueue,System.Array)">
             <summary>
-            
+            Enqueue commands to write to a buffer object from host memory.
             </summary>
-            <param name="cmd"></param>
-            <param name="src_offset"></param>
-            <param name="dst_offset"></param>
-            <param name="size"></param>
-            <returns></returns>
-            <exception cref="T:OpenCLDotNet.Utility.InvalidObjectExeception"></exception>
+            <param name="cmd">Refers to the command-queue in which the write 
+            command will be queued. command_queue and buffer must be created 
+            with the same OpenCL context.</param>
+            <param name="src">The data to be written from.</param>
         </member>
-        <member name="M:OpenCLDotNet.Buffers.CLBuffer.Copy(OpenCLDotNet.Events.CLCommandQueue,OpenCLDotNet.Buffers.CLBuffer,System.UInt32,System.UInt32,System.UInt32)">
+        <member name="M:OpenCLDotNet.Buffers.CLBuffer.Write(OpenCLDotNet.Events.CLCommandQueue,System.Array,System.UInt32,System.Boolean)">
             <summary>
-            
+            Enqueue commands to write to a buffer object from host memory.
             </summary>
-            <param name="cmd"></param>
-            <param name="dst"></param>
-            <param name="src_offset"></param>
-            <param name="dst_offset"></param>
-            <param name="size"></param>
-            <exception cref="T:OpenCLDotNet.Utility.InvalidObjectExeception"></exception>
+            <param name="cmd">Refers to the command-queue in which the write 
+            command will be queued. command_queue and buffer must be created 
+            with the same OpenCL context.</param>
+            <param name="offset">The offset in the buffer object to write to.</param>
+            <param name="src">The data to be written from.</param>
+            <param name="blocking">Indicates if the write operations are 
+            blocking or nonblocking.</param>
         </member>
-        <member name="M:OpenCLDotNet.Buffers.CLBuffer.Fill(OpenCLDotNet.Events.CLCommandQueue,System.Array,System.UInt32,System.UInt32)">
+        <member name="M:OpenCLDotNet.Buffers.CLBuffer.Copy(OpenCLDotNet.Events.CLCommandQueue)">
             <summary>
-            
+            Enqueues a command to copy a buffer object to another buffer object.
             </summary>
-            <param name="cmd"></param>
-            <param name="pattern"></param>
-            <param name="offset"></param>
-            <param name="size"></param>
-            <exception cref="T:OpenCLDotNet.Utility.InvalidObjectExeception"></exception>
+            <param name="cmd">Refers to the command-queue in which the write 
+            command will be queued. command_queue and buffer must be created 
+            with the same OpenCL context.</param>
+            <returns>The copied buffer.</returns>
+        </member>
+        <member name="M:OpenCLDotNet.Buffers.CLBuffer.Copy(OpenCLDotNet.Events.CLCommandQueue,OpenCLDotNet.Buffers.CLBuffer,System.UInt32,System.UInt32)">
+            <summary>
+            Enqueues a command to copy a buffer object to another buffer object.
+            </summary>
+            <param name="cmd">The command-queue in which the copy command will be queued. 
+            The OpenCL context associated with command_queue, src_buffer, 
+            and dst_buffer must be the same</param>
+            <param name="dst">The buffer to copy to.</param>
+            <param name="src_offset">The offset where to begin copying data from src_buffer.</param>
+            <param name="dst_size">The size to copy into the dst buffer.</param>
         </member>
         <member name="T:OpenCLDotNet.Buffers.CLImage">
             <summary>
@@ -3033,6 +3036,16 @@
             <exception cref="T:System.NullReferenceException"></exception>
             <exception cref="T:OpenCLDotNet.Utility.InvalidDataSizeExeception"></exception>
             <exception cref="T:OpenCLDotNet.Utility.InvalidDataTypeExeception"></exception>
+        </member>
+        <member name="M:OpenCLDotNet.Buffers.CLMemObject.CheckBuffer(OpenCLDotNet.Buffers.CLMemObject,System.UInt32,System.UInt32)">
+            <summary>
+            
+            </summary>
+            <param name="obj"></param>
+            <param name="offset"></param>
+            <param name="size"></param>
+            <exception cref="T:OpenCLDotNet.Utility.InvalidObjectExeception"></exception>
+            <exception cref="T:OpenCLDotNet.Utility.InvalidDataSizeExeception"></exception>
         </member>
         <member name="M:OpenCLDotNet.Buffers.CLMemObject.CheckOffset(OpenCLDotNet.Buffers.CLMemObject,System.UInt32,System.UInt32)">
             <summary>

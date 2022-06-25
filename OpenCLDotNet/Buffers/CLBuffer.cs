@@ -224,124 +224,123 @@ namespace OpenCLDotNet.Buffers
             SetErrorCodeToSuccess();
         }
 
-
         /// <summary>
-        /// 
+        /// Enqueue commands to read from a buffer object.
         /// </summary>
-        /// <param name="cmd"></param>
-        /// <param name="offset"></param>
-        /// <param name="dst"></param>
-        /// <param name="blocking"></param>
-        /// <exception cref="InvalidObjectExeception"></exception>
-        public void Read(CLCommandQueue cmd, uint offset, Array dst, bool blocking)
+        /// <param name="cmd">command_queue is a valid host 
+        /// command-queue in which the read / write command will be queued. 
+        /// command_queue and buffer must be created with the same OpenCL 
+        /// context.</param>
+        /// <param name="dst">The data to be read to</param>
+        public void Read(CLCommandQueue cmd, Array dst)
         {
-            if (!IsValid)
-                throw new InvalidObjectExeception("Buffer is not valid.");
-
-            CheckCommand(cmd);
-            CheckData(this, dst, offset);
-
-            cl_event e;
-            Error = CL.EnqueueReadBuffer(cmd.Id, Id, blocking, offset,
-                      ByteSize, dst, DataType, 0, null, out e).ToString();
+            Read(cmd, dst, 0, true);
         }
 
         /// <summary>
-        /// 
+        /// Enqueue commands to read from a buffer object.
         /// </summary>
-        /// <param name="cmd"></param>
-        /// <param name="offset"></param>
-        /// <param name="src"></param>
-        /// <param name="blocking"></param>
-        /// <exception cref="InvalidObjectExeception"></exception>
-        public void Write(CLCommandQueue cmd, uint offset, Array src, bool blocking)
+        /// <param name="cmd">command_queue is a valid host 
+        /// command-queue in which the read / write command will be queued. 
+        /// command_queue and buffer must be created with the same OpenCL 
+        /// context.</param>
+        /// <param name="src_offset">offset is the offset in the source buffer 
+        /// object to read from.</param>
+        /// <param name="dst">The data to be read to</param>
+        /// <param name="blocking">If the read and write operations are blocking
+        /// or non-blocking</param>
+        public void Read(CLCommandQueue cmd, Array dst, uint src_offset, bool blocking)
         {
-            if (!IsValid)
-                throw new InvalidObjectExeception("Buffer is not valid.");
-
             CheckCommand(cmd);
-            CheckData(this, src, offset);
+            CheckData(this, dst, src_offset);
 
-            cl_event e;
-            Error = CL.EnqueueWriteBuffer(cmd.Id, Id, blocking, offset,
-                      ByteSize, src, DataType, 0, null, out e).ToString();
-        }
+            //How many bytes to to offset. 
+            uint byte_offset = src_offset * DataSize;
+            //The dst length in bytes
+            uint byte_size = (uint)dst.Length * DataSize;
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="cmd"></param>
-        /// <param name="src_offset"></param>
-        /// <param name="dst_offset"></param>
-        /// <param name="size"></param>
-        /// <returns></returns>
-        /// <exception cref="InvalidObjectExeception"></exception>
-        public CLBuffer Copy(CLCommandQueue cmd, uint src_offset, uint dst_offset, uint size)
-        {
-            if (!IsValid)
-                throw new InvalidObjectExeception("Buffer is not valid.");
-
-            var dst = new CLBuffer(Context, Flags, DataType, size);
-            if (!dst.IsValid)
-                throw new InvalidObjectExeception("Dst buffer is not valid.");
-
-            Copy(cmd, dst, src_offset, dst_offset, size);
-
-            return dst;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="cmd"></param>
-        /// <param name="dst"></param>
-        /// <param name="src_offset"></param>
-        /// <param name="dst_offset"></param>
-        /// <param name="size"></param>
-        /// <exception cref="InvalidObjectExeception"></exception>
-        public void Copy(CLCommandQueue cmd, CLBuffer dst, uint src_offset, uint dst_offset, uint size)
-        {
-            if (!IsValid)
-                throw new InvalidObjectExeception("Buffer is not valid.");
-
-            if (!dst.IsValid)
-                throw new InvalidObjectExeception("Dst buffer is not valid.");
-
-            CheckCommand(cmd);
-            CheckOffset(this, src_offset, size);
-            CheckOffset(dst, dst_offset, size);
-
-            cl_event e;
-            var error = CL.EnqueueCopyBuffer(cmd.Id, Id, dst.Id, src_offset, dst_offset, size,
-                0, null, out e);
+            var error = CL.EnqueueReadBuffer(cmd.Id, Id, blocking, byte_offset, byte_size, dst);
 
             Error = error.ToString();
         }
 
         /// <summary>
-        /// 
+        /// Enqueue commands to write to a buffer object from host memory.
         /// </summary>
-        /// <param name="cmd"></param>
-        /// <param name="pattern"></param>
-        /// <param name="offset"></param>
-        /// <param name="size"></param>
-        /// <exception cref="InvalidObjectExeception"></exception>
-        public void Fill(CLCommandQueue cmd, Array pattern, uint offset, uint size)
+        /// <param name="cmd">Refers to the command-queue in which the write 
+        /// command will be queued. command_queue and buffer must be created 
+        /// with the same OpenCL context.</param>
+        /// <param name="src">The data to be written from.</param>
+        public void Write(CLCommandQueue cmd, Array src)
         {
-            if (!IsValid)
-                throw new InvalidObjectExeception("Buffer is not valid.");
+            Write(cmd, src, 0, true);
+        }
+
+        /// <summary>
+        /// Enqueue commands to write to a buffer object from host memory.
+        /// </summary>
+        /// <param name="cmd">Refers to the command-queue in which the write 
+        /// command will be queued. command_queue and buffer must be created 
+        /// with the same OpenCL context.</param>
+        /// <param name="offset">The offset in the buffer object to write to.</param>
+        /// <param name="src">The data to be written from.</param>
+        /// <param name="blocking">Indicates if the write operations are 
+        /// blocking or nonblocking.</param>
+        public void Write(CLCommandQueue cmd, Array src, uint offset, bool blocking)
+        {
+            CheckCommand(cmd);
+            CheckBuffer(this, offset, (uint)src.Length);
+            CheckData(this, src, 0);
+
+            //How many bytes to to offset. 
+            uint byte_offset = offset * DataSize;
+            //The dst length in bytes
+            uint byte_size = (uint)src.Length * DataSize;
+
+            var error = CL.EnqueueWriteBuffer(cmd.Id, Id, blocking, byte_offset, byte_size, src);
+
+            Error = error.ToString();
+        }
+
+        /// <summary>
+        /// Enqueues a command to copy a buffer object to another buffer object.
+        /// </summary>
+        /// <param name="cmd">Refers to the command-queue in which the write 
+        /// command will be queued. command_queue and buffer must be created 
+        /// with the same OpenCL context.</param>
+        /// <returns>The copied buffer.</returns>
+        public CLBuffer Copy(CLCommandQueue cmd)
+        {
+            var dst = new CLBuffer(Context, Flags, DataType, Length);
+            Copy(cmd, dst, 0, dst.Length);
+            return dst;
+        }
+
+        /// <summary>
+        /// Enqueues a command to copy a buffer object to another buffer object.
+        /// </summary>
+        /// <param name="cmd">The command-queue in which the copy command will be queued. 
+        /// The OpenCL context associated with command_queue, src_buffer, 
+        /// and dst_buffer must be the same</param>
+        /// <param name="dst">The buffer to copy to.</param>
+        /// <param name="src_offset">The offset where to begin copying data from src_buffer.</param>
+        /// <param name="dst_size">The size to copy into the dst buffer.</param>
+        public void Copy(CLCommandQueue cmd, CLBuffer dst, uint src_offset, uint dst_size)
+        {
+            dst_size = Math.Min(dst_size, dst.Length);
 
             CheckCommand(cmd);
-            CheckOffset(this, offset, size);
+            CheckBuffer(this, src_offset, dst_size);
+            CheckBuffer(dst, 0, dst_size);
 
-            var type = CL.TypeOf(pattern);
-            var size_of = CL.SizeOf(type);
-            uint byte_size = (uint)pattern.Length * size_of;
-            offset *= size_of;
-            size *= size_of;
+            //The dst size in bytes
+            uint byte_size = dst_size * DataSize;  
+            //The offset into source buffer in bytes
+            uint byte_offset = src_offset * DataSize;
 
-            cl_event e;
-            CL.EnqueueFillBuffer(cmd.Id, Id, pattern, byte_size, offset, size, 0, null, out e);
+            var error = CL.EnqueueCopyBuffer(cmd.Id, Id, dst.Id, byte_offset, byte_size);
+
+            Error = error.ToString();
         }
 
     }

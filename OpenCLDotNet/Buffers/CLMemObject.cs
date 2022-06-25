@@ -305,14 +305,34 @@ namespace OpenCLDotNet.Buffers
         /// <exception cref="InvalidDataTypeExeception"></exception>
         protected static void CheckData(CLMemObject obj, Array data, uint offset)
         {
+            if (!obj.IsValid)
+                throw new InvalidObjectExeception("Obbject is not valid");
+
             if (data == null)
                 throw new NullReferenceException("Data is null.");
 
             if ((offset + data.Length) > obj.Length)
-                throw new InvalidDataSizeExeception($"Data offset + length was {offset + data.Length} when offset + length <= {obj.Length} was expected.");
+                throw new InvalidDataSizeExeception($"Offset + length was {offset + data.Length} when offset + length <= {obj.Length} was expected.");
 
             if (obj.DataType != CL.TypeOf(data))
                 throw new InvalidDataTypeExeception($"Data type is {CL.TypeOf(data)} when type {obj.DataType} was expected."); ;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <param name="offset"></param>
+        /// <param name="size"></param>
+        /// <exception cref="InvalidObjectExeception"></exception>
+        /// <exception cref="InvalidDataSizeExeception"></exception>
+        protected static void CheckBuffer(CLMemObject obj, uint offset, uint size)
+        {
+            if (!obj.IsValid)
+                throw new InvalidObjectExeception("Obbject is not valid");
+
+            if ((offset + size) > obj.Length)
+                throw new InvalidDataSizeExeception($"Offset + size was {offset + size} when offset + length <= {obj.Length} was expected.");
         }
 
         /// <summary>

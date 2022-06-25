@@ -14,72 +14,59 @@ namespace OpenCLDotNet.Core
     {
 
         /// <summary>
-        /// 
+        /// Enqueue commands to read from a buffer object to host memory.
         /// </summary>
-        /// <param name="command"></param>
-        /// <param name="buffer"></param>
-        /// <param name="blocking_read"></param>
-        /// <param name="offset"></param>
-        /// <param name="byte_size"></param>
-        /// <param name="data"></param>
-        /// <param name="type"></param>
-        /// <param name="wait_list_size"></param>
-        /// <param name="wait_list"></param>
-        /// <param name="_event"></param>
-        /// <returns></returns>
+        /// <param name="command">command_queue is a valid host  
+        /// command-queue in which the read command will be queued. 
+        /// command_queue and buffer must be created with the same 
+        /// OpenCL context.></param>
+        /// <param name="buffer">The buffer to read from.</param>
+        /// <param name="blocking_read">If the read and write operations 
+        /// are blocking or non-blocking</param>
+        /// <param name="byte_offset">offset is the offset in bytes in the buffer
+        /// object to read from or write to</param>
+        /// <param name="byte_size">The size of the data in bytes.</param>
+        /// <param name="data">The buffer to read into.</param>
+        /// <returns>The error code.</returns>
         public static CL_ERROR EnqueueReadBuffer(
             cl_command_queue command,
             cl_mem buffer,
             bool blocking_read,
-            uint offset,
+            uint byte_offset,
             uint byte_size,
-            Array data,
-            CL_MEM_DATA_TYPE type,
-            uint wait_list_size,
-            cl_event[] wait_list,
-            out cl_event _event)
+            Array data)
         {
-            byte[] bytes = new byte[byte_size];
-            var error = CL_EnqueueReadBuffer(command, buffer, blocking_read, offset, byte_size,
-                bytes, wait_list_size, wait_list, out _event);
-
-            Buffer.BlockCopy(bytes, 0, data, 0, bytes.Length);
-            return error;
+            cl_event e;
+            return CL_EnqueueReadBuffer(command, buffer, blocking_read, 
+                byte_offset, byte_size, data, 0, null, out e);
 
         }
 
         /// <summary>
-        /// 
+        /// Enqueue commands to write to a buffer object from host memory.
         /// </summary>
-        /// <param name="command"></param>
-        /// <param name="buffer"></param>
-        /// <param name="blocking_write"></param>
-        /// <param name="offset"></param>
-        /// <param name="byte_size"></param>
-        /// <param name="data"></param>
-        /// <param name="type"></param>
-        /// <param name="wait_list_size"></param>
-        /// <param name="wait_list"></param>
-        /// <param name="_event"></param>
-        /// <returns></returns>
+        /// <param name="command">Refers to the command-queue in which the
+        /// write command will be queued. command_queue and buffer must be
+        /// created with the same OpenCL context.</param>
+        /// <param name="buffer">The buffer to write to.</param>
+        /// <param name="blocking_write">Indicates if the write operations 
+        /// are blocking or nonblocking.</param>
+        /// <param name="byte_offset">The offset in bytes in the buffer 
+        /// object to write to.</param>
+        /// <param name="byte_size">The size of the data in bytes.</param>
+        /// <param name="data">The data to write from.</param>
+        /// <returns>The error code.</returns>
         public static CL_ERROR EnqueueWriteBuffer(
             cl_command_queue command,
             cl_mem buffer,
             bool blocking_write,
-            uint offset,
+            uint byte_offset,
             uint byte_size,
-            Array data,
-            CL_MEM_DATA_TYPE type,
-            uint wait_list_size,
-            cl_event[] wait_list,
-            out cl_event _event)
+            Array data)
         {
-            byte[] bytes = new byte[byte_size];
-            Buffer.BlockCopy(data, 0, bytes, 0, bytes.Length);
-
-            return CL_EnqueueWriteBuffer(command, buffer, blocking_write, offset,
-                        byte_size, bytes, wait_list_size, wait_list, out _event);
-
+            cl_event e;
+            return CL_EnqueueWriteBuffer(command, buffer, blocking_write, byte_offset,
+                        byte_size, data, 0, null, out e);
         }
 
         /// <summary>
@@ -90,26 +77,22 @@ namespace OpenCLDotNet.Core
         /// <param name="blocking_read"></param>
         /// <param name="region"></param>
         /// <param name="data"></param>
-        /// <param name="wait_list_size"></param>
-        /// <param name="wait_list"></param>
-        /// <param name="_event"></param>
         /// <returns></returns>
         public static CL_ERROR EnqueueReadImage(
             cl_command_queue command,
             CLImage image,
             bool blocking_read,
             CLRegion3t region,
-            Array data,
-            uint wait_list_size,
-            cl_event[] wait_list,
-            out cl_event _event)
+            Array data)
         {
             uint row_pitch = image.RowPitch;
             uint slice_pitch = 0;
 
             byte[] bytes = new byte[image.ByteSize];
+
+            cl_event e;
             var error = CL_EnqueueReadImage(command, image.Id, blocking_read, region.Origion, region.Size,
-                row_pitch, slice_pitch, bytes, wait_list_size, wait_list, out _event);
+                row_pitch, slice_pitch, bytes, 0, null, out e);
 
             Buffer.BlockCopy(bytes, 0, data, 0, bytes.Length);
             return error;
@@ -123,19 +106,13 @@ namespace OpenCLDotNet.Core
         /// <param name="blocking_write"></param>
         /// <param name="region"></param>
         /// <param name="data"></param>
-        /// <param name="wait_list_size"></param>
-        /// <param name="wait_list"></param>
-        /// <param name="_event"></param>
         /// <returns></returns>
         public static CL_ERROR EnqueueWriteImage(
             cl_command_queue command,
             CLImage image,
             bool blocking_write,
             CLRegion3t region,
-            Array data,
-            uint wait_list_size,
-            cl_event[] wait_list,
-            out cl_event _event)
+            Array data)
         {
             uint input_row_pitch = image.RowPitch;
             uint input_slice_pitch = 0;
@@ -143,9 +120,10 @@ namespace OpenCLDotNet.Core
             byte[] bytes = new byte[image.ByteSize];
             Buffer.BlockCopy(data, 0, bytes, 0, bytes.Length);
 
+            cl_event e;
             return CL_EnqueueWriteImage(command, image.Id, blocking_write, region.Origion, region.Size,
                 input_row_pitch, input_slice_pitch, bytes,
-                wait_list_size, wait_list, out _event);
+                0, null, out e);
         }
 
         private static CL_ERROR EnqueueReadBufferRect(
@@ -201,55 +179,41 @@ namespace OpenCLDotNet.Core
         /// filled in buffer and must be a multiple of pattern_size.</param>
         /// <param name="size">The size in bytes of region being filled 
         /// in buffer and must be a multiple of pattern_size.</param>
-        /// <param name="wait_list_size"></param>
-        /// <param name="wait_list"></param>
-        /// <param name="_event"></param>
-        /// <returns></returns>
-        public static CL_ERROR EnqueueFillBuffer(
+        /// <returns>The error code.</returns>
+        private static CL_ERROR EnqueueFillBuffer(
             cl_command_queue command,
             cl_mem buffer,
             Array pattern,
             uint pattern_size,
             uint offset,
-            uint size,
-            cl_uint wait_list_size,
-            cl_event[] wait_list,
-            out cl_event _event)
+            uint size)
         {
-   
-            byte[] bytes = new byte[pattern_size];
-            Buffer.BlockCopy(pattern, 0, bytes, 0, bytes.Length);
-
-            return CL_EnqueueFillBuffer(command, buffer, bytes, pattern_size, offset, size,
-                wait_list_size, wait_list, out _event);
+            cl_event e;
+            return CL_EnqueueFillBuffer(command, buffer, pattern, pattern_size, offset, size,
+                0, null, out e);
         }
 
         /// <summary>
-        /// 
+        /// Enqueues a command to copy a buffer object to another buffer object.
         /// </summary>
-        /// <param name="command"></param>
-        /// <param name="src_buffer"></param>
-        /// <param name="dst_buffer"></param>
-        /// <param name="src_offset"></param>
-        /// <param name="dst_offset"></param>
-        /// <param name="size"></param>
-        /// <param name="wait_list_size"></param>
-        /// <param name="wait_list"></param>
-        /// <param name="_event"></param>
-        /// <returns></returns>
+        /// <param name="command">The command-queue in which the copy command will 
+        /// be queued. The OpenCL context associated with command_queue, src_buffer, 
+        /// and dst_buffer must be the same.</param>
+        /// <param name="src_buffer">The buffer to read from.</param>
+        /// <param name="dst_buffer">The buffer to write to.</param>
+        /// <param name="byte_offset">The offset in bytes where to begin copying data from src_buffer.</param>
+        /// <param name="byte_size">Refers to the size in bytes to copy.</param>
+        /// <returns>The error code.</returns>
         public static CL_ERROR EnqueueCopyBuffer(
             cl_command_queue command,
             cl_mem src_buffer,
             cl_mem dst_buffer,
-            uint src_offset,
-            uint dst_offset,
-            uint size,
-            uint wait_list_size,
-            cl_event[] wait_list,
-            out cl_event _event)
+            uint byte_offset,
+            uint byte_size)
         {
-            return CL_EnqueueCopyBuffer(command, src_buffer, dst_buffer, src_offset, dst_offset, size,
-               wait_list_size, wait_list, out _event);
+            cl_event e;
+            return CL_EnqueueCopyBuffer(command, src_buffer, dst_buffer, 
+                byte_offset, 0, byte_size,  0, null, out e);
         }
 
         /// <summary>
@@ -587,7 +551,7 @@ namespace OpenCLDotNet.Core
             cl_bool blocking_read,
             size_t offset,
             size_t size,
-            [Out] byte[] ptr,
+            [Out] Array ptr,
             cl_uint wait_list_size,
             [Out] cl_event[] wait_list,
             [Out] out cl_event _event);
@@ -599,7 +563,7 @@ namespace OpenCLDotNet.Core
             cl_bool blocking_write,
             size_t offset,
             size_t size,
-            byte[] data,
+            Array data,
             cl_uint wait_list_size,
             [Out] cl_event[] wait_list,
             [Out] out cl_event _event);

@@ -721,7 +721,7 @@ namespace OpenCLDotNet.Programs
             if (buffer == null)
                 throw new InvalidCastException("Kernel ag");
 
-            buffer.Read(Command, 0, dst, blocking);
+            buffer.Read(Command, dst, 0, blocking);
         }
 
         /// <summary>
@@ -749,7 +749,7 @@ namespace OpenCLDotNet.Programs
             if (buffer == null)
                 throw new InvalidCastException("Kernel ag");
 
-            buffer.Write(Command, 0, src, blocking);
+            buffer.Write(Command, src, 0, blocking);
         }
 
         /// <summary>

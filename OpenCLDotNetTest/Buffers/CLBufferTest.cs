@@ -13,63 +13,144 @@ namespace OpenCLDotNetTest.Buffers
     [TestClass]
     public class CLBufferTest
     {
-        [TestMethod]
-        public void ConstructorTest()
+
+        private const uint SIZE = 100;
+
+        private const uint OFFSET = 10;
+
+        private const uint SIZE_OFFSET = 80;
+
+        private CLContext Context { get; set; }
+
+        private CLCommandQueue Cmd { get; set; } 
+        
+        private int[] Data { get; set; }
+
+        private int[] OffsetData { get; set; }
+
+        private int[] EmptyData { get; set; }
+
+        [TestInitialize]
+        public void Init()
         {
-            var context = new CLContext(); 
-            var data = new int[100];
-            var buffer = new CLBuffer.CreateReadBuffer(context, data);
+            Context = new CLContext();
+            Cmd = new CLCommandQueue(Context);
+            EmptyData = new int[SIZE];
+
+            Data = new int[SIZE];
+            for (int i = 0; i < Data.Length; i++)
+                Data[i] = i;
+
+            OffsetData = new int[SIZE_OFFSET];
+            for (uint i = 0; i < OffsetData.Length; i++)
+                OffsetData[i] = (int)(OFFSET + i);
         }
 
         [TestMethod]
         public void CreateReadBufferTest()
         {
+            var buffer = CreateReadBuffer(SIZE);
 
+            Assert.IsTrue(buffer.IsValid);
+            Assert.AreEqual(CL_MEM_DATA_TYPE.INT, buffer.DataType);
+            Assert.AreEqual(4u, buffer.DataSize);
+            Assert.AreEqual(SIZE * 4, buffer.ByteSize);
+            Assert.AreEqual(SIZE, buffer.Length);
+            Assert.IsTrue(buffer.IsReadOnly);
+            Assert.IsTrue(buffer.CanRead);
+            Assert.IsFalse(buffer.IsWriteOnly);
+            Assert.IsFalse(buffer.CanWrite);
         }
 
         [TestMethod]
-        public void Create WriteBufferTest()
+        public void CreateWriteBufferTest()
         {
+            var buffer = CreateWriteBuffer(SIZE);
 
+            Assert.IsTrue(buffer.IsValid);
+            Assert.AreEqual(CL_MEM_DATA_TYPE.INT, buffer.DataType);
+            Assert.AreEqual(4u, buffer.DataSize);
+            Assert.AreEqual(SIZE * 4, buffer.ByteSize);
+            Assert.AreEqual(SIZE, buffer.Length);
+            Assert.IsFalse(buffer.IsReadOnly);
+            Assert.IsFalse(buffer.CanRead);
+            Assert.IsTrue(buffer.IsWriteOnly);
+            Assert.IsTrue(buffer.CanWrite);
         }
 
         [TestMethod]
         public void ReadTest()
         {
+            var buffer = CreateReadBuffer(SIZE);
 
+            var data = new int[SIZE];
+            buffer.Read(Cmd, data, 0, true);
+
+            CollectionAssert.AreEqual(Data, data);
+
+            var offset_data = new int[SIZE_OFFSET]; 
+            buffer.Read(Cmd, offset_data, OFFSET, true);
+
+            CollectionAssert.AreEqual(OffsetData, offset_data);
         }
-        
+
         [TestMethod]
         public void WriteTest()
         {
+            var buffer = CreateWriteBuffer(SIZE);
+            
+            buffer.Write(Cmd, Data, 0, true);
 
+            var data = new int[SIZE];
+            buffer.Read(Cmd, data, 0, true);
+
+            CollectionAssert.AreEqual(Data, data);
+
+            buffer.Write(Cmd, EmptyData, 0, true);
+            buffer.Write(Cmd, OffsetData, OFFSET, true);
+
+            var offset_data = new int[SIZE_OFFSET];
+            buffer.Read(Cmd, offset_data, OFFSET, true);
+
+            CollectionAssert.AreEqual(OffsetData, offset_data);
         }
-        
-          [TestMethod]
+
+        [TestMethod]
         public void CopyTest()
         {
+            var buffer1 = CreateWriteBuffer(SIZE);
+            buffer1.Write(Cmd, Data, 0, true);
+
+            var buffer2 = CreateWriteBuffer(SIZE);
+            buffer1.Copy(Cmd, buffer2, 0, buffer2.Length);
+
+            var data = new int[SIZE];
+            buffer2.Read(Cmd, data, 0, true);
+
+            CollectionAssert.AreEqual(Data, data);
+
+            buffer2 = CreateWriteBuffer(SIZE_OFFSET);
+            buffer1.Copy(Cmd, buffer2, OFFSET, buffer2.Length);
+
+            var offset_data = new int[SIZE_OFFSET];
+            buffer2.Read(Cmd, offset_data, 0, true);
+
+            CollectionAssert.AreEqual(OffsetData, offset_data);
 
         }
-        
-        private CLBuffer CreateReadBuffer(int size)
+
+        private CLBuffer CreateReadBuffer(uint size)
         {
-            var context = new CLContext(); 
-            var data = new int[size];
-            
-            for( int i = 0; i < data.Length; i++)
-                data[i] = i; 
-            
-            var buffer = new CLBuffer.CreateReadBuffer(context, data);
-             return buffer;
+            var buffer = CLBuffer.CreateReadBuffer(Context, Data);
+            return buffer;
         }
-        
-        private CLBuffer CreateWritebuffer(int size)
+
+        private CLBuffer CreateWriteBuffer(uint size)
         {
-            var context = new CLContext(); 
-             var type = CL_MEM_DATA_TYPE.INT;
-            
-            var buffer = new CLBuffer.CreateWriteBuffer(context, type, size);
-             return buffer;
+            var type = CL_MEM_DATA_TYPE.INT;
+
+            var buffer = CLBuffer.CreateWriteBuffer(Context, type, size);
+            return buffer;
         }
 
     }
