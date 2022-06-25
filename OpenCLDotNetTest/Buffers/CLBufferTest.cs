@@ -14,9 +14,11 @@ namespace OpenCLDotNetTest.Buffers
     public class CLBufferTest
     {
         [TestMethod]
-        public void ConstructorTest
+        public void ConstructorTest()
         {
-
+            var context = new CLContext(); 
+            var data = new int[100];
+            var buffer = new CLBuffer.CreateReadBuffer(context, data);
         }
 
         [TestMethod]
@@ -32,15 +34,33 @@ namespace OpenCLDotNetTest.Buffers
         }
 
         [TestMethod]
-        public void Test()
+        public void ReadTest()
         {
 
         }
         
         [TestMethod]
-        public void Test()
+        public void WriteTest()
         {
 
+        }
+        
+          [TestMethod]
+        public void CopyTest()
+        {
+
+        }
+        
+        private CLBuffer CreateReadBuffer(int size)
+        {
+            var context = new CLContext(); 
+            var data = new int[size];
+            
+            for( int i = 0; i < data.Length; i++)
+                data[i] = i; 
+            
+            var buffer = new CLBuffer.CreateReadBuffer(context, data);
+             return buffer;
         }
 
     }
