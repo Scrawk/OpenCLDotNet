@@ -154,7 +154,7 @@ namespace OpenCLDotNet.Buffers
 
                 case CL_READ_WRITE.READ:
                     flag = CL_MEM_FLAGS.READ_ONLY;
-                    flag |= CL_MEM_FLAGS.HOST_READ_ONLY;
+                    //flag |= CL_MEM_FLAGS.HOST_READ_ONLY;
                     flag |= CL_MEM_FLAGS.ALLOC_HOST_PTR;
                     break;
             }

@@ -36,10 +36,14 @@ namespace OpenCLDotNet.Core
             uint byte_size,
             Array data)
         {
+            byte[] bytes = new byte[byte_size];
+    
             cl_event e;
-            return CL_EnqueueReadBuffer(command, buffer, blocking_read, 
-                byte_offset, byte_size, data, 0, null, out e);
+            var error = CL_EnqueueReadBuffer(command, buffer, blocking_read, 
+                byte_offset, byte_size, bytes, 0, null, out e);
 
+            Buffer.BlockCopy(bytes, 0, data, 0, bytes.Length);
+            return error;
         }
 
         /// <summary>
@@ -64,9 +68,14 @@ namespace OpenCLDotNet.Core
             uint byte_size,
             Array data)
         {
+            byte[] bytes = new byte[byte_size];
+            Buffer.BlockCopy(data, 0, bytes, 0, bytes.Length);
+
             cl_event e;
-            return CL_EnqueueWriteBuffer(command, buffer, blocking_write, byte_offset,
-                        byte_size, data, 0, null, out e);
+            var error = CL_EnqueueWriteBuffer(command, buffer, blocking_write, byte_offset,
+                        byte_size, bytes, 0, null, out e);
+
+            return error;
         }
 
 
@@ -90,12 +99,16 @@ namespace OpenCLDotNet.Core
             uint row_pitch = image.RowPitch;
             uint slice_pitch = 0;
 
-            var bytes_origin = region.Origion;
-            var bytes_size = region.Size;
+            var bytes_origin = region.Origion * 4;
+            var bytes_size = region.Size * 4;
+
+            var bytes = new byte[data.Length * 4];
 
             cl_event e;
             var error = CL_EnqueueReadImage(command, image.Id, blocking_read, bytes_origin, bytes_size,
-                row_pitch, slice_pitch, null, 0, null, out e);
+                row_pitch, slice_pitch, bytes, 0, null, out e);
+
+            Buffer.BlockCopy(bytes, 0, data, 0, bytes.Length);
 
             return error;
 
@@ -120,9 +133,15 @@ namespace OpenCLDotNet.Core
             uint input_row_pitch = image.RowPitch;
             uint input_slice_pitch = 0;
 
+            var bytes_origin = region.Origion * 4;
+            var bytes_size = region.Size * 4;
+
+            byte[] bytes = new byte[data.Length * 4];
+            Buffer.BlockCopy(data, 0, bytes, 0, bytes.Length);
+
             cl_event e;
-            return CL_EnqueueWriteImage(command, image.Id, blocking_write, region.Origion, region.Size,
-                input_row_pitch, input_slice_pitch, data,
+            return CL_EnqueueWriteImage(command, image.Id, blocking_write, bytes_origin, bytes_size,
+                input_row_pitch, input_slice_pitch, bytes,
                 0, null, out e);
         }
 
@@ -551,7 +570,7 @@ namespace OpenCLDotNet.Core
             cl_bool blocking_read,
             size_t offset,
             size_t size,
-            [Out] Array ptr,
+            [Out] byte[] ptr,
             cl_uint wait_list_size,
             [Out] cl_event[] wait_list,
             [Out] out cl_event _event);
@@ -563,7 +582,7 @@ namespace OpenCLDotNet.Core
             cl_bool blocking_write,
             size_t offset,
             size_t size,
-            Array data,
+            byte[] ptr,
             cl_uint wait_list_size,
             [Out] cl_event[] wait_list,
             [Out] out cl_event _event);
@@ -577,7 +596,7 @@ namespace OpenCLDotNet.Core
             CLPoint3t region,
             size_t input_row_pitch,
             size_t input_slice_pitch,
-            Array data,
+            [Out] byte[] data,
             uint wait_list_size,
             [Out] cl_event[] wait_list,
             [Out] out cl_event _event);
@@ -591,7 +610,7 @@ namespace OpenCLDotNet.Core
             CLPoint3t region,
             size_t input_row_pitch,
             size_t input_slice_pitch,
-            Array data,
+            byte[] data,
             cl_uint wait_list_size,
             [Out] cl_event[] wait_list,
             [Out] out cl_event _event);

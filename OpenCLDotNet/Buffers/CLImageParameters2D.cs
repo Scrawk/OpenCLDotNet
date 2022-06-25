@@ -197,13 +197,13 @@ namespace OpenCLDotNet.Buffers
             des.MemType = CL_MEM_OBJECT_TYPE.IMAGE2D;
             des.Width = width;
             des.Height = height;
-            des.Depth = 0;
+            des.Depth = 1;
             des.ArraySize = 0;
             des.RowPitch = row_pitch;
             des.SlicePitch = slice_pitch;
             des.NumMipLevels = 0;
             des.NumSamples = 0;
-            //des.Buffer = 0;
+            des.Buffer = new cl_mem();
 
             return des;
         }

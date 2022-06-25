@@ -574,7 +574,7 @@ extern "C"
         size_t host_row_pitch,
         size_t host_slice_pitch,
         void* ptr,
-        cl_uint             num_events_in_wait_list,
+        cl_uint num_events_in_wait_list,
         const cl_event* event_wait_list,
         cl_event* event);
 

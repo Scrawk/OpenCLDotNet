@@ -40,7 +40,14 @@ namespace OpenCLDotNet.Core
             Array data,
             out CL_ERROR error)
         {
-            return CL_CreateImage(context, flags, format, desc, data, out error);
+            byte[] bytes = null;
+            if (data != null)
+            {
+                bytes = new byte[byte_size];
+                Buffer.BlockCopy(data, 0, bytes, 0, bytes.Length);
+            }
+
+            return CL_CreateImage(context, flags, format, desc, bytes, out error);
         }
 
         /// <summary>
@@ -233,7 +240,7 @@ namespace OpenCLDotNet.Core
             CL_MEM_FLAGS flags,
             CLImageFormat format,
             CLImageDescription desc,
-            Array data,
+            byte[] data,
             [Out] out CL_ERROR error);
 
         [DllImport(DLL_NAME, CallingConvention = CDECL)]

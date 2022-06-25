@@ -13,9 +13,51 @@ namespace OpenCLDotNetConsole
 	public class Program
 	{
 
+		private const uint WIDTH = 10;
+
+		private const uint HEIGHT = 10;
+
+		private const uint CHANNELS = 1;
+
+		private const uint SIZE = WIDTH * HEIGHT * CHANNELS;
+
 		static void Main(string[] args)
 		{
 
+			var Context = new CLContext();
+			var Cmd = new CLCommandQueue(Context);
+
+			var Data = new float[SIZE];
+			for (int i = 0; i < Data.Length; i++)
+				Data[i] = i;
+
+			var param = new CLImageParameters2D();
+			param.Width = WIDTH;
+			param.Height = HEIGHT;
+			param.ChannelOrder = CL_CHANNEL_ORDER.R;
+			param.ChannelType = CL_CHANNEL_TYPE.FLOAT;
+			param.DataType = CL_MEM_DATA_TYPE.FLOAT;
+			param.DataLength = SIZE;
+			param.Source = Data;
+
+			var flag = CL_MEM_FLAGS.READ_ONLY;
+			flag |= CL_MEM_FLAGS.COPY_HOST_PTR;
+
+			var image = new CLImage2D(Context, param, flag);
+
+			image.Write(Cmd, Data, image.Region, true);
+			Console.WriteLine(image.Error);
+
+			var data = new float[SIZE];
+			image.Read(Cmd, data, image.Region, true);
+			Console.WriteLine(image.Error);
+
+			for (int i = 0; i < 10; i++)
+				Console.WriteLine(data[i]);
+			
+
+
+			/*
 
 			var context = new CLContext();
 			//context.Print();
@@ -124,6 +166,8 @@ namespace OpenCLDotNetConsole
 
 			for (int i = 0; i < 100; i++)
 				Console.WriteLine(result[i]);
+
+			*/
 
 		}
 

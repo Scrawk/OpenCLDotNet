@@ -913,7 +913,7 @@ cl_int CL_EnqueueReadBuffer(
     cl_event* event)
 {
     return clEnqueueReadBuffer(command, buffer, blocking_read, offset, size, ptr, 
-        wait_list_size, wait_list, event);
+                                wait_list_size, wait_list, event);
  }
 
 cl_int CL_EnqueueReadBufferRect(
@@ -1036,8 +1036,20 @@ cl_int CL_EnqueueReadImage(
     const cl_event* wait_list,
     cl_event* event)
 {
-    return clEnqueueReadImage(command, image, blocking_read, origin, region, 
+    std::cout << "ReadImage " << std::endl;
+
+    auto error = clEnqueueReadImage(command, image, blocking_read, origin, region, 
         row_pitch, slice_pitch, ptr, wait_list_size, wait_list, event);
+
+    auto buffer = (cl_float*)ptr;
+
+    for (int i = 0; i < 10; i++)
+    {
+        auto c = buffer[i];
+        std::cout << c << std::endl;
+    }
+
+    return error;
 }
 
 cl_int CL_EnqueueWriteImage(
@@ -1053,6 +1065,16 @@ cl_int CL_EnqueueWriteImage(
     const cl_event* wait_list,
     cl_event* event)
 {
+    std::cout << "WriteImage " << std::endl;
+
+    auto buffer = (cl_float*)ptr;
+
+    for (int i = 0; i < 10; i++)
+    {
+        auto c = buffer[i];
+        std::cout << c << std::endl;
+    }
+
     return clEnqueueWriteImage(command, image, blocking_write, origin, region, 
         input_row_pitch, input_slice_pitch, ptr,
         wait_list_size, wait_list, event);

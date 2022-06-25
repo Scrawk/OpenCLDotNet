@@ -22,6 +22,8 @@ __kernel void gaussian_filter(__read_only image2d_t srcImg,
     {
         int weight = 0;
         float4 outColor = (float4)(0.0f, 0.0f, 0.0f, 0.0f);
+
+        /*
         for( int y = startImageCoord.y; y <= endImageCoord.y; y++)
         {
             for( int x = startImageCoord.x; x <= endImageCoord.x; x++)
@@ -30,6 +32,11 @@ __kernel void gaussian_filter(__read_only image2d_t srcImg,
                 weight += 1;
             }
         }
+        */
+
+        int2 uv = (int2) (get_global_id(0), get_global_id(1));
+
+        outColor = read_imagef(srcImg, sampler, uv);
 
         // Write the output value to image
         write_imagef(dstImg, outImageCoord, outColor);

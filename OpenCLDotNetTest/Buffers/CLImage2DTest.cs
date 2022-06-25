@@ -18,13 +18,15 @@ namespace OpenCLDotNetTest.Buffers
 
         private const uint HEIGHT = 10;
 
-        private const uint SIZE = WIDTH * HEIGHT;
+        private const uint CHANNELS = 4;
+
+        private const uint SIZE = WIDTH * HEIGHT * CHANNELS;
 
         private CLContext Context { get; set; }
 
         private CLCommandQueue Cmd { get; set; }
 
-        private float[] Data { get; set; }
+        private byte[] Data { get; set; }
 
         [TestInitialize]
         public void Init()
@@ -32,9 +34,9 @@ namespace OpenCLDotNetTest.Buffers
             Context = new CLContext();
             Cmd = new CLCommandQueue(Context);
 
-            Data = new float[SIZE];
+            Data = new byte[SIZE];
             for (int i = 0; i < Data.Length; i++)
-                Data[i] = i;
+                Data[i] = (byte)i;
         }
 
         [TestMethod]
@@ -80,16 +82,26 @@ namespace OpenCLDotNetTest.Buffers
         [TestMethod]
         public void ReadTest()
         {
-            var image = CreateWriteImage();
+            var param = new CLImageParameters2D();
+            param.Width = WIDTH;
+            param.Height = HEIGHT;
+            param.ChannelOrder = CL_CHANNEL_ORDER.RGBA;
+            param.ChannelType = CL_CHANNEL_TYPE.UNORM_INT8;
+            param.DataType = CL_MEM_DATA_TYPE.BYTE;
+            param.DataLength = SIZE;
+            param.Source = Data;
+
+            var flag = CL_MEM_FLAGS.READ_WRITE;
+            flag |= CL_MEM_FLAGS.COPY_HOST_PTR;
+
+            var image = new CLImage2D(Context, param, flag);
 
             image.Write(Cmd, Data, image.Region, true);
 
             Console.WriteLine(image.Error);
 
-            var data = new float[SIZE];
+            var data = new byte[SIZE];
             image.Read(Cmd, data, image.Region, true);
-
-            Console.WriteLine(image.Error);
 
             Console.WriteLine(image.Error);
 
@@ -122,8 +134,8 @@ namespace OpenCLDotNetTest.Buffers
             param.Width = WIDTH;
             param.Height = HEIGHT;
             param.ChannelOrder = CL_CHANNEL_ORDER.R;
-            param.ChannelType = CL_CHANNEL_TYPE.FLOAT;
-            param.DataType = CL_MEM_DATA_TYPE.FLOAT;
+            param.ChannelType = CL_CHANNEL_TYPE.UNORM_INT8;
+            param.DataType = CL_MEM_DATA_TYPE.BYTE;
             param.DataLength = SIZE;
             param.Source = Data;
 
@@ -136,8 +148,8 @@ namespace OpenCLDotNetTest.Buffers
             param.Width = WIDTH;
             param.Height = HEIGHT;
             param.ChannelOrder = CL_CHANNEL_ORDER.R;
-            param.ChannelType = CL_CHANNEL_TYPE.FLOAT;
-            param.DataType = CL_MEM_DATA_TYPE.FLOAT;
+            param.ChannelType = CL_CHANNEL_TYPE.UNORM_INT8;
+            param.DataType = CL_MEM_DATA_TYPE.BYTE;
             param.DataLength = SIZE;
             param.Source = null;
 

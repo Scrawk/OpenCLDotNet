@@ -172,7 +172,7 @@ namespace OpenCLDotNet.Buffers
             var desc = data.CreateImageDescription();
             CL_ERROR error;
 
-            Id = CL.CreateImage(context.Id, Flags, format, desc, ByteSize, null, out error);
+            Id = CL.CreateImage(context.Id, Flags, format, desc, ByteSize, source, out error);
             if (error != CL_ERROR.SUCCESS)
             {
                 Error = error.ToString();
