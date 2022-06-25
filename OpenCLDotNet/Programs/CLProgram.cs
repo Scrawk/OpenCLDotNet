@@ -10,7 +10,7 @@ using OpenCLDotNet.Events;
 
 namespace OpenCLDotNet.Programs
 {
-    public class CLProgram : CLObject
+    public partial class CLProgram : CLObject
     {
 
         /*
@@ -583,18 +583,44 @@ namespace OpenCLDotNet.Programs
         /// </summary>
         /// <param name="kernel_name"></param>
         /// <param name="index"></param>
+        public void CreateSamplerUV(string kernel_name, uint index)
+        {
+            var mode = CL_ADDRESSING_MODE.CLAMP_TO_EDGE;
+            var filter = CL_FILTER_MODE.LINEAR;
+            CreateSampler(kernel_name, index, true, mode, filter);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="kernel_name"></param>
+        /// <param name="index"></param>
+        public void CreateSamplerIndex(string kernel_name, uint index)
+        {
+            var mode = CL_ADDRESSING_MODE.CLAMP_TO_EDGE;
+            var filter = CL_FILTER_MODE.NEAREST;
+            CreateSampler(kernel_name, index, false, mode, filter);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="kernel_name"></param>
+        /// <param name="index"></param>
+        /// <param name="normalizedCoords"></param>
         /// <param name="mode"></param>
         /// <param name="filter"></param>
         /// <exception cref="NullReferenceException"></exception>
-        public void CreateSampler(string kernel_name, uint index, 
-            CL_SAMPLER_ADDRESSING_MODE mode = CL_SAMPLER_ADDRESSING_MODE.CLAMP_TO_EDGE,
-            CL_SAMPLER_FILTER_MODE filter = CL_SAMPLER_FILTER_MODE.LINEAR)
+        public void CreateSampler(string kernel_name, uint index,
+            bool normalizedCoords,
+            CL_ADDRESSING_MODE mode,
+            CL_FILTER_MODE filter)
         {
             var kernel = FindKernel(kernel_name);
             if (kernel == null)
                 throw new NullReferenceException($"Kernel named {kernel_name} not found.");
 
-            var sampler = new CLSampler(Context, mode, filter);
+            var sampler = new CLSampler(Context, normalizedCoords, mode, filter);
             kernel.SetSampler(sampler, index);
 
             Error = sampler.Error;
@@ -623,97 +649,13 @@ namespace OpenCLDotNet.Programs
         /// 
         /// </summary>
         /// <param name="kernel_name"></param>
-        /// <param name="buffer"></param>
-        /// <param name="index"></param>
-        /// <returns></returns>
-        public void SetBuffer(string kernel_name, CLBuffer buffer, uint index)
-        {
-            var kernel = FindKernel(kernel_name);
-            CheckKernel(kernel, kernel_name);
-
-            kernel.SetBuffer(buffer, index);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="kernel_name"></param>
-        /// <param name="index"></param>
-        /// <returns></returns>
-        public CLBuffer GetBuffer(string kernel_name, uint index)
-        {
-            var kernel = FindKernel(kernel_name);
-            CheckKernel(kernel, kernel_name);
-
-            return kernel.GetBuffer(index);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="kernel_name"></param>
-        /// <param name="image"></param>
-        /// <param name="index"></param>
-        /// <exception cref="NullReferenceException"></exception>
-        public void SetImage(string kernel_name, CLImage image, uint index)
-        {
-            var kernel = FindKernel(kernel_name);
-            if (kernel == null)
-                throw new NullReferenceException($"Kernel named {kernel_name} not found.");
-
-            kernel.SetImage(image, index);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="kernel_name"></param>
-        /// <param name="sampler"></param>
-        /// <param name="index"></param>
-        /// <exception cref="NullReferenceException"></exception>
-        public void SetSampler(string kernel_name, CLSampler sampler, uint index)
-        {
-            var kernel = FindKernel(kernel_name);
-            if (kernel == null)
-                throw new NullReferenceException($"Kernel named {kernel_name} not found.");
-
-            kernel.SetSampler(sampler, index);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="kernel_name"></param>
-        /// <param name="arg"></param>
-        /// <param name="index"></param>
-        /// <exception cref="NullReferenceException"></exception>
-        public void SetInt(string kernel_name, int arg, uint index)
-        {
-            var kernel = FindKernel(kernel_name);
-            if (kernel == null)
-                throw new NullReferenceException($"Kernel named {kernel_name} not found.");
-
-            kernel.SetInt(arg, index);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="kernel_name"></param>
         /// <param name="blocking"></param>
         /// <param name="index"></param>
         /// <param name="dst"></param>
-        /// <exception cref="NullReferenceException"></exception>
-        /// <exception cref="InvalidOperationException"></exception>
-        /// <exception cref="InvalidCastException"></exception>
         public void ReadBuffer(string kernel_name, bool blocking, uint index, Array dst)
         {
             var kernel = FindKernel(kernel_name);
-            if (kernel == null)
-                throw new NullReferenceException($"Kernel named {kernel_name} not found.");
-
-            if (!kernel.AllArgumentSet())
-                throw new InvalidOperationException("Not all kernel arguments are set.");
+            CheckKernel(kernel, kernel_name, true);
 
             var arg = kernel.GetArgument(index);
             var buffer = arg.ArgObject as CLBuffer;
@@ -730,18 +672,10 @@ namespace OpenCLDotNet.Programs
         /// <param name="kernel_name"></param>
         /// <param name="blocking"></param>
         /// <param name="index"></param>
-        /// <param name="src"></param>
-        /// <exception cref="NullReferenceException"></exception>
-        /// <exception cref="InvalidOperationException"></exception>
-        /// <exception cref="InvalidCastException"></exception>
         public void WriteBuffer(string kernel_name, bool blocking, uint index, Array src)
         {
             var kernel = FindKernel(kernel_name);
-            if (kernel == null)
-                throw new NullReferenceException($"Kernel named {kernel_name} not found.");
-
-            if (!kernel.AllArgumentSet())
-                throw new InvalidOperationException("Not all kernel arguments are set.");
+            CheckKernel(kernel, kernel_name, true);
 
             var arg = kernel.GetArgument(index);
             var buffer = arg.ArgObject as CLBuffer;
@@ -759,17 +693,10 @@ namespace OpenCLDotNet.Programs
         /// <param name="blocking"></param>
         /// <param name="index"></param>
         /// <param name="dst"></param>
-        /// <exception cref="NullReferenceException"></exception>
-        /// <exception cref="InvalidOperationException"></exception>
-        /// <exception cref="InvalidCastException"></exception>
         public void ReadImage(string kernel_name, bool blocking, uint index, Array dst)
         {
             var kernel = FindKernel(kernel_name);
-            if (kernel == null)
-                throw new NullReferenceException($"Kernel named {kernel_name} not found.");
-
-            if (!kernel.AllArgumentSet())
-                throw new InvalidOperationException("Not all kernel arguments are set.");
+            CheckKernel(kernel, kernel_name, true);
 
             var arg = kernel.GetArgument(index);
             var image = arg.ArgObject as CLImage;
@@ -787,17 +714,10 @@ namespace OpenCLDotNet.Programs
         /// <param name="blocking"></param>
         /// <param name="index"></param>
         /// <param name="src"></param>
-        /// <exception cref="NullReferenceException"></exception>
-        /// <exception cref="InvalidOperationException"></exception>
-        /// <exception cref="InvalidCastException"></exception>
         public void WriteImage(string kernel_name, bool blocking, uint index, Array src)
         {
             var kernel = FindKernel(kernel_name);
-            if (kernel == null)
-                throw new NullReferenceException($"Kernel named {kernel_name} not found.");
-
-            if (!kernel.AllArgumentSet())
-                throw new InvalidOperationException("Not all kernel arguments are set.");
+            CheckKernel(kernel, kernel_name, true);
 
             var arg = kernel.GetArgument(index);
             var image = arg.ArgObject as CLImage;
@@ -1196,26 +1116,18 @@ namespace OpenCLDotNet.Programs
             Core.CL.ReleaseProgram(Id);
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="kernel"></param>
-        /// <param name="kernel_name"></param>
-        /// <exception cref="NullReferenceException"></exception>
-        private void CheckKernel(CLKernel kernel, string kernel_name)
+        private void CheckKernel(CLKernel kernel, string kernel_name, bool check_args_set)
         {
             if (kernel == null)
                 throw new NullReferenceException($"Kernel named {kernel_name} not found.");
 
             if (!kernel.IsValid)
-                throw new NullReferenceException($"Kernel named {kernel_name} is not valid.");
+                throw new InvalidObjectExeception($"Kernel named {kernel_name} is not valid.");
+
+            if (check_args_set && !kernel.AllArgumentSet())
+                throw new InvalidOperationException($"Not all kernel arguments are set for kernel {kernel_name}.");
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="kernel_arg"></param>
-        /// <exception cref="NullReferenceException"></exception>
         private void CheckKernelArg(CLKernelArg kernel_arg)
         {
             if (kernel_arg == null)

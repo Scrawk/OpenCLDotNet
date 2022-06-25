@@ -30,17 +30,6 @@ namespace OpenCLDotNet.Core
             return list;
         }
 
-        private class EnumComparer : IComparable
-        {
-            public int CompareTo(object? obj)
-            {
-                string this_name = this.ToString();
-                string othery_name = obj.ToString();
-
-                return this_name.CompareTo(othery_name);
-            }
-        }
-
         public static uint GetNumChannels(CL_CHANNEL_ORDER order)
         {
             switch (order)
@@ -123,7 +112,7 @@ namespace OpenCLDotNet.Core
             return true;
         }
 
-        public static uint SizeOf(CL_CHANNEL_TYPE type)
+        public unsafe static uint SizeOf(CL_CHANNEL_TYPE type)
         {
             switch (type)
             {
@@ -140,7 +129,6 @@ namespace OpenCLDotNet.Core
                 case CL_CHANNEL_TYPE.UNORM_SHORT_565:
                 case CL_CHANNEL_TYPE.UNORM_SHORT_555:
                 case CL_CHANNEL_TYPE.SIGNED_INT16:
-                case CL_CHANNEL_TYPE.HALF_FLOAT:
                     return sizeof(short);
 
                 case CL_CHANNEL_TYPE.UNSIGNED_INT16:
@@ -157,6 +145,9 @@ namespace OpenCLDotNet.Core
 
                 case CL_CHANNEL_TYPE.FLOAT:
                     return sizeof(float);
+
+                case CL_CHANNEL_TYPE.HALF_FLOAT:
+                    return (uint)sizeof(Half);
             }
 
             return 0;
@@ -177,11 +168,11 @@ namespace OpenCLDotNet.Core
                 case CL_MEM_DATA_TYPE.INT:
                     return sizeof(int);
                 case CL_MEM_DATA_TYPE.UINT:
-                    return sizeof(long);
-                case CL_MEM_DATA_TYPE.LONG:
-                    return sizeof(ulong);
-                case CL_MEM_DATA_TYPE.ULONG:
                     return sizeof(uint);
+                case CL_MEM_DATA_TYPE.LONG:
+                    return sizeof(long);
+                case CL_MEM_DATA_TYPE.ULONG:
+                    return sizeof(ulong);
                 case CL_MEM_DATA_TYPE.HALF:
                     return (uint)sizeof(Half);
                 case CL_MEM_DATA_TYPE.FLOAT:
@@ -238,7 +229,6 @@ namespace OpenCLDotNet.Core
                 case CL_CHANNEL_TYPE.UNORM_SHORT_565:
                 case CL_CHANNEL_TYPE.UNORM_SHORT_555:
                 case CL_CHANNEL_TYPE.SIGNED_INT16:
-                case CL_CHANNEL_TYPE.HALF_FLOAT:
                     return array is short[];
 
                 case CL_CHANNEL_TYPE.UNSIGNED_INT16:
@@ -255,6 +245,9 @@ namespace OpenCLDotNet.Core
 
                 case CL_CHANNEL_TYPE.FLOAT:
                     return array is float[];
+
+                case CL_CHANNEL_TYPE.HALF_FLOAT:
+                    return array is Half[];
             }
 
             return false;
@@ -277,7 +270,6 @@ namespace OpenCLDotNet.Core
                 case CL_CHANNEL_TYPE.UNORM_SHORT_565:
                 case CL_CHANNEL_TYPE.UNORM_SHORT_555:
                 case CL_CHANNEL_TYPE.SIGNED_INT16:
-                case CL_CHANNEL_TYPE.HALF_FLOAT:
                     return dataType == CL_MEM_DATA_TYPE.SHORT;
 
                 case CL_CHANNEL_TYPE.UNSIGNED_INT16:
@@ -294,6 +286,9 @@ namespace OpenCLDotNet.Core
 
                 case CL_CHANNEL_TYPE.FLOAT:
                     return dataType == CL_MEM_DATA_TYPE.FLOAT;
+
+                case CL_CHANNEL_TYPE.HALF_FLOAT:
+                    return dataType == CL_MEM_DATA_TYPE.HALF;
             }
 
             return false;

@@ -120,7 +120,7 @@
             <param name="data">The data to write from.</param>
             <returns>The error code.</returns>
         </member>
-        <member name="M:OpenCLDotNet.Core.CL.EnqueueReadImage(OpenCLDotNet.Core.cl_command_queue,OpenCLDotNet.Buffers.CLImage,System.Boolean,OpenCLDotNet.Core.CLRegion3t,System.Array)">
+        <member name="M:OpenCLDotNet.Core.CL.EnqueueReadImage(OpenCLDotNet.Core.cl_command_queue,OpenCLDotNet.Buffers.CLImage,System.Boolean,OpenCLDotNet.Core.CLRegion3t,System.Array,System.UInt32)">
             <summary>
             Enqueues a command to read from a 2D or 3D image object to host memory.
             </summary>
@@ -130,9 +130,10 @@
             <param name="blocking_read">Indicates if the read operations are blocking or non-blocking.</param>
             <param name="region">Defines the region in the image to read from.</param>
             <param name="data"></param>
+            <param name="byte_size"></param>
             <returns></returns>
         </member>
-        <member name="M:OpenCLDotNet.Core.CL.EnqueueWriteImage(OpenCLDotNet.Core.cl_command_queue,OpenCLDotNet.Buffers.CLImage,System.Boolean,OpenCLDotNet.Core.CLRegion3t,System.Array)">
+        <member name="M:OpenCLDotNet.Core.CL.EnqueueWriteImage(OpenCLDotNet.Core.cl_command_queue,OpenCLDotNet.Buffers.CLImage,System.Boolean,OpenCLDotNet.Core.CLRegion3t,System.Array,System.UInt32)">
             <summary>
             
             </summary>
@@ -141,6 +142,7 @@
             <param name="blocking_write"></param>
             <param name="region"></param>
             <param name="data"></param>
+            <param name="byte_size"></param>
             <returns></returns>
         </member>
         <member name="M:OpenCLDotNet.Core.CL.EnqueueFillBuffer(OpenCLDotNet.Core.cl_command_queue,OpenCLDotNet.Core.cl_mem,System.Array,System.UInt32,System.UInt32,System.UInt32)">
@@ -800,6 +802,15 @@
             <returns></returns>
         </member>
         <member name="M:OpenCLDotNet.Core.CL.SetKernelArg(OpenCLDotNet.Core.cl_kernel,System.UInt32,System.Single)">
+            <summary>
+            
+            </summary>
+            <param name="kernel"></param>
+            <param name="arg_index"></param>
+            <param name="arg_value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Core.CL.SetKernelArg(OpenCLDotNet.Core.cl_kernel,System.UInt32,System.Half)">
             <summary>
             
             </summary>
@@ -3028,11 +3039,12 @@
             </summary>
             <param name="context"></param>
         </member>
-        <member name="M:OpenCLDotNet.Buffers.CLSampler.#ctor(OpenCLDotNet.Core.CLContext,OpenCLDotNet.Core.CL_SAMPLER_ADDRESSING_MODE,OpenCLDotNet.Core.CL_SAMPLER_FILTER_MODE)">
+        <member name="M:OpenCLDotNet.Buffers.CLSampler.#ctor(OpenCLDotNet.Core.CLContext,System.Boolean,OpenCLDotNet.Core.CL_ADDRESSING_MODE,OpenCLDotNet.Core.CL_FILTER_MODE)">
             <summary>
             
             </summary>
             <param name="context"></param>
+            <param name="normalizedCoords"></param>
             <param name="mode"></param>
             <param name="filter"></param>
         </member>
@@ -3139,7 +3151,7 @@
             
             </summary>
         </member>
-        <member name="M:OpenCLDotNet.Buffers.CLSamplerProperties.#ctor(System.Boolean,OpenCLDotNet.Core.CL_SAMPLER_ADDRESSING_MODE,OpenCLDotNet.Core.CL_SAMPLER_FILTER_MODE)">
+        <member name="M:OpenCLDotNet.Buffers.CLSamplerProperties.#ctor(System.Boolean,OpenCLDotNet.Core.CL_ADDRESSING_MODE,OpenCLDotNet.Core.CL_FILTER_MODE)">
             <summary>
             
             </summary>
@@ -3374,6 +3386,9 @@
             <summary>
             
             </summary>
+            <summary>
+            
+            </summary>
         </member>
         <member name="M:OpenCLDotNet.Programs.CLKernel.#ctor(OpenCLDotNet.Programs.CLProgram,System.String)">
             <summary>
@@ -3434,114 +3449,6 @@
             
             </summary>
             <returns></returns>
-        </member>
-        <member name="M:OpenCLDotNet.Programs.CLKernel.SetBuffer(OpenCLDotNet.Buffers.CLBuffer,System.UInt32)">
-            <summary>
-            
-            </summary>
-            <param name="arg"></param>
-            <param name="index"></param>
-            <exception cref="T:System.ArgumentOutOfRangeException"></exception>
-        </member>
-        <member name="M:OpenCLDotNet.Programs.CLKernel.GetBuffer(System.UInt32)">
-            <summary>
-            
-            </summary>
-            <param name="index"></param>
-            <returns></returns>
-        </member>
-        <member name="M:OpenCLDotNet.Programs.CLKernel.SetSubBuffer(OpenCLDotNet.Buffers.CLSubBuffer,System.UInt32)">
-            <summary>
-            
-            </summary>
-            <param name="arg"></param>
-            <param name="index"></param>
-            <exception cref="T:System.ArgumentOutOfRangeException"></exception>
-        </member>
-        <member name="M:OpenCLDotNet.Programs.CLKernel.GetSubBuffer(System.UInt32)">
-            <summary>
-            
-            </summary>
-            <param name="index"></param>
-            <returns></returns>
-        </member>
-        <member name="M:OpenCLDotNet.Programs.CLKernel.SetImage(OpenCLDotNet.Buffers.CLImage,System.UInt32)">
-            <summary>
-            
-            </summary>
-            <param name="arg"></param>
-            <param name="index"></param>
-            <exception cref="T:System.ArgumentOutOfRangeException"></exception>
-        </member>
-        <member name="M:OpenCLDotNet.Programs.CLKernel.GetImage(System.UInt32)">
-            <summary>
-            
-            </summary>
-            <param name="index"></param>
-            <returns></returns>
-        </member>
-        <member name="M:OpenCLDotNet.Programs.CLKernel.SetSampler(OpenCLDotNet.Buffers.CLSampler,System.UInt32)">
-            <summary>
-            
-            </summary>
-            <param name="arg"></param>
-            <param name="index"></param>
-            <exception cref="T:System.ArgumentOutOfRangeException"></exception>
-        </member>
-        <member name="M:OpenCLDotNet.Programs.CLKernel.GetSampler(System.UInt32)">
-            <summary>
-            
-            </summary>
-            <param name="index"></param>
-            <returns></returns>
-        </member>
-        <member name="M:OpenCLDotNet.Programs.CLKernel.SetDouble(System.Double,System.UInt32)">
-            <summary>
-            
-            </summary>
-            <param name="arg"></param>
-            <param name="index"></param>
-            <exception cref="T:System.ArgumentOutOfRangeException"></exception>
-        </member>
-        <member name="M:OpenCLDotNet.Programs.CLKernel.GetDouble(System.UInt32)">
-            <summary>
-            
-            </summary>
-            <param name="index"></param>
-            <returns></returns>
-            <exception cref="T:System.ArgumentOutOfRangeException"></exception>
-        </member>
-        <member name="M:OpenCLDotNet.Programs.CLKernel.SetFloat(System.Single,System.UInt32)">
-            <summary>
-            
-            </summary>
-            <param name="arg"></param>
-            <param name="index"></param>
-            <exception cref="T:System.ArgumentOutOfRangeException"></exception>
-        </member>
-        <member name="M:OpenCLDotNet.Programs.CLKernel.GetFloat(System.UInt32)">
-            <summary>
-            
-            </summary>
-            <param name="index"></param>
-            <returns></returns>
-            <exception cref="T:System.ArgumentOutOfRangeException"></exception>
-        </member>
-        <member name="M:OpenCLDotNet.Programs.CLKernel.SetInt(System.Int32,System.UInt32)">
-            <summary>
-            
-            </summary>
-            <param name="arg"></param>
-            <param name="index"></param>
-            <exception cref="T:System.ArgumentOutOfRangeException"></exception>
-        </member>
-        <member name="M:OpenCLDotNet.Programs.CLKernel.GetInt(System.UInt32)">
-            <summary>
-            
-            </summary>
-            <param name="index"></param>
-            <returns></returns>
-            <exception cref="T:System.ArgumentOutOfRangeException"></exception>
         </member>
         <member name="M:OpenCLDotNet.Programs.CLKernel.Print(System.Text.StringBuilder)">
             <summary>
@@ -3643,6 +3550,216 @@
             </summary>
             <param name="kernel_arg"></param>
             <exception cref="T:System.NullReferenceException"></exception>
+        </member>
+        <member name="M:OpenCLDotNet.Programs.CLKernel.SetBuffer(OpenCLDotNet.Buffers.CLBuffer,System.UInt32)">
+            <summary>
+            
+            </summary>
+            <param name="arg"></param>
+            <param name="index"></param>
+        </member>
+        <member name="M:OpenCLDotNet.Programs.CLKernel.GetBuffer(System.UInt32)">
+            <summary>
+            
+            </summary>
+            <param name="index"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Programs.CLKernel.SetSubBuffer(OpenCLDotNet.Buffers.CLSubBuffer,System.UInt32)">
+            <summary>
+            
+            </summary>
+            <param name="arg"></param>
+            <param name="index"></param>
+        </member>
+        <member name="M:OpenCLDotNet.Programs.CLKernel.GetSubBuffer(System.UInt32)">
+            <summary>
+            
+            </summary>
+            <param name="index"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Programs.CLKernel.SetImage(OpenCLDotNet.Buffers.CLImage,System.UInt32)">
+            <summary>
+            
+            </summary>
+            <param name="arg"></param>
+            <param name="index"></param>
+        </member>
+        <member name="M:OpenCLDotNet.Programs.CLKernel.GetImage(System.UInt32)">
+            <summary>
+            
+            </summary>
+            <param name="index"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Programs.CLKernel.SetSampler(OpenCLDotNet.Buffers.CLSampler,System.UInt32)">
+            <summary>
+            
+            </summary>
+            <param name="arg"></param>
+            <param name="index"></param>
+        </member>
+        <member name="M:OpenCLDotNet.Programs.CLKernel.GetSampler(System.UInt32)">
+            <summary>
+            
+            </summary>
+            <param name="index"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Programs.CLKernel.SetDouble(System.Double,System.UInt32)">
+            <summary>
+            
+            </summary>
+            <param name="arg"></param>
+            <param name="index"></param>
+        </member>
+        <member name="M:OpenCLDotNet.Programs.CLKernel.GetDouble(System.UInt32)">
+            <summary>
+            
+            </summary>
+            <param name="index"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Programs.CLKernel.SetFloat(System.Single,System.UInt32)">
+            <summary>
+            
+            </summary>
+            <param name="arg"></param>
+            <param name="index"></param>
+        </member>
+        <member name="M:OpenCLDotNet.Programs.CLKernel.GetFloat(System.UInt32)">
+            <summary>
+            
+            </summary>
+            <param name="index"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Programs.CLKernel.SetHalf(System.Half,System.UInt32)">
+            <summary>
+            
+            </summary>
+            <param name="arg"></param>
+            <param name="index"></param>
+        </member>
+        <member name="M:OpenCLDotNet.Programs.CLKernel.GetHalf(System.UInt32)">
+            <summary>
+            
+            </summary>
+            <param name="index"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Programs.CLKernel.SetLong(System.Int64,System.UInt32)">
+            <summary>
+            
+            </summary>
+            <param name="arg"></param>
+            <param name="index"></param>
+        </member>
+        <member name="M:OpenCLDotNet.Programs.CLKernel.GetLong(System.UInt32)">
+            <summary>
+            
+            </summary>
+            <param name="index"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Programs.CLKernel.SetULong(System.UInt64,System.UInt32)">
+            <summary>
+            
+            </summary>
+            <param name="arg"></param>
+            <param name="index"></param>
+        </member>
+        <member name="M:OpenCLDotNet.Programs.CLKernel.GetULong(System.UInt32)">
+            <summary>
+            
+            </summary>
+            <param name="index"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Programs.CLKernel.SetInt(System.Int32,System.UInt32)">
+            <summary>
+            
+            </summary>
+            <param name="arg"></param>
+            <param name="index"></param>
+        </member>
+        <member name="M:OpenCLDotNet.Programs.CLKernel.GetInt(System.UInt32)">
+            <summary>
+            
+            </summary>
+            <param name="index"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Programs.CLKernel.SetUInt(System.UInt32,System.UInt32)">
+            <summary>
+            
+            </summary>
+            <param name="arg"></param>
+            <param name="index"></param>
+        </member>
+        <member name="M:OpenCLDotNet.Programs.CLKernel.GetUInt(System.UInt32)">
+            <summary>
+            
+            </summary>
+            <param name="index"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Programs.CLKernel.SetShort(System.Int16,System.UInt32)">
+            <summary>
+            
+            </summary>
+            <param name="arg"></param>
+            <param name="index"></param>
+        </member>
+        <member name="M:OpenCLDotNet.Programs.CLKernel.GetShort(System.UInt32)">
+            <summary>
+            
+            </summary>
+            <param name="index"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Programs.CLKernel.SetUShort(System.UInt16,System.UInt32)">
+            <summary>
+            
+            </summary>
+            <param name="arg"></param>
+            <param name="index"></param>
+        </member>
+        <member name="M:OpenCLDotNet.Programs.CLKernel.GetUShort(System.UInt32)">
+            <summary>
+            
+            </summary>
+            <param name="index"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Programs.CLKernel.SetSByte(System.SByte,System.UInt32)">
+            <summary>
+            
+            </summary>
+            <param name="arg"></param>
+            <param name="index"></param>
+        </member>
+        <member name="M:OpenCLDotNet.Programs.CLKernel.GetSByte(System.UInt32)">
+            <summary>
+            
+            </summary>
+            <param name="index"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Programs.CLKernel.SetByte(System.Byte,System.UInt32)">
+            <summary>
+            
+            </summary>
+            <param name="arg"></param>
+            <param name="index"></param>
+        </member>
+        <member name="M:OpenCLDotNet.Programs.CLKernel.GetByte(System.UInt32)">
+            <summary>
+            
+            </summary>
+            <param name="index"></param>
+            <returns></returns>
         </member>
         <member name="T:OpenCLDotNet.Programs.CLKernelArg">
             <summary>
@@ -3988,12 +4105,27 @@
             <param name="param"></param>
             <exception cref="T:System.NullReferenceException"></exception>
         </member>
-        <member name="M:OpenCLDotNet.Programs.CLProgram.CreateSampler(System.String,System.UInt32,OpenCLDotNet.Core.CL_SAMPLER_ADDRESSING_MODE,OpenCLDotNet.Core.CL_SAMPLER_FILTER_MODE)">
+        <member name="M:OpenCLDotNet.Programs.CLProgram.CreateSamplerUV(System.String,System.UInt32)">
             <summary>
             
             </summary>
             <param name="kernel_name"></param>
             <param name="index"></param>
+        </member>
+        <member name="M:OpenCLDotNet.Programs.CLProgram.CreateSamplerIndex(System.String,System.UInt32)">
+            <summary>
+            
+            </summary>
+            <param name="kernel_name"></param>
+            <param name="index"></param>
+        </member>
+        <member name="M:OpenCLDotNet.Programs.CLProgram.CreateSampler(System.String,System.UInt32,System.Boolean,OpenCLDotNet.Core.CL_ADDRESSING_MODE,OpenCLDotNet.Core.CL_FILTER_MODE)">
+            <summary>
+            
+            </summary>
+            <param name="kernel_name"></param>
+            <param name="index"></param>
+            <param name="normalizedCoords"></param>
             <param name="mode"></param>
             <param name="filter"></param>
             <exception cref="T:System.NullReferenceException"></exception>
@@ -4007,50 +4139,6 @@
             <param name="properties"></param>
             <exception cref="T:System.NullReferenceException"></exception>
         </member>
-        <member name="M:OpenCLDotNet.Programs.CLProgram.SetBuffer(System.String,OpenCLDotNet.Buffers.CLBuffer,System.UInt32)">
-            <summary>
-            
-            </summary>
-            <param name="kernel_name"></param>
-            <param name="buffer"></param>
-            <param name="index"></param>
-            <returns></returns>
-        </member>
-        <member name="M:OpenCLDotNet.Programs.CLProgram.GetBuffer(System.String,System.UInt32)">
-            <summary>
-            
-            </summary>
-            <param name="kernel_name"></param>
-            <param name="index"></param>
-            <returns></returns>
-        </member>
-        <member name="M:OpenCLDotNet.Programs.CLProgram.SetImage(System.String,OpenCLDotNet.Buffers.CLImage,System.UInt32)">
-            <summary>
-            
-            </summary>
-            <param name="kernel_name"></param>
-            <param name="image"></param>
-            <param name="index"></param>
-            <exception cref="T:System.NullReferenceException"></exception>
-        </member>
-        <member name="M:OpenCLDotNet.Programs.CLProgram.SetSampler(System.String,OpenCLDotNet.Buffers.CLSampler,System.UInt32)">
-            <summary>
-            
-            </summary>
-            <param name="kernel_name"></param>
-            <param name="sampler"></param>
-            <param name="index"></param>
-            <exception cref="T:System.NullReferenceException"></exception>
-        </member>
-        <member name="M:OpenCLDotNet.Programs.CLProgram.SetInt(System.String,System.Int32,System.UInt32)">
-            <summary>
-            
-            </summary>
-            <param name="kernel_name"></param>
-            <param name="arg"></param>
-            <param name="index"></param>
-            <exception cref="T:System.NullReferenceException"></exception>
-        </member>
         <member name="M:OpenCLDotNet.Programs.CLProgram.ReadBuffer(System.String,System.Boolean,System.UInt32,System.Array)">
             <summary>
             
@@ -4059,9 +4147,6 @@
             <param name="blocking"></param>
             <param name="index"></param>
             <param name="dst"></param>
-            <exception cref="T:System.NullReferenceException"></exception>
-            <exception cref="T:System.InvalidOperationException"></exception>
-            <exception cref="T:System.InvalidCastException"></exception>
         </member>
         <member name="M:OpenCLDotNet.Programs.CLProgram.WriteBuffer(System.String,System.Boolean,System.UInt32,System.Array)">
             <summary>
@@ -4070,10 +4155,6 @@
             <param name="kernel_name"></param>
             <param name="blocking"></param>
             <param name="index"></param>
-            <param name="src"></param>
-            <exception cref="T:System.NullReferenceException"></exception>
-            <exception cref="T:System.InvalidOperationException"></exception>
-            <exception cref="T:System.InvalidCastException"></exception>
         </member>
         <member name="M:OpenCLDotNet.Programs.CLProgram.ReadImage(System.String,System.Boolean,System.UInt32,System.Array)">
             <summary>
@@ -4083,9 +4164,6 @@
             <param name="blocking"></param>
             <param name="index"></param>
             <param name="dst"></param>
-            <exception cref="T:System.NullReferenceException"></exception>
-            <exception cref="T:System.InvalidOperationException"></exception>
-            <exception cref="T:System.InvalidCastException"></exception>
         </member>
         <member name="M:OpenCLDotNet.Programs.CLProgram.WriteImage(System.String,System.Boolean,System.UInt32,System.Array)">
             <summary>
@@ -4095,9 +4173,6 @@
             <param name="blocking"></param>
             <param name="index"></param>
             <param name="src"></param>
-            <exception cref="T:System.NullReferenceException"></exception>
-            <exception cref="T:System.InvalidOperationException"></exception>
-            <exception cref="T:System.InvalidCastException"></exception>
         </member>
         <member name="M:OpenCLDotNet.Programs.CLProgram.HasOption(System.String)">
             <summary>
@@ -4215,20 +4290,229 @@
             
             </summary>
         </member>
-        <member name="M:OpenCLDotNet.Programs.CLProgram.CheckKernel(OpenCLDotNet.Programs.CLKernel,System.String)">
+        <member name="M:OpenCLDotNet.Programs.CLProgram.SetBuffer(System.String,OpenCLDotNet.Buffers.CLBuffer,System.UInt32)">
             <summary>
             
             </summary>
-            <param name="kernel"></param>
             <param name="kernel_name"></param>
-            <exception cref="T:System.NullReferenceException"></exception>
+            <param name="buffer"></param>
+            <param name="index"></param>
+            <returns></returns>
         </member>
-        <member name="M:OpenCLDotNet.Programs.CLProgram.CheckKernelArg(OpenCLDotNet.Programs.CLKernelArg)">
+        <member name="M:OpenCLDotNet.Programs.CLProgram.GetBuffer(System.String,System.UInt32)">
             <summary>
             
             </summary>
-            <param name="kernel_arg"></param>
-            <exception cref="T:System.NullReferenceException"></exception>
+            <param name="kernel_name"></param>
+            <param name="index"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Programs.CLProgram.SetImage(System.String,OpenCLDotNet.Buffers.CLImage,System.UInt32)">
+            <summary>
+            
+            </summary>
+            <param name="kernel_name"></param>
+            <param name="image"></param>
+            <param name="index"></param>
+        </member>
+        <member name="M:OpenCLDotNet.Programs.CLProgram.GetImage(System.String,System.UInt32)">
+            <summary>
+            
+            </summary>
+            <param name="kernel_name"></param>
+            <param name="index"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Programs.CLProgram.SetSampler(System.String,OpenCLDotNet.Buffers.CLSampler,System.UInt32)">
+            <summary>
+            
+            </summary>
+            <param name="kernel_name"></param>
+            <param name="sampler"></param>
+            <param name="index"></param>
+        </member>
+        <member name="M:OpenCLDotNet.Programs.CLProgram.GetSampler(System.String,System.UInt32)">
+            <summary>
+            
+            </summary>
+            <param name="kernel_name"></param>
+            <param name="index"></param>
+        </member>
+        <member name="M:OpenCLDotNet.Programs.CLProgram.SetDouble(System.String,System.Double,System.UInt32)">
+            <summary>
+            
+            </summary>
+            <param name="kernel_name"></param>
+            <param name="arg"></param>
+            <param name="index"></param>
+        </member>
+        <member name="M:OpenCLDotNet.Programs.CLProgram.GetDouble(System.String,System.UInt32)">
+            <summary>
+            
+            </summary>
+            <param name="kernel_name"></param>
+            <param name="index"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Programs.CLProgram.SetFloat(System.String,System.Single,System.UInt32)">
+            <summary>
+            
+            </summary>
+            <param name="kernel_name"></param>
+            <param name="arg"></param>
+            <param name="index"></param>
+        </member>
+        <member name="M:OpenCLDotNet.Programs.CLProgram.GetFloat(System.String,System.UInt32)">
+            <summary>
+            
+            </summary>
+            <param name="kernel_name"></param>
+            <param name="index"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Programs.CLProgram.SetHalf(System.String,System.Half,System.UInt32)">
+            <summary>
+            
+            </summary>
+            <param name="kernel_name"></param>
+            <param name="arg"></param>
+            <param name="index"></param>
+        </member>
+        <member name="M:OpenCLDotNet.Programs.CLProgram.GetHalf(System.String,System.UInt32)">
+            <summary>
+            
+            </summary>
+            <param name="kernel_name"></param>
+            <param name="index"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Programs.CLProgram.SetLong(System.String,System.Int64,System.UInt32)">
+            <summary>
+            
+            </summary>
+            <param name="kernel_name"></param>
+            <param name="arg"></param>
+            <param name="index"></param>
+        </member>
+        <member name="M:OpenCLDotNet.Programs.CLProgram.GetLong(System.String,System.UInt32)">
+            <summary>
+            
+            </summary>
+            <param name="kernel_name"></param>
+            <param name="index"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Programs.CLProgram.SetULong(System.String,System.UInt64,System.UInt32)">
+            <summary>
+            
+            </summary>
+            <param name="kernel_name"></param>
+            <param name="arg"></param>
+            <param name="index"></param>
+        </member>
+        <member name="M:OpenCLDotNet.Programs.CLProgram.GetULong(System.String,System.UInt32)">
+            <summary>
+            
+            </summary>
+            <param name="kernel_name"></param>
+            <param name="index"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Programs.CLProgram.SetInt(System.String,System.Int32,System.UInt32)">
+            <summary>
+            
+            </summary>
+            <param name="kernel_name"></param>
+            <param name="arg"></param>
+            <param name="index"></param>
+        </member>
+        <member name="M:OpenCLDotNet.Programs.CLProgram.GetInt(System.String,System.UInt32)">
+            <summary>
+            
+            </summary>
+            <param name="kernel_name"></param>
+            <param name="index"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Programs.CLProgram.SetUInt(System.String,System.UInt32,System.UInt32)">
+            <summary>
+            
+            </summary>
+            <param name="kernel_name"></param>
+            <param name="arg"></param>
+            <param name="index"></param>
+        </member>
+        <member name="M:OpenCLDotNet.Programs.CLProgram.GetUInt(System.String,System.UInt32)">
+            <summary>
+            
+            </summary>
+            <param name="kernel_name"></param>
+            <param name="index"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Programs.CLProgram.SetShort(System.String,System.Int16,System.UInt32)">
+            <summary>
+            
+            </summary>
+            <param name="kernel_name"></param>
+            <param name="arg"></param>
+            <param name="index"></param>
+        </member>
+        <member name="M:OpenCLDotNet.Programs.CLProgram.GetShort(System.String,System.UInt32)">
+            <summary>
+            
+            </summary>
+            <param name="kernel_name"></param>
+            <param name="index"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Programs.CLProgram.SetUShort(System.String,System.UInt16,System.UInt32)">
+            <summary>
+            
+            </summary>
+            <param name="kernel_name"></param>
+            <param name="arg"></param>
+            <param name="index"></param>
+        </member>
+        <member name="M:OpenCLDotNet.Programs.CLProgram.GetUShort(System.String,System.UInt32)">
+            <summary>
+            
+            </summary>
+            <param name="kernel_name"></param>
+            <param name="index"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Programs.CLProgram.SetSByte(System.String,System.SByte,System.UInt32)">
+            <summary>
+            
+            </summary>
+            <param name="kernel_name"></param>
+            <param name="arg"></param>
+            <param name="index"></param>
+        </member>
+        <member name="M:OpenCLDotNet.Programs.CLProgram.GetSByte(System.String,System.UInt32)">
+            <summary>
+            
+            </summary>
+            <param name="kernel_name"></param>
+            <param name="index"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Programs.CLProgram.SetByte(System.String,System.Byte,System.UInt32)">
+            <summary>
+            
+            </summary>
+            <param name="kernel_name"></param>
+            <param name="arg"></param>
+            <param name="index"></param>
+        </member>
+        <member name="M:OpenCLDotNet.Programs.CLProgram.GetByte(System.String,System.UInt32)">
+            <summary>
+            
+            </summary>
+            <param name="kernel_name"></param>
+            <param name="index"></param>
+            <returns></returns>
         </member>
         <member name="M:OpenCLDotNet.Utility.ErrorUtil.CheckArray(System.Array,System.UInt32)">
             <summary>

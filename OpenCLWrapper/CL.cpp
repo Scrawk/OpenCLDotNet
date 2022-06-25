@@ -386,7 +386,7 @@ cl_int CL_SetKernelArgDouble(
     cl_uint arg_index,
     cl_double arg_value)
 {
-    size_t size = sizeof(cl_float);
+    size_t size = sizeof(cl_double);
     cl_int err = clSetKernelArg(kernel, arg_index, size, &arg_value);
     return err;
 }
@@ -401,12 +401,22 @@ cl_int CL_SetKernelArgFloat(
     return err;
 }
 
+cl_int CL_SetKernelArgHalf(
+    cl_kernel kernel,
+    cl_uint arg_index,
+    cl_half arg_value)
+{
+    size_t size = sizeof(cl_half);
+    cl_int err = clSetKernelArg(kernel, arg_index, size, &arg_value);
+    return err;
+}
+
 cl_int CL_SetKernelArgLong(
     cl_kernel kernel,
     cl_uint arg_index,
     cl_long arg_value)
 {
-    size_t size = sizeof(cl_int);
+    size_t size = sizeof(cl_long);
     cl_int err = clSetKernelArg(kernel, arg_index, size, &arg_value);
     return err;
 }
@@ -416,7 +426,7 @@ cl_int CL_SetKernelArgULong(
     cl_uint arg_index,
     cl_ulong arg_value)
 {
-    size_t size = sizeof(cl_int);
+    size_t size = sizeof(cl_ulong);
     cl_int err = clSetKernelArg(kernel, arg_index, size, &arg_value);
     return err;
 }
@@ -436,7 +446,7 @@ cl_int CL_SetKernelArgUInt(
     cl_uint arg_index,
     cl_uint arg_value)
 {
-    size_t size = sizeof(cl_int);
+    size_t size = sizeof(cl_uint);
     cl_int err = clSetKernelArg(kernel, arg_index, size, &arg_value);
     return err;
 }
@@ -446,7 +456,7 @@ cl_int CL_SetKernelArgShort(
     cl_uint arg_index,
     cl_short arg_value)
 {
-    size_t size = sizeof(cl_int);
+    size_t size = sizeof(cl_short);
     cl_int err = clSetKernelArg(kernel, arg_index, size, &arg_value);
     return err;
 }
@@ -456,7 +466,7 @@ cl_int CL_SetKernelArgUShort(
     cl_uint arg_index,
     cl_ushort arg_value)
 {
-    size_t size = sizeof(cl_int);
+    size_t size = sizeof(cl_ushort);
     cl_int err = clSetKernelArg(kernel, arg_index, size, &arg_value);
     return err;
 }
@@ -466,7 +476,7 @@ cl_int CL_SetKernelArgSByte(
     cl_uint arg_index,
     cl_char arg_value)
 {
-    size_t size = sizeof(cl_int);
+    size_t size = sizeof(cl_char);
     cl_int err = clSetKernelArg(kernel, arg_index, size, &arg_value);
     return err;
 }
@@ -476,7 +486,7 @@ cl_int CL_SetKernelArgByte(
     cl_uint arg_index,
     cl_uchar arg_value)
 {
-    size_t size = sizeof(cl_int);
+    size_t size = sizeof(cl_uchar);
     cl_int err = clSetKernelArg(kernel, arg_index, size, &arg_value);
     return err;
 }
@@ -1036,18 +1046,8 @@ cl_int CL_EnqueueReadImage(
     const cl_event* wait_list,
     cl_event* event)
 {
-    std::cout << "ReadImage " << std::endl;
-
     auto error = clEnqueueReadImage(command, image, blocking_read, origin, region, 
         row_pitch, slice_pitch, ptr, wait_list_size, wait_list, event);
-
-    auto buffer = (cl_float*)ptr;
-
-    for (int i = 0; i < 10; i++)
-    {
-        auto c = buffer[i];
-        std::cout << c << std::endl;
-    }
 
     return error;
 }
@@ -1065,16 +1065,6 @@ cl_int CL_EnqueueWriteImage(
     const cl_event* wait_list,
     cl_event* event)
 {
-    std::cout << "WriteImage " << std::endl;
-
-    auto buffer = (cl_float*)ptr;
-
-    for (int i = 0; i < 10; i++)
-    {
-        auto c = buffer[i];
-        std::cout << c << std::endl;
-    }
-
     return clEnqueueWriteImage(command, image, blocking_write, origin, region, 
         input_row_pitch, input_slice_pitch, ptr,
         wait_list_size, wait_list, event);

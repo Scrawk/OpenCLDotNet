@@ -263,6 +263,11 @@ extern "C"
         cl_uint arg_index,
         cl_float arg_value);
 
+    CL_WRAPPER_API cl_int CL_SetKernelArgHalf(
+        cl_kernel kernel,
+        cl_uint arg_index,
+        cl_half arg_value);
+
     CL_WRAPPER_API cl_int CL_SetKernelArgLong(
         cl_kernel kernel,
         cl_uint arg_index,

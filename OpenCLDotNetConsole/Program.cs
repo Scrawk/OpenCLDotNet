@@ -24,41 +24,6 @@ namespace OpenCLDotNetConsole
 		static void Main(string[] args)
 		{
 
-			var Context = new CLContext();
-			var Cmd = new CLCommandQueue(Context);
-
-			var Data = new float[SIZE];
-			for (int i = 0; i < Data.Length; i++)
-				Data[i] = i;
-
-			var param = new CLImageParameters2D();
-			param.Width = WIDTH;
-			param.Height = HEIGHT;
-			param.ChannelOrder = CL_CHANNEL_ORDER.R;
-			param.ChannelType = CL_CHANNEL_TYPE.FLOAT;
-			param.DataType = CL_MEM_DATA_TYPE.FLOAT;
-			param.DataLength = SIZE;
-			param.Source = Data;
-
-			var flag = CL_MEM_FLAGS.READ_ONLY;
-			flag |= CL_MEM_FLAGS.COPY_HOST_PTR;
-
-			var image = new CLImage2D(Context, param, flag);
-
-			image.Write(Cmd, Data, image.Region, true);
-			Console.WriteLine(image.Error);
-
-			var data = new float[SIZE];
-			image.Read(Cmd, data, image.Region, true);
-			Console.WriteLine(image.Error);
-
-			for (int i = 0; i < 10; i++)
-				Console.WriteLine(data[i]);
-			
-
-
-			/*
-
 			var context = new CLContext();
 			//context.Print();
 
@@ -110,6 +75,27 @@ namespace OpenCLDotNetConsole
 			}
 			";
 
+			var program_text3 =
+
+			@"__kernel void gaussian_filter(__read_only image2d_t srcImg,
+											__write_only image2d_t dstImg,
+											sampler_t sampler,
+											int width, int height)
+			{
+
+				int2 imageCoord = (int2)(get_global_id(0), get_global_id(1));
+
+				if (oimageCoord.x < width && imageCoord.y < height)
+				{
+					//float4 outColor = (float4)(0.0f, 0.0f, 0.0f, 0.0f);
+		
+					float4 outColor = read_imagef(srcImg, sampler, imageCoord);
+				
+					write_imagef(dstImg, imageCoord, outColor);
+				}
+			}
+			";
+
 			var options = CLProgram.DefaultOptions;
 
 			var program = new CLProgram(context, program_text2, options);
@@ -149,7 +135,7 @@ namespace OpenCLDotNetConsole
 
 			program.CreateReadImage2D("gaussian_filter", 0, image_params);
 			program.CreateWriteImage2D("gaussian_filter", 1, image_params);
-			program.CreateSampler("gaussian_filter", 2);
+			program.CreateSamplerIndex("gaussian_filter", 2);
 			program.SetInt("gaussian_filter", (int)WIDTH, 3);
 			program.SetInt("gaussian_filter", (int)HEIGHT, 4);
 
@@ -166,8 +152,6 @@ namespace OpenCLDotNetConsole
 
 			for (int i = 0; i < 100; i++)
 				Console.WriteLine(result[i]);
-
-			*/
 
 		}
 

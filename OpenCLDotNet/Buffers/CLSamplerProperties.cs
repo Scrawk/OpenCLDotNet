@@ -19,12 +19,12 @@ namespace OpenCLDotNet.Buffers
         /// <summary>
         /// 
         /// </summary>
-        public CL_SAMPLER_ADDRESSING_MODE AddressingMode;
+        public CL_ADDRESSING_MODE AddressingMode;
         
         /// <summary>
         /// 
         /// </summary>
-        public CL_SAMPLER_FILTER_MODE FilterMode;
+        public CL_FILTER_MODE FilterMode;
 
         //public CL_SAMPLER_FILTER_MODE MipFilterMode;
 
@@ -38,8 +38,8 @@ namespace OpenCLDotNet.Buffers
         public CLSamplerProperties()
         {
             NormalizedCoords = true;
-            AddressingMode = CL_SAMPLER_ADDRESSING_MODE.CLAMP_TO_EDGE;
-            FilterMode = CL_SAMPLER_FILTER_MODE.LINEAR;
+            AddressingMode = CL_ADDRESSING_MODE.CLAMP_TO_EDGE;
+            FilterMode = CL_FILTER_MODE.LINEAR;
             //MipFilterMode = CL_SAMPLER_FILTER_MODE.LINEAR;
             //LODMin = 0;
             //LODMax = CL.MAX_FLOAT;
@@ -51,7 +51,7 @@ namespace OpenCLDotNet.Buffers
         /// <param name="normalizeCoords"></param>
         /// <param name="mode"></param>
         /// <param name="filter"></param>
-        public CLSamplerProperties(bool normalizeCoords, CL_SAMPLER_ADDRESSING_MODE mode, CL_SAMPLER_FILTER_MODE filter)
+        public CLSamplerProperties(bool normalizeCoords, CL_ADDRESSING_MODE mode, CL_FILTER_MODE filter)
         {
             NormalizedCoords = normalizeCoords;
             AddressingMode = mode;

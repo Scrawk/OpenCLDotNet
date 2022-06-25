@@ -88,24 +88,26 @@ namespace OpenCLDotNet.Core
         /// <param name="blocking_read">Indicates if the read operations are blocking or non-blocking.</param>
         /// <param name="region">Defines the region in the image to read from.</param>
         /// <param name="data"></param>
+        /// <param name="byte_size"></param>
         /// <returns></returns>
         public static CL_ERROR EnqueueReadImage(
             cl_command_queue command,
             CLImage image,
             bool blocking_read,
             CLRegion3t region,
-            Array data)
+            Array data,
+            uint byte_size)
         {
             uint row_pitch = image.RowPitch;
             uint slice_pitch = 0;
 
-            var bytes_origin = region.Origion * 4;
-            var bytes_size = region.Size * 4;
+            var region_origin = region.Origion;
+            var region_size = region.Size;
 
-            var bytes = new byte[data.Length * 4];
+            var bytes = new byte[byte_size];
 
             cl_event e;
-            var error = CL_EnqueueReadImage(command, image.Id, blocking_read, bytes_origin, bytes_size,
+            var error = CL_EnqueueReadImage(command, image.Id, blocking_read, region_origin, region_size,
                 row_pitch, slice_pitch, bytes, 0, null, out e);
 
             Buffer.BlockCopy(bytes, 0, data, 0, bytes.Length);
@@ -122,25 +124,27 @@ namespace OpenCLDotNet.Core
         /// <param name="blocking_write"></param>
         /// <param name="region"></param>
         /// <param name="data"></param>
+        /// <param name="byte_size"></param>
         /// <returns></returns>
         public static CL_ERROR EnqueueWriteImage(
             cl_command_queue command,
             CLImage image,
             bool blocking_write,
             CLRegion3t region,
-            Array data)
+            Array data, 
+            uint byte_size)
         {
             uint input_row_pitch = image.RowPitch;
             uint input_slice_pitch = 0;
 
-            var bytes_origin = region.Origion * 4;
-            var bytes_size = region.Size * 4;
+            var region_origin = region.Origion;
+            var region_size = region.Size;
 
-            byte[] bytes = new byte[data.Length * 4];
+            byte[] bytes = new byte[byte_size];
             Buffer.BlockCopy(data, 0, bytes, 0, bytes.Length);
 
             cl_event e;
-            return CL_EnqueueWriteImage(command, image.Id, blocking_write, bytes_origin, bytes_size,
+            return CL_EnqueueWriteImage(command, image.Id, blocking_write, region_origin, region_size,
                 input_row_pitch, input_slice_pitch, bytes,
                 0, null, out e);
         }
@@ -614,7 +618,6 @@ namespace OpenCLDotNet.Core
             cl_uint wait_list_size,
             [Out] cl_event[] wait_list,
             [Out] out cl_event _event);
-
 
         [DllImport(DLL_NAME, CallingConvention = CDECL)]
         private static extern CL_ERROR CL_EnqueueReadBufferRect(

@@ -489,7 +489,8 @@ namespace OpenCLDotNet.Core
     }
 
     // addressing_mode 
-    public enum CL_SAMPLER_ADDRESSING_MODE
+    //public enum CL_SAMPLER_ADDRESSING_MODE
+    public enum CL_ADDRESSING_MODE
     {
         NONE = 0x1130,
         CLAMP_TO_EDGE = 0x1131,
@@ -499,7 +500,8 @@ namespace OpenCLDotNet.Core
     }
 
     // filter_mode 
-    public enum CL_SAMPLER_FILTER_MODE
+    //public enum CL_SAMPLER_FILTER_MODE
+    public enum CL_FILTER_MODE
     {
         NEAREST = 0x1140,
         LINEAR = 0x1141

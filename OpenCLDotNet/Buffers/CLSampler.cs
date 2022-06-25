@@ -26,10 +26,11 @@ namespace OpenCLDotNet.Buffers
         /// 
         /// </summary>
         /// <param name="context"></param>
+        /// <param name="normalizedCoords"></param>
         /// <param name="mode"></param>
         /// <param name="filter"></param>
-        public CLSampler(CLContext context, CL_SAMPLER_ADDRESSING_MODE mode, CL_SAMPLER_FILTER_MODE filter)
-    :       this(context, new CLSamplerProperties(true, mode, filter))
+        public CLSampler(CLContext context, bool normalizedCoords, CL_ADDRESSING_MODE mode, CL_FILTER_MODE filter)
+    :       this(context, new CLSamplerProperties(normalizedCoords, mode, filter))
         {
 
         }
@@ -121,9 +122,9 @@ namespace OpenCLDotNet.Buffers
                 var i = GetInfoUInt64(info);
 
                 if(info == CL_SAMPLER_INFO.ADDRESSING_MODE)
-                    str = ((CL_SAMPLER_ADDRESSING_MODE)i).ToString();
+                    str = ((CL_ADDRESSING_MODE)i).ToString();
                 else if (info == CL_SAMPLER_INFO.FILTER_MODE)
-                    str = ((CL_SAMPLER_FILTER_MODE)i).ToString();
+                    str = ((CL_FILTER_MODE)i).ToString();
                 //else if (info == CL_SAMPLER_INFO.MIP_FILTER_MODE)
                 //    str = ((CL_SAMPLER_FILTER_MODE)i).ToString();
 

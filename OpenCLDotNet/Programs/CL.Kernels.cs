@@ -96,6 +96,21 @@ namespace OpenCLDotNet.Core
         public static CL_ERROR SetKernelArg(
             cl_kernel kernel,
             uint arg_index,
+            Half arg_value)
+        {
+            return CL_SetKernelArgHalf(kernel, arg_index, arg_value);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="kernel"></param>
+        /// <param name="arg_index"></param>
+        /// <param name="arg_value"></param>
+        /// <returns></returns>
+        public static CL_ERROR SetKernelArg(
+            cl_kernel kernel,
+            uint arg_index,
             long arg_value)
         {
             return CL_SetKernelArgLong(kernel, arg_index, arg_value);
@@ -466,6 +481,12 @@ namespace OpenCLDotNet.Core
             cl_kernel kernel,
             cl_uint arg_index,
             float arg_value);
+
+        [DllImport(DLL_NAME, CallingConvention = CDECL)]
+        private static extern CL_ERROR CL_SetKernelArgHalf(
+            cl_kernel kernel,
+            cl_uint arg_index,
+            Half arg_value);
 
         [DllImport(DLL_NAME, CallingConvention = CDECL)]
         private static extern CL_ERROR CL_SetKernelArgLong(
