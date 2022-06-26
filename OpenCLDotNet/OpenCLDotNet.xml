@@ -2323,7 +2323,7 @@
             
             </summary>
         </member>
-        <member name="M:OpenCLDotNet.Buffers.CLBuffer.#ctor(OpenCLDotNet.Core.CLContext,OpenCLDotNet.Core.CL_READ_WRITE,OpenCLDotNet.Core.CL_MEM_DATA_TYPE,System.UInt32)">
+        <member name="M:OpenCLDotNet.Buffers.CLBuffer.#ctor(OpenCLDotNet.Core.CLContext,OpenCLDotNet.Core.CL_READ_WRITE,OpenCLDotNet.Core.CL_DATA_TYPE,System.UInt32)">
             <summary>
             
             </summary>
@@ -2332,7 +2332,7 @@
             <param name="type"></param>
             <param name="length"></param>
         </member>
-        <member name="M:OpenCLDotNet.Buffers.CLBuffer.#ctor(OpenCLDotNet.Core.CLContext,OpenCLDotNet.Core.CL_MEM_FLAGS,OpenCLDotNet.Core.CL_MEM_DATA_TYPE,System.UInt32)">
+        <member name="M:OpenCLDotNet.Buffers.CLBuffer.#ctor(OpenCLDotNet.Core.CLContext,OpenCLDotNet.Core.CL_MEM_FLAGS,OpenCLDotNet.Core.CL_DATA_TYPE,System.UInt32)">
             <summary>
             
             </summary>
@@ -2352,7 +2352,7 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:OpenCLDotNet.Buffers.CLBuffer.CreateReadBuffer(OpenCLDotNet.Core.CLContext,System.Array,OpenCLDotNet.Core.CL_MEM_DATA_TYPE)">
+        <member name="M:OpenCLDotNet.Buffers.CLBuffer.CreateReadBuffer(OpenCLDotNet.Core.CLContext,System.Array,OpenCLDotNet.Core.CL_DATA_TYPE)">
             <summary>
             
             </summary>
@@ -2360,7 +2360,7 @@
             <param name="source"></param>
             <returns></returns>
         </member>
-        <member name="M:OpenCLDotNet.Buffers.CLBuffer.CreateWriteBuffer(OpenCLDotNet.Core.CLContext,OpenCLDotNet.Core.CL_MEM_DATA_TYPE,System.UInt32)">
+        <member name="M:OpenCLDotNet.Buffers.CLBuffer.CreateWriteBuffer(OpenCLDotNet.Core.CLContext,OpenCLDotNet.Core.CL_DATA_TYPE,System.UInt32)">
             <summary>
             
             </summary>
@@ -2369,7 +2369,7 @@
             <param name="length"></param>
             <returns></returns>
         </member>
-        <member name="M:OpenCLDotNet.Buffers.CLBuffer.Create(OpenCLDotNet.Core.CLContext,OpenCLDotNet.Core.CL_READ_WRITE,OpenCLDotNet.Core.CL_MEM_DATA_TYPE,System.UInt32)">
+        <member name="M:OpenCLDotNet.Buffers.CLBuffer.Create(OpenCLDotNet.Core.CLContext,OpenCLDotNet.Core.CL_READ_WRITE,OpenCLDotNet.Core.CL_DATA_TYPE,System.UInt32)">
             <summary>
             
             </summary>
@@ -2378,7 +2378,7 @@
             <param name="type"></param>
             <param name="length"></param>
         </member>
-        <member name="M:OpenCLDotNet.Buffers.CLBuffer.Create(OpenCLDotNet.Core.CLContext,OpenCLDotNet.Core.CL_MEM_FLAGS,OpenCLDotNet.Core.CL_MEM_DATA_TYPE,System.UInt32)">
+        <member name="M:OpenCLDotNet.Buffers.CLBuffer.Create(OpenCLDotNet.Core.CLContext,OpenCLDotNet.Core.CL_MEM_FLAGS,OpenCLDotNet.Core.CL_DATA_TYPE,System.UInt32)">
             <summary>
             
             </summary>
@@ -2387,7 +2387,7 @@
             <param name="type"></param>
             <param name="length"></param>
         </member>
-        <member name="M:OpenCLDotNet.Buffers.CLBuffer.Create(OpenCLDotNet.Core.CLContext,OpenCLDotNet.Core.CL_READ_WRITE,System.Array,OpenCLDotNet.Core.CL_MEM_DATA_TYPE)">
+        <member name="M:OpenCLDotNet.Buffers.CLBuffer.Create(OpenCLDotNet.Core.CLContext,OpenCLDotNet.Core.CL_READ_WRITE,System.Array,OpenCLDotNet.Core.CL_DATA_TYPE)">
             <summary>
             
             </summary>
@@ -2395,7 +2395,7 @@
             <param name="rw"></param>
             <param name="data"></param>
         </member>
-        <member name="M:OpenCLDotNet.Buffers.CLBuffer.Create(OpenCLDotNet.Core.CLContext,OpenCLDotNet.Core.CL_MEM_FLAGS,System.Array,OpenCLDotNet.Core.CL_MEM_DATA_TYPE)">
+        <member name="M:OpenCLDotNet.Buffers.CLBuffer.Create(OpenCLDotNet.Core.CLContext,OpenCLDotNet.Core.CL_MEM_FLAGS,System.Array,OpenCLDotNet.Core.CL_DATA_TYPE)">
             <summary>
             
             </summary>
@@ -2547,7 +2547,7 @@
             <param name="color"></param>
             <param name="region"></param>
         </member>
-        <member name="M:OpenCLDotNet.Buffers.CLImage.Fill(OpenCLDotNet.Events.CLCommandQueue,System.Array,OpenCLDotNet.Core.CL_MEM_DATA_TYPE)">
+        <member name="M:OpenCLDotNet.Buffers.CLImage.Fill(OpenCLDotNet.Events.CLCommandQueue,System.Array,OpenCLDotNet.Core.CL_DATA_TYPE)">
             <summary>
             
             </summary>
@@ -2555,7 +2555,7 @@
             <param name="color"></param>
             <param name="type"></param>
         </member>
-        <member name="M:OpenCLDotNet.Buffers.CLImage.Fill(OpenCLDotNet.Events.CLCommandQueue,System.Array,OpenCLDotNet.Core.CL_MEM_DATA_TYPE,OpenCLDotNet.Core.CLRegion3t)">
+        <member name="M:OpenCLDotNet.Buffers.CLImage.Fill(OpenCLDotNet.Events.CLCommandQueue,System.Array,OpenCLDotNet.Core.CL_DATA_TYPE,OpenCLDotNet.Core.CLRegion3t)">
             <summary>
             
             </summary>
@@ -4114,7 +4114,7 @@
             <returns></returns>
             <exception cref="T:System.ArgumentOutOfRangeException"></exception>
         </member>
-        <member name="M:OpenCLDotNet.Programs.CLProgram.CreateReadBuffer(System.String,System.UInt32,System.Array,OpenCLDotNet.Core.CL_MEM_DATA_TYPE)">
+        <member name="M:OpenCLDotNet.Programs.CLProgram.CreateReadBuffer(System.String,System.UInt32,System.Array,OpenCLDotNet.Core.CL_DATA_TYPE)">
             <summary>
             
             </summary>
@@ -4123,7 +4123,7 @@
             <param name="data"></param>
             <returns></returns>
         </member>
-        <member name="M:OpenCLDotNet.Programs.CLProgram.CreateWriteBuffer(System.String,System.UInt32,OpenCLDotNet.Core.CL_MEM_DATA_TYPE,System.UInt32)">
+        <member name="M:OpenCLDotNet.Programs.CLProgram.CreateWriteBuffer(System.String,System.UInt32,OpenCLDotNet.Core.CL_DATA_TYPE,System.UInt32)">
             <summary>
             
             </summary>

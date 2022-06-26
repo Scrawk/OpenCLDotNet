@@ -18,9 +18,15 @@ namespace OpenCLDotNetTest.Buffers
 
         private const uint HEIGHT = 10;
 
-        private const uint CHANNELS = 1;
+        private const uint CHANNELS = 4;
 
         private const uint SIZE = WIDTH * HEIGHT * CHANNELS;
+
+        private const CL_DATA_TYPE DATA_TYPE = CL_DATA_TYPE.BYTE;
+
+        private const uint DATA_SIZE = 1;
+
+        private const uint BYTE_SIZE = SIZE * DATA_SIZE;
 
         private CLContext Context { get; set; }
 
@@ -28,15 +34,32 @@ namespace OpenCLDotNetTest.Buffers
 
         private byte[] Data { get; set; }
 
+        private byte[] FillData { get; set; }
+
+        private byte[] EmptyData { get; set; }
+
         [TestInitialize]
         public void Init()
         {
             Context = new CLContext();
             Cmd = new CLCommandQueue(Context);
-
+            EmptyData = new byte[SIZE];
+            FillData = new byte[SIZE];
             Data = new byte[SIZE];
+
             for (int i = 0; i < Data.Length; i++)
+            {
                 Data[i] = (byte)i;
+            }
+
+            for (int i = 0; i < Data.Length / 4; i++)
+            {
+                FillData[i * 4 + 0] = 64;
+                FillData[i * 4 + 1] = 127;
+                FillData[i * 4 + 2] = 191;
+                FillData[i * 4 + 3] = 255;
+            }
+
         }
 
         [TestMethod]
@@ -45,12 +68,13 @@ namespace OpenCLDotNetTest.Buffers
             var image = CreateReadImage();
 
             Assert.IsTrue(image.IsValid);
-            Assert.AreEqual(CL_DATA_TYPE.BYTE, image.DataType);
-            Assert.AreEqual(CHANNELS, image.DataSize);
-            Assert.AreEqual(SIZE * image.DataSize, image.ByteSize);
+            Assert.AreEqual(DATA_TYPE, image.DataType);
+            Assert.AreEqual(DATA_SIZE, image.DataSize);
+            Assert.AreEqual(BYTE_SIZE, image.ByteSize);
             Assert.AreEqual(SIZE, image.Length);
             Assert.AreEqual(WIDTH, image.Width);
             Assert.AreEqual(HEIGHT, image.Height);
+            Assert.AreEqual(CHANNELS, image.Channels);
             Assert.IsTrue(image.IsReadOnly);
             Assert.IsTrue(image.CanRead);
             Assert.IsFalse(image.IsWriteOnly);
@@ -65,12 +89,13 @@ namespace OpenCLDotNetTest.Buffers
             var image = CreateWriteImage();
 
             Assert.IsTrue(image.IsValid);
-            Assert.AreEqual(CL_DATA_TYPE.BYTE, image.DataType);
-            Assert.AreEqual(CHANNELS, image.DataSize);
-            Assert.AreEqual(SIZE * image.DataSize, image.ByteSize);
+            Assert.AreEqual(DATA_TYPE, image.DataType);
+            Assert.AreEqual(DATA_SIZE, image.DataSize);
+            Assert.AreEqual(BYTE_SIZE, image.ByteSize);
             Assert.AreEqual(SIZE, image.Length);
             Assert.AreEqual(WIDTH, image.Width);
             Assert.AreEqual(HEIGHT, image.Height);
+            Assert.AreEqual(CHANNELS, image.Channels);
             Assert.IsFalse(image.IsReadOnly);
             Assert.IsFalse(image.CanRead);
             Assert.IsTrue(image.IsWriteOnly);
@@ -79,54 +104,84 @@ namespace OpenCLDotNetTest.Buffers
             Assert.AreEqual(HEIGHT, image.Region.Size.y);
         }
 
-        //[TestMethod]
+        [TestMethod]
         public void ReadTest()
         {
-            /*
-            var param = new CLImageParameters2D();
-            param.Width = WIDTH;
-            param.Height = HEIGHT;
-            param.ChannelOrder = CL_CHANNEL_ORDER.RGBA;
-            param.ChannelType = CL_CHANNEL_TYPE.UNORM_INT8;
-            param.DataType = CL_MEM_DATA_TYPE.BYTE;
-            param.DataLength = SIZE;
-            param.Source = Data;
-
-            var flag = CL_MEM_FLAGS.READ_WRITE;
-            flag |= CL_MEM_FLAGS.COPY_HOST_PTR;
-
-            var image = new CLImage2D(Context, param, flag);
-
-            image.Write(Cmd, Data, image.Region, true);
-
-            Console.WriteLine(image.Error);
+            var image = CreateReadImage();
 
             var data = new byte[SIZE];
-            image.Read(Cmd, data, image.Region, true);
+            image.Read(Cmd, data);
 
-            Console.WriteLine(image.Error);
-
-            for(int i = 0; i < 100; i++)
-                Console.WriteLine(data[i]);
-            */
+            Assert.IsTrue(image.IsValid);
+            Assert.IsFalse(image.HasError);
+            CollectionAssert.AreEqual(Data, data);
+            
         }
 
-        //[TestMethod]
+        [TestMethod]
         public void WriteTest()
         {
+            var image = CreateWriteImage();
 
+            var data = new byte[SIZE];
+            image.Read(Cmd, data);
+
+            //Validate that image is empty.
+            CollectionAssert.AreEqual(EmptyData, data);
+
+            //Write Data into image and read it back into data array.
+            image.Write(Cmd, Data);
+            image.Read(Cmd, data);
+
+            Assert.IsTrue(image.IsValid);
+            Assert.IsFalse(image.HasError);
+            CollectionAssert.AreEqual(Data, data);
         }
 
-        //[TestMethod]
+        [TestMethod]
         public void CopyTest()
         {
+            var image = CreateReadImage();
 
+            var copy = image.Copy(Cmd);
+
+            var data = new byte[SIZE];
+            copy.Read(Cmd, data);
+
+            Assert.IsTrue(copy.IsValid);
+            Assert.IsFalse(copy.HasError);
+            CollectionAssert.AreEqual(Data, data);
         }
 
-        //[TestMethod]
+        [TestMethod]
         public void FillTest()
         {
+            var image = CreateEmptyImage();
 
+            var color = new CLColorRGBA(0.25f, 0.5f, 0.75f, 1.0f);
+
+            image.Fill(Cmd, color);
+
+            var data = new byte[SIZE];
+            image.Read(Cmd, data);
+
+            Assert.IsTrue(image.IsValid);
+            Assert.IsFalse(image.HasError);
+            CollectionAssert.AreEqual(FillData, data);
+
+            var float_array = new float[]
+            {
+                0.25f, 0.5f, 0.75f, 1.0f
+            };
+
+            image.Fill(Cmd, float_array, CL_DATA_TYPE.FLOAT);
+
+            data = new byte[SIZE];
+            image.Read(Cmd, data);
+
+            Assert.IsTrue(image.IsValid);
+            Assert.IsFalse(image.HasError);
+            CollectionAssert.AreEqual(FillData, data);
         }
 
         private CLImage2D CreateReadImage()
@@ -134,7 +189,7 @@ namespace OpenCLDotNetTest.Buffers
             var param = new CLImageParameters2D();
             param.Width = WIDTH;
             param.Height = HEIGHT;
-            param.ChannelOrder = CL_CHANNEL_ORDER.R;
+            param.ChannelOrder = CL_CHANNEL_ORDER.RGBA;
             param.ChannelType = CL_CHANNEL_TYPE.UNORM_INT8;
             param.DataType = CL_DATA_TYPE.BYTE;
             param.DataLength = SIZE;
@@ -143,12 +198,17 @@ namespace OpenCLDotNetTest.Buffers
             return CLImage2D.CreateReadImage2D(Context, param);
         }
 
+        private CLImage2D CreateEmptyImage()
+        {
+            return CreateWriteImage();   
+        }
+
         private CLImage2D CreateWriteImage()
         {
             var param = new CLImageParameters2D();
             param.Width = WIDTH;
             param.Height = HEIGHT;
-            param.ChannelOrder = CL_CHANNEL_ORDER.R;
+            param.ChannelOrder = CL_CHANNEL_ORDER.RGBA;
             param.ChannelType = CL_CHANNEL_TYPE.UNORM_INT8;
             param.DataType = CL_DATA_TYPE.BYTE;
             param.DataLength = SIZE;
