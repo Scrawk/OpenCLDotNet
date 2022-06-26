@@ -283,17 +283,27 @@ namespace OpenCLDotNet.Core
         /// in which the fill command will be queued. The OpenCL context associated
         /// with command_queue and image must be the same.</param>
         /// <param name="image">The image to fill.</param>
-        /// <param name="fill_color">fill_color is the color used to fill the image.
+        /// <param name="fill_color">
+        /// 
+        /// fill_color is the color used to fill the image.
+        /// 
         /// The fill color is a single floating point value if the channel order is CL_​DEPTH.
-        /// Otherwise, the fill color is a four component RGBA floating-point color value 
-        /// if the image channel data type is not an unnormalized signed or unsigned integer 
-        /// type, is a four component signed integer value if the image channel data type 
-        /// is an unnormalized signed integer type and is a four component unsigned integer
-        /// value if the image channel data type is an unnormalized unsigned integer type.
+        /// 
+        /// The fill color is a four component RGBA floating-point color value 
+        /// if the image channel data type is not an unnormalized signed or unsigned integer
+        /// 
+        /// Is a four component signed integer value if the image channel data type 
+        /// is an unnormalized signed integer type.
+        /// 
+        /// Is a four component unsigned integer value if the image channel data type is 
+        /// an unnormalized unsigned integer type.
+        /// 
         /// The fill color will be converted to the appropriate image channel format and 
-        /// order associated with image.</param>
+        /// order associated with image.
+        /// 
+        /// </param>
         /// <param name="region">Defines the region in the image to fill.</param>
-        /// <returns></returns>
+        /// <returns>The error code.</returns>
         public static CL_ERROR EnqueueFillImage(
             cl_command_queue command,
             cl_mem image,
@@ -303,6 +313,33 @@ namespace OpenCLDotNet.Core
             cl_event e;
             return CL_EnqueueFillImage(command, image, fill_color, region.Origion, region.Size,
                 0, null, out e);
+        }
+
+        public static CL_ERROR EnqueueFillImage(
+            cl_command_queue command,
+            cl_mem image,
+            Array color,
+            CL_DATA_TYPE type,
+            CLRegion3t region)
+        {
+            cl_event e;
+
+            switch (type)
+            {
+                case CL_DATA_TYPE.FLOAT:
+                    return CL_EnqueueFillImage(command, image, color as float[], region.Origion, region.Size, 0, null, out e);
+
+                case CL_DATA_TYPE.INT:
+                    return CL_EnqueueFillImage(command, image, color as int[], region.Origion, region.Size, 0, null, out e);
+
+                case CL_DATA_TYPE.UINT:
+                    return CL_EnqueueFillImage(command, image, color as uint[], region.Origion, region.Size, 0, null, out e);
+
+                default:
+                    return CL_ERROR.INVALID_DATA_TYPE;
+                }
+
+
         }
 
         /// <summary>
@@ -703,6 +740,39 @@ namespace OpenCLDotNet.Core
             cl_command_queue command,
             cl_mem image,
             CLColorRGBA fill_color,
+            CLPoint3t origin,
+            CLPoint3t region,
+            cl_uint wait_list_size,
+            [Out] cl_event[] wait_list,
+            [Out] out cl_event _event);
+
+        [DllImport(DLL_NAME, CallingConvention = CDECL)]
+        private static extern CL_ERROR CL_EnqueueFillImage(
+            cl_command_queue command,
+            cl_mem image,
+            int[] fill_color,
+            CLPoint3t origin,
+            CLPoint3t region,
+            cl_uint wait_list_size,
+            [Out] cl_event[] wait_list,
+            [Out] out cl_event _event);
+
+        [DllImport(DLL_NAME, CallingConvention = CDECL)]
+        private static extern CL_ERROR CL_EnqueueFillImage(
+            cl_command_queue command,
+            cl_mem image,
+            uint[] fill_color,
+            CLPoint3t origin,
+            CLPoint3t region,
+            cl_uint wait_list_size,
+            [Out] cl_event[] wait_list,
+            [Out] out cl_event _event);
+
+        [DllImport(DLL_NAME, CallingConvention = CDECL)]
+        private static extern CL_ERROR CL_EnqueueFillImage(
+            cl_command_queue command,
+            cl_mem image,
+            float[] fill_color,
             CLPoint3t origin,
             CLPoint3t region,
             cl_uint wait_list_size,

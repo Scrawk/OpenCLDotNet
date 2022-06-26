@@ -21,34 +21,23 @@ namespace OpenCLDotNet.Buffers
         /// <param name="rw"></param>
         /// <param name="type"></param>
         /// <param name="length"></param>
-        public CLBuffer(CLContext context, CL_READ_WRITE rw, CL_MEM_DATA_TYPE type, uint length)
+        public CLBuffer(CLContext context, CL_READ_WRITE rw, CL_DATA_TYPE type, uint length)
             : base(context)
         {
             Create(context, rw, type, length);
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="context"></param>
-        /// <param name="rw"></param>
-        /// <param name="data"></param>
-        public CLBuffer(CLContext context, CL_READ_WRITE rw, Array data)
+
+        public CLBuffer(CLContext context, CL_READ_WRITE rw, Array data, CL_DATA_TYPE type)
             : base(context)
         {
-            Create(context, rw, data);
+            Create(context, rw, data, type);
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="context"></param>
-        /// <param name="flags"></param>
-        /// <param name="data"></param>
-        public CLBuffer(CLContext context, CL_MEM_FLAGS flags, Array data)
+        public CLBuffer(CLContext context, CL_MEM_FLAGS flags, Array data, CL_DATA_TYPE type)
             : base(context)
         {
-            Create(context, flags, data);
+            Create(context, flags, data, type);
         }
 
         /// <summary>
@@ -58,7 +47,7 @@ namespace OpenCLDotNet.Buffers
         /// <param name="flags"></param>
         /// <param name="type"></param>
         /// <param name="length"></param>
-        public CLBuffer(CLContext context, CL_MEM_FLAGS flags, CL_MEM_DATA_TYPE type, uint length)
+        public CLBuffer(CLContext context, CL_MEM_FLAGS flags, CL_DATA_TYPE type, uint length)
         : base(context)
         {
             Create(context, flags, type, length);
@@ -79,8 +68,8 @@ namespace OpenCLDotNet.Buffers
             read_write += CanRead ? "T/" : "F/";
             read_write += CanWrite ? "T" : "F";
 
-            return String.Format("[CLBuffer: Id={0}, ContextId={1}, ReadWrite={2}, Error={3}]",
-                Id, Context.Id, read_write, Error);
+            return String.Format("[CLBuffer: Id={0}, ContextId={1}, ReadWrite={2}, DataType={3}, Error={4}]",
+                Id, Context.Id, read_write, DataType, Error);
         }
 
         /// <summary>
@@ -89,9 +78,9 @@ namespace OpenCLDotNet.Buffers
         /// <param name="context"></param>
         /// <param name="source"></param>
         /// <returns></returns>
-        public static CLBuffer CreateReadBuffer(CLContext context, Array source)
+        public static CLBuffer CreateReadBuffer(CLContext context, Array source, CL_DATA_TYPE type)
         {
-            return new CLBuffer(context, CL_READ_WRITE.READ, source);
+            return new CLBuffer(context, CL_READ_WRITE.READ, source, type);
         }
 
         /// <summary>
@@ -101,7 +90,7 @@ namespace OpenCLDotNet.Buffers
         /// <param name="type"></param>
         /// <param name="length"></param>
         /// <returns></returns>
-        public static CLBuffer CreateWriteBuffer(CLContext context, CL_MEM_DATA_TYPE type, uint length)
+        public static CLBuffer CreateWriteBuffer(CLContext context, CL_DATA_TYPE type, uint length)
         {
             return new CLBuffer(context, CL_READ_WRITE.WRITE, type, length);
         }
@@ -113,7 +102,7 @@ namespace OpenCLDotNet.Buffers
         /// <param name="rw"></param>
         /// <param name="type"></param>
         /// <param name="length"></param>
-        private void Create(CLContext context, CL_READ_WRITE rw, CL_MEM_DATA_TYPE type, uint length)
+        private void Create(CLContext context, CL_READ_WRITE rw, CL_DATA_TYPE type, uint length)
         {
             ResetErrorCode();
             Flags = CreateBufferFlags(rw);
@@ -140,7 +129,7 @@ namespace OpenCLDotNet.Buffers
         /// <param name="flags"></param>
         /// <param name="type"></param>
         /// <param name="length"></param>
-        private void Create(CLContext context, CL_MEM_FLAGS flags, CL_MEM_DATA_TYPE type, uint length)
+        private void Create(CLContext context, CL_MEM_FLAGS flags, CL_DATA_TYPE type, uint length)
         {
             ResetErrorCode();
             Flags = flags;
@@ -166,7 +155,7 @@ namespace OpenCLDotNet.Buffers
         /// <param name="context"></param>
         /// <param name="rw"></param>
         /// <param name="data"></param>
-        private void Create(CLContext context, CL_READ_WRITE rw, Array data)
+        private void Create(CLContext context, CL_READ_WRITE rw, Array data, CL_DATA_TYPE type)
         {
             if(data == null)
             {
@@ -177,7 +166,7 @@ namespace OpenCLDotNet.Buffers
             ResetErrorCode();
             Flags = CreateBufferFlags(rw);
             MemType = CL_MEM_OBJECT_TYPE.BUFFER;
-            DataType = CL.TypeOf(data);
+            DataType = type;
             DataSize = CL.SizeOf(DataType);
             Length = (uint)data.Length;
             CL_ERROR error = CL_ERROR.NONE;
@@ -198,7 +187,7 @@ namespace OpenCLDotNet.Buffers
         /// <param name="context"></param>
         /// <param name="flags"></param>
         /// <param name="data"></param>
-        private void Create(CLContext context, CL_MEM_FLAGS flags, Array data)
+        private void Create(CLContext context, CL_MEM_FLAGS flags, Array data, CL_DATA_TYPE type)
         {
             if (data == null)
             {
@@ -209,7 +198,7 @@ namespace OpenCLDotNet.Buffers
             ResetErrorCode();
             Flags = flags;
             MemType = CL_MEM_OBJECT_TYPE.BUFFER;
-            DataType = CL.TypeOf(data);
+            DataType = type;
             DataSize = CL.SizeOf(DataType);
             Length = (uint)data.Length;
             CL_ERROR error = CL_ERROR.NONE;

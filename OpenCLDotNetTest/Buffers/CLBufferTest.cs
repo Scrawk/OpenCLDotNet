@@ -52,7 +52,7 @@ namespace OpenCLDotNetTest.Buffers
             var buffer = CreateReadBuffer(SIZE);
 
             Assert.IsTrue(buffer.IsValid);
-            Assert.AreEqual(CL_MEM_DATA_TYPE.INT, buffer.DataType);
+            Assert.AreEqual(CL_DATA_TYPE.INT, buffer.DataType);
             Assert.AreEqual(4u, buffer.DataSize);
             Assert.AreEqual(SIZE * 4, buffer.ByteSize);
             Assert.AreEqual(SIZE, buffer.Length);
@@ -68,7 +68,7 @@ namespace OpenCLDotNetTest.Buffers
             var buffer = CreateWriteBuffer(SIZE);
 
             Assert.IsTrue(buffer.IsValid);
-            Assert.AreEqual(CL_MEM_DATA_TYPE.INT, buffer.DataType);
+            Assert.AreEqual(CL_DATA_TYPE.INT, buffer.DataType);
             Assert.AreEqual(4u, buffer.DataSize);
             Assert.AreEqual(SIZE * 4, buffer.ByteSize);
             Assert.AreEqual(SIZE, buffer.Length);
@@ -141,14 +141,14 @@ namespace OpenCLDotNetTest.Buffers
 
         private CLBuffer CreateReadBuffer(uint size)
         {
-            var buffer = CLBuffer.CreateReadBuffer(Context, Data);
+            var type = CL_DATA_TYPE.INT;
+            var buffer = CLBuffer.CreateReadBuffer(Context, Data, type);
             return buffer;
         }
 
         private CLBuffer CreateWriteBuffer(uint size)
         {
-            var type = CL_MEM_DATA_TYPE.INT;
-
+            var type = CL_DATA_TYPE.INT;
             var buffer = CLBuffer.CreateWriteBuffer(Context, type, size);
             return buffer;
         }

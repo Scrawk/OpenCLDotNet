@@ -191,18 +191,35 @@
             <param name="_event"></param>
             <returns></returns>
         </member>
-        <member name="M:OpenCLDotNet.Core.CL.EnqueueFillImage(OpenCLDotNet.Core.cl_command_queue,OpenCLDotNet.Core.cl_mem,OpenCLDotNet.Core.CLColorRGBA,OpenCLDotNet.Core.CLRegion3t,System.UInt32,OpenCLDotNet.Core.cl_event[],OpenCLDotNet.Core.cl_event@)">
+        <member name="M:OpenCLDotNet.Core.CL.EnqueueFillImage(OpenCLDotNet.Core.cl_command_queue,OpenCLDotNet.Core.cl_mem,OpenCLDotNet.Core.CLColorRGBA,OpenCLDotNet.Core.CLRegion3t)">
             <summary>
-            
+            Enqueues a command to fill an image object with a specified color.
             </summary>
-            <param name="command"></param>
-            <param name="image"></param>
-            <param name="fill_color"></param>
-            <param name="region"></param>
-            <param name="wait_list_size"></param>
-            <param name="wait_list"></param>
-            <param name="_event"></param>
-            <returns></returns>
+            <param name="command">command_queue refers to the host command-queue 
+            in which the fill command will be queued. The OpenCL context associated
+            with command_queue and image must be the same.</param>
+            <param name="image">The image to fill.</param>
+            <param name="fill_color">
+            
+            fill_color is the color used to fill the image.
+            
+            The fill color is a single floating point value if the channel order is CL_​DEPTH.
+            
+            The fill color is a four component RGBA floating-point color value 
+            if the image channel data type is not an unnormalized signed or unsigned integer
+            
+            Is a four component signed integer value if the image channel data type 
+            is an unnormalized signed integer type.
+            
+            Is a four component unsigned integer value if the image channel data type is 
+            an unnormalized unsigned integer type.
+            
+            The fill color will be converted to the appropriate image channel format and 
+            order associated with image.
+            
+            </param>
+            <param name="region">Defines the region in the image to fill.</param>
+            <returns>The error code.</returns>
         </member>
         <member name="M:OpenCLDotNet.Core.CL.EnqueueCopyImage(OpenCLDotNet.Core.cl_command_queue,OpenCLDotNet.Core.cl_mem,OpenCLDotNet.Core.cl_mem,OpenCLDotNet.Core.CLPoint3t,OpenCLDotNet.Core.CLRegion3t,System.UInt32,OpenCLDotNet.Core.cl_event[],OpenCLDotNet.Core.cl_event@)">
             <summary>
@@ -2315,22 +2332,6 @@
             <param name="type"></param>
             <param name="length"></param>
         </member>
-        <member name="M:OpenCLDotNet.Buffers.CLBuffer.#ctor(OpenCLDotNet.Core.CLContext,OpenCLDotNet.Core.CL_READ_WRITE,System.Array)">
-            <summary>
-            
-            </summary>
-            <param name="context"></param>
-            <param name="rw"></param>
-            <param name="data"></param>
-        </member>
-        <member name="M:OpenCLDotNet.Buffers.CLBuffer.#ctor(OpenCLDotNet.Core.CLContext,OpenCLDotNet.Core.CL_MEM_FLAGS,System.Array)">
-            <summary>
-            
-            </summary>
-            <param name="context"></param>
-            <param name="flags"></param>
-            <param name="data"></param>
-        </member>
         <member name="M:OpenCLDotNet.Buffers.CLBuffer.#ctor(OpenCLDotNet.Core.CLContext,OpenCLDotNet.Core.CL_MEM_FLAGS,OpenCLDotNet.Core.CL_MEM_DATA_TYPE,System.UInt32)">
             <summary>
             
@@ -2351,7 +2352,7 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:OpenCLDotNet.Buffers.CLBuffer.CreateReadBuffer(OpenCLDotNet.Core.CLContext,System.Array)">
+        <member name="M:OpenCLDotNet.Buffers.CLBuffer.CreateReadBuffer(OpenCLDotNet.Core.CLContext,System.Array,OpenCLDotNet.Core.CL_MEM_DATA_TYPE)">
             <summary>
             
             </summary>
@@ -2386,7 +2387,7 @@
             <param name="type"></param>
             <param name="length"></param>
         </member>
-        <member name="M:OpenCLDotNet.Buffers.CLBuffer.Create(OpenCLDotNet.Core.CLContext,OpenCLDotNet.Core.CL_READ_WRITE,System.Array)">
+        <member name="M:OpenCLDotNet.Buffers.CLBuffer.Create(OpenCLDotNet.Core.CLContext,OpenCLDotNet.Core.CL_READ_WRITE,System.Array,OpenCLDotNet.Core.CL_MEM_DATA_TYPE)">
             <summary>
             
             </summary>
@@ -2394,7 +2395,7 @@
             <param name="rw"></param>
             <param name="data"></param>
         </member>
-        <member name="M:OpenCLDotNet.Buffers.CLBuffer.Create(OpenCLDotNet.Core.CLContext,OpenCLDotNet.Core.CL_MEM_FLAGS,System.Array)">
+        <member name="M:OpenCLDotNet.Buffers.CLBuffer.Create(OpenCLDotNet.Core.CLContext,OpenCLDotNet.Core.CL_MEM_FLAGS,System.Array,OpenCLDotNet.Core.CL_MEM_DATA_TYPE)">
             <summary>
             
             </summary>
@@ -2498,6 +2499,13 @@
             
             </summary>
         </member>
+        <member name="M:OpenCLDotNet.Buffers.CLImage.Read(OpenCLDotNet.Events.CLCommandQueue,System.Array)">
+            <summary>
+            
+            </summary>
+            <param name="cmd"></param>
+            <param name="dst"></param>
+        </member>
         <member name="M:OpenCLDotNet.Buffers.CLImage.Read(OpenCLDotNet.Events.CLCommandQueue,System.Array,OpenCLDotNet.Core.CLRegion3t,System.Boolean)">
             <summary>
             
@@ -2506,6 +2514,13 @@
             <param name="region"></param>
             <param name="dst"></param>
             <param name="blocking"></param>
+        </member>
+        <member name="M:OpenCLDotNet.Buffers.CLImage.Write(OpenCLDotNet.Events.CLCommandQueue,System.Array)">
+            <summary>
+            
+            </summary>
+            <param name="cmd"></param>
+            <param name="src"></param>
         </member>
         <member name="M:OpenCLDotNet.Buffers.CLImage.Write(OpenCLDotNet.Events.CLCommandQueue,System.Array,OpenCLDotNet.Core.CLRegion3t,System.Boolean)">
             <summary>
@@ -2516,6 +2531,38 @@
             <param name="src"></param>
             <param name="blocking"></param>
             <exception cref="T:OpenCLDotNet.Utility.InvalidObjectExeception"></exception>
+        </member>
+        <member name="M:OpenCLDotNet.Buffers.CLImage.Fill(OpenCLDotNet.Events.CLCommandQueue,OpenCLDotNet.Core.CLColorRGBA)">
+            <summary>
+            
+            </summary>
+            <param name="cmd"></param>
+            <param name="color"></param>
+        </member>
+        <member name="M:OpenCLDotNet.Buffers.CLImage.Fill(OpenCLDotNet.Events.CLCommandQueue,OpenCLDotNet.Core.CLColorRGBA,OpenCLDotNet.Core.CLRegion3t)">
+            <summary>
+            
+            </summary>
+            <param name="cmd"></param>
+            <param name="color"></param>
+            <param name="region"></param>
+        </member>
+        <member name="M:OpenCLDotNet.Buffers.CLImage.Fill(OpenCLDotNet.Events.CLCommandQueue,System.Array,OpenCLDotNet.Core.CL_MEM_DATA_TYPE)">
+            <summary>
+            
+            </summary>
+            <param name="cmd"></param>
+            <param name="color"></param>
+            <param name="type"></param>
+        </member>
+        <member name="M:OpenCLDotNet.Buffers.CLImage.Fill(OpenCLDotNet.Events.CLCommandQueue,System.Array,OpenCLDotNet.Core.CL_MEM_DATA_TYPE,OpenCLDotNet.Core.CLRegion3t)">
+            <summary>
+            
+            </summary>
+            <param name="cmd"></param>
+            <param name="color"></param>
+            <param name="type"></param>
+            <param name="region"></param>
         </member>
         <member name="M:OpenCLDotNet.Buffers.CLImage.Print(System.Text.StringBuilder)">
             <summary>
@@ -2608,23 +2655,29 @@
             </summary>
             <param name="context"></param>
             <param name="rw"></param>
-            <param name="data"></param>
+            <param name="param"></param>
         </member>
         <member name="M:OpenCLDotNet.Buffers.CLImage2D.Create(OpenCLDotNet.Core.CLContext,OpenCLDotNet.Buffers.CLImageParameters2D,OpenCLDotNet.Core.CL_MEM_FLAGS)">
             <summary>
             
             </summary>
             <param name="context"></param>
-            <param name="data"></param>
+            <param name="param"></param>
             <param name="flags"></param>
         </member>
-        <member name="M:OpenCLDotNet.Buffers.CLImage2D.Create(OpenCLDotNet.Core.CLContext,OpenCLDotNet.Buffers.CLImageParameters2D,System.Array)">
+        <member name="M:OpenCLDotNet.Buffers.CLImage2D.Create(OpenCLDotNet.Core.CLContext,OpenCLDotNet.Buffers.CLImageParameters2D)">
             <summary>
             
             </summary>
             <param name="context"></param>
-            <param name="data"></param>
-            <param name="source"></param>
+            <param name="param"></param>
+        </member>
+        <member name="M:OpenCLDotNet.Buffers.CLImage2D.Copy(OpenCLDotNet.Events.CLCommandQueue)">
+            <summary>
+            
+            </summary>
+            <param name="cmd"></param>
+            <returns></returns>
         </member>
         <member name="M:OpenCLDotNet.Buffers.CLImage2D.Copy(OpenCLDotNet.Events.CLCommandQueue,OpenCLDotNet.Core.CLPoint3t,OpenCLDotNet.Core.CLRegion3t)">
             <summary>
@@ -2634,7 +2687,6 @@
             <param name="src_origin"></param>
             <param name="region"></param>
             <returns></returns>
-            <exception cref="T:OpenCLDotNet.Utility.InvalidObjectExeception"></exception>
         </member>
         <member name="M:OpenCLDotNet.Buffers.CLImage2D.Copy(OpenCLDotNet.Events.CLCommandQueue,OpenCLDotNet.Buffers.CLImage2D,OpenCLDotNet.Core.CLPoint3t,OpenCLDotNet.Core.CLRegion3t)">
             <summary>
@@ -2644,16 +2696,6 @@
             <param name="dst"></param>
             <param name="src_origin"></param>
             <param name="region"></param>
-            <exception cref="T:OpenCLDotNet.Utility.InvalidObjectExeception"></exception>
-        </member>
-        <member name="M:OpenCLDotNet.Buffers.CLImage2D.Fill(OpenCLDotNet.Events.CLCommandQueue,OpenCLDotNet.Core.CLColorRGBA,OpenCLDotNet.Core.CLRegion3t)">
-            <summary>
-            
-            </summary>
-            <param name="cmd"></param>
-            <param name="col"></param>
-            <param name="region"></param>
-            <exception cref="T:OpenCLDotNet.Utility.InvalidObjectExeception"></exception>
         </member>
         <member name="T:OpenCLDotNet.Buffers.CLImageDescription">
             <summary>
@@ -2828,6 +2870,16 @@
             
             </summary>
         </member>
+        <member name="P:OpenCLDotNet.Buffers.CLImageParameters2D.HasSource">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:OpenCLDotNet.Buffers.CLImageParameters2D.CheckChannelData">
+            <summary>
+            
+            </summary>
+        </member>
         <member name="M:OpenCLDotNet.Buffers.CLImageParameters2D.#ctor">
             <summary>
             
@@ -2863,13 +2915,6 @@
             
             </summary>
             <returns></returns>
-        </member>
-        <member name="M:OpenCLDotNet.Buffers.CLImageParameters2D.IsValidArrayData">
-            <summary>
-            
-            </summary>
-            <returns></returns>
-            <exception cref="T:System.NullReferenceException"></exception>
         </member>
         <member name="M:OpenCLDotNet.Buffers.CLImageParameters2D.IsValidDataType">
             <summary>
@@ -4069,14 +4114,14 @@
             <returns></returns>
             <exception cref="T:System.ArgumentOutOfRangeException"></exception>
         </member>
-        <member name="M:OpenCLDotNet.Programs.CLProgram.CreateReadBuffer(System.String,System.UInt32,System.Array)">
+        <member name="M:OpenCLDotNet.Programs.CLProgram.CreateReadBuffer(System.String,System.UInt32,System.Array,OpenCLDotNet.Core.CL_MEM_DATA_TYPE)">
             <summary>
             
             </summary>
             <param name="kernel_name"></param>
             <param name="index"></param>
             <param name="data"></param>
-            <exception cref="T:System.NullReferenceException"></exception>
+            <returns></returns>
         </member>
         <member name="M:OpenCLDotNet.Programs.CLProgram.CreateWriteBuffer(System.String,System.UInt32,OpenCLDotNet.Core.CL_MEM_DATA_TYPE,System.UInt32)">
             <summary>
@@ -4086,7 +4131,7 @@
             <param name="index"></param>
             <param name="type"></param>
             <param name="length"></param>
-            <exception cref="T:System.NullReferenceException"></exception>
+            <returns></returns>
         </member>
         <member name="M:OpenCLDotNet.Programs.CLProgram.CreateReadImage2D(System.String,System.UInt32,OpenCLDotNet.Buffers.CLImageParameters2D)">
             <summary>
@@ -4095,7 +4140,7 @@
             <param name="kernel_name"></param>
             <param name="index"></param>
             <param name="param"></param>
-            <exception cref="T:System.NullReferenceException"></exception>
+            <returns></returns>
         </member>
         <member name="M:OpenCLDotNet.Programs.CLProgram.CreateWriteImage2D(System.String,System.UInt32,OpenCLDotNet.Buffers.CLImageParameters2D)">
             <summary>
@@ -4104,7 +4149,7 @@
             <param name="kernel_name"></param>
             <param name="index"></param>
             <param name="param"></param>
-            <exception cref="T:System.NullReferenceException"></exception>
+            <returns></returns>
         </member>
         <member name="M:OpenCLDotNet.Programs.CLProgram.CreateSamplerUV(System.String,System.UInt32)">
             <summary>
@@ -4112,6 +4157,7 @@
             </summary>
             <param name="kernel_name"></param>
             <param name="index"></param>
+            <returns></returns>
         </member>
         <member name="M:OpenCLDotNet.Programs.CLProgram.CreateSamplerIndex(System.String,System.UInt32)">
             <summary>
@@ -4119,6 +4165,7 @@
             </summary>
             <param name="kernel_name"></param>
             <param name="index"></param>
+            <returns></returns>
         </member>
         <member name="M:OpenCLDotNet.Programs.CLProgram.CreateSampler(System.String,System.UInt32,System.Boolean,OpenCLDotNet.Core.CL_ADDRESSING_MODE,OpenCLDotNet.Core.CL_FILTER_MODE)">
             <summary>
@@ -4129,7 +4176,7 @@
             <param name="normalizedCoords"></param>
             <param name="mode"></param>
             <param name="filter"></param>
-            <exception cref="T:System.NullReferenceException"></exception>
+            <returns></returns>
         </member>
         <member name="M:OpenCLDotNet.Programs.CLProgram.CreateSampler(System.String,System.UInt32,OpenCLDotNet.Buffers.CLSamplerProperties)">
             <summary>
@@ -4138,7 +4185,7 @@
             <param name="kernel_name"></param>
             <param name="index"></param>
             <param name="properties"></param>
-            <exception cref="T:System.NullReferenceException"></exception>
+            <returns></returns>
         </member>
         <member name="M:OpenCLDotNet.Programs.CLProgram.ReadBuffer(System.String,System.Boolean,System.UInt32,System.Array)">
             <summary>

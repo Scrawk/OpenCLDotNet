@@ -40,7 +40,7 @@ namespace OpenCLDotNet.Buffers
         /// <summary>
         /// 
         /// </summary>
-        public CL_MEM_DATA_TYPE DataType;
+        public CL_DATA_TYPE DataType;
 
         /// <summary>
         /// 
@@ -54,7 +54,7 @@ namespace OpenCLDotNet.Buffers
         {
             get
             {
-                if (Source != null)
+                if (HasSource)
                     return (uint)Source.Length;
                 else
                     return DataLength;
@@ -65,6 +65,16 @@ namespace OpenCLDotNet.Buffers
         /// 
         /// </summary>
         public Array Source;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public bool HasSource => Source != null;    
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public bool CheckChannelData;
 
         /// <summary>
         /// 
@@ -130,11 +140,7 @@ namespace OpenCLDotNet.Buffers
             return CL.IsValidChannelType(ChannelOrder, ChannelType);
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        /// <exception cref="NullReferenceException"></exception>
+        /*
         public bool IsValidArrayData()
         {
             if (Source == null)
@@ -142,6 +148,7 @@ namespace OpenCLDotNet.Buffers
 
             return CL.IsValidArrayData(ChannelType, Source);
         }
+        */
 
         /// <summary>
         /// 
@@ -186,8 +193,7 @@ namespace OpenCLDotNet.Buffers
         internal CLImageDescription CreateImageDescription()
         {
 
-            var type = CL.TypeOf(Source);
-            uint elementSize = CL.SizeOf(type);
+            uint elementSize = CL.SizeOf(DataType);
             uint width = Width;
             uint height = Height;
             uint row_pitch = (uint)(Channels * elementSize * Width);

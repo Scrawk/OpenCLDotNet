@@ -45,7 +45,7 @@ namespace OpenCLDotNetTest.Buffers
             var image = CreateReadImage();
 
             Assert.IsTrue(image.IsValid);
-            Assert.AreEqual(CL_MEM_DATA_TYPE.BYTE, image.DataType);
+            Assert.AreEqual(CL_DATA_TYPE.BYTE, image.DataType);
             Assert.AreEqual(CHANNELS, image.DataSize);
             Assert.AreEqual(SIZE * image.DataSize, image.ByteSize);
             Assert.AreEqual(SIZE, image.Length);
@@ -65,7 +65,7 @@ namespace OpenCLDotNetTest.Buffers
             var image = CreateWriteImage();
 
             Assert.IsTrue(image.IsValid);
-            Assert.AreEqual(CL_MEM_DATA_TYPE.BYTE, image.DataType);
+            Assert.AreEqual(CL_DATA_TYPE.BYTE, image.DataType);
             Assert.AreEqual(CHANNELS, image.DataSize);
             Assert.AreEqual(SIZE * image.DataSize, image.ByteSize);
             Assert.AreEqual(SIZE, image.Length);
@@ -79,7 +79,7 @@ namespace OpenCLDotNetTest.Buffers
             Assert.AreEqual(HEIGHT, image.Region.Size.y);
         }
 
-        [TestMethod]
+        //[TestMethod]
         public void ReadTest()
         {
             /*
@@ -111,19 +111,19 @@ namespace OpenCLDotNetTest.Buffers
             */
         }
 
-        [TestMethod]
+        //[TestMethod]
         public void WriteTest()
         {
 
         }
 
-        [TestMethod]
+        //[TestMethod]
         public void CopyTest()
         {
 
         }
 
-        [TestMethod]
+        //[TestMethod]
         public void FillTest()
         {
 
@@ -136,7 +136,7 @@ namespace OpenCLDotNetTest.Buffers
             param.Height = HEIGHT;
             param.ChannelOrder = CL_CHANNEL_ORDER.R;
             param.ChannelType = CL_CHANNEL_TYPE.UNORM_INT8;
-            param.DataType = CL_MEM_DATA_TYPE.BYTE;
+            param.DataType = CL_DATA_TYPE.BYTE;
             param.DataLength = SIZE;
             param.Source = Data;
 
@@ -150,7 +150,7 @@ namespace OpenCLDotNetTest.Buffers
             param.Height = HEIGHT;
             param.ChannelOrder = CL_CHANNEL_ORDER.R;
             param.ChannelType = CL_CHANNEL_TYPE.UNORM_INT8;
-            param.DataType = CL_MEM_DATA_TYPE.BYTE;
+            param.DataType = CL_DATA_TYPE.BYTE;
             param.DataLength = SIZE;
             param.Source = null;
 

@@ -17,7 +17,7 @@ namespace OpenCLDotNetConsole
 
 		private const uint HEIGHT = 10;
 
-		private const uint CHANNELS = 1;
+		private const uint CHANNELS = 4;
 
 		private const uint SIZE = WIDTH * HEIGHT * CHANNELS;
 
@@ -109,43 +109,56 @@ namespace OpenCLDotNetConsole
 				return;
             }
 
-			uint WIDTH = 100;
-			uint HEIGHT = 100;
-			uint ARRAY_SIZE = WIDTH * HEIGHT;
 			string kernel_name = "read_write_test";
 			
-			var data0 = new int[ARRAY_SIZE];
-			//var data1 = new float[ARRAY_SIZE];
-			//var data2 = new float[ARRAY_SIZE];
-
-			for (uint i = 0; i < ARRAY_SIZE; i++)
+			var data = new uint[SIZE];
+			for (uint i = 0; i < SIZE; i++)
 			{
-				data0[i] = (int)i;
-				//data1[i] = i;
+				data[i] = i;
 			}
 			
+			var param = new CLImageParameters2D();
+			param.Width = WIDTH;
+			param.Height = HEIGHT;
 
-			var image_params = new CLImageParameters2D();
-			image_params.Width = WIDTH;
-			image_params.Height = HEIGHT;
-			image_params.ChannelOrder = CL_CHANNEL_ORDER.R;
-			image_params.ChannelType = CL_CHANNEL_TYPE.SIGNED_INT32;
-			image_params.DataType = CL_MEM_DATA_TYPE.INT;
-			image_params.DataLength = ARRAY_SIZE;
-			image_params.Source = data0;
+			param.ChannelOrder = CL_CHANNEL_ORDER.RGBA;
+			param.ChannelType = CL_CHANNEL_TYPE.UNSIGNED_INT32;
+			param.DataType = CL_DATA_TYPE.UINT;
 
-			var image = CLImage2D.CreateReadImage2D(context, image_params);
+			//image_params.ChannelOrder = CL_CHANNEL_ORDER.RGBA;
+			//image_params.ChannelType = CL_CHANNEL_TYPE.SIGNED_INT32;
+			//image_params.DataType = CL_MEM_DATA_TYPE.INT;
+
+			//image_params.ChannelOrder = CL_CHANNEL_ORDER.RGBA;
+			//image_params.ChannelType = CL_CHANNEL_TYPE.FLOAT;
+			//image_params.DataType = CL_MEM_DATA_TYPE.FLOAT;
+
+			param.DataLength = SIZE;
+			param.CheckChannelData = false;
+			param.Source = data;
+
+			//var image = CLImage2D.CreateReadImage2D(context, image_params);
 			//image.Print();
-
-			var cmd = new CLCommandQueue(context);
-			image.Fill(cmd, CLColorRGBA.Red, image.Region);
 
 			//program.CreateReadBuffer("Kernel1", 0, data0);
 			//program.CreateReadBuffer("Kernel1", 1, data1);
 			//program.CreateWriteBuffer("Kernel1", 2, CL_MEM_DATA_TYPE.FLOAT, ARRAY_SIZE);
 
-			program.CreateReadImage2D(kernel_name, 0, image_params);
-			program.CreateWriteImage2D(kernel_name, 1, image_params);
+			var read_image = program.CreateReadImage2D(kernel_name, 0, param);
+			var write_image = program.CreateWriteImage2D(kernel_name, 1, param);
+
+			if(read_image.HasError)
+            {
+				Console.WriteLine("Read image has error : " + read_image.Error);
+				return;
+            }
+
+			if (write_image.HasError)
+			{
+				Console.WriteLine("Write image has error : " + write_image.Error);
+				return;
+			}
+
 			program.CreateSamplerIndex(kernel_name, 2);
 			program.SetInt(kernel_name, (int)WIDTH, 3);
 			program.SetInt(kernel_name, (int)HEIGHT, 4);
@@ -159,8 +172,19 @@ namespace OpenCLDotNetConsole
 			//program.Run(kernel_name, global_offset, global_size, local_size);
 			//Console.WriteLine("Program error " + program.Error);
 
-			var result = new int[ARRAY_SIZE];
-			program.ReadImage(kernel_name, true, 1, result);
+			var cmd = new CLCommandQueue(context);
+
+			var color = new uint[]
+			{
+				1, 2, 3, 4
+			};
+
+			write_image.Fill(cmd, color, CL_DATA_TYPE.UINT);
+
+			var copy_image = write_image.Copy(cmd);
+
+			var result = new uint[SIZE];
+			copy_image.Read(cmd, result);
 
 			for (int i = 0; i < 100; i++)
 				Console.WriteLine(result[i]);

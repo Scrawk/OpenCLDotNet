@@ -153,37 +153,38 @@ namespace OpenCLDotNet.Core
             return 0;
         }
 
-        public unsafe static uint SizeOf(CL_MEM_DATA_TYPE type)
+        public unsafe static uint SizeOf(CL_DATA_TYPE type)
         {
             switch (type)
             {
-                case CL_MEM_DATA_TYPE.SBYTE:
+                case CL_DATA_TYPE.SBYTE:
                     return sizeof(sbyte);
-                case CL_MEM_DATA_TYPE.BYTE:
+                case CL_DATA_TYPE.BYTE:
                     return sizeof(byte);
-                case CL_MEM_DATA_TYPE.SHORT:
+                case CL_DATA_TYPE.SHORT:
                     return sizeof(short);
-                case CL_MEM_DATA_TYPE.USHORT:
+                case CL_DATA_TYPE.USHORT:
                     return sizeof(ushort);
-                case CL_MEM_DATA_TYPE.INT:
+                case CL_DATA_TYPE.INT:
                     return sizeof(int);
-                case CL_MEM_DATA_TYPE.UINT:
+                case CL_DATA_TYPE.UINT:
                     return sizeof(uint);
-                case CL_MEM_DATA_TYPE.LONG:
+                case CL_DATA_TYPE.LONG:
                     return sizeof(long);
-                case CL_MEM_DATA_TYPE.ULONG:
+                case CL_DATA_TYPE.ULONG:
                     return sizeof(ulong);
-                case CL_MEM_DATA_TYPE.HALF:
+                case CL_DATA_TYPE.HALF:
                     return (uint)sizeof(Half);
-                case CL_MEM_DATA_TYPE.FLOAT:
+                case CL_DATA_TYPE.FLOAT:
                     return sizeof(float);
-                case CL_MEM_DATA_TYPE.DOUBLE:
+                case CL_DATA_TYPE.DOUBLE:
                     return sizeof(double);
             }
 
             return 0;
         }
 
+        /*
         public static CL_MEM_DATA_TYPE TypeOf(Array array)
         {
             if (array is double[])
@@ -252,43 +253,44 @@ namespace OpenCLDotNet.Core
 
             return false;
         }
+        */
 
-        public static bool IsValidDataType(CL_CHANNEL_TYPE channelType, CL_MEM_DATA_TYPE dataType)
+        public static bool IsValidDataType(CL_CHANNEL_TYPE channelType, CL_DATA_TYPE dataType)
         {
             switch (channelType)
             {
                 case CL_CHANNEL_TYPE.SNORM_INT8:
                 case CL_CHANNEL_TYPE.SIGNED_INT8:
-                    return dataType == CL_MEM_DATA_TYPE.SBYTE;
+                    return dataType == CL_DATA_TYPE.SBYTE;
 
                 case CL_CHANNEL_TYPE.UNORM_INT8:
                 case CL_CHANNEL_TYPE.UNSIGNED_INT8:
-                    return dataType == CL_MEM_DATA_TYPE.BYTE;
+                    return dataType == CL_DATA_TYPE.BYTE;
 
                 case CL_CHANNEL_TYPE.SNORM_INT16:
                 case CL_CHANNEL_TYPE.UNORM_INT16:
                 case CL_CHANNEL_TYPE.UNORM_SHORT_565:
                 case CL_CHANNEL_TYPE.UNORM_SHORT_555:
                 case CL_CHANNEL_TYPE.SIGNED_INT16:
-                    return dataType == CL_MEM_DATA_TYPE.SHORT;
+                    return dataType == CL_DATA_TYPE.SHORT;
 
                 case CL_CHANNEL_TYPE.UNSIGNED_INT16:
-                    return dataType == CL_MEM_DATA_TYPE.USHORT;
+                    return dataType == CL_DATA_TYPE.USHORT;
 
                 case CL_CHANNEL_TYPE.UNORM_INT_101010:
                 case CL_CHANNEL_TYPE.SIGNED_INT32:
                 case CL_CHANNEL_TYPE.UNORM_INT24:
                 case CL_CHANNEL_TYPE.UNORM_INT_101010_2:
-                    return dataType == CL_MEM_DATA_TYPE.INT;
+                    return dataType == CL_DATA_TYPE.INT;
 
                 case CL_CHANNEL_TYPE.UNSIGNED_INT32:
-                    return dataType == CL_MEM_DATA_TYPE.UINT;
+                    return dataType == CL_DATA_TYPE.UINT;
 
                 case CL_CHANNEL_TYPE.FLOAT:
-                    return dataType == CL_MEM_DATA_TYPE.FLOAT;
+                    return dataType == CL_DATA_TYPE.FLOAT;
 
                 case CL_CHANNEL_TYPE.HALF_FLOAT:
-                    return dataType == CL_MEM_DATA_TYPE.HALF;
+                    return dataType == CL_DATA_TYPE.HALF;
             }
 
             return false;

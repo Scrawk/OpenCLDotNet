@@ -47,6 +47,16 @@ namespace OpenCLDotNet.Buffers
         /// 
         /// </summary>
         /// <param name="cmd"></param>
+        /// <param name="dst"></param>
+        public void Read(CLCommandQueue cmd, Array dst)
+        {
+            Read(cmd, dst, Region, true);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="cmd"></param>
         /// <param name="region"></param>
         /// <param name="dst"></param>
         /// <param name="blocking"></param>
@@ -58,6 +68,16 @@ namespace OpenCLDotNet.Buffers
 
             var error = CL.EnqueueReadImage(cmd.Id, this, blocking, region, dst, ByteSize);
             Error = Error.ToString();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="cmd"></param>
+        /// <param name="src"></param>
+        public void Write(CLCommandQueue cmd, Array src)
+        {
+            Write(cmd, src, Region, true);
         }
 
         /// <summary>
@@ -83,6 +103,16 @@ namespace OpenCLDotNet.Buffers
         /// </summary>
         /// <param name="cmd"></param>
         /// <param name="color"></param>
+        public void Fill(CLCommandQueue cmd, CLColorRGBA color)
+        {
+            Fill(cmd, color, Region);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="cmd"></param>
+        /// <param name="color"></param>
         /// <param name="region"></param>
         public void Fill(CLCommandQueue cmd, CLColorRGBA color, CLRegion3t region)
         {
@@ -91,6 +121,34 @@ namespace OpenCLDotNet.Buffers
             CheckRegion(this, region);
 
             var error = CL.EnqueueFillImage(cmd.Id, Id, color, region);
+            Error = Error.ToString();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="cmd"></param>
+        /// <param name="color"></param>
+        /// <param name="type"></param>
+        public void Fill(CLCommandQueue cmd, Array color, CL_DATA_TYPE type)
+        {
+            Fill(cmd, color, type, Region);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="cmd"></param>
+        /// <param name="color"></param>
+        /// <param name="type"></param>
+        /// <param name="region"></param>
+        public void Fill(CLCommandQueue cmd, Array color, CL_DATA_TYPE type, CLRegion3t region)
+        {
+            CheckCommand(cmd);
+            CheckImage(this);
+            CheckRegion(this, region);
+
+            var error = CL.EnqueueFillImage(cmd.Id, Id, color, type, region);
             Error = Error.ToString();
         }
 

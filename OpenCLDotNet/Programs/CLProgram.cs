@@ -509,12 +509,12 @@ namespace OpenCLDotNet.Programs
         /// <param name="index"></param>
         /// <param name="data"></param>
         /// <returns></returns>
-        public CLBuffer CreateReadBuffer(string kernel_name, uint index, Array data)
+        public CLBuffer CreateReadBuffer(string kernel_name, uint index, Array data, CL_DATA_TYPE type)
         {
             var kernel = FindKernel(kernel_name);
             CheckKernel(kernel, kernel_name, false);
 
-            var buffer = CLBuffer.CreateReadBuffer(Context, data);
+            var buffer = CLBuffer.CreateReadBuffer(Context, data, type);
             kernel.SetBuffer(buffer, index);
 
             Error = buffer.Error;
@@ -529,7 +529,7 @@ namespace OpenCLDotNet.Programs
         /// <param name="type"></param>
         /// <param name="length"></param>
         /// <returns></returns>
-        public CLBuffer CreateWriteBuffer(string kernel_name, uint index, CL_MEM_DATA_TYPE type, uint length)
+        public CLBuffer CreateWriteBuffer(string kernel_name, uint index, CL_DATA_TYPE type, uint length)
         {
             var kernel = FindKernel(kernel_name);
             CheckKernel(kernel, kernel_name, false);

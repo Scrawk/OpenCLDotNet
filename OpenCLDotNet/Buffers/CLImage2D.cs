@@ -64,8 +64,8 @@ namespace OpenCLDotNet.Buffers
             read_write += CanRead ? "T/" : "F/";
             read_write += CanWrite ? "T" : "F";
 
-            return String.Format("[CLImage2D: Id={0}, ContextId={1}, Width={2}, Height={3}, Channels={4}, ReadWrite={5}, Error={6}]",
-                Id, Context.Id, Width, Height, Channels, read_write, Error);
+            return String.Format("[CLImage2D: Id={0}, ContextId={1}, Width={2}, Height={3}, Channels={4}, ReadWrite={5}, DataType={6}, Error={7}]",
+                Id, Context.Id, Width, Height, Channels, read_write, DataType, Error);
         }
 
         /// <summary>
@@ -95,84 +95,80 @@ namespace OpenCLDotNet.Buffers
         /// </summary>
         /// <param name="context"></param>
         /// <param name="rw"></param>
-        /// <param name="data"></param>
-        private void Create(CLContext context, CLImageParameters2D data, CL_READ_WRITE rw)
+        /// <param name="param"></param>
+        private void Create(CLContext context, CLImageParameters2D param, CL_READ_WRITE rw)
         {
-            //source data needs to be null for write only images
-            var source = rw == CL_READ_WRITE.WRITE ? null : data.Source;
-
-            Flags = CreateImageFlags(rw);
-            Create(Context, data, source);
+            Flags = CreateImageFlags(rw, param.HasSource);
+            Create(Context, param);
         }
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="context"></param>
-        /// <param name="data"></param>
+        /// <param name="param"></param>
         /// <param name="flags"></param>
-        private void Create(CLContext context, CLImageParameters2D data, CL_MEM_FLAGS flags)
+        private void Create(CLContext context, CLImageParameters2D param, CL_MEM_FLAGS flags)
         {
-            //source data needs to be null for write only images
-            var source = flags.HasFlag(CL_MEM_FLAGS.WRITE_ONLY) ? null : data.Source;
-
+            if (param.HasSource)
+            {
+                flags |= CL_MEM_FLAGS.COPY_HOST_PTR;
+                flags &= ~CL_MEM_FLAGS.ALLOC_HOST_PTR;
+            }
+            else
+            {
+                flags &= ~CL_MEM_FLAGS.COPY_HOST_PTR;
+                flags |= CL_MEM_FLAGS.ALLOC_HOST_PTR;
+            }
+                
             Flags = flags;
-            Create(Context, data, source);
+            Create(Context, param);
         }
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="context"></param>
-        /// <param name="data"></param>
-        /// <param name="source"></param>
-        private void Create(CLContext context, CLImageParameters2D data, Array source)
+        /// <param name="param"></param>
+        private void Create(CLContext context, CLImageParameters2D param)
         {
             ResetErrorCode();
-            Width = data.Width;
-            Height = data.Height;
-            Channels = data.Channels;
-            ChannelOrder = data.ChannelOrder;
-            ChannelType = data.ChannelType;
+            Width = param.Width;
+            Height = param.Height;
+            Channels = param.Channels;
+            ChannelOrder = param.ChannelOrder;
+            ChannelType = param.ChannelType;
             MemType = CL_MEM_OBJECT_TYPE.IMAGE2D;
-            DataType = data.DataType;
+            DataType = param.DataType;
             DataSize = CL.SizeOf(DataType);
-            Length = source == null ? data.DataLength : (uint)source.Length;
+            Length = param.SourceLength;
 
-            if (!data.IsValidSize())
+            if (!param.IsValidSize())
             {
                 Error = ERROR_INVALID_SOURCE_SIZE;
                 return;
             }
 
-            if (!data.IsValidChannel())
+            if (param.CheckChannelData)
             {
-                Error = ERROR_INVALID_CHANNEL_ORDER_TYPE;
-                return;
-            }
-
-            if (source == null)
-            {
-                if (!data.IsValidDataType())
+                if (!param.IsValidChannel())
                 {
-                    Error = ERROR_INVALID_DATA_TYPE;
+                    Error = ERROR_INVALID_CHANNEL_ORDER_TYPE;
                     return;
                 }
-            }
-            else
-            {
-                if (!data.IsValidArrayData())
+
+                if (!param.IsValidDataType())
                 {
                     Error = ERROR_INVALID_DATA_TYPE;
                     return;
                 }
             }
 
-            var format = data.CreateImageFormat();
-            var desc = data.CreateImageDescription();
+            var format = param.CreateImageFormat();
+            var desc = param.CreateImageDescription();
             CL_ERROR error;
 
-            Id = CL.CreateImage(context.Id, Flags, format, desc, ByteSize, source, out error);
+            Id = CL.CreateImage(context.Id, Flags, format, desc, ByteSize, param.Source, out error);
             if (error != CL_ERROR.SUCCESS)
             {
                 Error = error.ToString();
@@ -186,22 +182,29 @@ namespace OpenCLDotNet.Buffers
         /// 
         /// </summary>
         /// <param name="cmd"></param>
+        /// <returns></returns>
+        public CLImage2D Copy(CLCommandQueue cmd)
+        {
+            return Copy(cmd, new CLPoint3t(), Region);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="cmd"></param>
         /// <param name="src_origin"></param>
         /// <param name="region"></param>
         /// <returns></returns>
-        /// <exception cref="InvalidObjectExeception"></exception>
         public CLImage2D Copy(CLCommandQueue cmd, CLPoint3t src_origin, CLRegion3t region)
         {
-            if (!IsValid)
-                throw new InvalidObjectExeception("Image is not valid.");
+            CheckImage(this);
 
             var param = new CLImageParameters2D(this);
             param.Width = (uint)region.Size.x;
             param.Height = (uint)region.Size.y;
 
             var dst = new CLImage2D(Context, param, Flags);
-            if (!dst.IsValid)
-                throw new InvalidObjectExeception("Dst image is not valid.");
+            CheckImage(dst);
 
             Copy(cmd, dst, src_origin, region);
 
@@ -215,16 +218,11 @@ namespace OpenCLDotNet.Buffers
         /// <param name="dst"></param>
         /// <param name="src_origin"></param>
         /// <param name="region"></param>
-        /// <exception cref="InvalidObjectExeception"></exception>
         public void Copy(CLCommandQueue cmd, CLImage2D dst, CLPoint3t src_origin, CLRegion3t region)
         {
-            if (!IsValid)
-                throw new InvalidObjectExeception("Image is not valid.");
-
-            if (!dst.IsValid)
-                throw new InvalidObjectExeception("Dst image is not valid.");
-
             CheckCommand(cmd);
+            CheckImage(this);
+            CheckImage(dst);
             CheckRegion(this, new CLRegion3t(src_origin + region.Origion, region.Size));
             CheckRegion(dst, region);
 
@@ -233,25 +231,6 @@ namespace OpenCLDotNet.Buffers
                 0, null, out e);
 
             Error = error.ToString();
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="cmd"></param>
-        /// <param name="col"></param>
-        /// <param name="region"></param>
-        /// <exception cref="InvalidObjectExeception"></exception>
-        public void Fill(CLCommandQueue cmd, CLColorRGBA col, CLRegion3t region)
-        {
-            if (!IsValid)
-                throw new InvalidObjectExeception("Image is not valid.");
-
-            CheckCommand(cmd);  
-            CheckRegion(this, region);
-
-            cl_event e;
-            CL.EnqueueFillImage(cmd.Id, Id, col, region, 0, null, out e);
         }
 
     }

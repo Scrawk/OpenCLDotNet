@@ -36,7 +36,7 @@ namespace OpenCLDotNet.Buffers
         /// <summary>
         /// 
         /// </summary>
-        public CL_MEM_DATA_TYPE DataType { get; protected set; }
+        public CL_DATA_TYPE DataType { get; protected set; }
 
         /// <summary>
         /// 
@@ -140,7 +140,7 @@ namespace OpenCLDotNet.Buffers
             return flag;
         }
 
-        protected CL_MEM_FLAGS CreateImageFlags(CL_READ_WRITE rw)
+        protected CL_MEM_FLAGS CreateImageFlags(CL_READ_WRITE rw, bool hasData)
         {
             CL_MEM_FLAGS flag = 0;
 
@@ -149,15 +149,19 @@ namespace OpenCLDotNet.Buffers
                 case CL_READ_WRITE.WRITE:
                     flag = CL_MEM_FLAGS.WRITE_ONLY;
                     //flag |= CL_MEM_FLAGS.HOST_WRITE_ONLY;
-                    flag |= CL_MEM_FLAGS.ALLOC_HOST_PTR;
+
                     break;
 
                 case CL_READ_WRITE.READ:
                     flag = CL_MEM_FLAGS.READ_ONLY;
                     flag |= CL_MEM_FLAGS.HOST_READ_ONLY;
-                    flag |= CL_MEM_FLAGS.COPY_HOST_PTR;
                     break;
             }
+
+            if (hasData)
+                flag |= CL_MEM_FLAGS.COPY_HOST_PTR;
+            else
+                flag |= CL_MEM_FLAGS.ALLOC_HOST_PTR;
 
             return flag;
         }
@@ -313,7 +317,7 @@ namespace OpenCLDotNet.Buffers
         protected static void CheckData(CLMemObject obj, Array data, uint offset)
         {
             if (!obj.IsValid)
-                throw new InvalidObjectExeception("Obbject is not valid");
+                throw new InvalidObjectExeception("Object is not valid");
 
             if (data == null)
                 throw new NullReferenceException("Data is null.");
@@ -321,14 +325,17 @@ namespace OpenCLDotNet.Buffers
             if ((offset + data.Length) > obj.Length)
                 throw new InvalidDataSizeExeception($"Offset + length was {offset + data.Length} when offset + length <= {obj.Length} was expected.");
 
-            if (obj.DataType != CL.TypeOf(data))
-                throw new InvalidDataTypeExeception($"Data type is {CL.TypeOf(data)} when type {obj.DataType} was expected."); ;
+            //if (obj.DataType != CL.TypeOf(data))
+            //    throw new InvalidDataTypeExeception($"Data type is {CL.TypeOf(data)} when type {obj.DataType} was expected."); ;
         }
 
         protected static void CheckBuffer(CLBuffer obj, uint offset, uint size)
         {
+            if (obj.HasError)
+                throw new InvalidObjectExeception("Buffer has error " + obj.Error);
+
             if (!obj.IsValid)
-                throw new InvalidObjectExeception("Obbject is not valid");
+                throw new InvalidObjectExeception("Buffer is not valid");
 
             if ((offset + size) > obj.Length)
                 throw new InvalidDataSizeExeception($"Offset + size was {offset + size} when offset + length <= {obj.Length} was expected.");
@@ -336,8 +343,11 @@ namespace OpenCLDotNet.Buffers
 
         protected static void CheckImage(CLImage obj)
         {
+            if(obj.HasError)
+                throw new InvalidObjectExeception("Image has error " + obj.Error);
+
             if (!obj.IsValid)
-                throw new InvalidObjectExeception("Obbject is not valid");
+                throw new InvalidObjectExeception("Image is not valid");
         }
 
         protected static void CheckOffset(CLMemObject obj, uint offset, uint size)
@@ -380,7 +390,7 @@ namespace OpenCLDotNet.Buffers
             if (data == null)
                 throw new NullReferenceException("Data is null.");
 
-            if ((region.Origion.x + region.Size.x) > (ulong)data.Length)
+            if ((region.Origion.x + region.Size.x) > (ulong)data.LongLength)
                 throw new InvalidDataSizeExeception($"Data region.Origion.x + region.Size.x was {region.Origion.x + region.Size.x} when length <= obj.{obj.Length} was expected.");
 
             if ((region.Origion.y + region.Size.y) > (ulong)data.Length)
@@ -389,8 +399,8 @@ namespace OpenCLDotNet.Buffers
             if ((region.Origion.z + region.Size.z) > (ulong)data.Length)
                 throw new InvalidDataSizeExeception($"Data region.Origion.z + region.Size.z was {region.Origion.z + region.Size.z} when length <= {obj.Length} was expected.");
 
-            if (obj.DataType != CL.TypeOf(data))
-                throw new InvalidDataTypeExeception($"Data type is {CL.TypeOf(data)} when type {obj.DataType} was expected."); ;
+            //if (obj.DataType != CL.TypeOf(data))
+            //    throw new InvalidDataTypeExeception($"Data type is {CL.TypeOf(data)} when type {obj.DataType} was expected.");
         }
     }
 }

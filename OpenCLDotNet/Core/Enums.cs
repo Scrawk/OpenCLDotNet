@@ -27,7 +27,7 @@ namespace OpenCLDotNet.Core
         UNKNOWN
     }
 
-    public enum CL_MEM_DATA_TYPE
+    public enum CL_DATA_TYPE
     {
         SBYTE, BYTE,
         SHORT, USHORT,
