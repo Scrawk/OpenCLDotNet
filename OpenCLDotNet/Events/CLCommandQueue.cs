@@ -31,7 +31,22 @@ namespace OpenCLDotNet.Events
         /// <summary>
         /// 
         /// </summary>
-        public CLContext Context { get; private set; }
+        private CLContext Context { get;  set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        private CLEvent Event { get; set; } 
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public bool IsComplete => GetStatus() == CL_COMMAND_EXECUTION_STATUS.COMPLETE;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public bool HasEvent => Event != null;
 
         /// <summary>
         /// 
@@ -39,8 +54,10 @@ namespace OpenCLDotNet.Events
         /// <returns></returns>
         public override string ToString()
         {
-            return String.Format("[CLCommandQueue: Id={0}, ContextId={1}, Error={2}]",
-                Id, Context.Id, Error);
+            var event_id = HasEvent ? Event.Id : UIntPtr.Zero;
+
+            return String.Format("[CLCommandQueue: Id={0}, ContextId={1}, EventId={2}, Status={3}, Error={4}]",
+                Id, Context.Id, event_id, GetStatus(), Error);
         }
 
         /// <summary>
@@ -103,6 +120,38 @@ namespace OpenCLDotNet.Events
         /// <summary>
         /// 
         /// </summary>
+        /// <returns></returns>
+        public CL_COMMAND_EXECUTION_STATUS GetStatus()
+        {
+            if (!HasEvent)
+                return CL_COMMAND_EXECUTION_STATUS.COMPLETE;
+            else
+                return Event.GetStatus();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="event_id"></param>
+        public void SetEvent(cl_event event_id)
+        {
+            if (event_id.Value == UIntPtr.Zero)
+                throw new ArgumentException("Event id is 0.");
+
+            Event = new CLEvent(Context, event_id);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public void Reset()
+        {
+            Event = null;   
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
         /// <param name="builder"></param>
         public override void Print(StringBuilder builder)
         {
@@ -119,7 +168,15 @@ namespace OpenCLDotNet.Events
                 builder.AppendLine(e + ": " + GetInfo(e));
             }
 
-            SetErrorCodeToSuccess();
+            if(HasEvent)
+            {
+                builder.AppendLine("");
+                builder.AppendLine("Event: ");
+                builder.AppendLine("");
+
+                Event.Print(builder);
+            }
+
         }
 
         /// <summary>

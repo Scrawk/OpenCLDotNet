@@ -19,6 +19,8 @@ namespace OpenCLDotNet.Core
 
         protected static readonly string ERROR_INVALID_OBJECT = "INVALID_OBJECT";
 
+        protected static readonly string ERROR_INVALID_ID = "INVALID_ID";
+
         protected static readonly string ERROR_NO_PLATFORMS_FOUND = "NO_PLATFORMS_FOUND";
 
         protected static readonly string ERROR_NO_DEVICES_FOUND = "NO_DEVICES_FOUND";

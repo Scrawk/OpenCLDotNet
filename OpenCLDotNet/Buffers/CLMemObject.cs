@@ -61,7 +61,7 @@ namespace OpenCLDotNet.Buffers
         /// <summary>
         /// 
         /// </summary>
-        public CLContext Context { get; private set; }
+        internal CLContext Context { get; private set; }
 
         /// <summary>
         /// 

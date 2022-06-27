@@ -46,109 +46,136 @@ namespace OpenCLDotNet.Buffers
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="cmd"></param>
         /// <param name="dst"></param>
-        public void Read(CLCommandQueue cmd, Array dst)
+        public void Read(Array dst)
         {
-            Read(cmd, dst, Region, true);
+            Read(dst, Region, true);
         }
 
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="cmd"></param>
         /// <param name="region"></param>
         /// <param name="dst"></param>
         /// <param name="blocking"></param>
-        public void Read(CLCommandQueue cmd, Array dst, CLRegion3t region, bool blocking)
+        public void Read(Array dst, CLRegion3t region, bool blocking)
         {
+            var cmd = Context.GetCommand();
+
             CheckCommand(cmd);
             CheckImage(this);
             CheckRegion(this, dst, region);
 
-            var error = CL.EnqueueReadImage(cmd.Id, this, blocking, region, dst, ByteSize);
+            uint wait_list_size = 0;
+            cl_event[] wait_list = null;
+            cl_event e;
+
+            var error = CL.EnqueueReadImage(cmd.Id, this, blocking, region, dst, ByteSize,
+                wait_list_size, wait_list, out e);
+
+            if(!e.IsNull)
+                cmd.SetEvent(e);
+
             Error = Error.ToString();
         }
 
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="cmd"></param>
         /// <param name="src"></param>
-        public void Write(CLCommandQueue cmd, Array src)
+        public void Write(Array src)
         {
-            Write(cmd, src, Region, true);
+            Write(src, Region, true);
         }
 
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="cmd"></param>
         /// <param name="region"></param>
         /// <param name="src"></param>
         /// <param name="blocking"></param>
         /// <exception cref="InvalidObjectExeception"></exception>
-        public void Write(CLCommandQueue cmd, Array src, CLRegion3t region, bool blocking)
+        public void Write(Array src, CLRegion3t region, bool blocking)
         {
+            var cmd = Context.GetCommand();
+
             CheckCommand(cmd);
             CheckImage(this);
             CheckRegion(this, src, region);
 
-            var error = CL.EnqueueWriteImage(cmd.Id, this, blocking, region, src, ByteSize);
+            uint wait_list_size = 0;
+            cl_event[] wait_list = null;
+            cl_event e;
+
+            var error = CL.EnqueueWriteImage(cmd.Id, this, blocking, region, src, ByteSize, 
+                wait_list_size, wait_list, out e);
+
             Error = Error.ToString();
         }
 
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="cmd"></param>
         /// <param name="color"></param>
-        public void Fill(CLCommandQueue cmd, CLColorRGBA color)
+        public void Fill(CLColorRGBA color)
         {
-            Fill(cmd, color, Region);
+            Fill(color, Region);
         }
 
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="cmd"></param>
         /// <param name="color"></param>
         /// <param name="region"></param>
-        public void Fill(CLCommandQueue cmd, CLColorRGBA color, CLRegion3t region)
+        public void Fill(CLColorRGBA color, CLRegion3t region)
         {
+            var cmd = Context.GetCommand();
+
             CheckCommand(cmd);
             CheckImage(this);
             CheckRegion(this, region);
 
-            var error = CL.EnqueueFillImage(cmd.Id, Id, color, region);
+            uint wait_list_size = 0;
+            cl_event[] wait_list = null;
+            cl_event e;
+
+            var error = CL.EnqueueFillImage(cmd.Id, Id, color, region, 
+                wait_list_size, wait_list, out e);
+
             Error = Error.ToString();
         }
 
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="cmd"></param>
         /// <param name="color"></param>
         /// <param name="type"></param>
-        public void Fill(CLCommandQueue cmd, Array color, CL_DATA_TYPE type)
+        public void Fill(Array color, CL_DATA_TYPE type)
         {
-            Fill(cmd, color, type, Region);
+            Fill(color, type, Region);
         }
 
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="cmd"></param>
         /// <param name="color"></param>
         /// <param name="type"></param>
         /// <param name="region"></param>
-        public void Fill(CLCommandQueue cmd, Array color, CL_DATA_TYPE type, CLRegion3t region)
+        public void Fill(Array color, CL_DATA_TYPE type, CLRegion3t region)
         {
+            var cmd = Context.GetCommand();
+
             CheckCommand(cmd);
             CheckImage(this);
             CheckRegion(this, region);
 
-            var error = CL.EnqueueFillImage(cmd.Id, Id, color, type, region);
+            uint wait_list_size = 0;
+            cl_event[] wait_list = null;
+            cl_event e;
+
+            var error = CL.EnqueueFillImage(cmd.Id, Id, color, type, region, 
+                wait_list_size, wait_list, out e);
+
             Error = Error.ToString();
         }
 

@@ -30,6 +30,26 @@ namespace OpenCLDotNet.Core
             return list;
         }
 
+        public static CL_CHANNEL_ORDER GetChannelOrder(uint channels)
+        {
+            switch (channels)
+            {
+                case 1:
+                return CL_CHANNEL_ORDER.R;
+
+                case 2:
+                    return CL_CHANNEL_ORDER.RG;
+
+                case 3:
+                    return CL_CHANNEL_ORDER.RGB;
+
+                case 4:
+                    return CL_CHANNEL_ORDER.RGBA;
+            }
+
+            return 0;
+        }
+
         public static uint GetNumChannels(CL_CHANNEL_ORDER order)
         {
             switch (order)

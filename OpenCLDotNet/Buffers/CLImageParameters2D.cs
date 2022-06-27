@@ -110,6 +110,72 @@ namespace OpenCLDotNet.Buffers
         /// <summary>
         /// 
         /// </summary>
+        /// <param name="width"></param>
+        /// <param name="height"></param>
+        /// <param name="channels"></param>
+        /// <returns></returns>
+        public static CLImageParameters2D ByteImage(uint width, uint height, uint channels)
+        {
+            var param = new CLImageParameters2D();
+            param.Width = width; 
+            param.Height = height; 
+            param.ChannelOrder = CL.GetChannelOrder(channels);
+            param.ChannelType = CL_CHANNEL_TYPE.UNORM_INT8;
+            param.DataType = CL_DATA_TYPE.BYTE;
+            param.DataLength = width * height * param.Channels;
+            param.CheckChannelData = false;
+            param.Source = null;
+
+            return param;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="width"></param>
+        /// <param name="height"></param>
+        /// <param name="channels"></param>
+        /// <returns></returns>
+        public static CLImageParameters2D FloatImage(uint width, uint height, uint channels)
+        {
+            var param = new CLImageParameters2D();
+            param.Width = width;
+            param.Height = height;
+            param.ChannelOrder = CL.GetChannelOrder(channels);
+            param.ChannelType = CL_CHANNEL_TYPE.FLOAT;
+            param.DataType = CL_DATA_TYPE.FLOAT;
+            param.DataLength = width * height * param.Channels;
+            param.CheckChannelData = false;
+            param.Source = null;
+
+            return param;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="width"></param>
+        /// <param name="height"></param>
+        /// <param name="channels"></param>
+        /// <returns></returns>
+        public static CLImageParameters2D IntImage(uint width, uint height, uint channels)
+        {
+            var param = new CLImageParameters2D();
+            param.Width = width;
+            param.Height = height;
+            param.ChannelOrder = CL.GetChannelOrder(channels);
+            param.ChannelType = CL_CHANNEL_TYPE.SIGNED_INT32;
+            param.DataType = CL_DATA_TYPE.INT;
+            param.DataLength = width * height * param.Channels;
+            param.CheckChannelData = false;
+            param.Source = null;
+
+            return param;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
         /// <param name="context"></param>
         /// <param name="flags"></param>
         /// <returns></returns>

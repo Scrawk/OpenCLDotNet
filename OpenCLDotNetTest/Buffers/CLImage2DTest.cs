@@ -30,8 +30,6 @@ namespace OpenCLDotNetTest.Buffers
 
         private CLContext Context { get; set; }
 
-        private CLCommandQueue Cmd { get; set; }
-
         private byte[] Data { get; set; }
 
         private byte[] FillData { get; set; }
@@ -42,7 +40,6 @@ namespace OpenCLDotNetTest.Buffers
         public void Init()
         {
             Context = new CLContext();
-            Cmd = new CLCommandQueue(Context);
             EmptyData = new byte[SIZE];
             FillData = new byte[SIZE];
             Data = new byte[SIZE];
@@ -110,7 +107,7 @@ namespace OpenCLDotNetTest.Buffers
             var image = CreateReadImage();
 
             var data = new byte[SIZE];
-            image.Read(Cmd, data);
+            image.Read(data);
 
             Assert.IsTrue(image.IsValid);
             Assert.IsFalse(image.HasError);
@@ -124,14 +121,14 @@ namespace OpenCLDotNetTest.Buffers
             var image = CreateWriteImage();
 
             var data = new byte[SIZE];
-            image.Read(Cmd, data);
+            image.Read(data);
 
             //Validate that image is empty.
             CollectionAssert.AreEqual(EmptyData, data);
 
             //Write Data into image and read it back into data array.
-            image.Write(Cmd, Data);
-            image.Read(Cmd, data);
+            image.Write(Data);
+            image.Read(data);
 
             Assert.IsTrue(image.IsValid);
             Assert.IsFalse(image.HasError);
@@ -143,10 +140,10 @@ namespace OpenCLDotNetTest.Buffers
         {
             var image = CreateReadImage();
 
-            var copy = image.Copy(Cmd);
+            var copy = image.Copy();
 
             var data = new byte[SIZE];
-            copy.Read(Cmd, data);
+            copy.Read(data);
 
             Assert.IsTrue(copy.IsValid);
             Assert.IsFalse(copy.HasError);
@@ -160,10 +157,10 @@ namespace OpenCLDotNetTest.Buffers
 
             var color = new CLColorRGBA(0.25f, 0.5f, 0.75f, 1.0f);
 
-            image.Fill(Cmd, color);
+            image.Fill(color);
 
             var data = new byte[SIZE];
-            image.Read(Cmd, data);
+            image.Read(data);
 
             Assert.IsTrue(image.IsValid);
             Assert.IsFalse(image.HasError);
@@ -174,10 +171,10 @@ namespace OpenCLDotNetTest.Buffers
                 0.25f, 0.5f, 0.75f, 1.0f
             };
 
-            image.Fill(Cmd, float_array, CL_DATA_TYPE.FLOAT);
+            image.Fill(float_array, CL_DATA_TYPE.FLOAT);
 
             data = new byte[SIZE];
-            image.Read(Cmd, data);
+            image.Read(data);
 
             Assert.IsTrue(image.IsValid);
             Assert.IsFalse(image.HasError);

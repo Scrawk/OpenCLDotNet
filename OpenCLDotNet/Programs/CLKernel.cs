@@ -32,7 +32,7 @@ namespace OpenCLDotNet.Programs
         /// <summary>
         /// 
         /// </summary>
-        public CLProgram Program { get; private set; }
+        private CLProgram Program { get; set; }
 
         /// <summary>
         /// 
@@ -165,7 +165,7 @@ namespace OpenCLDotNet.Programs
             builder.AppendLine("Kernel work group info:");
 
             var work_values = CL.GetValues<CL_KERNEL_WORK_GROUP_INFO>();
-            var devices = Program.Context.GetDeviceIds();
+            var devices = Program.GetDeviceIds();
 
             foreach(var device in devices)
             {

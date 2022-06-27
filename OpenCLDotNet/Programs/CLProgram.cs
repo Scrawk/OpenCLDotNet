@@ -130,7 +130,6 @@ namespace OpenCLDotNet.Programs
             }
         }
 
-
         /// <summary>
         /// 
         /// </summary>
@@ -140,6 +139,9 @@ namespace OpenCLDotNet.Programs
         /// <param name="options"></param>
         public CLProgram(CLContext context, string filename, Encoding encoding, string options = "")
         {
+            if (string.IsNullOrEmpty(options))
+                options = CLProgram.DefaultOptions;
+
             var file = File.ReadAllText(filename, encoding);
             Create(context, file, options);
             Create(options);
@@ -153,6 +155,9 @@ namespace OpenCLDotNet.Programs
         /// <param name="options"></param>
         public CLProgram(CLContext context, string program_text, string options = "")
         {
+            if (string.IsNullOrEmpty(options))
+                options = CLProgram.DefaultOptions;
+
             Create(context, program_text, options);
             Create(options);
         }
@@ -165,6 +170,9 @@ namespace OpenCLDotNet.Programs
         /// <param name="options"></param>
         public CLProgram(CLContext context, IList<byte[]> binaries, string options = "")
         {
+            if (string.IsNullOrEmpty(options))
+                options = CLProgram.DefaultOptions;
+
             Create(context, binaries, options);
             Create(options);
         }
@@ -177,6 +185,9 @@ namespace OpenCLDotNet.Programs
         /// <param name="options"></param>
         public CLProgram(CLContext context, byte[] binary, string options = "")
         {
+            if (string.IsNullOrEmpty(options))
+                options = CLProgram.DefaultOptions;
+
             Create(context, binary, options);
             Create(options);
         }
@@ -184,7 +195,7 @@ namespace OpenCLDotNet.Programs
         /// <summary>
         /// 
         /// </summary>
-        public CLContext Context { get; private set; }
+        private CLContext Context { get; set; }
 
         /// <summary>
         /// 
@@ -210,11 +221,6 @@ namespace OpenCLDotNet.Programs
         /// 
         /// </summary>
         private List<CLKernel> Kernels { get; set; }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        private CLCommandQueue Command { get; set; } 
 
         /// <summary>
         /// 
@@ -368,7 +374,6 @@ namespace OpenCLDotNet.Programs
         {
             CreateOptions(options);
             CheckForKernelArgumentInfo(options);
-            CreateCommand();
             CreateKerels();
         }
 
@@ -389,7 +394,9 @@ namespace OpenCLDotNet.Programs
             size_t[] localSize = { 1 };
             cl_event e;
 
-            Error = CL.EnqueueNDRangeKernel(Command.Id, kernel.Id, 1, globalOffset, 
+            var cmd = Context.GetCommand();
+
+            Error = CL.EnqueueNDRangeKernel(cmd.Id, kernel.Id, 1, globalOffset, 
                         globalSize, localSize, 0, null, out e).ToString();
         }
 
@@ -412,7 +419,9 @@ namespace OpenCLDotNet.Programs
             size_t[] globalSize =  { RoundUp(localSize[0], global_size.x),
                                      RoundUp(localSize[1], global_size.y) };
 
-            Error = CL.EnqueueNDRangeKernel(Command.Id, kernel.Id, 2, globalOffset,
+            var cmd = Context.GetCommand();
+
+            Error = CL.EnqueueNDRangeKernel(cmd.Id, kernel.Id, 2, globalOffset,
                        globalSize, localSize, 0, null, out e).ToString();
         }
 
@@ -429,14 +438,6 @@ namespace OpenCLDotNet.Programs
                 return globalSize;
             else
                 return globalSize + groupSize - r;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        private void CreateCommand()
-        {
-            Command = new CLCommandQueue(Context);
         }
 
         /// <summary>
@@ -500,6 +501,15 @@ namespace OpenCLDotNet.Programs
                 throw new ArgumentOutOfRangeException($"Kernel index {index} out of range.");
 
             return Kernels[index].Name; 
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public cl_device_id[] GetDeviceIds()
+        {
+            return Context.GetDeviceIds();
         }
 
         /// <summary>
@@ -666,7 +676,7 @@ namespace OpenCLDotNet.Programs
             if (buffer == null)
                 throw new InvalidCastException($"Kernel named {kernel_name} arg at index {index} is not a buffer");
 
-            buffer.Read(Command, dst, 0, blocking);
+            buffer.Read(dst, 0, blocking);
         }
 
         /// <summary>
@@ -688,7 +698,7 @@ namespace OpenCLDotNet.Programs
             if (buffer == null)
                 throw new InvalidCastException($"Kernel named {kernel_name} arg at index {index} is not a buffer");
 
-            buffer.Write(Command, src, 0, blocking);
+            buffer.Write(src, 0, blocking);
         }
 
         /// <summary>
@@ -709,7 +719,7 @@ namespace OpenCLDotNet.Programs
             if (image == null)
                 throw new InvalidCastException($"Kernel named {kernel_name} arg at index {index} is not a image");
 
-            image.Read(Command, dst, image.Region, blocking);
+            image.Read(dst, image.Region, blocking);
         }
 
         /// <summary>
@@ -730,7 +740,7 @@ namespace OpenCLDotNet.Programs
             if (image == null)
                 throw new InvalidCastException($"Kernel named {kernel_name} arg at index {index} is not a image");
 
-            image.Write(Command, src, image.Region, blocking);
+            image.Write(src, image.Region, blocking);
         }
 
         /// <summary>
@@ -911,11 +921,6 @@ namespace OpenCLDotNet.Programs
             builder.AppendLine("Context:");
 
             Context.Print(builder);
-
-            builder.AppendLine("");
-            builder.AppendLine("Command:");
-
-            Command.Print(builder);
 
         }
 

@@ -111,38 +111,14 @@ namespace OpenCLDotNetConsole
 
 			string kernel_name = "read_write_test";
 			
-			var data = new uint[SIZE];
+			var data = new byte[SIZE];
 			for (uint i = 0; i < SIZE; i++)
 			{
-				data[i] = i;
+				data[i] = (byte)i;
 			}
-			
-			var param = new CLImageParameters2D();
-			param.Width = WIDTH;
-			param.Height = HEIGHT;
 
-			param.ChannelOrder = CL_CHANNEL_ORDER.RGBA;
-			param.ChannelType = CL_CHANNEL_TYPE.UNSIGNED_INT32;
-			param.DataType = CL_DATA_TYPE.UINT;
-
-			//image_params.ChannelOrder = CL_CHANNEL_ORDER.RGBA;
-			//image_params.ChannelType = CL_CHANNEL_TYPE.SIGNED_INT32;
-			//image_params.DataType = CL_MEM_DATA_TYPE.INT;
-
-			//image_params.ChannelOrder = CL_CHANNEL_ORDER.RGBA;
-			//image_params.ChannelType = CL_CHANNEL_TYPE.FLOAT;
-			//image_params.DataType = CL_MEM_DATA_TYPE.FLOAT;
-
-			param.DataLength = SIZE;
-			param.CheckChannelData = false;
+			var param = CLImageParameters2D.ByteImage(WIDTH, HEIGHT, 4);
 			param.Source = data;
-
-			//var image = CLImage2D.CreateReadImage2D(context, image_params);
-			//image.Print();
-
-			//program.CreateReadBuffer("Kernel1", 0, data0);
-			//program.CreateReadBuffer("Kernel1", 1, data1);
-			//program.CreateWriteBuffer("Kernel1", 2, CL_MEM_DATA_TYPE.FLOAT, ARRAY_SIZE);
 
 			var read_image = program.CreateReadImage2D(kernel_name, 0, param);
 			var write_image = program.CreateWriteImage2D(kernel_name, 1, param);
@@ -162,7 +138,6 @@ namespace OpenCLDotNetConsole
 			program.CreateSamplerIndex(kernel_name, 2);
 			program.SetInt(kernel_name, (int)WIDTH, 3);
 			program.SetInt(kernel_name, (int)HEIGHT, 4);
-
 			//program.Print();
 
 			var global_offset = new CLPoint2t(0);
@@ -172,22 +147,22 @@ namespace OpenCLDotNetConsole
 			//program.Run(kernel_name, global_offset, global_size, local_size);
 			//Console.WriteLine("Program error " + program.Error);
 
-			var cmd = new CLCommandQueue(context);
-
-			var color = new uint[]
+			var color = new float[]
 			{
-				1, 2, 3, 4
+				0.25f, 0.5f, 0.75f, 1.0f
 			};
 
-			write_image.Fill(cmd, color, CL_DATA_TYPE.UINT);
+			write_image.Fill(color, CL_DATA_TYPE.FLOAT);
 
-			var copy_image = write_image.Copy(cmd);
+			var copy_image = write_image.Copy();
 
-			var result = new uint[SIZE];
-			copy_image.Read(cmd, result);
+			var result = new byte[SIZE];
+			copy_image.Read(result);
 
-			for (int i = 0; i < 100; i++)
-				Console.WriteLine(result[i]);
+			//for (int i = 0; i < 100; i++)
+			//	Console.WriteLine(result[i]);
+
+			context.Print();
 
 		}
 

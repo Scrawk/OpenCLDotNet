@@ -39,7 +39,7 @@ namespace OpenCLDotNetTest.Core
             Assert.IsTrue(error == CL_ERROR.SUCCESS);
             Assert.IsTrue(ids.Count > 0);
 
-            return new CLPlatform(ids[0]);
+            return new CLPlatform(ids[0], CL_DEVICE_TYPE.GPU);
         }
 
         private CLDevice CreateDevice(CL_DEVICE_TYPE type)

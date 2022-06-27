@@ -77,6 +77,7 @@ namespace OpenCLDotNet.Buffers
         /// </summary>
         /// <param name="context"></param>
         /// <param name="source"></param>
+        /// <param name="type"></param>
         /// <returns></returns>
         public static CLBuffer CreateReadBuffer(CLContext context, Array source, CL_DATA_TYPE type)
         {
@@ -155,6 +156,7 @@ namespace OpenCLDotNet.Buffers
         /// <param name="context"></param>
         /// <param name="rw"></param>
         /// <param name="data"></param>
+        /// <param name="type"></param>
         private void Create(CLContext context, CL_READ_WRITE rw, Array data, CL_DATA_TYPE type)
         {
             if(data == null)
@@ -187,6 +189,7 @@ namespace OpenCLDotNet.Buffers
         /// <param name="context"></param>
         /// <param name="flags"></param>
         /// <param name="data"></param>
+        /// <param name="type"></param>
         private void Create(CLContext context, CL_MEM_FLAGS flags, Array data, CL_DATA_TYPE type)
         {
             if (data == null)
@@ -216,30 +219,24 @@ namespace OpenCLDotNet.Buffers
         /// <summary>
         /// Enqueue commands to read from a buffer object.
         /// </summary>
-        /// <param name="cmd">command_queue is a valid host 
-        /// command-queue in which the read / write command will be queued. 
-        /// command_queue and buffer must be created with the same OpenCL 
-        /// context.</param>
         /// <param name="dst">The data to be read to</param>
-        public void Read(CLCommandQueue cmd, Array dst)
+        public void Read(Array dst)
         {
-            Read(cmd, dst, 0, true);
+            Read(dst, 0, true);
         }
 
         /// <summary>
         /// Enqueue commands to read from a buffer object.
         /// </summary>
-        /// <param name="cmd">command_queue is a valid host 
-        /// command-queue in which the read / write command will be queued. 
-        /// command_queue and buffer must be created with the same OpenCL 
-        /// context.</param>
         /// <param name="src_offset">offset is the offset in the source buffer 
         /// object to read from.</param>
         /// <param name="dst">The data to be read to</param>
         /// <param name="blocking">If the read and write operations are blocking
         /// or non-blocking</param>
-        public void Read(CLCommandQueue cmd, Array dst, uint src_offset, bool blocking)
+        public void Read(Array dst, uint src_offset, bool blocking)
         {
+            var cmd = Context.GetCommand();
+
             CheckCommand(cmd);
             CheckData(this, dst, src_offset);
 
@@ -248,7 +245,12 @@ namespace OpenCLDotNet.Buffers
             //The dst length in bytes
             uint byte_size = (uint)dst.Length * DataSize;
 
-            var error = CL.EnqueueReadBuffer(cmd.Id, Id, blocking, byte_offset, byte_size, dst);
+            uint wait_list_size = 0;
+            cl_event[] wait_list = null;
+            cl_event e;
+
+            var error = CL.EnqueueReadBuffer(cmd.Id, Id, blocking, byte_offset, byte_size, dst,
+                wait_list_size, wait_list, out e);
 
             Error = error.ToString();
         }
@@ -256,27 +258,23 @@ namespace OpenCLDotNet.Buffers
         /// <summary>
         /// Enqueue commands to write to a buffer object from host memory.
         /// </summary>
-        /// <param name="cmd">Refers to the command-queue in which the write 
-        /// command will be queued. command_queue and buffer must be created 
-        /// with the same OpenCL context.</param>
         /// <param name="src">The data to be written from.</param>
-        public void Write(CLCommandQueue cmd, Array src)
+        public void Write(Array src)
         {
-            Write(cmd, src, 0, true);
+            Write(src, 0, true);
         }
 
         /// <summary>
         /// Enqueue commands to write to a buffer object from host memory.
         /// </summary>
-        /// <param name="cmd">Refers to the command-queue in which the write 
-        /// command will be queued. command_queue and buffer must be created 
-        /// with the same OpenCL context.</param>
         /// <param name="offset">The offset in the buffer object to write to.</param>
         /// <param name="src">The data to be written from.</param>
         /// <param name="blocking">Indicates if the write operations are 
         /// blocking or nonblocking.</param>
-        public void Write(CLCommandQueue cmd, Array src, uint offset, bool blocking)
+        public void Write(Array src, uint offset, bool blocking)
         {
+            var cmd = Context.GetCommand();
+
             CheckCommand(cmd);
             CheckBuffer(this, offset, (uint)src.Length);
             CheckData(this, src, 0);
@@ -286,7 +284,12 @@ namespace OpenCLDotNet.Buffers
             //The dst length in bytes
             uint byte_size = (uint)src.Length * DataSize;
 
-            var error = CL.EnqueueWriteBuffer(cmd.Id, Id, blocking, byte_offset, byte_size, src);
+            uint wait_list_size = 0;
+            cl_event[] wait_list = null;
+            cl_event e;
+
+            var error = CL.EnqueueWriteBuffer(cmd.Id, Id, blocking, byte_offset, byte_size, src, 
+                wait_list_size, wait_list, out e);
 
             Error = error.ToString();
         }
@@ -294,29 +297,25 @@ namespace OpenCLDotNet.Buffers
         /// <summary>
         /// Enqueues a command to copy a buffer object to another buffer object.
         /// </summary>
-        /// <param name="cmd">Refers to the command-queue in which the write 
-        /// command will be queued. command_queue and buffer must be created 
-        /// with the same OpenCL context.</param>
         /// <returns>The copied buffer.</returns>
-        public CLBuffer Copy(CLCommandQueue cmd)
+        public CLBuffer Copy()
         {
             var dst = new CLBuffer(Context, Flags, DataType, Length);
-            Copy(cmd, dst, 0, dst.Length);
+            Copy(dst, 0, dst.Length);
             return dst;
         }
 
         /// <summary>
         /// Enqueues a command to copy a buffer object to another buffer object.
         /// </summary>
-        /// <param name="cmd">The command-queue in which the copy command will be queued. 
-        /// The OpenCL context associated with command_queue, src_buffer, 
-        /// and dst_buffer must be the same</param>
         /// <param name="dst">The buffer to copy to.</param>
         /// <param name="src_offset">The offset where to begin copying data from src_buffer.</param>
         /// <param name="dst_size">The size to copy into the dst buffer.</param>
-        public void Copy(CLCommandQueue cmd, CLBuffer dst, uint src_offset, uint dst_size)
+        public void Copy(CLBuffer dst, uint src_offset, uint dst_size)
         {
             dst_size = Math.Min(dst_size, dst.Length);
+
+            var cmd = Context.GetCommand();
 
             CheckCommand(cmd);
             CheckBuffer(this, src_offset, dst_size);
@@ -327,7 +326,12 @@ namespace OpenCLDotNet.Buffers
             //The offset into source buffer in bytes
             uint byte_offset = src_offset * DataSize;
 
-            var error = CL.EnqueueCopyBuffer(cmd.Id, Id, dst.Id, byte_offset, byte_size);
+            uint wait_list_size = 0;
+            cl_event[] wait_list = null;
+            cl_event e;
+
+            var error = CL.EnqueueCopyBuffer(cmd.Id, Id, dst.Id, byte_offset, byte_size, 
+                wait_list_size, wait_list, out e);
 
             Error = error.ToString();
         }

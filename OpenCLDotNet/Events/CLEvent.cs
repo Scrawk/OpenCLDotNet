@@ -22,7 +22,22 @@ namespace OpenCLDotNet.Events
         /// <summary>
         /// 
         /// </summary>
-        public CLContext Context { get; private set; }
+        /// <param name="context"></param>
+        /// <param name="id"></param>
+        public CLEvent(CLContext context, cl_event id)
+        {
+            Create(context, id);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public CL_COMMAND_TYPE CmdType { get; private set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        private CLContext Context { get; set; }
 
         /// <summary>
         /// 
@@ -30,8 +45,8 @@ namespace OpenCLDotNet.Events
         /// <returns></returns>
         public override string ToString()
         {
-            return String.Format("[CLEvent: Id={0}, ContextId={1}, Error={2}]",
-                Id, Context.Id, Error);
+            return String.Format("[CLEvent: Id={0}, ContextId={1}, CmdType={2}, Error={3}]",
+                Id, Context.Id, CmdType, Error);
         }
 
         /// <summary>
@@ -51,7 +66,43 @@ namespace OpenCLDotNet.Events
                 return;
             }
 
+            var cmd_type = GetInfoUInt64(CL_EVENT_INFO.COMMAND_TYPE);
+            CmdType = (CL_COMMAND_TYPE)cmd_type;
+
             SetErrorCodeToSuccess();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="id"></param>
+        private void Create(CLContext context, cl_event id)
+        {
+            ResetErrorCode();
+            Id = id;
+            Context = context;
+
+            if (Id == UIntPtr.Zero)
+            {
+                Error = ERROR_INVALID_ID;
+                return;
+            }
+
+            var cmd_type = GetInfoUInt64(CL_EVENT_INFO.COMMAND_TYPE);
+            CmdType = (CL_COMMAND_TYPE)cmd_type;
+
+            SetErrorCodeToSuccess();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public CL_COMMAND_EXECUTION_STATUS GetStatus()
+        {
+            var cmd_status = GetInfoUInt64(CL_EVENT_INFO.COMMAND_EXECUTION_STATUS);
+            return (CL_COMMAND_EXECUTION_STATUS)cmd_status;
         }
 
         /// <summary>

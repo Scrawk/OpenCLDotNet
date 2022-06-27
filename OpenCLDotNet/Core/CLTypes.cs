@@ -66,7 +66,7 @@ namespace OpenCLDotNet.Core
     {
         public static implicit operator cl_object(UIntPtr v) => new cl_object(v);
         public static implicit operator UIntPtr(cl_object v) => v.Value;
-
+        public bool IsNull => Value == UIntPtr.Zero;
         public override string ToString()
         {
             return String.Format("[cl_object: Id={0}]", Value);
@@ -77,7 +77,7 @@ namespace OpenCLDotNet.Core
     {
         public static implicit operator cl_platform_id(UIntPtr v) => new cl_platform_id(v);
         public static implicit operator UIntPtr(cl_platform_id v) => v.Value;
-
+        public bool IsNull => Value == UIntPtr.Zero;
         public override string ToString()
         {
             return String.Format("[cl_platform_id: Id={0}]", Value);
@@ -88,7 +88,7 @@ namespace OpenCLDotNet.Core
     {
         public static implicit operator cl_device_id(UIntPtr v) => new cl_device_id(v);
         public static implicit operator UIntPtr(cl_device_id v) => v.Value;
-
+        public bool IsNull => Value == UIntPtr.Zero;
         public override string ToString()
         {
             return String.Format("[cl_device_id: Id={0}]", Value);
@@ -99,7 +99,7 @@ namespace OpenCLDotNet.Core
     {
         public static implicit operator cl_context(UIntPtr v) => new cl_context(v);
         public static implicit operator UIntPtr(cl_context v) => v.Value;
-
+        public bool IsNull => Value == UIntPtr.Zero;
         public override string ToString()
         {
             return String.Format("[cl_context: Id={0}]", Value);
@@ -110,7 +110,7 @@ namespace OpenCLDotNet.Core
     {
         public static implicit operator cl_command_queue(UIntPtr v) => new cl_command_queue(v);
         public static implicit operator UIntPtr(cl_command_queue v) => v.Value;
-
+        public bool IsNull => Value == UIntPtr.Zero;
         public override string ToString()
         {
             return String.Format("[cl_command_queue: Id={0}]", Value);
@@ -121,7 +121,7 @@ namespace OpenCLDotNet.Core
     {
         public static implicit operator cl_mem(UIntPtr v) => new cl_mem(v);
         public static implicit operator UIntPtr(cl_mem v) => v.Value;
-
+        public bool IsNull => Value == UIntPtr.Zero;
         public override string ToString()
         {
             return String.Format("[cl_mem: Id={0}]", Value);
@@ -132,7 +132,7 @@ namespace OpenCLDotNet.Core
     {
         public static implicit operator cl_program(UIntPtr v) => new cl_program(v);
         public static implicit operator UIntPtr(cl_program v) => v.Value;
-
+        public bool IsNull => Value == UIntPtr.Zero;
         public override string ToString()
         {
             return String.Format("[cl_program: Id={0}]", Value);
@@ -143,7 +143,7 @@ namespace OpenCLDotNet.Core
     {
         public static implicit operator cl_kernel(UIntPtr v) => new cl_kernel(v);
         public static implicit operator UIntPtr(cl_kernel v) => v.Value;
-
+        public bool IsNull => Value == UIntPtr.Zero;
         public override string ToString()
         {
             return String.Format("[cl_kernel: Id={0}]", Value);
@@ -154,6 +154,7 @@ namespace OpenCLDotNet.Core
     {
         public static implicit operator cl_event(UIntPtr v) => new cl_event(v);
         public static implicit operator UIntPtr(cl_event v) => v.Value;
+        public bool IsNull => Value == UIntPtr.Zero;
 
         public override string ToString()
         {
@@ -165,7 +166,7 @@ namespace OpenCLDotNet.Core
     {
         public static implicit operator cl_sampler(UIntPtr v) => new cl_sampler(v);
         public static implicit operator UIntPtr(cl_sampler v) => v.Value;
-
+        public bool IsNull => Value == UIntPtr.Zero;
         public override string ToString()
         {
             return String.Format("[cl_sampler: Id={0}]", Value);

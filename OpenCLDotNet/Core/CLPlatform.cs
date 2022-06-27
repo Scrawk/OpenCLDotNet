@@ -11,14 +11,16 @@ namespace OpenCLDotNet.Core
     /// </summary>
     public class CLPlatform : CLObject
     {
+
         /// <summary>
         /// 
         /// </summary>
         /// <param name="id"></param>
-        public CLPlatform(cl_platform_id id)
+        /// <param name="device_type"></param>
+        public CLPlatform(cl_platform_id id, CL_DEVICE_TYPE device_type)
         {
             Id = id;
-            CreateDevices();
+            CreateDevices(device_type);
             GetInfo();
             GetExtensions();
         }
@@ -56,6 +58,11 @@ namespace OpenCLDotNet.Core
         /// <summary>
         /// 
         /// </summary>
+        private CLDevice Device { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
         private List<CLDevice> Devices { get; set; }
 
         /// <summary>
@@ -64,8 +71,8 @@ namespace OpenCLDotNet.Core
         /// <returns></returns>
         public override string ToString()
         {
-            return String.Format("[CLPlatform: Id={0}, Vendor={1}, NumDevices={2}, Error={3}]", 
-                Id, Vendor, NumDevices, Error);
+            return String.Format("[CLPlatform: Id={0}, Vendor={1}, DeviceId={2}, NumDevices={3}, Error={4}]", 
+                Id, Vendor, Device.Id, NumDevices, Error);
         }
 
         /// <summary>
@@ -248,7 +255,7 @@ namespace OpenCLDotNet.Core
         /// <summary>
         /// 
         /// </summary>
-        private void CreateDevices()
+        private void CreateDevices(CL_DEVICE_TYPE device_type)
         {
             Devices = new List<CLDevice>();
 
@@ -262,9 +269,21 @@ namespace OpenCLDotNet.Core
                 return;
             }
 
+            Device = null;
             Devices.Capacity = device_ids.Count;
+
             foreach (var device_id in device_ids)
-                Devices.Add(new CLDevice(device_id, this));
+            {
+                var device = new CLDevice(device_id, this);
+
+                Devices.Add(device);
+
+                if(Device == null && device.DeviceType == device_type)
+                    Device = device;
+            }
+
+            if (Device == null && Devices.Count > 0)
+                Device = Devices[0];
 
             SetErrorCodeToSuccess();
         }

@@ -13,6 +13,7 @@ namespace OpenCLDotNet.Core
     public static partial class CL
     {
 
+
         /// <summary>
         /// Enqueue commands to read from a buffer object to host memory.
         /// </summary>
@@ -27,20 +28,27 @@ namespace OpenCLDotNet.Core
         /// object to read from or write to</param>
         /// <param name="byte_size">The size of the data in bytes.</param>
         /// <param name="data">The buffer to read into.</param>
-        /// <returns>The error code.</returns>
+        /// <param name="wait_list_size">The event wait list size.</param>
+        /// <param name="wait_list">The event wait list. 
+        /// This is all the events that will need to completed before 
+        /// this event is executed.</param>
+        /// <param name="e">The event generated for this command.</param>
+        /// <returns>The error code</returns>
         public static CL_ERROR EnqueueReadBuffer(
             cl_command_queue command,
             cl_mem buffer,
             bool blocking_read,
             uint byte_offset,
             uint byte_size,
-            Array data)
+            Array data,
+            uint wait_list_size,
+            cl_event[] wait_list,
+            out cl_event e)
         {
             byte[] bytes = new byte[byte_size];
     
-            cl_event e;
             var error = CL_EnqueueReadBuffer(command, buffer, blocking_read, 
-                byte_offset, byte_size, bytes, 0, null, out e);
+                byte_offset, byte_size, bytes, wait_list_size, wait_list, out e);
 
             Buffer.BlockCopy(bytes, 0, data, 0, bytes.Length);
             return error;
@@ -59,6 +67,11 @@ namespace OpenCLDotNet.Core
         /// object to write to.</param>
         /// <param name="byte_size">The size of the data in bytes.</param>
         /// <param name="data">The data to write from.</param>
+        /// <param name="wait_list_size">The event wait list size.</param>
+        /// <param name="wait_list">The event wait list. 
+        /// This is all the events that will need to completed before 
+        /// this event is executed.</param>
+        /// <param name="e">The event generated for this command.</param>
         /// <returns>The error code.</returns>
         public static CL_ERROR EnqueueWriteBuffer(
             cl_command_queue command,
@@ -66,14 +79,16 @@ namespace OpenCLDotNet.Core
             bool blocking_write,
             uint byte_offset,
             uint byte_size,
-            Array data)
+            Array data,
+            uint wait_list_size,
+            cl_event[] wait_list,
+            out cl_event e)
         {
             byte[] bytes = new byte[byte_size];
             Buffer.BlockCopy(data, 0, bytes, 0, bytes.Length);
 
-            cl_event e;
             var error = CL_EnqueueWriteBuffer(command, buffer, blocking_write, byte_offset,
-                        byte_size, bytes, 0, null, out e);
+                        byte_size, bytes, wait_list_size, wait_list, out e);
 
             return error;
         }
@@ -89,6 +104,11 @@ namespace OpenCLDotNet.Core
         /// <param name="region">Defines the region in the image to read from.</param>
         /// <param name="data"></param>
         /// <param name="byte_size"></param>
+        /// <param name="wait_list_size">The event wait list size.</param>
+        /// <param name="wait_list">The event wait list. 
+        /// This is all the events that will need to completed before 
+        /// this event is executed.</param>
+        /// <param name="e">The event generated for this command.</param>
         /// <returns></returns>
         public static CL_ERROR EnqueueReadImage(
             cl_command_queue command,
@@ -96,7 +116,10 @@ namespace OpenCLDotNet.Core
             bool blocking_read,
             CLRegion3t region,
             Array data,
-            uint byte_size)
+            uint byte_size,
+            uint wait_list_size,
+            cl_event[] wait_list,
+            out cl_event e)
         {
             uint row_pitch = image.RowPitch;
             uint slice_pitch = 0;
@@ -106,9 +129,8 @@ namespace OpenCLDotNet.Core
 
             var bytes = new byte[byte_size];
 
-            cl_event e;
             var error = CL_EnqueueReadImage(command, image.Id, blocking_read, region_origin, region_size,
-                row_pitch, slice_pitch, bytes, 0, null, out e);
+                row_pitch, slice_pitch, bytes, wait_list_size, wait_list, out e);
 
             Buffer.BlockCopy(bytes, 0, data, 0, bytes.Length);
 
@@ -125,6 +147,11 @@ namespace OpenCLDotNet.Core
         /// <param name="region"></param>
         /// <param name="data"></param>
         /// <param name="byte_size"></param>
+        /// <param name="wait_list_size">The event wait list size.</param>
+        /// <param name="wait_list">The event wait list. 
+        /// This is all the events that will need to completed before 
+        /// this event is executed.</param>
+        /// <param name="e">The event generated for this command.</param>
         /// <returns></returns>
         public static CL_ERROR EnqueueWriteImage(
             cl_command_queue command,
@@ -132,7 +159,10 @@ namespace OpenCLDotNet.Core
             bool blocking_write,
             CLRegion3t region,
             Array data, 
-            uint byte_size)
+            uint byte_size,
+            uint wait_list_size,
+            cl_event[] wait_list,
+            out cl_event e)
         {
             uint input_row_pitch = image.RowPitch;
             uint input_slice_pitch = 0;
@@ -143,10 +173,9 @@ namespace OpenCLDotNet.Core
             byte[] bytes = new byte[byte_size];
             Buffer.BlockCopy(data, 0, bytes, 0, bytes.Length);
 
-            cl_event e;
             return CL_EnqueueWriteImage(command, image.Id, blocking_write, region_origin, region_size,
                 input_row_pitch, input_slice_pitch, bytes,
-                0, null, out e);
+                wait_list_size, wait_list, out e);
         }
 
         private static CL_ERROR EnqueueReadBufferRect(
@@ -163,11 +192,11 @@ namespace OpenCLDotNet.Core
             Array ptr,
             cl_uint wait_list_size,
             cl_event[] wait_list,
-            out cl_event _event)
+            out cl_event e)
         {
             return CL_EnqueueReadBufferRect(command, buffer, blocking_read, buffer_origin, host_origin, region,
                 buffer_row_pitch, buffer_slice_pitch, host_row_pitch, host_slice_pitch,
-                ptr, wait_list_size, wait_list, out _event);
+                ptr, wait_list_size, wait_list, out e);
         }
 
         private static CL_ERROR EnqueueWriteBufferRect(
@@ -184,11 +213,11 @@ namespace OpenCLDotNet.Core
             Array ptr,
             cl_uint wait_list_size,
             cl_event[] wait_list,
-            out cl_event _event)
+            out cl_event e)
         {
             return CL_EnqueueWriteBufferRect(command, buffer, blocking_write, buffer_origin, host_origin, region,
                 buffer_row_pitch, buffer_slice_pitch, host_row_pitch, host_slice_pitch,
-                ptr, wait_list_size, wait_list, out _event);
+                ptr, wait_list_size, wait_list, out e);
         }
 
         /// <summary>
@@ -202,6 +231,11 @@ namespace OpenCLDotNet.Core
         /// filled in buffer and must be a multiple of pattern_size.</param>
         /// <param name="size">The size in bytes of region being filled 
         /// in buffer and must be a multiple of pattern_size.</param>
+        /// <param name="wait_list_size">The event wait list size.</param>
+        /// <param name="wait_list">The event wait list. 
+        /// This is all the events that will need to completed before 
+        /// this event is executed.</param>
+        /// <param name="e">The event generated for this command.</param>
         /// <returns>The error code.</returns>
         private static CL_ERROR EnqueueFillBuffer(
             cl_command_queue command,
@@ -209,11 +243,13 @@ namespace OpenCLDotNet.Core
             Array pattern,
             uint pattern_size,
             uint offset,
-            uint size)
+            uint size,
+            uint wait_list_size,
+            cl_event[] wait_list,
+            out cl_event e)
         {
-            cl_event e;
             return CL_EnqueueFillBuffer(command, buffer, pattern, pattern_size, offset, size,
-                0, null, out e);
+                wait_list_size, wait_list, out e);
         }
 
         /// <summary>
@@ -226,17 +262,24 @@ namespace OpenCLDotNet.Core
         /// <param name="dst_buffer">The buffer to write to.</param>
         /// <param name="byte_offset">The offset in bytes where to begin copying data from src_buffer.</param>
         /// <param name="byte_size">Refers to the size in bytes to copy.</param>
+        /// <param name="wait_list_size">The event wait list size.</param>
+        /// <param name="wait_list">The event wait list. 
+        /// This is all the events that will need to completed before 
+        /// this event is executed.</param>
+        /// <param name="e">The event generated for this command.</param>
         /// <returns>The error code.</returns>
         public static CL_ERROR EnqueueCopyBuffer(
             cl_command_queue command,
             cl_mem src_buffer,
             cl_mem dst_buffer,
             uint byte_offset,
-            uint byte_size)
+            uint byte_size,
+            uint wait_list_size,
+            cl_event[] wait_list,
+            out cl_event e)
         {
-            cl_event e;
             return CL_EnqueueCopyBuffer(command, src_buffer, dst_buffer, 
-                byte_offset, 0, byte_size,  0, null, out e);
+                byte_offset, 0, byte_size, wait_list_size, wait_list, out e);
         }
 
         /// <summary>
@@ -252,9 +295,11 @@ namespace OpenCLDotNet.Core
         /// <param name="src_slice_pitch"></param>
         /// <param name="dst_row_pitch"></param>
         /// <param name="dst_slice_pitch"></param>
-        /// <param name="wait_list_size"></param>
-        /// <param name="wait_list"></param>
-        /// <param name="_event"></param>
+        /// <param name="wait_list_size">The event wait list size.</param>
+        /// <param name="wait_list">The event wait list. 
+        /// This is all the events that will need to completed before 
+        /// this event is executed.</param>
+        /// <param name="e">The event generated for this command.</param>
         /// <returns></returns>
         public static CL_ERROR EnqueueCopyBufferRect(
             cl_command_queue command,
@@ -269,11 +314,11 @@ namespace OpenCLDotNet.Core
             uint dst_slice_pitch,
             uint wait_list_size,
             cl_event[] wait_list,
-            out cl_event _event)
+            out cl_event e)
         {
             return CL_EnqueueCopyBufferRect(command, src_buffer, dst_buffer, src_origin, dst_origin, region,
                 src_row_pitch, src_slice_pitch, dst_row_pitch, dst_slice_pitch,
-                wait_list_size, wait_list, out _event);
+                wait_list_size, wait_list, out e);
         }
 
         /// <summary>
@@ -303,16 +348,23 @@ namespace OpenCLDotNet.Core
         /// 
         /// </param>
         /// <param name="region">Defines the region in the image to fill.</param>
+        /// <param name="wait_list_size">The event wait list size.</param>
+        /// <param name="wait_list">The event wait list. 
+        /// This is all the events that will need to completed before 
+        /// this event is executed.</param>
+        /// <param name="e">The event generated for this command.</param>
         /// <returns>The error code.</returns>
         public static CL_ERROR EnqueueFillImage(
             cl_command_queue command,
             cl_mem image,
             CLColorRGBA fill_color,
-            CLRegion3t region)
+            CLRegion3t region,
+            uint wait_list_size,
+            cl_event[] wait_list,
+            out cl_event e)
         {
-            cl_event e;
             return CL_EnqueueFillImage(command, image, fill_color, region.Origion, region.Size,
-                0, null, out e);
+                wait_list_size, wait_list, out e);
         }
 
         public static CL_ERROR EnqueueFillImage(
@@ -320,22 +372,27 @@ namespace OpenCLDotNet.Core
             cl_mem image,
             Array color,
             CL_DATA_TYPE type,
-            CLRegion3t region)
+            CLRegion3t region,
+            uint wait_list_size,
+            cl_event[] wait_list,
+            out cl_event e)
         {
-            cl_event e;
-
             switch (type)
             {
                 case CL_DATA_TYPE.FLOAT:
-                    return CL_EnqueueFillImage(command, image, color as float[], region.Origion, region.Size, 0, null, out e);
+                    return CL_EnqueueFillImage(command, image, color as float[], region.Origion, region.Size, 
+                        wait_list_size, wait_list, out e);
 
                 case CL_DATA_TYPE.INT:
-                    return CL_EnqueueFillImage(command, image, color as int[], region.Origion, region.Size, 0, null, out e);
+                    return CL_EnqueueFillImage(command, image, color as int[], region.Origion, region.Size, 
+                        wait_list_size, wait_list, out e);
 
                 case CL_DATA_TYPE.UINT:
-                    return CL_EnqueueFillImage(command, image, color as uint[], region.Origion, region.Size, 0, null, out e);
+                    return CL_EnqueueFillImage(command, image, color as uint[], region.Origion, region.Size, 
+                        wait_list_size, wait_list, out e);
 
                 default:
+                    e = new cl_event();   
                     return CL_ERROR.INVALID_DATA_TYPE;
                 }
 
@@ -350,9 +407,11 @@ namespace OpenCLDotNet.Core
         /// <param name="dst_image"></param>
         /// <param name="src_origin"></param>
         /// <param name="region"></param>
-        /// <param name="wait_list_size"></param>
-        /// <param name="wait_list"></param>
-        /// <param name="_event"></param>
+        /// <param name="wait_list_size">The event wait list size.</param>
+        /// <param name="wait_list">The event wait list. 
+        /// This is all the events that will need to completed before 
+        /// this event is executed.</param>
+        /// <param name="e">The event generated for this command.</param>
         /// <returns></returns>
         public static CL_ERROR EnqueueCopyImage(
             cl_command_queue command,
@@ -362,10 +421,10 @@ namespace OpenCLDotNet.Core
             CLRegion3t region,
             uint wait_list_size,
             cl_event[] wait_list,
-            out cl_event _event)
+            out cl_event e)
         {
             return CL_EnqueueCopyImage(command, src_image, dst_image, src_origin, region.Origion, region.Size,
-                wait_list_size, wait_list, out _event);
+                wait_list_size, wait_list, out e);
         }
 
         /// <summary>
@@ -377,9 +436,11 @@ namespace OpenCLDotNet.Core
         /// <param name="src_origin"></param>
         /// <param name="region"></param>
         /// <param name="dst_offset"></param>
-        /// <param name="wait_list_size"></param>
-        /// <param name="wait_list"></param>
-        /// <param name="_event"></param>
+        /// <param name="wait_list_size">The event wait list size.</param>
+        /// <param name="wait_list">The event wait list. 
+        /// This is all the events that will need to completed before 
+        /// this event is executed.</param>
+        /// <param name="e">The event generated for this command.</param>
         /// <returns></returns>
         public static CL_ERROR EnqueueCopyImageToBuffer(
             cl_command_queue command,
@@ -390,10 +451,10 @@ namespace OpenCLDotNet.Core
             uint dst_offset,
             uint wait_list_size,
             cl_event[] wait_list,
-            out cl_event _event)
+            out cl_event e)
         {
             return CL_EnqueueCopyImageToBuffer(command, src_image, dst_buffer, src_origin, region, dst_offset,
-                wait_list_size, wait_list, out _event);
+                wait_list_size, wait_list, out e);
         }
 
         /// <summary>
@@ -405,9 +466,11 @@ namespace OpenCLDotNet.Core
         /// <param name="src_offset"></param>
         /// <param name="dst_origin"></param>
         /// <param name="region"></param>
-        /// <param name="wait_list_size"></param>
-        /// <param name="wait_list"></param>
-        /// <param name="_event"></param>
+        /// <param name="wait_list_size">The event wait list size.</param>
+        /// <param name="wait_list">The event wait list. 
+        /// This is all the events that will need to completed before 
+        /// this event is executed.</param>
+        /// <param name="e">The event generated for this command.</param>
         /// <returns></returns>
         public static CL_ERROR EnqueueCopyBufferToImage(
             cl_command_queue command,
@@ -418,10 +481,10 @@ namespace OpenCLDotNet.Core
             CLPoint3t region,
             uint wait_list_size,
             cl_event[] wait_list,
-            out cl_event _event)
+            out cl_event e)
         {
             return CL_EnqueueCopyBufferToImage(command, src_buffer, dst_image, src_offset, dst_origin, region,
-                wait_list_size, wait_list, out _event);
+                wait_list_size, wait_list, out e);
         }
 
         private static Array EnqueueMapBuffer(
@@ -433,11 +496,11 @@ namespace OpenCLDotNet.Core
             uint size,
             uint wait_list_size,
             cl_event[] wait_list,
-            out cl_event _event,
+            out cl_event e,
             out CL_ERROR error)
         {
             return CL_EnqueueMapBuffer(command, buffer, blocking_map, map_flags, offset, size,
-                wait_list_size, wait_list, out _event, out error);
+                wait_list_size, wait_list, out e, out error);
         }
 
         private static Array EnqueueMapImage(
@@ -451,12 +514,12 @@ namespace OpenCLDotNet.Core
             CLPoint3t image_slice_pitch,
             uint wait_list_size,
             cl_event[] wait_list,
-            out cl_event _event,
+            out cl_event e,
             out CL_ERROR error)
         {
             return CL_EnqueueMapImage(command, image, blocking_map, map_flags, origin,
                 region, image_row_pitch, image_slice_pitch,
-                wait_list_size, wait_list, out _event, out error);
+                wait_list_size, wait_list, out e, out error);
         }
 
         private static CL_ERROR EnqueueUnmapMemObject(
@@ -465,10 +528,10 @@ namespace OpenCLDotNet.Core
             Array mapped_ptr,
             cl_uint wait_list_size,
             cl_event[] wait_list,
-            out cl_event _event)
+            out cl_event e)
         {
             return CL_EnqueueUnmapMemObject(command, memobj, mapped_ptr,
-                wait_list_size, wait_list, out _event);
+                wait_list_size, wait_list, out e);
         }
 
         private static CL_ERROR EnqueueMigrateMemObjects(
@@ -478,10 +541,10 @@ namespace OpenCLDotNet.Core
             cl_mem_migration_flags flags,
             cl_uint wait_list_size,
             cl_event[] wait_list,
-            out cl_event _event)
+            out cl_event e)
         {
             return CL_EnqueueMigrateMemObjects(command, num_mem_objects, mem_objects, flags,
-                wait_list_size, wait_list, out _event);
+                wait_list_size, wait_list, out e);
         }
 
         /// <summary>
@@ -493,9 +556,11 @@ namespace OpenCLDotNet.Core
         /// <param name="global_work_offset"></param>
         /// <param name="global_work_size"></param>
         /// <param name="local_work_size"></param>
-        /// <param name="wait_list_size"></param>
-        /// <param name="wait_list"></param>
-        /// <param name="_event"></param>
+        /// <param name="wait_list_size">The event wait list size.</param>
+        /// <param name="wait_list">The event wait list. 
+        /// This is all the events that will need to completed before 
+        /// this event is executed.</param>
+        /// <param name="e">The event generated for this command.</param>
         /// <returns></returns>
         public static CL_ERROR EnqueueNDRangeKernel(
             cl_command_queue command,
@@ -506,37 +571,39 @@ namespace OpenCLDotNet.Core
             size_t[] local_work_size,
             uint wait_list_size,
             cl_event[] wait_list,
-            out cl_event _event)
+            out cl_event e)
         {
             return CL_EnqueueNDRangeKernel(command, kernel, work_dim,
                 global_work_offset, global_work_size, local_work_size,
-                wait_list_size, wait_list, out _event);
+                wait_list_size, wait_list, out e);
         }
 
         private static CL_ERROR EnqueueMarkerWithWaitList(
             cl_command_queue command,
             cl_uint wait_list_size,
             cl_event[] wait_list,
-            out cl_event _event)
+            out cl_event e)
         {
-            return CL_EnqueueMarkerWithWaitList(command, wait_list_size, wait_list, out _event);
+            return CL_EnqueueMarkerWithWaitList(command, wait_list_size, wait_list, out e);
         }
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="command"></param>
-        /// <param name="wait_list_size"></param>
-        /// <param name="wait_list"></param>
-        /// <param name="_event"></param>
+        /// <param name="wait_list_size">The event wait list size.</param>
+        /// <param name="wait_list">The event wait list. 
+        /// This is all the events that will need to completed before 
+        /// this event is executed.</param>
+        /// <param name="e">The event generated for this command.</param>
         /// <returns></returns>
         public static CL_ERROR EnqueueBarrierWithWaitList(
             cl_command_queue command,
             uint wait_list_size,
             cl_event[] wait_list,
-            out cl_event _event)
+            out cl_event e)
         {
-            return CL_EnqueueBarrierWithWaitList(command, wait_list_size, wait_list, out _event);
+            return CL_EnqueueBarrierWithWaitList(command, wait_list_size, wait_list, out e);
         }
 
         private static CL_ERROR EnqueueSVMMemcpy(
@@ -547,10 +614,10 @@ namespace OpenCLDotNet.Core
             size_t size,
             cl_uint wait_list_size,
             cl_event[] wait_list,
-            out cl_event _event)
+            out cl_event e)
         {
             return CL_EnqueueSVMMemcpy(command, blocking_copy, dst_ptr, src_ptr, size,
-                wait_list_size, wait_list, out _event);
+                wait_list_size, wait_list, out e);
         }
 
         private static CL_ERROR EnqueueSVMMemFill(
@@ -561,10 +628,10 @@ namespace OpenCLDotNet.Core
             size_t size,
             cl_uint wait_list_size,
             cl_event[] wait_list,
-            out cl_event _event)
+            out cl_event e)
         {
             return CL_EnqueueSVMMemFill(command, svm_ptr, pattern, pattern_size, size,
-                wait_list_size, wait_list, out _event);
+                wait_list_size, wait_list, out e);
         }
 
         private static CL_ERROR EnqueueSVMMap(
@@ -575,10 +642,10 @@ namespace OpenCLDotNet.Core
             size_t size,
             cl_uint wait_list_size,
             cl_event[] wait_list,
-            out cl_event _event)
+            out cl_event e)
         {
             return CL_EnqueueSVMMap(command, blocking_map, flags, svm_ptr, size,
-                wait_list_size, wait_list, out _event);
+                wait_list_size, wait_list, out e);
         }
 
         private static CL_ERROR EnqueueSVMUnmap(
@@ -586,9 +653,9 @@ namespace OpenCLDotNet.Core
             Array svm_ptr,
             cl_uint wait_list_size,
             cl_event[] wait_list,
-            out cl_event _event)
+            out cl_event e)
         {
-            return CL_EnqueueSVMUnmap(command, svm_ptr, wait_list_size, wait_list, out _event);
+            return CL_EnqueueSVMUnmap(command, svm_ptr, wait_list_size, wait_list, out e);
         }
 
         private static CL_ERROR EnqueueSVMMigrateMem(
@@ -599,10 +666,10 @@ namespace OpenCLDotNet.Core
             cl_mem_migration_flags flags,
             cl_uint wait_list_size,
             cl_event[] wait_list,
-            out cl_event _event)
+            out cl_event e)
         {
             return CL_EnqueueSVMMigrateMem(command, num_svm_pointers, svm_pointers, sizes, flags,
-                wait_list_size, wait_list, out _event);
+                wait_list_size, wait_list, out e);
         }
 
         /////////////////////////////////////////////////////////////////////////////////////////////////
@@ -619,7 +686,7 @@ namespace OpenCLDotNet.Core
             [Out] byte[] ptr,
             cl_uint wait_list_size,
             [Out] cl_event[] wait_list,
-            [Out] out cl_event _event);
+            [Out] out cl_event e);
 
         [DllImport(DLL_NAME, CallingConvention = CDECL)]
         private static extern CL_ERROR CL_EnqueueWriteBuffer(
@@ -631,7 +698,7 @@ namespace OpenCLDotNet.Core
             byte[] ptr,
             cl_uint wait_list_size,
             [Out] cl_event[] wait_list,
-            [Out] out cl_event _event);
+            [Out] out cl_event e);
 
         [DllImport(DLL_NAME, CallingConvention = CDECL)]
         private static extern CL_ERROR CL_EnqueueReadImage(
@@ -645,7 +712,7 @@ namespace OpenCLDotNet.Core
             [Out] byte[] data,
             uint wait_list_size,
             [Out] cl_event[] wait_list,
-            [Out] out cl_event _event);
+            [Out] out cl_event e);
 
         [DllImport(DLL_NAME, CallingConvention = CDECL)]
         private static extern CL_ERROR CL_EnqueueWriteImage(
@@ -659,7 +726,7 @@ namespace OpenCLDotNet.Core
             byte[] data,
             cl_uint wait_list_size,
             [Out] cl_event[] wait_list,
-            [Out] out cl_event _event);
+            [Out] out cl_event e);
 
         [DllImport(DLL_NAME, CallingConvention = CDECL)]
         private static extern CL_ERROR CL_EnqueueReadBufferRect(
@@ -676,7 +743,7 @@ namespace OpenCLDotNet.Core
             Array ptr,
             cl_uint wait_list_size,
             [Out] cl_event[] wait_list,
-            [Out] out cl_event _event);
+            [Out] out cl_event e);
 
         [DllImport(DLL_NAME, CallingConvention = CDECL)]
         private static extern CL_ERROR CL_EnqueueWriteBufferRect(
@@ -693,7 +760,7 @@ namespace OpenCLDotNet.Core
             Array ptr,
             cl_uint wait_list_size,
             [Out] cl_event[] wait_list,
-            [Out] out cl_event _event);
+            [Out] out cl_event e);
 
         [DllImport(DLL_NAME, CallingConvention = CDECL)]
         private static extern CL_ERROR CL_EnqueueFillBuffer(
@@ -705,7 +772,7 @@ namespace OpenCLDotNet.Core
             size_t size,
             cl_uint wait_list_size,
             [Out] cl_event[] wait_list,
-            [Out] out cl_event _event);
+            [Out] out cl_event e);
 
         [DllImport(DLL_NAME, CallingConvention = CDECL)]
         private static extern CL_ERROR CL_EnqueueCopyBuffer(
@@ -717,7 +784,7 @@ namespace OpenCLDotNet.Core
             size_t size,
             cl_uint wait_list_size,
             [Out] cl_event[] wait_list,
-            [Out] out cl_event _event);
+            [Out] out cl_event e);
 
         [DllImport(DLL_NAME, CallingConvention = CDECL)]
         private static extern CL_ERROR CL_EnqueueCopyBufferRect(
@@ -733,7 +800,7 @@ namespace OpenCLDotNet.Core
             size_t dst_slice_pitch,
             cl_uint wait_list_size,
             [Out] cl_event[] wait_list,
-            [Out] out cl_event _event);
+            [Out] out cl_event e);
 
         [DllImport(DLL_NAME, CallingConvention = CDECL)]
         private static extern CL_ERROR CL_EnqueueFillImage(
@@ -744,7 +811,7 @@ namespace OpenCLDotNet.Core
             CLPoint3t region,
             cl_uint wait_list_size,
             [Out] cl_event[] wait_list,
-            [Out] out cl_event _event);
+            [Out] out cl_event e);
 
         [DllImport(DLL_NAME, CallingConvention = CDECL)]
         private static extern CL_ERROR CL_EnqueueFillImage(
@@ -755,7 +822,7 @@ namespace OpenCLDotNet.Core
             CLPoint3t region,
             cl_uint wait_list_size,
             [Out] cl_event[] wait_list,
-            [Out] out cl_event _event);
+            [Out] out cl_event e);
 
         [DllImport(DLL_NAME, CallingConvention = CDECL)]
         private static extern CL_ERROR CL_EnqueueFillImage(
@@ -766,7 +833,7 @@ namespace OpenCLDotNet.Core
             CLPoint3t region,
             cl_uint wait_list_size,
             [Out] cl_event[] wait_list,
-            [Out] out cl_event _event);
+            [Out] out cl_event e);
 
         [DllImport(DLL_NAME, CallingConvention = CDECL)]
         private static extern CL_ERROR CL_EnqueueFillImage(
@@ -777,7 +844,7 @@ namespace OpenCLDotNet.Core
             CLPoint3t region,
             cl_uint wait_list_size,
             [Out] cl_event[] wait_list,
-            [Out] out cl_event _event);
+            [Out] out cl_event e);
 
         [DllImport(DLL_NAME, CallingConvention = CDECL)]
         private static extern CL_ERROR CL_EnqueueCopyImage(
@@ -789,7 +856,7 @@ namespace OpenCLDotNet.Core
             CLPoint3t region,
             cl_uint wait_list_size,
             [Out] cl_event[] wait_list,
-            [Out] out cl_event _event);
+            [Out] out cl_event e);
 
         [DllImport(DLL_NAME, CallingConvention = CDECL)]
         private static extern CL_ERROR CL_EnqueueCopyImageToBuffer(
@@ -801,7 +868,7 @@ namespace OpenCLDotNet.Core
             size_t dst_offset,
             cl_uint wait_list_size,
             [Out] cl_event[] wait_list,
-           [Out] out cl_event _event);
+           [Out] out cl_event e);
 
         [DllImport(DLL_NAME, CallingConvention = CDECL)]
         private static extern CL_ERROR CL_EnqueueCopyBufferToImage(
@@ -813,7 +880,7 @@ namespace OpenCLDotNet.Core
             CLPoint3t region,
             cl_uint wait_list_size,
             [Out] cl_event[] wait_list,
-            [Out] out cl_event _event);
+            [Out] out cl_event e);
 
         [DllImport(DLL_NAME, CallingConvention = CDECL)]
         private static extern Array CL_EnqueueMapBuffer(
@@ -825,7 +892,7 @@ namespace OpenCLDotNet.Core
             size_t size,
             cl_uint wait_list_size,
             [Out] cl_event[] wait_list,
-            [Out] out cl_event _event,
+            [Out] out cl_event e,
             [Out] out CL_ERROR error);
 
         [DllImport(DLL_NAME, CallingConvention = CDECL)]
@@ -840,7 +907,7 @@ namespace OpenCLDotNet.Core
             CLPoint3t image_slice_pitch,
             cl_uint wait_list_size,
             [Out] cl_event[] wait_list,
-            [Out] out cl_event _event,
+            [Out] out cl_event e,
             [Out] out CL_ERROR error);
 
         [DllImport(DLL_NAME, CallingConvention = CDECL)]
@@ -850,7 +917,7 @@ namespace OpenCLDotNet.Core
             Array mapped_ptr,
             cl_uint wait_list_size,
             [Out] cl_event[] wait_list,
-            [Out] out cl_event _event);
+            [Out] out cl_event e);
 
         [DllImport(DLL_NAME, CallingConvention = CDECL)]
         private static extern CL_ERROR CL_EnqueueMigrateMemObjects(
@@ -860,7 +927,7 @@ namespace OpenCLDotNet.Core
             cl_mem_migration_flags flags,
             cl_uint wait_list_size,
             [Out] cl_event[] wait_list,
-            [Out] out cl_event _event);
+            [Out] out cl_event e);
 
         [DllImport(DLL_NAME, CallingConvention = CDECL)]
         private static extern CL_ERROR CL_EnqueueNDRangeKernel(
@@ -872,21 +939,21 @@ namespace OpenCLDotNet.Core
             size_t[] local_work_size,
             cl_uint wait_list_size,
             [Out] cl_event[] wait_list,
-            [Out] out cl_event _event);
+            [Out] out cl_event e);
 
         [DllImport(DLL_NAME, CallingConvention = CDECL)]
         private static extern CL_ERROR CL_EnqueueMarkerWithWaitList(
             cl_command_queue command,
             cl_uint wait_list_size,
             [Out] cl_event[] wait_list,
-            [Out] out cl_event _event);
+            [Out] out cl_event e);
 
         [DllImport(DLL_NAME, CallingConvention = CDECL)]
         private static extern CL_ERROR CL_EnqueueBarrierWithWaitList(
             cl_command_queue command,
             cl_uint wait_list_size,
             [Out] cl_event[] wait_list,
-            [Out] out cl_event _event);
+            [Out] out cl_event e);
 
         [DllImport(DLL_NAME, CallingConvention = CDECL)]
         private static extern CL_ERROR CL_EnqueueSVMMemcpy(
@@ -897,7 +964,7 @@ namespace OpenCLDotNet.Core
             size_t size,
             cl_uint wait_list_size,
             [Out] cl_event[] wait_list,
-            [Out] out cl_event _event);
+            [Out] out cl_event e);
 
         [DllImport(DLL_NAME, CallingConvention = CDECL)]
         private static extern CL_ERROR CL_EnqueueSVMMemFill(
@@ -908,7 +975,7 @@ namespace OpenCLDotNet.Core
             size_t size,
             cl_uint wait_list_size,
             [Out] cl_event[] wait_list,
-            [Out] out cl_event _event);
+            [Out] out cl_event e);
 
         [DllImport(DLL_NAME, CallingConvention = CDECL)]
         private static extern CL_ERROR CL_EnqueueSVMMap(
@@ -919,7 +986,7 @@ namespace OpenCLDotNet.Core
             size_t size,
             cl_uint wait_list_size,
             [Out] cl_event[] wait_list,
-            [Out] out cl_event _event);
+            [Out] out cl_event e);
 
         [DllImport(DLL_NAME, CallingConvention = CDECL)]
         private static extern CL_ERROR CL_EnqueueSVMUnmap(
@@ -927,7 +994,7 @@ namespace OpenCLDotNet.Core
             Array svm_ptr,
             cl_uint wait_list_size,
             [Out] cl_event[] wait_list,
-            [Out] out cl_event _event);
+            [Out] out cl_event e);
 
         [DllImport(DLL_NAME, CallingConvention = CDECL)]
         private static extern CL_ERROR CL_EnqueueSVMMigrateMem(
@@ -938,6 +1005,6 @@ namespace OpenCLDotNet.Core
             cl_mem_migration_flags flags,
             cl_uint wait_list_size,
             [Out] cl_event[] wait_list,
-            [Out] out cl_event _event);
+            [Out] out cl_event e);
     }
 }

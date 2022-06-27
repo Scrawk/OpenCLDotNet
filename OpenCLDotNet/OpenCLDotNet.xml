@@ -87,7 +87,7 @@
             <param name="mem"></param>
             <returns></returns>
         </member>
-        <member name="M:OpenCLDotNet.Core.CL.EnqueueReadBuffer(OpenCLDotNet.Core.cl_command_queue,OpenCLDotNet.Core.cl_mem,System.Boolean,System.UInt32,System.UInt32,System.Array)">
+        <member name="M:OpenCLDotNet.Core.CL.EnqueueReadBuffer(OpenCLDotNet.Core.cl_command_queue,OpenCLDotNet.Core.cl_mem,System.Boolean,System.UInt32,System.UInt32,System.Array,System.UInt32,OpenCLDotNet.Core.cl_event[],OpenCLDotNet.Core.cl_event@)">
             <summary>
             Enqueue commands to read from a buffer object to host memory.
             </summary>
@@ -102,9 +102,14 @@
             object to read from or write to</param>
             <param name="byte_size">The size of the data in bytes.</param>
             <param name="data">The buffer to read into.</param>
-            <returns>The error code.</returns>
+            <param name="wait_list_size">The event wait list size.</param>
+            <param name="wait_list">The event wait list. 
+            This is all the events that will need to completed before 
+            this event is executed.</param>
+            <param name="e">The event generated for this command.</param>
+            <returns>The error code</returns>
         </member>
-        <member name="M:OpenCLDotNet.Core.CL.EnqueueWriteBuffer(OpenCLDotNet.Core.cl_command_queue,OpenCLDotNet.Core.cl_mem,System.Boolean,System.UInt32,System.UInt32,System.Array)">
+        <member name="M:OpenCLDotNet.Core.CL.EnqueueWriteBuffer(OpenCLDotNet.Core.cl_command_queue,OpenCLDotNet.Core.cl_mem,System.Boolean,System.UInt32,System.UInt32,System.Array,System.UInt32,OpenCLDotNet.Core.cl_event[],OpenCLDotNet.Core.cl_event@)">
             <summary>
             Enqueue commands to write to a buffer object from host memory.
             </summary>
@@ -118,9 +123,14 @@
             object to write to.</param>
             <param name="byte_size">The size of the data in bytes.</param>
             <param name="data">The data to write from.</param>
+            <param name="wait_list_size">The event wait list size.</param>
+            <param name="wait_list">The event wait list. 
+            This is all the events that will need to completed before 
+            this event is executed.</param>
+            <param name="e">The event generated for this command.</param>
             <returns>The error code.</returns>
         </member>
-        <member name="M:OpenCLDotNet.Core.CL.EnqueueReadImage(OpenCLDotNet.Core.cl_command_queue,OpenCLDotNet.Buffers.CLImage,System.Boolean,OpenCLDotNet.Core.CLRegion3t,System.Array,System.UInt32)">
+        <member name="M:OpenCLDotNet.Core.CL.EnqueueReadImage(OpenCLDotNet.Core.cl_command_queue,OpenCLDotNet.Buffers.CLImage,System.Boolean,OpenCLDotNet.Core.CLRegion3t,System.Array,System.UInt32,System.UInt32,OpenCLDotNet.Core.cl_event[],OpenCLDotNet.Core.cl_event@)">
             <summary>
             Enqueues a command to read from a 2D or 3D image object to host memory.
             </summary>
@@ -131,9 +141,14 @@
             <param name="region">Defines the region in the image to read from.</param>
             <param name="data"></param>
             <param name="byte_size"></param>
+            <param name="wait_list_size">The event wait list size.</param>
+            <param name="wait_list">The event wait list. 
+            This is all the events that will need to completed before 
+            this event is executed.</param>
+            <param name="e">The event generated for this command.</param>
             <returns></returns>
         </member>
-        <member name="M:OpenCLDotNet.Core.CL.EnqueueWriteImage(OpenCLDotNet.Core.cl_command_queue,OpenCLDotNet.Buffers.CLImage,System.Boolean,OpenCLDotNet.Core.CLRegion3t,System.Array,System.UInt32)">
+        <member name="M:OpenCLDotNet.Core.CL.EnqueueWriteImage(OpenCLDotNet.Core.cl_command_queue,OpenCLDotNet.Buffers.CLImage,System.Boolean,OpenCLDotNet.Core.CLRegion3t,System.Array,System.UInt32,System.UInt32,OpenCLDotNet.Core.cl_event[],OpenCLDotNet.Core.cl_event@)">
             <summary>
             
             </summary>
@@ -143,9 +158,14 @@
             <param name="region"></param>
             <param name="data"></param>
             <param name="byte_size"></param>
+            <param name="wait_list_size">The event wait list size.</param>
+            <param name="wait_list">The event wait list. 
+            This is all the events that will need to completed before 
+            this event is executed.</param>
+            <param name="e">The event generated for this command.</param>
             <returns></returns>
         </member>
-        <member name="M:OpenCLDotNet.Core.CL.EnqueueFillBuffer(OpenCLDotNet.Core.cl_command_queue,OpenCLDotNet.Core.cl_mem,System.Array,System.UInt32,System.UInt32,System.UInt32)">
+        <member name="M:OpenCLDotNet.Core.CL.EnqueueFillBuffer(OpenCLDotNet.Core.cl_command_queue,OpenCLDotNet.Core.cl_mem,System.Array,System.UInt32,System.UInt32,System.UInt32,System.UInt32,OpenCLDotNet.Core.cl_event[],OpenCLDotNet.Core.cl_event@)">
             <summary>
             
             </summary>
@@ -157,9 +177,14 @@
             filled in buffer and must be a multiple of pattern_size.</param>
             <param name="size">The size in bytes of region being filled 
             in buffer and must be a multiple of pattern_size.</param>
+            <param name="wait_list_size">The event wait list size.</param>
+            <param name="wait_list">The event wait list. 
+            This is all the events that will need to completed before 
+            this event is executed.</param>
+            <param name="e">The event generated for this command.</param>
             <returns>The error code.</returns>
         </member>
-        <member name="M:OpenCLDotNet.Core.CL.EnqueueCopyBuffer(OpenCLDotNet.Core.cl_command_queue,OpenCLDotNet.Core.cl_mem,OpenCLDotNet.Core.cl_mem,System.UInt32,System.UInt32)">
+        <member name="M:OpenCLDotNet.Core.CL.EnqueueCopyBuffer(OpenCLDotNet.Core.cl_command_queue,OpenCLDotNet.Core.cl_mem,OpenCLDotNet.Core.cl_mem,System.UInt32,System.UInt32,System.UInt32,OpenCLDotNet.Core.cl_event[],OpenCLDotNet.Core.cl_event@)">
             <summary>
             Enqueues a command to copy a buffer object to another buffer object.
             </summary>
@@ -170,6 +195,11 @@
             <param name="dst_buffer">The buffer to write to.</param>
             <param name="byte_offset">The offset in bytes where to begin copying data from src_buffer.</param>
             <param name="byte_size">Refers to the size in bytes to copy.</param>
+            <param name="wait_list_size">The event wait list size.</param>
+            <param name="wait_list">The event wait list. 
+            This is all the events that will need to completed before 
+            this event is executed.</param>
+            <param name="e">The event generated for this command.</param>
             <returns>The error code.</returns>
         </member>
         <member name="M:OpenCLDotNet.Core.CL.EnqueueCopyBufferRect(OpenCLDotNet.Core.cl_command_queue,OpenCLDotNet.Core.cl_mem,OpenCLDotNet.Core.cl_mem,OpenCLDotNet.Core.CLPoint3t,OpenCLDotNet.Core.CLPoint3t,OpenCLDotNet.Core.CLPoint3t,System.UInt32,System.UInt32,System.UInt32,System.UInt32,System.UInt32,OpenCLDotNet.Core.cl_event[],OpenCLDotNet.Core.cl_event@)">
@@ -186,12 +216,14 @@
             <param name="src_slice_pitch"></param>
             <param name="dst_row_pitch"></param>
             <param name="dst_slice_pitch"></param>
-            <param name="wait_list_size"></param>
-            <param name="wait_list"></param>
-            <param name="_event"></param>
+            <param name="wait_list_size">The event wait list size.</param>
+            <param name="wait_list">The event wait list. 
+            This is all the events that will need to completed before 
+            this event is executed.</param>
+            <param name="e">The event generated for this command.</param>
             <returns></returns>
         </member>
-        <member name="M:OpenCLDotNet.Core.CL.EnqueueFillImage(OpenCLDotNet.Core.cl_command_queue,OpenCLDotNet.Core.cl_mem,OpenCLDotNet.Core.CLColorRGBA,OpenCLDotNet.Core.CLRegion3t)">
+        <member name="M:OpenCLDotNet.Core.CL.EnqueueFillImage(OpenCLDotNet.Core.cl_command_queue,OpenCLDotNet.Core.cl_mem,OpenCLDotNet.Core.CLColorRGBA,OpenCLDotNet.Core.CLRegion3t,System.UInt32,OpenCLDotNet.Core.cl_event[],OpenCLDotNet.Core.cl_event@)">
             <summary>
             Enqueues a command to fill an image object with a specified color.
             </summary>
@@ -219,6 +251,11 @@
             
             </param>
             <param name="region">Defines the region in the image to fill.</param>
+            <param name="wait_list_size">The event wait list size.</param>
+            <param name="wait_list">The event wait list. 
+            This is all the events that will need to completed before 
+            this event is executed.</param>
+            <param name="e">The event generated for this command.</param>
             <returns>The error code.</returns>
         </member>
         <member name="M:OpenCLDotNet.Core.CL.EnqueueCopyImage(OpenCLDotNet.Core.cl_command_queue,OpenCLDotNet.Core.cl_mem,OpenCLDotNet.Core.cl_mem,OpenCLDotNet.Core.CLPoint3t,OpenCLDotNet.Core.CLRegion3t,System.UInt32,OpenCLDotNet.Core.cl_event[],OpenCLDotNet.Core.cl_event@)">
@@ -230,9 +267,11 @@
             <param name="dst_image"></param>
             <param name="src_origin"></param>
             <param name="region"></param>
-            <param name="wait_list_size"></param>
-            <param name="wait_list"></param>
-            <param name="_event"></param>
+            <param name="wait_list_size">The event wait list size.</param>
+            <param name="wait_list">The event wait list. 
+            This is all the events that will need to completed before 
+            this event is executed.</param>
+            <param name="e">The event generated for this command.</param>
             <returns></returns>
         </member>
         <member name="M:OpenCLDotNet.Core.CL.EnqueueCopyImageToBuffer(OpenCLDotNet.Core.cl_command_queue,OpenCLDotNet.Core.cl_mem,OpenCLDotNet.Core.cl_mem,OpenCLDotNet.Core.CLPoint3t,OpenCLDotNet.Core.CLPoint3t,System.UInt32,System.UInt32,OpenCLDotNet.Core.cl_event[],OpenCLDotNet.Core.cl_event@)">
@@ -245,9 +284,11 @@
             <param name="src_origin"></param>
             <param name="region"></param>
             <param name="dst_offset"></param>
-            <param name="wait_list_size"></param>
-            <param name="wait_list"></param>
-            <param name="_event"></param>
+            <param name="wait_list_size">The event wait list size.</param>
+            <param name="wait_list">The event wait list. 
+            This is all the events that will need to completed before 
+            this event is executed.</param>
+            <param name="e">The event generated for this command.</param>
             <returns></returns>
         </member>
         <member name="M:OpenCLDotNet.Core.CL.EnqueueCopyBufferToImage(OpenCLDotNet.Core.cl_command_queue,OpenCLDotNet.Core.cl_mem,OpenCLDotNet.Core.cl_mem,System.UInt32,OpenCLDotNet.Core.CLPoint3t,OpenCLDotNet.Core.CLPoint3t,System.UInt32,OpenCLDotNet.Core.cl_event[],OpenCLDotNet.Core.cl_event@)">
@@ -260,9 +301,11 @@
             <param name="src_offset"></param>
             <param name="dst_origin"></param>
             <param name="region"></param>
-            <param name="wait_list_size"></param>
-            <param name="wait_list"></param>
-            <param name="_event"></param>
+            <param name="wait_list_size">The event wait list size.</param>
+            <param name="wait_list">The event wait list. 
+            This is all the events that will need to completed before 
+            this event is executed.</param>
+            <param name="e">The event generated for this command.</param>
             <returns></returns>
         </member>
         <member name="M:OpenCLDotNet.Core.CL.EnqueueNDRangeKernel(OpenCLDotNet.Core.cl_command_queue,OpenCLDotNet.Core.cl_kernel,System.UInt32,OpenCLDotNet.Core.size_t[],OpenCLDotNet.Core.size_t[],OpenCLDotNet.Core.size_t[],System.UInt32,OpenCLDotNet.Core.cl_event[],OpenCLDotNet.Core.cl_event@)">
@@ -275,9 +318,11 @@
             <param name="global_work_offset"></param>
             <param name="global_work_size"></param>
             <param name="local_work_size"></param>
-            <param name="wait_list_size"></param>
-            <param name="wait_list"></param>
-            <param name="_event"></param>
+            <param name="wait_list_size">The event wait list size.</param>
+            <param name="wait_list">The event wait list. 
+            This is all the events that will need to completed before 
+            this event is executed.</param>
+            <param name="e">The event generated for this command.</param>
             <returns></returns>
         </member>
         <member name="M:OpenCLDotNet.Core.CL.EnqueueBarrierWithWaitList(OpenCLDotNet.Core.cl_command_queue,System.UInt32,OpenCLDotNet.Core.cl_event[],OpenCLDotNet.Core.cl_event@)">
@@ -285,9 +330,11 @@
             
             </summary>
             <param name="command"></param>
-            <param name="wait_list_size"></param>
-            <param name="wait_list"></param>
-            <param name="_event"></param>
+            <param name="wait_list_size">The event wait list size.</param>
+            <param name="wait_list">The event wait list. 
+            This is all the events that will need to completed before 
+            this event is executed.</param>
+            <param name="e">The event generated for this command.</param>
             <returns></returns>
         </member>
         <member name="P:OpenCLDotNet.Core.CL.FormatTable">
@@ -1344,12 +1391,17 @@
             
             </summary>
         </member>
-        <member name="P:OpenCLDotNet.Core.CLContext.NumDevices">
+        <member name="P:OpenCLDotNet.Core.CLContext.NumPlatforms">
             <summary>
             
             </summary>
         </member>
-        <member name="P:OpenCLDotNet.Core.CLContext.NumPlatforms">
+        <member name="P:OpenCLDotNet.Core.CLContext.NumCommands">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:OpenCLDotNet.Core.CLContext.NumDevices">
             <summary>
             
             </summary>
@@ -1360,6 +1412,11 @@
             </summary>
         </member>
         <member name="P:OpenCLDotNet.Core.CLContext.Platforms">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:OpenCLDotNet.Core.CLContext.Commands">
             <summary>
             
             </summary>
@@ -1388,6 +1445,12 @@
             
             </summary>
             <param name="type"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Core.CLContext.GetCommand">
+            <summary>
+            
+            </summary>
             <returns></returns>
         </member>
         <member name="M:OpenCLDotNet.Core.CLContext.Print(System.Text.StringBuilder)">
@@ -1681,11 +1744,12 @@
             
             </summary>
         </member>
-        <member name="M:OpenCLDotNet.Core.CLPlatform.#ctor(OpenCLDotNet.Core.cl_platform_id)">
+        <member name="M:OpenCLDotNet.Core.CLPlatform.#ctor(OpenCLDotNet.Core.cl_platform_id,OpenCLDotNet.Core.CL_DEVICE_TYPE)">
             <summary>
             
             </summary>
             <param name="id"></param>
+            <param name="device_type"></param>
         </member>
         <member name="P:OpenCLDotNet.Core.CLPlatform.Vendor">
             <summary>
@@ -1713,6 +1777,11 @@
             </summary>
         </member>
         <member name="P:OpenCLDotNet.Core.CLPlatform.NumDevices">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:OpenCLDotNet.Core.CLPlatform.Device">
             <summary>
             
             </summary>
@@ -1799,7 +1868,7 @@
             <param name="name"></param>
             <returns></returns>
         </member>
-        <member name="M:OpenCLDotNet.Core.CLPlatform.CreateDevices">
+        <member name="M:OpenCLDotNet.Core.CLPlatform.CreateDevices(OpenCLDotNet.Core.CL_DEVICE_TYPE)">
             <summary>
             
             </summary>
@@ -2358,6 +2427,7 @@
             </summary>
             <param name="context"></param>
             <param name="source"></param>
+            <param name="type"></param>
             <returns></returns>
         </member>
         <member name="M:OpenCLDotNet.Buffers.CLBuffer.CreateWriteBuffer(OpenCLDotNet.Core.CLContext,OpenCLDotNet.Core.CL_DATA_TYPE,System.UInt32)">
@@ -2394,6 +2464,7 @@
             <param name="context"></param>
             <param name="rw"></param>
             <param name="data"></param>
+            <param name="type"></param>
         </member>
         <member name="M:OpenCLDotNet.Buffers.CLBuffer.Create(OpenCLDotNet.Core.CLContext,OpenCLDotNet.Core.CL_MEM_FLAGS,System.Array,OpenCLDotNet.Core.CL_DATA_TYPE)">
             <summary>
@@ -2402,68 +2473,49 @@
             <param name="context"></param>
             <param name="flags"></param>
             <param name="data"></param>
+            <param name="type"></param>
         </member>
-        <member name="M:OpenCLDotNet.Buffers.CLBuffer.Read(OpenCLDotNet.Events.CLCommandQueue,System.Array)">
+        <member name="M:OpenCLDotNet.Buffers.CLBuffer.Read(System.Array)">
             <summary>
             Enqueue commands to read from a buffer object.
             </summary>
-            <param name="cmd">command_queue is a valid host 
-            command-queue in which the read / write command will be queued. 
-            command_queue and buffer must be created with the same OpenCL 
-            context.</param>
             <param name="dst">The data to be read to</param>
         </member>
-        <member name="M:OpenCLDotNet.Buffers.CLBuffer.Read(OpenCLDotNet.Events.CLCommandQueue,System.Array,System.UInt32,System.Boolean)">
+        <member name="M:OpenCLDotNet.Buffers.CLBuffer.Read(System.Array,System.UInt32,System.Boolean)">
             <summary>
             Enqueue commands to read from a buffer object.
             </summary>
-            <param name="cmd">command_queue is a valid host 
-            command-queue in which the read / write command will be queued. 
-            command_queue and buffer must be created with the same OpenCL 
-            context.</param>
             <param name="src_offset">offset is the offset in the source buffer 
             object to read from.</param>
             <param name="dst">The data to be read to</param>
             <param name="blocking">If the read and write operations are blocking
             or non-blocking</param>
         </member>
-        <member name="M:OpenCLDotNet.Buffers.CLBuffer.Write(OpenCLDotNet.Events.CLCommandQueue,System.Array)">
+        <member name="M:OpenCLDotNet.Buffers.CLBuffer.Write(System.Array)">
             <summary>
             Enqueue commands to write to a buffer object from host memory.
             </summary>
-            <param name="cmd">Refers to the command-queue in which the write 
-            command will be queued. command_queue and buffer must be created 
-            with the same OpenCL context.</param>
             <param name="src">The data to be written from.</param>
         </member>
-        <member name="M:OpenCLDotNet.Buffers.CLBuffer.Write(OpenCLDotNet.Events.CLCommandQueue,System.Array,System.UInt32,System.Boolean)">
+        <member name="M:OpenCLDotNet.Buffers.CLBuffer.Write(System.Array,System.UInt32,System.Boolean)">
             <summary>
             Enqueue commands to write to a buffer object from host memory.
             </summary>
-            <param name="cmd">Refers to the command-queue in which the write 
-            command will be queued. command_queue and buffer must be created 
-            with the same OpenCL context.</param>
             <param name="offset">The offset in the buffer object to write to.</param>
             <param name="src">The data to be written from.</param>
             <param name="blocking">Indicates if the write operations are 
             blocking or nonblocking.</param>
         </member>
-        <member name="M:OpenCLDotNet.Buffers.CLBuffer.Copy(OpenCLDotNet.Events.CLCommandQueue)">
+        <member name="M:OpenCLDotNet.Buffers.CLBuffer.Copy">
             <summary>
             Enqueues a command to copy a buffer object to another buffer object.
             </summary>
-            <param name="cmd">Refers to the command-queue in which the write 
-            command will be queued. command_queue and buffer must be created 
-            with the same OpenCL context.</param>
             <returns>The copied buffer.</returns>
         </member>
-        <member name="M:OpenCLDotNet.Buffers.CLBuffer.Copy(OpenCLDotNet.Events.CLCommandQueue,OpenCLDotNet.Buffers.CLBuffer,System.UInt32,System.UInt32)">
+        <member name="M:OpenCLDotNet.Buffers.CLBuffer.Copy(OpenCLDotNet.Buffers.CLBuffer,System.UInt32,System.UInt32)">
             <summary>
             Enqueues a command to copy a buffer object to another buffer object.
             </summary>
-            <param name="cmd">The command-queue in which the copy command will be queued. 
-            The OpenCL context associated with command_queue, src_buffer, 
-            and dst_buffer must be the same</param>
             <param name="dst">The buffer to copy to.</param>
             <param name="src_offset">The offset where to begin copying data from src_buffer.</param>
             <param name="dst_size">The size to copy into the dst buffer.</param>
@@ -2499,67 +2551,59 @@
             
             </summary>
         </member>
-        <member name="M:OpenCLDotNet.Buffers.CLImage.Read(OpenCLDotNet.Events.CLCommandQueue,System.Array)">
+        <member name="M:OpenCLDotNet.Buffers.CLImage.Read(System.Array)">
             <summary>
             
             </summary>
-            <param name="cmd"></param>
             <param name="dst"></param>
         </member>
-        <member name="M:OpenCLDotNet.Buffers.CLImage.Read(OpenCLDotNet.Events.CLCommandQueue,System.Array,OpenCLDotNet.Core.CLRegion3t,System.Boolean)">
+        <member name="M:OpenCLDotNet.Buffers.CLImage.Read(System.Array,OpenCLDotNet.Core.CLRegion3t,System.Boolean)">
             <summary>
             
             </summary>
-            <param name="cmd"></param>
             <param name="region"></param>
             <param name="dst"></param>
             <param name="blocking"></param>
         </member>
-        <member name="M:OpenCLDotNet.Buffers.CLImage.Write(OpenCLDotNet.Events.CLCommandQueue,System.Array)">
+        <member name="M:OpenCLDotNet.Buffers.CLImage.Write(System.Array)">
             <summary>
             
             </summary>
-            <param name="cmd"></param>
             <param name="src"></param>
         </member>
-        <member name="M:OpenCLDotNet.Buffers.CLImage.Write(OpenCLDotNet.Events.CLCommandQueue,System.Array,OpenCLDotNet.Core.CLRegion3t,System.Boolean)">
+        <member name="M:OpenCLDotNet.Buffers.CLImage.Write(System.Array,OpenCLDotNet.Core.CLRegion3t,System.Boolean)">
             <summary>
             
             </summary>
-            <param name="cmd"></param>
             <param name="region"></param>
             <param name="src"></param>
             <param name="blocking"></param>
             <exception cref="T:OpenCLDotNet.Utility.InvalidObjectExeception"></exception>
         </member>
-        <member name="M:OpenCLDotNet.Buffers.CLImage.Fill(OpenCLDotNet.Events.CLCommandQueue,OpenCLDotNet.Core.CLColorRGBA)">
+        <member name="M:OpenCLDotNet.Buffers.CLImage.Fill(OpenCLDotNet.Core.CLColorRGBA)">
             <summary>
             
             </summary>
-            <param name="cmd"></param>
             <param name="color"></param>
         </member>
-        <member name="M:OpenCLDotNet.Buffers.CLImage.Fill(OpenCLDotNet.Events.CLCommandQueue,OpenCLDotNet.Core.CLColorRGBA,OpenCLDotNet.Core.CLRegion3t)">
+        <member name="M:OpenCLDotNet.Buffers.CLImage.Fill(OpenCLDotNet.Core.CLColorRGBA,OpenCLDotNet.Core.CLRegion3t)">
             <summary>
             
             </summary>
-            <param name="cmd"></param>
             <param name="color"></param>
             <param name="region"></param>
         </member>
-        <member name="M:OpenCLDotNet.Buffers.CLImage.Fill(OpenCLDotNet.Events.CLCommandQueue,System.Array,OpenCLDotNet.Core.CL_DATA_TYPE)">
+        <member name="M:OpenCLDotNet.Buffers.CLImage.Fill(System.Array,OpenCLDotNet.Core.CL_DATA_TYPE)">
             <summary>
             
             </summary>
-            <param name="cmd"></param>
             <param name="color"></param>
             <param name="type"></param>
         </member>
-        <member name="M:OpenCLDotNet.Buffers.CLImage.Fill(OpenCLDotNet.Events.CLCommandQueue,System.Array,OpenCLDotNet.Core.CL_DATA_TYPE,OpenCLDotNet.Core.CLRegion3t)">
+        <member name="M:OpenCLDotNet.Buffers.CLImage.Fill(System.Array,OpenCLDotNet.Core.CL_DATA_TYPE,OpenCLDotNet.Core.CLRegion3t)">
             <summary>
             
             </summary>
-            <param name="cmd"></param>
             <param name="color"></param>
             <param name="type"></param>
             <param name="region"></param>
@@ -2672,27 +2716,24 @@
             <param name="context"></param>
             <param name="param"></param>
         </member>
-        <member name="M:OpenCLDotNet.Buffers.CLImage2D.Copy(OpenCLDotNet.Events.CLCommandQueue)">
+        <member name="M:OpenCLDotNet.Buffers.CLImage2D.Copy">
             <summary>
             
             </summary>
-            <param name="cmd"></param>
             <returns></returns>
         </member>
-        <member name="M:OpenCLDotNet.Buffers.CLImage2D.Copy(OpenCLDotNet.Events.CLCommandQueue,OpenCLDotNet.Core.CLPoint3t,OpenCLDotNet.Core.CLRegion3t)">
+        <member name="M:OpenCLDotNet.Buffers.CLImage2D.Copy(OpenCLDotNet.Core.CLPoint3t,OpenCLDotNet.Core.CLRegion3t)">
             <summary>
             
             </summary>
-            <param name="cmd"></param>
             <param name="src_origin"></param>
             <param name="region"></param>
             <returns></returns>
         </member>
-        <member name="M:OpenCLDotNet.Buffers.CLImage2D.Copy(OpenCLDotNet.Events.CLCommandQueue,OpenCLDotNet.Buffers.CLImage2D,OpenCLDotNet.Core.CLPoint3t,OpenCLDotNet.Core.CLRegion3t)">
+        <member name="M:OpenCLDotNet.Buffers.CLImage2D.Copy(OpenCLDotNet.Buffers.CLImage2D,OpenCLDotNet.Core.CLPoint3t,OpenCLDotNet.Core.CLRegion3t)">
             <summary>
             
             </summary>
-            <param name="cmd"></param>
             <param name="dst"></param>
             <param name="src_origin"></param>
             <param name="region"></param>
@@ -2894,6 +2935,33 @@
             <summary>
             
             </summary>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Buffers.CLImageParameters2D.ByteImage(System.UInt32,System.UInt32,System.UInt32)">
+            <summary>
+            
+            </summary>
+            <param name="width"></param>
+            <param name="height"></param>
+            <param name="channels"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Buffers.CLImageParameters2D.FloatImage(System.UInt32,System.UInt32,System.UInt32)">
+            <summary>
+            
+            </summary>
+            <param name="width"></param>
+            <param name="height"></param>
+            <param name="channels"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Buffers.CLImageParameters2D.IntImage(System.UInt32,System.UInt32,System.UInt32)">
+            <summary>
+            
+            </summary>
+            <param name="width"></param>
+            <param name="height"></param>
+            <param name="channels"></param>
             <returns></returns>
         </member>
         <member name="M:OpenCLDotNet.Buffers.CLImageParameters2D.GetSupportedImageFormats(OpenCLDotNet.Core.cl_context,OpenCLDotNet.Core.CL_MEM_FLAGS)">
@@ -3279,6 +3347,21 @@
             
             </summary>
         </member>
+        <member name="P:OpenCLDotNet.Events.CLCommandQueue.Event">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:OpenCLDotNet.Events.CLCommandQueue.IsComplete">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:OpenCLDotNet.Events.CLCommandQueue.HasEvent">
+            <summary>
+            
+            </summary>
+        </member>
         <member name="M:OpenCLDotNet.Events.CLCommandQueue.ToString">
             <summary>
             
@@ -3297,6 +3380,23 @@
             </summary>
             <param name="context"></param>
             <param name="properties"></param>
+        </member>
+        <member name="M:OpenCLDotNet.Events.CLCommandQueue.GetStatus">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Events.CLCommandQueue.SetEvent(OpenCLDotNet.Core.cl_event)">
+            <summary>
+            
+            </summary>
+            <param name="event_id"></param>
+        </member>
+        <member name="M:OpenCLDotNet.Events.CLCommandQueue.Reset">
+            <summary>
+            
+            </summary>
         </member>
         <member name="M:OpenCLDotNet.Events.CLCommandQueue.Print(System.Text.StringBuilder)">
             <summary>
@@ -3369,6 +3469,18 @@
             </summary>
             <param name="context"></param>
         </member>
+        <member name="M:OpenCLDotNet.Events.CLEvent.#ctor(OpenCLDotNet.Core.CLContext,OpenCLDotNet.Core.cl_event)">
+            <summary>
+            
+            </summary>
+            <param name="context"></param>
+            <param name="id"></param>
+        </member>
+        <member name="P:OpenCLDotNet.Events.CLEvent.CmdType">
+            <summary>
+            
+            </summary>
+        </member>
         <member name="P:OpenCLDotNet.Events.CLEvent.Context">
             <summary>
             
@@ -3385,6 +3497,19 @@
             
             </summary>
             <param name="context"></param>
+        </member>
+        <member name="M:OpenCLDotNet.Events.CLEvent.Create(OpenCLDotNet.Core.CLContext,OpenCLDotNet.Core.cl_event)">
+            <summary>
+            
+            </summary>
+            <param name="context"></param>
+            <param name="id"></param>
+        </member>
+        <member name="M:OpenCLDotNet.Events.CLEvent.GetStatus">
+            <summary>
+            
+            </summary>
+            <returns></returns>
         </member>
         <member name="M:OpenCLDotNet.Events.CLEvent.Print(System.Text.StringBuilder)">
             <summary>
@@ -4016,11 +4141,6 @@
             
             </summary>
         </member>
-        <member name="P:OpenCLDotNet.Programs.CLProgram.Command">
-            <summary>
-            
-            </summary>
-        </member>
         <member name="M:OpenCLDotNet.Programs.CLProgram.ToString">
             <summary>
             
@@ -4082,11 +4202,6 @@
             <param name="globalSize"></param>
             <returns></returns>
         </member>
-        <member name="M:OpenCLDotNet.Programs.CLProgram.CreateCommand">
-            <summary>
-            
-            </summary>
-        </member>
         <member name="M:OpenCLDotNet.Programs.CLProgram.CreateKerels">
             <summary>
             
@@ -4113,6 +4228,12 @@
             <param name="index"></param>
             <returns></returns>
             <exception cref="T:System.ArgumentOutOfRangeException"></exception>
+        </member>
+        <member name="M:OpenCLDotNet.Programs.CLProgram.GetDeviceIds">
+            <summary>
+            
+            </summary>
+            <returns></returns>
         </member>
         <member name="M:OpenCLDotNet.Programs.CLProgram.CreateReadBuffer(System.String,System.UInt32,System.Array,OpenCLDotNet.Core.CL_DATA_TYPE)">
             <summary>

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
+using OpenCLDotNet.Events;
 using OpenCLDotNet.Utility;
 
 namespace OpenCLDotNet.Core
@@ -27,6 +28,8 @@ namespace OpenCLDotNet.Core
         {
             CreatePlatforms(device_type);
             CreateContext();
+
+            Commands = new List<CLCommandQueue>();
         }
 
         /// <summary>
@@ -45,21 +48,17 @@ namespace OpenCLDotNet.Core
         /// <summary>
         /// 
         /// </summary>
-        public int NumDevices
-        {
-            get
-            {
-                if (!IsValid)
-                    return 0;
-                else
-                    return Platform.NumDevices;
-            }
-        }
+        public int NumPlatforms => Platforms.Count;
 
         /// <summary>
         /// 
         /// </summary>
-        public int NumPlatforms => Platforms.Count;
+        public int NumCommands => Commands.Count;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public int NumDevices => Platform != null ? Platform.NumDevices : 0;
 
         /// <summary>
         /// 
@@ -70,6 +69,11 @@ namespace OpenCLDotNet.Core
         /// 
         /// </summary>
         private List<CLPlatform> Platforms { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        private List<CLCommandQueue> Commands { get; set; }
 
         /// <summary>
         /// 
@@ -118,6 +122,34 @@ namespace OpenCLDotNet.Core
         /// <summary>
         /// 
         /// </summary>
+        /// <returns></returns>
+        public CLCommandQueue GetCommand()
+        {
+            CLCommandQueue cmd = null;
+            int count = Commands.Count;
+
+            if (count > 0)
+            {
+                for(int i = 0; i < count; i++)
+                {
+                    cmd = Commands[i];  
+
+                    if(cmd.IsValid && cmd.IsComplete)
+                    {
+                        return cmd;
+                    }
+                        
+                }
+            }
+
+            cmd = new CLCommandQueue(this);
+            Commands.Add(cmd);
+            return cmd;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
         /// <param name="builder"></param>
         public override void Print(StringBuilder builder)
         {
@@ -152,6 +184,15 @@ namespace OpenCLDotNet.Core
                     continue;
 
                 platform.Print(builder);
+            }
+
+            builder.AppendLine();
+            builder.AppendLine("Commands.");
+            builder.AppendLine();
+
+            foreach (var cmd in Commands)
+            {
+                cmd.Print(builder);
             }
 
         }
@@ -236,7 +277,7 @@ namespace OpenCLDotNet.Core
 
             foreach (var id in platform_ids)
             {
-                var platform = new CLPlatform(id);
+                var platform = new CLPlatform(id, device_type);
 
                 if (Platform == null && platform.HasDevice(device_type))
                     Platform = platform;
