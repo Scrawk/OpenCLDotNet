@@ -136,6 +136,7 @@ namespace OpenCLDotNet.Core
 
                     if(cmd.IsValid && cmd.IsComplete)
                     {
+                        cmd.Reset();
                         return cmd;
                     }
                         

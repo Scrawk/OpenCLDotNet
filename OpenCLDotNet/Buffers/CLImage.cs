@@ -47,9 +47,10 @@ namespace OpenCLDotNet.Buffers
         /// 
         /// </summary>
         /// <param name="dst"></param>
-        public void Read(Array dst)
+        /// <param name="blocking"></param>
+        public void Read(Array dst, bool blocking = true)
         {
-            Read(dst, Region, true);
+            Read(dst, Region, blocking);
         }
 
         /// <summary>
@@ -83,9 +84,10 @@ namespace OpenCLDotNet.Buffers
         /// 
         /// </summary>
         /// <param name="src"></param>
-        public void Write(Array src)
+        /// <param name="blocking"></param>
+        public void Write(Array src, bool blocking = true)
         {
-            Write(src, Region, true);
+            Write(src, Region, blocking);
         }
 
         /// <summary>
@@ -109,6 +111,9 @@ namespace OpenCLDotNet.Buffers
 
             var error = CL.EnqueueWriteImage(cmd.Id, this, blocking, region, src, ByteSize, 
                 wait_list_size, wait_list, out e);
+
+            if (!e.IsNull)
+                cmd.SetEvent(e);
 
             Error = Error.ToString();
         }
@@ -141,6 +146,9 @@ namespace OpenCLDotNet.Buffers
 
             var error = CL.EnqueueFillImage(cmd.Id, Id, color, region, 
                 wait_list_size, wait_list, out e);
+
+            if (!e.IsNull)
+                cmd.SetEvent(e);
 
             Error = Error.ToString();
         }
@@ -175,6 +183,9 @@ namespace OpenCLDotNet.Buffers
 
             var error = CL.EnqueueFillImage(cmd.Id, Id, color, type, region, 
                 wait_list_size, wait_list, out e);
+
+            if (!e.IsNull)
+                cmd.SetEvent(e);
 
             Error = Error.ToString();
         }

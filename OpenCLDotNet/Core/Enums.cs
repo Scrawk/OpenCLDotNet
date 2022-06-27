@@ -713,7 +713,7 @@ namespace OpenCLDotNet.Core
     }
 
     // command execution status 
-    public enum CL_COMMAND_EXECUTION_STATUS
+    public enum CL_COMMAND_STATUS
     {
         COMPLETE = 0x0,
         RUNNING = 0x1,

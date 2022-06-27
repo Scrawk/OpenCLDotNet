@@ -41,7 +41,7 @@ namespace OpenCLDotNet.Events
         /// <summary>
         /// 
         /// </summary>
-        public bool IsComplete => GetStatus() == CL_COMMAND_EXECUTION_STATUS.COMPLETE;
+        public bool IsComplete => GetStatus() == CL_COMMAND_STATUS.COMPLETE;
 
         /// <summary>
         /// 
@@ -121,10 +121,10 @@ namespace OpenCLDotNet.Events
         /// 
         /// </summary>
         /// <returns></returns>
-        public CL_COMMAND_EXECUTION_STATUS GetStatus()
+        public CL_COMMAND_STATUS GetStatus()
         {
             if (!HasEvent)
-                return CL_COMMAND_EXECUTION_STATUS.COMPLETE;
+                return CL_COMMAND_STATUS.COMPLETE;
             else
                 return Event.GetStatus();
         }

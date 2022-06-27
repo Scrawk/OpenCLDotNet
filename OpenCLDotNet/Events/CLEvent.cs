@@ -99,10 +99,10 @@ namespace OpenCLDotNet.Events
         /// 
         /// </summary>
         /// <returns></returns>
-        public CL_COMMAND_EXECUTION_STATUS GetStatus()
+        public CL_COMMAND_STATUS GetStatus()
         {
             var cmd_status = GetInfoUInt64(CL_EVENT_INFO.COMMAND_EXECUTION_STATUS);
-            return (CL_COMMAND_EXECUTION_STATUS)cmd_status;
+            return (CL_COMMAND_STATUS)cmd_status;
         }
 
         /// <summary>
@@ -162,7 +162,7 @@ namespace OpenCLDotNet.Events
                 if (info == CL_EVENT_INFO.COMMAND_TYPE)
                     str = ((CL_COMMAND_TYPE)i).ToString();
                 else if(info == CL_EVENT_INFO.COMMAND_EXECUTION_STATUS)
-                    str = ((CL_COMMAND_EXECUTION_STATUS)i).ToString();
+                    str = ((CL_COMMAND_STATUS)i).ToString();
             }
             else if (type == CL_INFO_RETURN_TYPE.UINT)
             {
