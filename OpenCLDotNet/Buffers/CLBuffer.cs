@@ -27,13 +27,26 @@ namespace OpenCLDotNet.Buffers
             Create(context, rw, type, length);
         }
 
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="rw"></param>
+        /// <param name="data"></param>
+        /// <param name="type"></param>
         public CLBuffer(CLContext context, CL_READ_WRITE rw, Array data, CL_DATA_TYPE type)
             : base(context)
         {
             Create(context, rw, data, type);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="flags"></param>
+        /// <param name="data"></param>
+        /// <param name="type"></param>
         public CLBuffer(CLContext context, CL_MEM_FLAGS flags, Array data, CL_DATA_TYPE type)
             : base(context)
         {
@@ -220,9 +233,10 @@ namespace OpenCLDotNet.Buffers
         /// Enqueue commands to read from a buffer object.
         /// </summary>
         /// <param name="dst">The data to be read to</param>
-        public void Read(Array dst)
+        /// <param name="blocking">Should the function block until finished or return async.</param>
+        public void Read(Array dst, bool blocking = true)
         {
-            Read(dst, 0, true);
+            Read(dst, 0, blocking);
         }
 
         /// <summary>
@@ -231,8 +245,7 @@ namespace OpenCLDotNet.Buffers
         /// <param name="src_offset">offset is the offset in the source buffer 
         /// object to read from.</param>
         /// <param name="dst">The data to be read to</param>
-        /// <param name="blocking">If the read and write operations are blocking
-        /// or non-blocking</param>
+        /// <param name="blocking">Should the function block until finished or return async.</param>
         public void Read(Array dst, uint src_offset, bool blocking)
         {
             var cmd = Context.GetCommand();
@@ -252,6 +265,11 @@ namespace OpenCLDotNet.Buffers
             var error = CL.EnqueueReadBuffer(cmd.Id, Id, blocking, byte_offset, byte_size, dst,
                 wait_list_size, wait_list, out e);
 
+            if (!e.IsNull)
+            {
+                cmd.SetEvent(e);
+            }
+
             Error = error.ToString();
         }
 
@@ -259,9 +277,10 @@ namespace OpenCLDotNet.Buffers
         /// Enqueue commands to write to a buffer object from host memory.
         /// </summary>
         /// <param name="src">The data to be written from.</param>
-        public void Write(Array src)
+        /// <param name="blocking">Should the function block until finished or return async.</param>
+        public void Write(Array src, bool blocking = true)
         {
-            Write(src, 0, true);
+            Write(src, 0, blocking);
         }
 
         /// <summary>
@@ -269,8 +288,7 @@ namespace OpenCLDotNet.Buffers
         /// </summary>
         /// <param name="offset">The offset in the buffer object to write to.</param>
         /// <param name="src">The data to be written from.</param>
-        /// <param name="blocking">Indicates if the write operations are 
-        /// blocking or nonblocking.</param>
+        /// <param name="blocking">Should the function block until finished or return async.</param>
         public void Write(Array src, uint offset, bool blocking)
         {
             var cmd = Context.GetCommand();
@@ -290,6 +308,11 @@ namespace OpenCLDotNet.Buffers
 
             var error = CL.EnqueueWriteBuffer(cmd.Id, Id, blocking, byte_offset, byte_size, src, 
                 wait_list_size, wait_list, out e);
+
+            if (!e.IsNull)
+            {
+                cmd.SetEvent(e);
+            }
 
             Error = error.ToString();
         }
@@ -332,6 +355,11 @@ namespace OpenCLDotNet.Buffers
 
             var error = CL.EnqueueCopyBuffer(cmd.Id, Id, dst.Id, byte_offset, byte_size, 
                 wait_list_size, wait_list, out e);
+
+            if (!e.IsNull)
+            {
+                cmd.SetEvent(e);
+            }
 
             Error = error.ToString();
         }

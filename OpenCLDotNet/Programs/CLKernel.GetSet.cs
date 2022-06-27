@@ -13,6 +13,83 @@ namespace OpenCLDotNet.Programs
     /// </summary>
     public partial class CLKernel : CLObject
     {
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="arg_name"></param>
+        /// <param name="value"></param>
+        public void SetArgument(string arg_name, object value)
+        {
+            if(value == null)
+                throw new ArgumentNullException("Argument value can not be null.");
+
+            var arg = GetArgument(arg_name);
+            if (arg == null)
+                throw new ArgumentException($"Kernel does not contain a argument names {arg_name}.");
+
+            SetArgument(arg, value);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="arg_index"></param>
+        /// <param name="value"></param>
+        public void SetArgument(uint arg_index, object value)
+        {
+            if (value == null)
+                throw new ArgumentNullException("Argument value can not be null.");
+
+            var arg = GetArgument(arg_index);
+            SetArgument(arg, value);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="arg"></param>
+        /// <param name="value"></param>
+        private void SetArgument(CLKernelArg arg, object value)
+        {
+            uint index = arg.Index;
+
+            if (value is CLBuffer buffer)
+                SetBuffer(buffer, index);
+            else if (value is CLSubBuffer sub_buffer)
+                SetSubBuffer(sub_buffer, index);
+            else if (value is CLImage image)
+                SetImage(image, index);
+            else if (value is CLSampler sampler)
+                SetSampler(sampler, index);
+
+            else if (value is byte b)
+                SetByte(b, index);
+            else if (value is sbyte sb)
+                SetSByte(sb, index);
+            else if (value is ushort us)
+                SetUShort(us, index);
+            else if (value is short s)
+                SetShort(s, index);
+
+            else if (value is uint ui)
+                SetUInt(ui, index);
+            else if (value is int i)
+                SetInt(i, index);
+
+            else if (value is ulong ul)
+                SetULong(ul, index);
+            else if (value is long l)
+                SetLong(l, index);
+
+            else if (value is Half h)
+                SetHalf(h, index);
+            else if (value is float f)
+                SetFloat(f, index);
+            else if (value is double d)
+                SetDouble(d, index);
+        }
+
         /// <summary>
         /// 
         /// </summary>

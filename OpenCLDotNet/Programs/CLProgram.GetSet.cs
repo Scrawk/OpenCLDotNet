@@ -16,6 +16,25 @@ namespace OpenCLDotNet.Programs
         /// 
         /// </summary>
         /// <param name="kernel_name"></param>
+        /// <param name="param"></param>
+        public void SetParameter(string kernel_name, CLKernelArgParameter param)
+        {
+            CLKernel kernel = FindKernel(kernel_name);
+            if (kernel == null)
+                throw new NullReferenceException($"Could not find kernel with parameter {param}.");
+
+            if (param.Index >= 0)
+                kernel.SetArgument((uint)param.Index, param.Value);
+            else if (!string.IsNullOrEmpty(param.Name))
+                kernel.SetArgument(param.Name, param.Value);
+            else
+                throw new ArgumentException($"Could not set kernel argument with parameter {param}.");
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="kernel_name"></param>
         /// <param name="buffer"></param>
         /// <param name="index"></param>
         /// <returns></returns>

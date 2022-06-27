@@ -752,7 +752,7 @@
             <param name="error"></param>
             <returns></returns>
         </member>
-        <member name="M:OpenCLDotNet.Core.CL.CreateCommandQueueWithProperties(OpenCLDotNet.Core.cl_context,OpenCLDotNet.Core.cl_device_id,OpenCLDotNet.Events.CLCommandQueueProperties,OpenCLDotNet.Core.CL_ERROR@)">
+        <member name="M:OpenCLDotNet.Core.CL.CreateCommandQueueWithProperties(OpenCLDotNet.Core.cl_context,OpenCLDotNet.Core.cl_device_id,OpenCLDotNet.Events.CLCommandProperties,OpenCLDotNet.Core.CL_ERROR@)">
             <summary>
             
             </summary>
@@ -2118,6 +2118,11 @@
             A point all with the value v.
             </summary>
         </member>
+        <member name="M:OpenCLDotNet.Core.CLPoint3t.#ctor(OpenCLDotNet.Core.CLPoint2t,OpenCLDotNet.Core.size_t)">
+            <summary>
+            A point all with the value v.
+            </summary>
+        </member>
         <member name="M:OpenCLDotNet.Core.CLPoint3t.#ctor(OpenCLDotNet.Core.size_t,OpenCLDotNet.Core.size_t,OpenCLDotNet.Core.size_t)">
             <summary>
             A point from the varibles.
@@ -2401,6 +2406,24 @@
             <param name="type"></param>
             <param name="length"></param>
         </member>
+        <member name="M:OpenCLDotNet.Buffers.CLBuffer.#ctor(OpenCLDotNet.Core.CLContext,OpenCLDotNet.Core.CL_READ_WRITE,System.Array,OpenCLDotNet.Core.CL_DATA_TYPE)">
+            <summary>
+            
+            </summary>
+            <param name="context"></param>
+            <param name="rw"></param>
+            <param name="data"></param>
+            <param name="type"></param>
+        </member>
+        <member name="M:OpenCLDotNet.Buffers.CLBuffer.#ctor(OpenCLDotNet.Core.CLContext,OpenCLDotNet.Core.CL_MEM_FLAGS,System.Array,OpenCLDotNet.Core.CL_DATA_TYPE)">
+            <summary>
+            
+            </summary>
+            <param name="context"></param>
+            <param name="flags"></param>
+            <param name="data"></param>
+            <param name="type"></param>
+        </member>
         <member name="M:OpenCLDotNet.Buffers.CLBuffer.#ctor(OpenCLDotNet.Core.CLContext,OpenCLDotNet.Core.CL_MEM_FLAGS,OpenCLDotNet.Core.CL_DATA_TYPE,System.UInt32)">
             <summary>
             
@@ -2475,11 +2498,12 @@
             <param name="data"></param>
             <param name="type"></param>
         </member>
-        <member name="M:OpenCLDotNet.Buffers.CLBuffer.Read(System.Array)">
+        <member name="M:OpenCLDotNet.Buffers.CLBuffer.Read(System.Array,System.Boolean)">
             <summary>
             Enqueue commands to read from a buffer object.
             </summary>
             <param name="dst">The data to be read to</param>
+            <param name="blocking">Should the function block until finished or return async.</param>
         </member>
         <member name="M:OpenCLDotNet.Buffers.CLBuffer.Read(System.Array,System.UInt32,System.Boolean)">
             <summary>
@@ -2488,14 +2512,14 @@
             <param name="src_offset">offset is the offset in the source buffer 
             object to read from.</param>
             <param name="dst">The data to be read to</param>
-            <param name="blocking">If the read and write operations are blocking
-            or non-blocking</param>
+            <param name="blocking">Should the function block until finished or return async.</param>
         </member>
-        <member name="M:OpenCLDotNet.Buffers.CLBuffer.Write(System.Array)">
+        <member name="M:OpenCLDotNet.Buffers.CLBuffer.Write(System.Array,System.Boolean)">
             <summary>
             Enqueue commands to write to a buffer object from host memory.
             </summary>
             <param name="src">The data to be written from.</param>
+            <param name="blocking">Should the function block until finished or return async.</param>
         </member>
         <member name="M:OpenCLDotNet.Buffers.CLBuffer.Write(System.Array,System.UInt32,System.Boolean)">
             <summary>
@@ -2503,8 +2527,7 @@
             </summary>
             <param name="offset">The offset in the buffer object to write to.</param>
             <param name="src">The data to be written from.</param>
-            <param name="blocking">Indicates if the write operations are 
-            blocking or nonblocking.</param>
+            <param name="blocking">Should the function block until finished or return async.</param>
         </member>
         <member name="M:OpenCLDotNet.Buffers.CLBuffer.Copy">
             <summary>
@@ -2551,11 +2574,12 @@
             
             </summary>
         </member>
-        <member name="M:OpenCLDotNet.Buffers.CLImage.Read(System.Array)">
+        <member name="M:OpenCLDotNet.Buffers.CLImage.Read(System.Array,System.Boolean)">
             <summary>
             
             </summary>
             <param name="dst"></param>
+            <param name="blocking"></param>
         </member>
         <member name="M:OpenCLDotNet.Buffers.CLImage.Read(System.Array,OpenCLDotNet.Core.CLRegion3t,System.Boolean)">
             <summary>
@@ -2565,11 +2589,12 @@
             <param name="dst"></param>
             <param name="blocking"></param>
         </member>
-        <member name="M:OpenCLDotNet.Buffers.CLImage.Write(System.Array)">
+        <member name="M:OpenCLDotNet.Buffers.CLImage.Write(System.Array,System.Boolean)">
             <summary>
             
             </summary>
             <param name="src"></param>
+            <param name="blocking"></param>
         </member>
         <member name="M:OpenCLDotNet.Buffers.CLImage.Write(System.Array,OpenCLDotNet.Core.CLRegion3t,System.Boolean)">
             <summary>
@@ -3329,135 +3354,135 @@
             <param name="region"></param>
             <param name="flags"></param>
         </member>
-        <member name="M:OpenCLDotNet.Events.CLCommandQueue.#ctor(OpenCLDotNet.Core.CLContext)">
+        <member name="M:OpenCLDotNet.Events.CLCommand.#ctor(OpenCLDotNet.Core.CLContext)">
             <summary>
             
             </summary>
             <param name="context"></param>
         </member>
-        <member name="M:OpenCLDotNet.Events.CLCommandQueue.#ctor(OpenCLDotNet.Core.CLContext,OpenCLDotNet.Events.CLCommandQueueProperties)">
-            <summary>
-            
-            </summary>
-            <param name="context"></param>
-            <param name="properties"></param>
-        </member>
-        <member name="P:OpenCLDotNet.Events.CLCommandQueue.Context">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="P:OpenCLDotNet.Events.CLCommandQueue.Event">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="P:OpenCLDotNet.Events.CLCommandQueue.IsComplete">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="P:OpenCLDotNet.Events.CLCommandQueue.HasEvent">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="M:OpenCLDotNet.Events.CLCommandQueue.ToString">
-            <summary>
-            
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:OpenCLDotNet.Events.CLCommandQueue.Create(OpenCLDotNet.Core.CLContext)">
-            <summary>
-            
-            </summary>
-            <param name="context"></param>
-        </member>
-        <member name="M:OpenCLDotNet.Events.CLCommandQueue.Create(OpenCLDotNet.Core.CLContext,OpenCLDotNet.Events.CLCommandQueueProperties)">
+        <member name="M:OpenCLDotNet.Events.CLCommand.#ctor(OpenCLDotNet.Core.CLContext,OpenCLDotNet.Events.CLCommandProperties)">
             <summary>
             
             </summary>
             <param name="context"></param>
             <param name="properties"></param>
         </member>
-        <member name="M:OpenCLDotNet.Events.CLCommandQueue.GetStatus">
+        <member name="P:OpenCLDotNet.Events.CLCommand.Context">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:OpenCLDotNet.Events.CLCommand.Event">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:OpenCLDotNet.Events.CLCommand.IsComplete">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:OpenCLDotNet.Events.CLCommand.HasEvent">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:OpenCLDotNet.Events.CLCommand.ToString">
             <summary>
             
             </summary>
             <returns></returns>
         </member>
-        <member name="M:OpenCLDotNet.Events.CLCommandQueue.SetEvent(OpenCLDotNet.Core.cl_event)">
+        <member name="M:OpenCLDotNet.Events.CLCommand.Create(OpenCLDotNet.Core.CLContext)">
+            <summary>
+            
+            </summary>
+            <param name="context"></param>
+        </member>
+        <member name="M:OpenCLDotNet.Events.CLCommand.Create(OpenCLDotNet.Core.CLContext,OpenCLDotNet.Events.CLCommandProperties)">
+            <summary>
+            
+            </summary>
+            <param name="context"></param>
+            <param name="properties"></param>
+        </member>
+        <member name="M:OpenCLDotNet.Events.CLCommand.GetStatus">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Events.CLCommand.SetEvent(OpenCLDotNet.Core.cl_event)">
             <summary>
             
             </summary>
             <param name="event_id"></param>
         </member>
-        <member name="M:OpenCLDotNet.Events.CLCommandQueue.Reset">
+        <member name="M:OpenCLDotNet.Events.CLCommand.Reset">
             <summary>
             
             </summary>
         </member>
-        <member name="M:OpenCLDotNet.Events.CLCommandQueue.Print(System.Text.StringBuilder)">
+        <member name="M:OpenCLDotNet.Events.CLCommand.Print(System.Text.StringBuilder)">
             <summary>
             
             </summary>
             <param name="builder"></param>
         </member>
-        <member name="M:OpenCLDotNet.Events.CLCommandQueue.GetInfo(OpenCLDotNet.Core.CL_COMMAND_QUEUE_INFO)">
+        <member name="M:OpenCLDotNet.Events.CLCommand.GetInfo(OpenCLDotNet.Core.CL_COMMAND_QUEUE_INFO)">
             <summary>
             
             </summary>
             <param name="info"></param>
             <returns></returns>
         </member>
-        <member name="M:OpenCLDotNet.Events.CLCommandQueue.GetInfoUInt64(OpenCLDotNet.Core.CL_COMMAND_QUEUE_INFO)">
+        <member name="M:OpenCLDotNet.Events.CLCommand.GetInfoUInt64(OpenCLDotNet.Core.CL_COMMAND_QUEUE_INFO)">
             <summary>
             
             </summary>
             <param name="name"></param>
             <returns></returns>
         </member>
-        <member name="M:OpenCLDotNet.Events.CLCommandQueue.GetInfoObject(OpenCLDotNet.Core.CL_COMMAND_QUEUE_INFO)">
+        <member name="M:OpenCLDotNet.Events.CLCommand.GetInfoObject(OpenCLDotNet.Core.CL_COMMAND_QUEUE_INFO)">
             <summary>
             
             </summary>
             <param name="name"></param>
             <returns></returns>
         </member>
-        <member name="M:OpenCLDotNet.Events.CLCommandQueue.GetInfoObjectArray(OpenCLDotNet.Core.CL_COMMAND_QUEUE_INFO)">
+        <member name="M:OpenCLDotNet.Events.CLCommand.GetInfoObjectArray(OpenCLDotNet.Core.CL_COMMAND_QUEUE_INFO)">
             <summary>
             
             </summary>
             <param name="name"></param>
             <returns></returns>
         </member>
-        <member name="T:OpenCLDotNet.Events.CLCommandQueueProperties">
+        <member name="T:OpenCLDotNet.Events.CLCommandProperties">
             <summary>
             
             </summary>
         </member>
-        <member name="F:OpenCLDotNet.Events.CLCommandQueueProperties.Properties">
+        <member name="F:OpenCLDotNet.Events.CLCommandProperties.Properties">
             <summary>
             
             </summary>
         </member>
-        <member name="F:OpenCLDotNet.Events.CLCommandQueueProperties.QueueSize">
+        <member name="F:OpenCLDotNet.Events.CLCommandProperties.QueueSize">
             <summary>
             
             </summary>
         </member>
-        <member name="M:OpenCLDotNet.Events.CLCommandQueueProperties.#ctor">
+        <member name="M:OpenCLDotNet.Events.CLCommandProperties.#ctor">
             <summary>
             
             </summary>
         </member>
-        <member name="P:OpenCLDotNet.Events.CLCommandQueueProperties.Default">
+        <member name="P:OpenCLDotNet.Events.CLCommandProperties.Default">
             <summary>
             
             </summary>
         </member>
-        <member name="M:OpenCLDotNet.Events.CLCommandQueueProperties.ToString">
+        <member name="M:OpenCLDotNet.Events.CLCommandProperties.ToString">
             <summary>
             
             </summary>
@@ -3600,11 +3625,10 @@
             <param name="program"></param>
             <param name="name"></param>
         </member>
-        <member name="M:OpenCLDotNet.Programs.CLKernel.CreateArguments(System.Boolean)">
+        <member name="M:OpenCLDotNet.Programs.CLKernel.CreateArguments">
             <summary>
             
             </summary>
-            <param name="hasArgInfo"></param>
         </member>
         <member name="M:OpenCLDotNet.Programs.CLKernel.GetArgument(System.UInt32)">
             <summary>
@@ -3613,6 +3637,20 @@
             <param name="index"></param>
             <returns></returns>
             <exception cref="T:System.ArgumentOutOfRangeException"></exception>
+        </member>
+        <member name="M:OpenCLDotNet.Programs.CLKernel.GetArgument(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Programs.CLKernel.GetArgumentIndex(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="name"></param>
+            <returns></returns>
         </member>
         <member name="M:OpenCLDotNet.Programs.CLKernel.AllArgumentSet">
             <summary>
@@ -3720,6 +3758,27 @@
             </summary>
             <param name="kernel_arg"></param>
             <exception cref="T:System.NullReferenceException"></exception>
+        </member>
+        <member name="M:OpenCLDotNet.Programs.CLKernel.SetArgument(System.String,System.Object)">
+            <summary>
+            
+            </summary>
+            <param name="arg_name"></param>
+            <param name="value"></param>
+        </member>
+        <member name="M:OpenCLDotNet.Programs.CLKernel.SetArgument(System.UInt32,System.Object)">
+            <summary>
+            
+            </summary>
+            <param name="arg_index"></param>
+            <param name="value"></param>
+        </member>
+        <member name="M:OpenCLDotNet.Programs.CLKernel.SetArgument(OpenCLDotNet.Programs.CLKernelArg,System.Object)">
+            <summary>
+            
+            </summary>
+            <param name="arg"></param>
+            <param name="value"></param>
         </member>
         <member name="M:OpenCLDotNet.Programs.CLKernel.SetBuffer(OpenCLDotNet.Buffers.CLBuffer,System.UInt32)">
             <summary>
@@ -3941,6 +4000,11 @@
             
             </summary>
         </member>
+        <member name="P:OpenCLDotNet.Programs.CLKernelArg.Index">
+            <summary>
+            
+            </summary>
+        </member>
         <member name="P:OpenCLDotNet.Programs.CLKernelArg.ArgType">
             <summary>
             
@@ -3971,17 +4035,63 @@
             
             </summary>
         </member>
-        <member name="M:OpenCLDotNet.Programs.CLKernelArg.#ctor(System.String,System.String,System.String,System.String,System.Object)">
+        <member name="M:OpenCLDotNet.Programs.CLKernelArg.#ctor(System.String,System.String,System.UInt32,System.String,System.String,System.Object)">
             <summary>
             
             </summary>
             <param name="name"></param>
             <param name="argType"></param>
+            <param name="argIndex"></param>
             <param name="address"></param>
             <param name="access"></param>
             <param name="arg"></param>
         </member>
         <member name="M:OpenCLDotNet.Programs.CLKernelArg.ToString">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:OpenCLDotNet.Programs.CLKernelArgParameter">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:OpenCLDotNet.Programs.CLKernelArgParameter.Name">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:OpenCLDotNet.Programs.CLKernelArgParameter.Index">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:OpenCLDotNet.Programs.CLKernelArgParameter.Value">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:OpenCLDotNet.Programs.CLKernelArgParameter.#ctor">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:OpenCLDotNet.Programs.CLKernelArgParameter.#ctor(System.String,System.Object)">
+            <summary>
+            
+            </summary>
+            <param name="arg_name"></param>
+            <param name="obj"></param>
+        </member>
+        <member name="M:OpenCLDotNet.Programs.CLKernelArgParameter.#ctor(System.Int32,System.Object)">
+            <summary>
+            
+            </summary>
+            <param name="arg_index"></param>
+            <param name="obj"></param>
+        </member>
+        <member name="M:OpenCLDotNet.Programs.CLKernelArgParameter.ToString">
             <summary>
             
             </summary>
@@ -4087,6 +4197,13 @@
             <param name="encoding"></param>
             <param name="options"></param>
         </member>
+        <member name="M:OpenCLDotNet.Programs.CLProgram.#ctor(System.String,System.String)">
+            <summary>
+            
+            </summary>
+            <param name="program_text"></param>
+            <param name="options"></param>
+        </member>
         <member name="M:OpenCLDotNet.Programs.CLProgram.#ctor(OpenCLDotNet.Core.CLContext,System.String,System.String)">
             <summary>
             
@@ -4121,11 +4238,6 @@
             
             </summary>
         </member>
-        <member name="P:OpenCLDotNet.Programs.CLProgram.HasKernelArgumentInfo">
-            <summary>
-            
-            </summary>
-        </member>
         <member name="P:OpenCLDotNet.Programs.CLProgram.Source">
             <summary>
             
@@ -4147,43 +4259,47 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:OpenCLDotNet.Programs.CLProgram.Create(OpenCLDotNet.Core.CLContext,System.String,System.String)">
+        <member name="M:OpenCLDotNet.Programs.CLProgram.CreateProgramFromText(OpenCLDotNet.Core.CLContext,System.String)">
             <summary>
             
             </summary>
             <param name="context"></param>
             <param name="program_text"></param>
-            <param name="options"></param>
         </member>
-        <member name="M:OpenCLDotNet.Programs.CLProgram.Create(OpenCLDotNet.Core.CLContext,System.Collections.Generic.IList{System.Byte[]},System.String)">
+        <member name="M:OpenCLDotNet.Programs.CLProgram.CreateProgramFromBinaries(OpenCLDotNet.Core.CLContext,System.Collections.Generic.IList{System.Byte[]})">
             <summary>
             
             </summary>
             <param name="context"></param>
             <param name="binarys"></param>
-            <param name="options"></param>
         </member>
-        <member name="M:OpenCLDotNet.Programs.CLProgram.Create(OpenCLDotNet.Core.CLContext,System.Byte[],System.String)">
+        <member name="M:OpenCLDotNet.Programs.CLProgram.CreateFromBinary(OpenCLDotNet.Core.CLContext,System.Byte[])">
             <summary>
             
             </summary>
             <param name="context"></param>
             <param name="binary"></param>
-            <param name="options"></param>
         </member>
-        <member name="M:OpenCLDotNet.Programs.CLProgram.Create(System.String)">
+        <member name="M:OpenCLDotNet.Programs.CLProgram.Run(OpenCLDotNet.Programs.CLKernelParameter)">
             <summary>
             
             </summary>
-            <param name="options"></param>
+            <param name="kernel_param"></param>
         </member>
-        <member name="M:OpenCLDotNet.Programs.CLProgram.Run(System.String,System.UInt32,System.UInt32)">
+        <member name="M:OpenCLDotNet.Programs.CLProgram.Run(System.Collections.Generic.IList{OpenCLDotNet.Programs.CLKernelParameter})">
+            <summary>
+            
+            </summary>
+            <param name="kernel_params"></param>
+        </member>
+        <member name="M:OpenCLDotNet.Programs.CLProgram.Run(System.String,System.UInt32,System.UInt32,System.UInt32)">
             <summary>
             
             </summary>
             <param name="kernel_name"></param>
-            <param name="offset"></param>
-            <param name="size"></param>
+            <param name="global_offset"></param>
+            <param name="global_size"></param>
+            <param name="local_size"></param>
         </member>
         <member name="M:OpenCLDotNet.Programs.CLProgram.Run(System.String,OpenCLDotNet.Core.CLPoint2t,OpenCLDotNet.Core.CLPoint2t,OpenCLDotNet.Core.CLPoint2t)">
             <summary>
@@ -4194,12 +4310,28 @@
             <param name="global_size"></param>
             <param name="local_size"></param>
         </member>
+        <member name="M:OpenCLDotNet.Programs.CLProgram.Run(OpenCLDotNet.Programs.CLKernel,System.UInt32,OpenCLDotNet.Core.CLPoint3t,OpenCLDotNet.Core.CLPoint3t,OpenCLDotNet.Core.CLPoint3t)">
+            <summary>
+            
+            </summary>
+            <param name="kernel"></param>
+            <param name="dimension"></param>
+            <param name="global_offset"></param>
+            <param name="global_size"></param>
+            <param name="local_size"></param>
+        </member>
         <member name="M:OpenCLDotNet.Programs.CLProgram.RoundUp(OpenCLDotNet.Core.size_t,OpenCLDotNet.Core.size_t)">
             <summary>
             
             </summary>
             <param name="groupSize"></param>
             <param name="globalSize"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Programs.CLProgram.GetOptionsString">
+            <summary>
+            
+            </summary>
             <returns></returns>
         </member>
         <member name="M:OpenCLDotNet.Programs.CLProgram.CreateKerels">
@@ -4235,6 +4367,14 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:OpenCLDotNet.Programs.CLProgram.CreateReadBuffer(System.Array,OpenCLDotNet.Core.CL_DATA_TYPE)">
+            <summary>
+            
+            </summary>
+            <param name="data"></param>
+            <param name="type"></param>
+            <returns></returns>
+        </member>
         <member name="M:OpenCLDotNet.Programs.CLProgram.CreateReadBuffer(System.String,System.UInt32,System.Array,OpenCLDotNet.Core.CL_DATA_TYPE)">
             <summary>
             
@@ -4242,6 +4382,15 @@
             <param name="kernel_name"></param>
             <param name="index"></param>
             <param name="data"></param>
+            <param name="type"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Programs.CLProgram.CreateWriteBuffer(OpenCLDotNet.Core.CL_DATA_TYPE,System.UInt32)">
+            <summary>
+            
+            </summary>
+            <param name="type"></param>
+            <param name="length"></param>
             <returns></returns>
         </member>
         <member name="M:OpenCLDotNet.Programs.CLProgram.CreateWriteBuffer(System.String,System.UInt32,OpenCLDotNet.Core.CL_DATA_TYPE,System.UInt32)">
@@ -4254,12 +4403,26 @@
             <param name="length"></param>
             <returns></returns>
         </member>
+        <member name="M:OpenCLDotNet.Programs.CLProgram.CreateReadImage2D(OpenCLDotNet.Buffers.CLImageParameters2D)">
+            <summary>
+            
+            </summary>
+            <param name="param"></param>
+            <returns></returns>
+        </member>
         <member name="M:OpenCLDotNet.Programs.CLProgram.CreateReadImage2D(System.String,System.UInt32,OpenCLDotNet.Buffers.CLImageParameters2D)">
             <summary>
             
             </summary>
             <param name="kernel_name"></param>
             <param name="index"></param>
+            <param name="param"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Programs.CLProgram.CreateWriteImage2D(OpenCLDotNet.Buffers.CLImageParameters2D)">
+            <summary>
+            
+            </summary>
             <param name="param"></param>
             <returns></returns>
         </member>
@@ -4272,6 +4435,12 @@
             <param name="param"></param>
             <returns></returns>
         </member>
+        <member name="M:OpenCLDotNet.Programs.CLProgram.CreateSamplerUV">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:OpenCLDotNet.Programs.CLProgram.CreateSamplerUV(System.String,System.UInt32)">
             <summary>
             
@@ -4280,12 +4449,27 @@
             <param name="index"></param>
             <returns></returns>
         </member>
+        <member name="M:OpenCLDotNet.Programs.CLProgram.CreateSamplerIndex">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:OpenCLDotNet.Programs.CLProgram.CreateSamplerIndex(System.String,System.UInt32)">
             <summary>
             
             </summary>
             <param name="kernel_name"></param>
             <param name="index"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Programs.CLProgram.CreateSampler(System.Boolean,OpenCLDotNet.Core.CL_ADDRESSING_MODE,OpenCLDotNet.Core.CL_FILTER_MODE)">
+            <summary>
+            
+            </summary>
+            <param name="normalizedCoords"></param>
+            <param name="mode"></param>
+            <param name="filter"></param>
             <returns></returns>
         </member>
         <member name="M:OpenCLDotNet.Programs.CLProgram.CreateSampler(System.String,System.UInt32,System.Boolean,OpenCLDotNet.Core.CL_ADDRESSING_MODE,OpenCLDotNet.Core.CL_FILTER_MODE)">
@@ -4351,12 +4535,6 @@
             </summary>
             <param name="option"></param>
             <returns></returns>
-        </member>
-        <member name="M:OpenCLDotNet.Programs.CLProgram.CheckForKernelArgumentInfo(System.String)">
-            <summary>
-            
-            </summary>
-            <param name="options"></param>
         </member>
         <member name="M:OpenCLDotNet.Programs.CLProgram.CreateOptions(System.String)">
             <summary>
@@ -4467,6 +4645,13 @@
             <summary>
             
             </summary>
+        </member>
+        <member name="M:OpenCLDotNet.Programs.CLProgram.SetParameter(System.String,OpenCLDotNet.Programs.CLKernelArgParameter)">
+            <summary>
+            
+            </summary>
+            <param name="kernel_name"></param>
+            <param name="param"></param>
         </member>
         <member name="M:OpenCLDotNet.Programs.CLProgram.SetBuffer(System.String,OpenCLDotNet.Buffers.CLBuffer,System.UInt32)">
             <summary>

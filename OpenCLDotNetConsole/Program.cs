@@ -17,66 +17,14 @@ namespace OpenCLDotNetConsole
 
 		private const uint HEIGHT = 10;
 
-		private const uint CHANNELS = 4;
+		private const uint CHANNELS = 1;
 
 		private const uint SIZE = WIDTH * HEIGHT * CHANNELS;
 
 		static void Main(string[] args)
 		{
 
-			var context = new CLContext();
-			//context.Print();
-
-			//var filename = "F:/Projects/Visual Studio Projects/OpenCLDotNet/Programs/Convolution.cl";
-
-			var program_text1 =
-			@"__kernel void Kernel1(__global const float* a, __global const float* b, __global float* result)
-			{
-				int gid = get_global_id(0);
-				result[gid] = a[gid] + b[gid];
-			}
-			";
-
-			var program_text2 =
-
-			@"__kernel void gaussian_filter(__read_only image2d_t srcImg,
-							  __write_only image2d_t dstImg,
-							  sampler_t sampler,
-							  int width, int height)
-			{
-				// Gaussian Kernel is:
-				// 1  2  1
-				// 2  4  2
-				// 1  2  1
-				float kernelWeights[9] = { 1.0f, 2.0f, 1.0f,
-							   2.0f, 4.0f, 2.0f,
-							   1.0f, 2.0f, 1.0f };
-
-				int2 startImageCoord = (int2)(get_global_id(0) - 1, get_global_id(1) - 1);
-				int2 endImageCoord = (int2)(get_global_id(0) + 1, get_global_id(1) + 1);
-				int2 outImageCoord = (int2)(get_global_id(0), get_global_id(1));
-
-				if (outImageCoord.x < width && outImageCoord.y < height)
-				{
-					int weight = 0;
-					float4 outColor = (float4)(0.0f, 0.0f, 0.0f, 0.0f);
-					for (int y = startImageCoord.y; y <= endImageCoord.y; y++)
-					{
-						for (int x = startImageCoord.x; x <= endImageCoord.x; x++)
-						{
-							outColor += (read_imagef(srcImg, sampler, (int2)(x, y)) * (kernelWeights[weight] / 16.0f));
-							weight += 1;
-						}
-					}
-
-					// Write the output value to image
-					write_imagef(dstImg, outImageCoord, outColor);
-				}
-			}
-			";
-
-			var program_text3 =
-
+			var program_text =
 			@"__kernel void read_write_test(__read_only image2d_t srcImg,
 											__write_only image2d_t dstImg,
 											sampler_t sampler,
@@ -87,65 +35,43 @@ namespace OpenCLDotNetConsole
 
 				if (imageCoord.x < width && imageCoord.y < height)
 				{
-					//float4 outColor = (float4)(0.0f, 0.0f, 0.0f, 0.0f);
-		
 					float4 outColor = read_imagef(srcImg, sampler, imageCoord);
-				
 					write_imagef(dstImg, imageCoord, outColor);
 				}
 			}
 			";
 
-			var options = CLProgram.DefaultOptions;
+			var program = new CLProgram(program_text);
 
-			var program = new CLProgram(context, program_text3, options);
-			if(program.HasError)
-            {
-				Console.WriteLine("Program has error");
-				Console.WriteLine(program.Error);
-				Console.WriteLine("");
-				Console.WriteLine(program.GetBuildLog(0));
+			var data = new float[SIZE];
 
-				return;
-            }
+			var read_image_param = CLImageParameters2D.FloatImage(WIDTH, HEIGHT, CHANNELS);
+			read_image_param.Source = data;
 
-			string kernel_name = "read_write_test";
-			
-			var data = new byte[SIZE];
-			for (uint i = 0; i < SIZE; i++)
+			var write_image_param = CLImageParameters2D.FloatImage(WIDTH, HEIGHT, CHANNELS);
+
+			var kernel_params = new CLKernelParameter()
 			{
-				data[i] = (byte)i;
-			}
+				Name = "read_write_test",
+				Dimension = 2,
+				GlobalSize = new CLPoint3t(WIDTH, HEIGHT, 1),
+				LocalSize = new CLPoint3t(16, 16, 1),
 
-			var param = CLImageParameters2D.ByteImage(WIDTH, HEIGHT, 4);
-			param.Source = data;
+				Args = new()
+				{
+					new CLKernelArgParameter(0, program.CreateReadImage2D(read_image_param)),
+					new CLKernelArgParameter(1, program.CreateWriteImage2D(write_image_param)),
+					new CLKernelArgParameter(2, program.CreateSamplerIndex()),
+					new CLKernelArgParameter(3, WIDTH),
+					new CLKernelArgParameter(4, HEIGHT)
+				}
 
-			var read_image = program.CreateReadImage2D(kernel_name, 0, param);
-			var write_image = program.CreateWriteImage2D(kernel_name, 1, param);
+			};
 
-			if(read_image.HasError)
-            {
-				Console.WriteLine("Read image has error : " + read_image.Error);
-				return;
-            }
+			program.Run(kernel_params);
+			Console.WriteLine(program.Error);
 
-			if (write_image.HasError)
-			{
-				Console.WriteLine("Write image has error : " + write_image.Error);
-				return;
-			}
-
-			program.CreateSamplerIndex(kernel_name, 2);
-			program.SetInt(kernel_name, (int)WIDTH, 3);
-			program.SetInt(kernel_name, (int)HEIGHT, 4);
-			//program.Print();
-
-			var global_offset = new CLPoint2t(0);
-			var global_size = new CLPoint2t(WIDTH, HEIGHT);
-			var local_size = new CLPoint2t(16, 16);
-
-			//program.Run(kernel_name, global_offset, global_size, local_size);
-			//Console.WriteLine("Program error " + program.Error);
+			/*
 
 			var color = new float[]
 			{
@@ -163,6 +89,8 @@ namespace OpenCLDotNetConsole
 			//	Console.WriteLine(result[i]);
 
 			context.Print();
+
+			*/
 
 		}
 

@@ -16,6 +16,11 @@ namespace OpenCLDotNet.Programs
         /// <summary>
         /// 
         /// </summary>
+        public uint Index { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
         public string ArgType { get; set; }
 
         /// <summary>
@@ -54,13 +59,15 @@ namespace OpenCLDotNet.Programs
         /// </summary>
         /// <param name="name"></param>
         /// <param name="argType"></param>
+        /// <param name="argIndex"></param>
         /// <param name="address"></param>
         /// <param name="access"></param>
         /// <param name="arg"></param>
-        public CLKernelArg(string name, string argType, string address, string access, object arg)
+        public CLKernelArg(string name, string argType, uint argIndex, string address, string access, object arg)
         {
             Name = name;
             ArgType = argType;
+            Index = argIndex;
             AddressQualifier = address;  
             AccessQualifier = access;
             ArgObject = arg;

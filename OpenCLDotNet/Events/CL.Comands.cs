@@ -37,7 +37,7 @@ namespace OpenCLDotNet.Core
         public static cl_command_queue CreateCommandQueueWithProperties(
             cl_context context,
             cl_device_id device,
-            CLCommandQueueProperties properties,
+            CLCommandProperties properties,
             [Out] out CL_ERROR error)
         {
             return CL_CreateCommandQueueWithProperties(context, device, properties, out error);
@@ -167,7 +167,7 @@ namespace OpenCLDotNet.Core
         private static extern cl_command_queue CL_CreateCommandQueueWithProperties(
             cl_context context,
             cl_device_id device,
-            CLCommandQueueProperties properties,
+            CLCommandProperties properties,
             [Out] out CL_ERROR error);
 
         [DllImport(DLL_NAME, CallingConvention = CDECL)]

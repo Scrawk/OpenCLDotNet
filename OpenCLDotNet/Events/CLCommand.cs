@@ -7,13 +7,13 @@ using OpenCLDotNet.Utility;
 
 namespace OpenCLDotNet.Events
 {
-    public class CLCommandQueue : CLObject
+    public class CLCommand : CLObject
     {
         /// <summary>
         /// 
         /// </summary>
         /// <param name="context"></param>
-        public CLCommandQueue(CLContext context)
+        public CLCommand(CLContext context)
         {
             Create(context);
         }
@@ -23,7 +23,7 @@ namespace OpenCLDotNet.Events
         /// </summary>
         /// <param name="context"></param>
         /// <param name="properties"></param>
-        public CLCommandQueue(CLContext context, CLCommandQueueProperties properties)
+        public CLCommand(CLContext context, CLCommandProperties properties)
         {
             Create(context, properties);
         }
@@ -93,7 +93,7 @@ namespace OpenCLDotNet.Events
         /// </summary>
         /// <param name="context"></param>
         /// <param name="properties"></param>
-        private void Create(CLContext context, CLCommandQueueProperties properties)
+        private void Create(CLContext context, CLCommandProperties properties)
         {
             ResetErrorCode();
             Context = context;

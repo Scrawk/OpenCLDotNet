@@ -29,7 +29,7 @@ namespace OpenCLDotNet.Core
             CreatePlatforms(device_type);
             CreateContext();
 
-            Commands = new List<CLCommandQueue>();
+            Commands = new List<CLCommand>();
         }
 
         /// <summary>
@@ -73,7 +73,7 @@ namespace OpenCLDotNet.Core
         /// <summary>
         /// 
         /// </summary>
-        private List<CLCommandQueue> Commands { get; set; }
+        private List<CLCommand> Commands { get; set; }
 
         /// <summary>
         /// 
@@ -123,9 +123,9 @@ namespace OpenCLDotNet.Core
         /// 
         /// </summary>
         /// <returns></returns>
-        public CLCommandQueue GetCommand()
+        public CLCommand GetCommand()
         {
-            CLCommandQueue cmd = null;
+            CLCommand cmd = null;
             int count = Commands.Count;
 
             if (count > 0)
@@ -143,7 +143,7 @@ namespace OpenCLDotNet.Core
                 }
             }
 
-            cmd = new CLCommandQueue(this);
+            cmd = new CLCommand(this);
             Commands.Add(cmd);
             return cmd;
         }

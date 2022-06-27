@@ -72,6 +72,17 @@ namespace OpenCLDotNet.Core
         }
 
         /// <summary>
+        /// A point all with the value v.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public CLPoint3t(CLPoint2t v, REAL z)
+        {
+            this.x = v.x;
+            this.y = v.y;
+            this.z = z;
+        }
+
+        /// <summary>
         /// A point from the varibles.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

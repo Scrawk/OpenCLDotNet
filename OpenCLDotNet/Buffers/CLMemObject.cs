@@ -305,7 +305,7 @@ namespace OpenCLDotNet.Buffers
             Core.CL.ReleaseMemObject(Id);
         }
 
-        protected static void CheckCommand(CLCommandQueue cmd)
+        protected static void CheckCommand(CLCommand cmd)
         {
             if (cmd == null)
                 throw new NullReferenceException("Command is null.");

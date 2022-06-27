@@ -143,8 +143,21 @@ namespace OpenCLDotNet.Programs
                 options = CLProgram.DefaultOptions;
 
             var file = File.ReadAllText(filename, encoding);
-            Create(context, file, options);
-            Create(options);
+
+            CreateOptions(options);
+            CreateProgramFromText(context, file);
+            CreateKerels();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="program_text"></param>
+        /// <param name="options"></param>
+        public CLProgram(string program_text, string options = "")
+            : this(new CLContext(), program_text, options)
+        {
+
         }
 
         /// <summary>
@@ -158,8 +171,9 @@ namespace OpenCLDotNet.Programs
             if (string.IsNullOrEmpty(options))
                 options = CLProgram.DefaultOptions;
 
-            Create(context, program_text, options);
-            Create(options);
+            CreateOptions(options);
+            CreateProgramFromText(context, program_text);
+            CreateKerels();
         }
 
         /// <summary>
@@ -173,8 +187,9 @@ namespace OpenCLDotNet.Programs
             if (string.IsNullOrEmpty(options))
                 options = CLProgram.DefaultOptions;
 
-            Create(context, binaries, options);
-            Create(options);
+            CreateOptions(options);
+            CreateProgramFromBinaries(context, binaries);
+            CreateKerels();
         }
 
         /// <summary>
@@ -188,8 +203,9 @@ namespace OpenCLDotNet.Programs
             if (string.IsNullOrEmpty(options))
                 options = CLProgram.DefaultOptions;
 
-            Create(context, binary, options);
-            Create(options);
+            CreateOptions(options);
+            CreateFromBinary(context, binary);
+            CreateKerels();
         }
 
         /// <summary>
@@ -201,11 +217,6 @@ namespace OpenCLDotNet.Programs
         /// 
         /// </summary>
         private List<string> Options { get; set; }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public bool HasKernelArgumentInfo { get; private set; }
 
         /// <summary>
         /// 
@@ -237,8 +248,7 @@ namespace OpenCLDotNet.Programs
         /// </summary>
         /// <param name="context"></param>
         /// <param name="program_text"></param>
-        /// <param name="options"></param>
-        private void Create(CLContext context, string program_text, string options = "")
+        private void CreateProgramFromText(CLContext context, string program_text)
         {
             ResetErrorCode();
             Context = context;
@@ -253,6 +263,7 @@ namespace OpenCLDotNet.Programs
             }
 
             var devices = context.GetDeviceIds();
+            string options = GetOptionsString();
 
             error = CL.BuildProgram(Id, (uint)devices.Length, devices, options);
             if (error != CL_ERROR.SUCCESS)
@@ -269,8 +280,7 @@ namespace OpenCLDotNet.Programs
         /// </summary>
         /// <param name="context"></param>
         /// <param name="binarys"></param>
-        /// <param name="options"></param>
-        private unsafe void Create(CLContext context, IList<byte[]> binarys, string options = "")
+        private unsafe void CreateProgramFromBinaries(CLContext context, IList<byte[]> binarys)
         {
             ResetErrorCode();
             Context = context;
@@ -312,6 +322,8 @@ namespace OpenCLDotNet.Programs
                 return;
             }
 
+            string options = GetOptionsString();
+
             error = CL.BuildProgram(Id, (uint)devices.Length, devices, options);
             if (error != CL_ERROR.SUCCESS)
             {
@@ -327,8 +339,7 @@ namespace OpenCLDotNet.Programs
         /// </summary>
         /// <param name="context"></param>
         /// <param name="binary"></param>
-        /// <param name="options"></param>
-        private unsafe void Create(CLContext context, byte[] binary, string options = "")
+        private unsafe void CreateFromBinary(CLContext context, byte[] binary)
         {
             ResetErrorCode();
             Context = context;
@@ -356,6 +367,8 @@ namespace OpenCLDotNet.Programs
                 return;
             }
 
+            string options = GetOptionsString();
+
             error = Core.CL.BuildProgram(Id, (uint)devices.Length, devices, options);
             if (error != CL_ERROR.SUCCESS)
             {
@@ -369,35 +382,63 @@ namespace OpenCLDotNet.Programs
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="options"></param>
-        private void Create(string options)
+        /// <param name="kernel_param"></param>
+        public void Run(CLKernelParameter kernel_param)
         {
-            CreateOptions(options);
-            CheckForKernelArgumentInfo(options);
-            CreateKerels();
+            var kernel = FindKernel(kernel_param.Name);
+            if (kernel == null)
+                return;
+
+            foreach (var arg in kernel_param.Args)
+            {
+                if(!string.IsNullOrEmpty(arg.Name))
+                    kernel.SetArgument(arg.Name, arg.Value);
+                else if(arg.Index >= 0)
+                    kernel.SetArgument((uint)arg.Index, arg.Value);   
+            }
+
+            Run(kernel, kernel_param.Dimension, kernel_param.GlobalOffset, kernel_param.GlobalSize, kernel_param.LocalSize);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="kernel_params"></param>
+        public void Run(IList<CLKernelParameter> kernel_params)
+        {
+            foreach(var kernel_param in kernel_params)
+            {
+                var kernel = FindKernel(kernel_param.Name);
+                if (kernel == null)
+                    return;
+
+               foreach(var arg in kernel_param.Args)
+               {
+                    kernel.SetArgument(arg.Name, arg.Value); 
+               }
+
+                Run(kernel, kernel_param.Dimension, kernel_param.GlobalOffset, kernel_param.GlobalSize, kernel_param.LocalSize);
+            }
         }
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="kernel_name"></param>
-        /// <param name="offset"></param>
-        /// <param name="size"></param>
-        public void Run(string kernel_name, uint offset, uint size)
+        /// <param name="global_offset"></param>
+        /// <param name="global_size"></param>
+        /// <param name="local_size"></param>
+        public void Run(string kernel_name, uint global_offset, uint global_size, uint local_size)
         {
             var kernel = FindKernel(kernel_name);
             if (kernel == null)
                 return;
 
-            size_t[] globalOffset = { offset };
-            size_t[] globalSize = { size };
-            size_t[] localSize = { 1 };
-            cl_event e;
+            var global_offset_3 = new CLPoint3t(global_offset, 0, 0);
+            var global_size_3 = new CLPoint3t(global_size, 1, 1);
+            var local_size_3 = new CLPoint3t(local_size, 1, 1);
 
-            var cmd = Context.GetCommand();
-
-            Error = CL.EnqueueNDRangeKernel(cmd.Id, kernel.Id, 1, globalOffset, 
-                        globalSize, localSize, 0, null, out e).ToString();
+            Run(kernel, 1, global_offset_3, global_size_3, local_size_3);
         }
 
         /// <summary>
@@ -413,15 +454,35 @@ namespace OpenCLDotNet.Programs
             if (kernel == null)
                 return;
 
+            var global_offset_3 = new CLPoint3t(global_offset, 0);
+            var global_size_3 = new CLPoint3t(global_size, 1);
+            var local_size_3 = new CLPoint3t(local_size, 1);
+
+            Run(kernel, 2, global_offset_3, global_size_3, local_size_3);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="kernel"></param>
+        /// <param name="dimension"></param>
+        /// <param name="global_offset"></param>
+        /// <param name="global_size"></param>
+        /// <param name="local_size"></param>
+        private void Run(CLKernel kernel, uint dimension, CLPoint3t global_offset, CLPoint3t global_size, CLPoint3t local_size)
+        {
+            CheckKernel(kernel, "", true);
+
             cl_event e;
-            size_t[] globalOffset = { global_offset.x, global_offset.y };
-            size_t[] localSize = { local_size.x, local_size.y };
+            size_t[] globalOffset = { global_offset.x, global_offset.y, global_offset.z };
+            size_t[] localSize = { local_size.x, local_size.y, local_size.z };
             size_t[] globalSize =  { RoundUp(localSize[0], global_size.x),
-                                     RoundUp(localSize[1], global_size.y) };
+                                     RoundUp(localSize[1], global_size.y),
+                                     RoundUp(localSize[2], global_size.z)};
 
             var cmd = Context.GetCommand();
 
-            Error = CL.EnqueueNDRangeKernel(cmd.Id, kernel.Id, 2, globalOffset,
+            Error = CL.EnqueueNDRangeKernel(cmd.Id, kernel.Id, dimension, globalOffset,
                        globalSize, localSize, 0, null, out e).ToString();
         }
 
@@ -438,6 +499,19 @@ namespace OpenCLDotNet.Programs
                 return globalSize;
             else
                 return globalSize + groupSize - r;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        private string GetOptionsString()
+        {
+            string options = "";
+            foreach (var option in Options)
+                options += option + " ";
+
+            return options;
         }
 
         /// <summary>
@@ -515,9 +589,23 @@ namespace OpenCLDotNet.Programs
         /// <summary>
         /// 
         /// </summary>
+        /// <param name="data"></param>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public CLBuffer CreateReadBuffer(Array data, CL_DATA_TYPE type)
+        {
+            var buffer = CLBuffer.CreateReadBuffer(Context, data, type);
+            Error = buffer.Error;
+            return buffer;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
         /// <param name="kernel_name"></param>
         /// <param name="index"></param>
         /// <param name="data"></param>
+        /// <param name="type"></param>
         /// <returns></returns>
         public CLBuffer CreateReadBuffer(string kernel_name, uint index, Array data, CL_DATA_TYPE type)
         {
@@ -529,6 +617,19 @@ namespace OpenCLDotNet.Programs
 
             Error = buffer.Error;
             return buffer;  
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="type"></param>
+        /// <param name="length"></param>
+        /// <returns></returns>
+        public CLBuffer CreateWriteBuffer(CL_DATA_TYPE type, uint length)
+        {
+            var buffer = CLBuffer.CreateWriteBuffer(Context, type, length);
+            Error = buffer.Error;
+            return buffer;
         }
 
         /// <summary>
@@ -554,6 +655,18 @@ namespace OpenCLDotNet.Programs
         /// <summary>
         /// 
         /// </summary>
+        /// <param name="param"></param>
+        /// <returns></returns>
+        public CLImage2D CreateReadImage2D(CLImageParameters2D param)
+        {
+            var image = CLImage2D.CreateReadImage2D(Context, param);
+            Error = image.Error;
+            return image;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
         /// <param name="kernel_name"></param>
         /// <param name="index"></param>
         /// <param name="param"></param>
@@ -568,6 +681,18 @@ namespace OpenCLDotNet.Programs
 
             Error = image.Error;
             return image;   
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="param"></param>
+        /// <returns></returns>
+        public CLImage2D CreateWriteImage2D(CLImageParameters2D param)
+        {
+            var image = CLImage2D.CreateWriteImage2D(Context, param);
+            Error = image.Error;
+            return image;
         }
 
         /// <summary>
@@ -592,6 +717,17 @@ namespace OpenCLDotNet.Programs
         /// <summary>
         /// 
         /// </summary>
+        /// <returns></returns>
+        public CLSampler CreateSamplerUV()
+        {
+            var mode = CL_ADDRESSING_MODE.CLAMP_TO_EDGE;
+            var filter = CL_FILTER_MODE.LINEAR;
+            return CreateSampler(true, mode, filter);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
         /// <param name="kernel_name"></param>
         /// <param name="index"></param>
         /// <returns></returns>
@@ -605,6 +741,17 @@ namespace OpenCLDotNet.Programs
         /// <summary>
         /// 
         /// </summary>
+        /// <returns></returns>
+        public CLSampler CreateSamplerIndex()
+        {
+            var mode = CL_ADDRESSING_MODE.CLAMP_TO_EDGE;
+            var filter = CL_FILTER_MODE.NEAREST;
+            return CreateSampler(false, mode, filter);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
         /// <param name="kernel_name"></param>
         /// <param name="index"></param>
         /// <returns></returns>
@@ -613,6 +760,20 @@ namespace OpenCLDotNet.Programs
             var mode = CL_ADDRESSING_MODE.CLAMP_TO_EDGE;
             var filter = CL_FILTER_MODE.NEAREST;
             return CreateSampler(kernel_name, index, false, mode, filter);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="normalizedCoords"></param>
+        /// <param name="mode"></param>
+        /// <param name="filter"></param>
+        /// <returns></returns>
+        public CLSampler CreateSampler(bool normalizedCoords, CL_ADDRESSING_MODE mode, CL_FILTER_MODE filter)
+        {
+            var sampler = new CLSampler(Context, normalizedCoords, mode, filter);
+            Error = sampler.Error;
+            return sampler;
         }
 
         /// <summary>
@@ -752,15 +913,6 @@ namespace OpenCLDotNet.Programs
         {
             return Options.Contains(option);
         }
-        
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="options"></param>
-        private void CheckForKernelArgumentInfo(string options)
-        {
-            HasKernelArgumentInfo = HasOption(OPTION_KERNEL_ARG_INFO);
-        }
 
         /// <summary>
         /// 
@@ -782,6 +934,9 @@ namespace OpenCLDotNet.Programs
                 if(!string.IsNullOrEmpty(option))
                     Options.Add(option);
             }
+
+            if (!HasOption(OPTION_KERNEL_ARG_INFO))
+                Options.Add(OPTION_KERNEL_ARG_INFO);
         }
 
         /// <summary>
@@ -902,20 +1057,10 @@ namespace OpenCLDotNet.Programs
 
             builder.AppendLine("");
             builder.AppendLine("Kernels:");
-            builder.AppendLine("Kernels arg info enabled: " + HasKernelArgumentInfo);
 
-            if (HasKernelArgumentInfo)
-            {
-                builder.AppendLine("");
-                foreach (var kernel in Kernels)
-                    kernel.Print(builder);
-            }
-            else
-            {
-                builder.AppendLine("");
-                foreach (var kernel in Kernels)
-                    builder.AppendLine(kernel.ToString());
-            }
+            builder.AppendLine("");
+            foreach (var kernel in Kernels)
+                 kernel.Print(builder);
 
             builder.AppendLine("");
             builder.AppendLine("Context:");
@@ -1142,11 +1287,13 @@ namespace OpenCLDotNet.Programs
             if (kernel == null)
                 throw new NullReferenceException($"Kernel named {kernel_name} not found.");
 
+            string name = string.IsNullOrEmpty(kernel_name) ? kernel.Name : kernel_name;
+
             if (!kernel.IsValid)
-                throw new InvalidObjectExeception($"Kernel named {kernel_name} is not valid.");
+                throw new InvalidObjectExeception($"Kernel named {name} is not valid.");
 
             if (check_args_set && !kernel.AllArgumentSet())
-                throw new InvalidOperationException($"Not all kernel arguments are set for kernel {kernel_name}.");
+                throw new InvalidOperationException($"Not all kernel arguments are set for kernel {name}.");
         }
 
         private void CheckKernelArg(CLKernelArg kernel_arg)

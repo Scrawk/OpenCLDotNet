@@ -21,7 +21,7 @@ namespace OpenCLDotNet.Programs
         public CLKernel(CLProgram program, string name)
         {
             Create(program, name);
-            CreateArguments(program.HasKernelArgumentInfo);
+            CreateArguments();
         }
 
         /// <summary>
@@ -80,8 +80,7 @@ namespace OpenCLDotNet.Programs
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="hasArgInfo"></param>
-        private void CreateArguments(bool hasArgInfo)
+        private void CreateArguments()
         {
             Arguments = new List<CLKernelArg>(NumArguments);
 
@@ -89,17 +88,15 @@ namespace OpenCLDotNet.Programs
             {
                 var arg = new CLKernelArg();
 
-                if (hasArgInfo)
-                {
-                    string name = GetInfo(CL_KERNEL_ARG_INFO.NAME, i);
-                    string address = GetInfo(CL_KERNEL_ARG_INFO.ADDRESS_QUALIFIER, i);
-                    string access = GetInfo(CL_KERNEL_ARG_INFO.ACCESS_QUALIFIER, i);
+                string name = GetInfo(CL_KERNEL_ARG_INFO.NAME, i);
+                string address = GetInfo(CL_KERNEL_ARG_INFO.ADDRESS_QUALIFIER, i);
+                string access = GetInfo(CL_KERNEL_ARG_INFO.ACCESS_QUALIFIER, i);
 
-                    arg.Name = name;
-                    arg.AddressQualifier = address;
-                    arg.AccessQualifier = access;
-                }
-                
+                arg.Name = name;
+                arg.Index = i;
+                arg.AddressQualifier = address;
+                arg.AccessQualifier = access;
+
                 Arguments.Add(arg);
             }
                 
@@ -111,10 +108,44 @@ namespace OpenCLDotNet.Programs
         /// <param name="index"></param>
         /// <returns></returns>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
-       public CLKernelArg GetArgument(uint index)
+        public CLKernelArg GetArgument(uint index)
         {
             CheckIndex(index);
             return Arguments[(int)index];
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public CLKernelArg GetArgument(string name)
+        {
+            for(int i = 0;i < NumArguments;i++)
+            {
+                var arg = Arguments[i];
+                if (arg.Name == name)
+                    return arg;
+            }
+
+            return null;    
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public int GetArgumentIndex(string name)
+        {
+            for (int i = 0; i < NumArguments; i++)
+            {
+                var arg = Arguments[i];
+                if (arg.Name == name)
+                    return i;
+            }
+
+            return -1;
         }
 
         /// <summary>
@@ -178,9 +209,6 @@ namespace OpenCLDotNet.Programs
                 }
             }
 
-            if (!Program.HasKernelArgumentInfo)
-                return;
-
             builder.AppendLine("");
             builder.AppendLine("Kernel arg info:");
 
@@ -231,8 +259,6 @@ namespace OpenCLDotNet.Programs
         /// <returns></returns>
         public string GetInfo(CL_KERNEL_ARG_INFO info, uint index)
         {
-            if (!Program.HasKernelArgumentInfo)
-                return ERROR_NO_KERNEL_ARGS_FOUND;
 
             var type = CL.GetReturnType(info);
 
@@ -265,9 +291,6 @@ namespace OpenCLDotNet.Programs
         /// <returns></returns>
         public string GetInfo(CL_KERNEL_WORK_GROUP_INFO info, cl_device_id device)
         {
-            if (!Program.HasKernelArgumentInfo)
-                return ERROR_NO_KERNEL_ARGS_FOUND;
-
             var type = CL.GetReturnType(info);
 
             string str = ERROR_UNKNOWN_TYPE;

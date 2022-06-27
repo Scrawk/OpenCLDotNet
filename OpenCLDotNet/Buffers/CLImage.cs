@@ -75,8 +75,10 @@ namespace OpenCLDotNet.Buffers
                 wait_list_size, wait_list, out e);
 
             if(!e.IsNull)
+            {
                 cmd.SetEvent(e);
-
+            }
+                
             Error = Error.ToString();
         }
 
@@ -113,7 +115,9 @@ namespace OpenCLDotNet.Buffers
                 wait_list_size, wait_list, out e);
 
             if (!e.IsNull)
+            {
                 cmd.SetEvent(e);
+            }
 
             Error = Error.ToString();
         }
@@ -148,7 +152,9 @@ namespace OpenCLDotNet.Buffers
                 wait_list_size, wait_list, out e);
 
             if (!e.IsNull)
+            {
                 cmd.SetEvent(e);
+            }
 
             Error = Error.ToString();
         }
@@ -185,7 +191,9 @@ namespace OpenCLDotNet.Buffers
                 wait_list_size, wait_list, out e);
 
             if (!e.IsNull)
+            {
                 cmd.SetEvent(e);
+            }
 
             Error = Error.ToString();
         }

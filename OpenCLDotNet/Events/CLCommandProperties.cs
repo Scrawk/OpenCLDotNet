@@ -9,7 +9,7 @@ namespace OpenCLDotNet.Events
     /// <summary>
     /// 
     /// </summary>
-    public struct CLCommandQueueProperties
+    public struct CLCommandProperties
     {
         /// <summary>
         /// 
@@ -24,7 +24,7 @@ namespace OpenCLDotNet.Events
         /// <summary>
         /// 
         /// </summary>
-        public CLCommandQueueProperties()
+        public CLCommandProperties()
         {
             Properties = 0;
             QueueSize = 0;
@@ -33,11 +33,11 @@ namespace OpenCLDotNet.Events
         /// <summary>
         /// 
         /// </summary>
-        public static CLCommandQueueProperties Default
+        public static CLCommandProperties Default
         {
             get
             {
-                var param = new CLCommandQueueProperties();
+                var param = new CLCommandProperties();
                 return param;
             }
         }

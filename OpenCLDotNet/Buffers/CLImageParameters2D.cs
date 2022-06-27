@@ -9,7 +9,7 @@ namespace OpenCLDotNet.Buffers
     /// <summary>
     /// 
     /// </summary>
-    public class CLImageParameters2D
+    public record struct CLImageParameters2D
     {
 
         /// <summary>
@@ -81,7 +81,14 @@ namespace OpenCLDotNet.Buffers
         /// </summary>
         public CLImageParameters2D()
         {
-
+            Width = 0;
+            Height = 0;
+            ChannelOrder = 0;
+            ChannelType = 0;
+            DataType = 0;
+            DataLength = 0;
+            CheckChannelData = false;
+            Source = null;
         }
 
         /// <summary>
@@ -95,6 +102,8 @@ namespace OpenCLDotNet.Buffers
             ChannelType = image.ChannelType;
             DataType = image.DataType;
             DataLength = image.Length;
+            CheckChannelData = false;
+            Source = null;
         }
 
         /// <summary>
