@@ -234,9 +234,9 @@ namespace OpenCLDotNet.Buffers
         /// </summary>
         /// <param name="dst">The data to be read to</param>
         /// <param name="blocking">Should the function block until finished or return async.</param>
-        public void Read(Array dst, bool blocking = true)
+        public void Read(CLCommand cmd, Array dst, bool blocking = true)
         {
-            Read(dst, 0, blocking);
+            Read(cmd, dst, 0, blocking);
         }
 
         /// <summary>
@@ -246,10 +246,8 @@ namespace OpenCLDotNet.Buffers
         /// object to read from.</param>
         /// <param name="dst">The data to be read to</param>
         /// <param name="blocking">Should the function block until finished or return async.</param>
-        public void Read(Array dst, uint src_offset, bool blocking)
+        public void Read(CLCommand cmd, Array dst, uint src_offset, bool blocking)
         {
-            var cmd = Context.GetCommand();
-
             CheckCommand(cmd);
             CheckData(this, dst, src_offset);
 
@@ -265,11 +263,6 @@ namespace OpenCLDotNet.Buffers
             var error = CL.EnqueueReadBuffer(cmd.Id, Id, blocking, byte_offset, byte_size, dst,
                 wait_list_size, wait_list, out e);
 
-            if (!e.IsNull)
-            {
-                cmd.SetEvent(e);
-            }
-
             Error = error.ToString();
         }
 
@@ -278,9 +271,9 @@ namespace OpenCLDotNet.Buffers
         /// </summary>
         /// <param name="src">The data to be written from.</param>
         /// <param name="blocking">Should the function block until finished or return async.</param>
-        public void Write(Array src, bool blocking = true)
+        public void Write(CLCommand cmd, Array src, bool blocking = true)
         {
-            Write(src, 0, blocking);
+            Write(cmd, src, 0, blocking);
         }
 
         /// <summary>
@@ -289,10 +282,8 @@ namespace OpenCLDotNet.Buffers
         /// <param name="offset">The offset in the buffer object to write to.</param>
         /// <param name="src">The data to be written from.</param>
         /// <param name="blocking">Should the function block until finished or return async.</param>
-        public void Write(Array src, uint offset, bool blocking)
+        public void Write(CLCommand cmd, Array src, uint offset, bool blocking)
         {
-            var cmd = Context.GetCommand();
-
             CheckCommand(cmd);
             CheckBuffer(this, offset, (uint)src.Length);
             CheckData(this, src, 0);
@@ -309,11 +300,6 @@ namespace OpenCLDotNet.Buffers
             var error = CL.EnqueueWriteBuffer(cmd.Id, Id, blocking, byte_offset, byte_size, src, 
                 wait_list_size, wait_list, out e);
 
-            if (!e.IsNull)
-            {
-                cmd.SetEvent(e);
-            }
-
             Error = error.ToString();
         }
 
@@ -321,10 +307,10 @@ namespace OpenCLDotNet.Buffers
         /// Enqueues a command to copy a buffer object to another buffer object.
         /// </summary>
         /// <returns>The copied buffer.</returns>
-        public CLBuffer Copy()
+        public CLBuffer Copy(CLCommand cmd)
         {
             var dst = new CLBuffer(Context, Flags, DataType, Length);
-            Copy(dst, 0, dst.Length);
+            Copy(cmd, dst, 0, dst.Length);
             return dst;
         }
 
@@ -334,11 +320,9 @@ namespace OpenCLDotNet.Buffers
         /// <param name="dst">The buffer to copy to.</param>
         /// <param name="src_offset">The offset where to begin copying data from src_buffer.</param>
         /// <param name="dst_size">The size to copy into the dst buffer.</param>
-        public void Copy(CLBuffer dst, uint src_offset, uint dst_size)
+        public void Copy(CLCommand cmd, CLBuffer dst, uint src_offset, uint dst_size)
         {
             dst_size = Math.Min(dst_size, dst.Length);
-
-            var cmd = Context.GetCommand();
 
             CheckCommand(cmd);
             CheckBuffer(this, src_offset, dst_size);
@@ -355,11 +339,6 @@ namespace OpenCLDotNet.Buffers
 
             var error = CL.EnqueueCopyBuffer(cmd.Id, Id, dst.Id, byte_offset, byte_size, 
                 wait_list_size, wait_list, out e);
-
-            if (!e.IsNull)
-            {
-                cmd.SetEvent(e);
-            }
 
             Error = error.ToString();
         }

@@ -182,9 +182,9 @@ namespace OpenCLDotNet.Buffers
         /// 
         /// </summary>
         /// <returns></returns>
-        public CLImage2D Copy()
+        public CLImage2D Copy(CLCommand cmd)
         {
-            return Copy(new CLPoint3t(), Region);
+            return Copy(cmd, new CLPoint3t(), Region);
         }
 
         /// <summary>
@@ -193,7 +193,7 @@ namespace OpenCLDotNet.Buffers
         /// <param name="src_origin"></param>
         /// <param name="region"></param>
         /// <returns></returns>
-        public CLImage2D Copy(CLPoint3t src_origin, CLRegion3t region)
+        public CLImage2D Copy(CLCommand cmd, CLPoint3t src_origin, CLRegion3t region)
         {
             CheckImage(this);
 
@@ -204,7 +204,7 @@ namespace OpenCLDotNet.Buffers
             var dst = new CLImage2D(Context, param, Flags);
             CheckImage(dst);
 
-            Copy(dst, src_origin, region);
+            Copy(cmd, dst, src_origin, region);
 
             return dst;
         }
@@ -215,10 +215,8 @@ namespace OpenCLDotNet.Buffers
         /// <param name="dst"></param>
         /// <param name="src_origin"></param>
         /// <param name="region"></param>
-        public void Copy(CLImage2D dst, CLPoint3t src_origin, CLRegion3t region)
+        public void Copy(CLCommand cmd, CLImage2D dst, CLPoint3t src_origin, CLRegion3t region)
         {
-            var cmd = Context.GetCommand();
-
             CheckCommand(cmd);
             CheckImage(this);
             CheckImage(dst);

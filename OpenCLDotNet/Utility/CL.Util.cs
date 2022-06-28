@@ -204,33 +204,43 @@ namespace OpenCLDotNet.Core
             return 0;
         }
 
-        /*
-        public static CL_MEM_DATA_TYPE TypeOf(Array array)
+       
+        public static CL_DATA_TYPE TypeOf(Array array)
         {
-            if (array is double[])
-                return CL_MEM_DATA_TYPE.DOUBLE;
-            if (array is float[])
-                return CL_MEM_DATA_TYPE.FLOAT;
-            if (array is Half[])
-                return CL_MEM_DATA_TYPE.HALF;
-            if (array is long[])
-                return CL_MEM_DATA_TYPE.LONG;
-            if (array is ulong[])
-                return CL_MEM_DATA_TYPE.ULONG;
-            if (array is int[])
-                return CL_MEM_DATA_TYPE.INT;
-            if (array is uint[])
-                return CL_MEM_DATA_TYPE.UINT;
-            if (array is short[])
-                return CL_MEM_DATA_TYPE.SHORT;
-            if (array is ushort[])
-                return CL_MEM_DATA_TYPE.USHORT;
-            if (array is byte[])
-                return CL_MEM_DATA_TYPE.BYTE;
-            if (array is sbyte[])
-                return CL_MEM_DATA_TYPE.SBYTE;
+            if (array == null)
+                return CL_DATA_TYPE.UNKNOWN;
 
-            return CL_MEM_DATA_TYPE.UNKNOWN;
+            switch(array.GetType().Name)
+            {
+                case "Double[]":
+                    return CL_DATA_TYPE.DOUBLE;
+                case "Single[]":
+                    return CL_DATA_TYPE.FLOAT;
+                case "Half[]":
+                    return CL_DATA_TYPE.HALF;
+
+                case "Int64[]":
+                    return CL_DATA_TYPE.LONG;
+                case "UInt64[]":
+                    return CL_DATA_TYPE.ULONG;
+
+                case "Int32[]":
+                    return CL_DATA_TYPE.INT;
+                case "UInt32[]":
+                    return CL_DATA_TYPE.UINT;
+
+                case "Int16[]":
+                    return CL_DATA_TYPE.SHORT;
+                case "UInt16[]":
+                    return CL_DATA_TYPE.USHORT;
+
+                case "Byte[]":
+                    return CL_DATA_TYPE.BYTE;
+                case "SByte[]":
+                    return CL_DATA_TYPE.SBYTE;
+            }
+
+            return CL_DATA_TYPE.UNKNOWN;
         }
 
         public static bool IsValidArrayData(CL_CHANNEL_TYPE type, Array array)
@@ -273,7 +283,6 @@ namespace OpenCLDotNet.Core
 
             return false;
         }
-        */
 
         public static bool IsValidDataType(CL_CHANNEL_TYPE channelType, CL_DATA_TYPE dataType)
         {

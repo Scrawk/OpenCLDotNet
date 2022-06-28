@@ -48,9 +48,9 @@ namespace OpenCLDotNet.Buffers
         /// </summary>
         /// <param name="dst"></param>
         /// <param name="blocking"></param>
-        public void Read(Array dst, bool blocking = true)
+        public void Read(CLCommand cmd, Array dst, bool blocking = true)
         {
-            Read(dst, Region, blocking);
+            Read(cmd, dst, Region, blocking);
         }
 
         /// <summary>
@@ -59,10 +59,8 @@ namespace OpenCLDotNet.Buffers
         /// <param name="region"></param>
         /// <param name="dst"></param>
         /// <param name="blocking"></param>
-        public void Read(Array dst, CLRegion3t region, bool blocking)
+        public void Read(CLCommand cmd, Array dst, CLRegion3t region, bool blocking)
         {
-            var cmd = Context.GetCommand();
-
             CheckCommand(cmd);
             CheckImage(this);
             CheckRegion(this, dst, region);
@@ -73,13 +71,8 @@ namespace OpenCLDotNet.Buffers
 
             var error = CL.EnqueueReadImage(cmd.Id, this, blocking, region, dst, ByteSize,
                 wait_list_size, wait_list, out e);
-
-            if(!e.IsNull)
-            {
-                cmd.SetEvent(e);
-            }
                 
-            Error = Error.ToString();
+            Error = error.ToString();
         }
 
         /// <summary>
@@ -87,9 +80,9 @@ namespace OpenCLDotNet.Buffers
         /// </summary>
         /// <param name="src"></param>
         /// <param name="blocking"></param>
-        public void Write(Array src, bool blocking = true)
+        public void Write(CLCommand cmd, Array src, bool blocking = true)
         {
-            Write(src, Region, blocking);
+            Write(cmd, src, Region, blocking);
         }
 
         /// <summary>
@@ -99,10 +92,8 @@ namespace OpenCLDotNet.Buffers
         /// <param name="src"></param>
         /// <param name="blocking"></param>
         /// <exception cref="InvalidObjectExeception"></exception>
-        public void Write(Array src, CLRegion3t region, bool blocking)
+        public void Write(CLCommand cmd, Array src, CLRegion3t region, bool blocking)
         {
-            var cmd = Context.GetCommand();
-
             CheckCommand(cmd);
             CheckImage(this);
             CheckRegion(this, src, region);
@@ -114,21 +105,16 @@ namespace OpenCLDotNet.Buffers
             var error = CL.EnqueueWriteImage(cmd.Id, this, blocking, region, src, ByteSize, 
                 wait_list_size, wait_list, out e);
 
-            if (!e.IsNull)
-            {
-                cmd.SetEvent(e);
-            }
-
-            Error = Error.ToString();
+            Error = error.ToString();
         }
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="color"></param>
-        public void Fill(CLColorRGBA color)
+        public void Fill(CLCommand cmd, CLColorRGBA color)
         {
-            Fill(color, Region);
+            Fill(cmd, color, Region);
         }
 
         /// <summary>
@@ -136,10 +122,8 @@ namespace OpenCLDotNet.Buffers
         /// </summary>
         /// <param name="color"></param>
         /// <param name="region"></param>
-        public void Fill(CLColorRGBA color, CLRegion3t region)
+        public void Fill(CLCommand cmd, CLColorRGBA color, CLRegion3t region)
         {
-            var cmd = Context.GetCommand();
-
             CheckCommand(cmd);
             CheckImage(this);
             CheckRegion(this, region);
@@ -151,12 +135,7 @@ namespace OpenCLDotNet.Buffers
             var error = CL.EnqueueFillImage(cmd.Id, Id, color, region, 
                 wait_list_size, wait_list, out e);
 
-            if (!e.IsNull)
-            {
-                cmd.SetEvent(e);
-            }
-
-            Error = Error.ToString();
+            Error = error.ToString();
         }
 
         /// <summary>
@@ -164,9 +143,9 @@ namespace OpenCLDotNet.Buffers
         /// </summary>
         /// <param name="color"></param>
         /// <param name="type"></param>
-        public void Fill(Array color, CL_DATA_TYPE type)
+        public void Fill(CLCommand cmd, Array color, CL_DATA_TYPE type)
         {
-            Fill(color, type, Region);
+            Fill(cmd, color, type, Region);
         }
 
         /// <summary>
@@ -175,10 +154,8 @@ namespace OpenCLDotNet.Buffers
         /// <param name="color"></param>
         /// <param name="type"></param>
         /// <param name="region"></param>
-        public void Fill(Array color, CL_DATA_TYPE type, CLRegion3t region)
+        public void Fill(CLCommand cmd, Array color, CL_DATA_TYPE type, CLRegion3t region)
         {
-            var cmd = Context.GetCommand();
-
             CheckCommand(cmd);
             CheckImage(this);
             CheckRegion(this, region);
@@ -190,12 +167,7 @@ namespace OpenCLDotNet.Buffers
             var error = CL.EnqueueFillImage(cmd.Id, Id, color, type, region, 
                 wait_list_size, wait_list, out e);
 
-            if (!e.IsNull)
-            {
-                cmd.SetEvent(e);
-            }
-
-            Error = Error.ToString();
+            Error = error.ToString();
         }
 
         /// <summary>

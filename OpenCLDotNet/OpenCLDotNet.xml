@@ -2498,14 +2498,14 @@
             <param name="data"></param>
             <param name="type"></param>
         </member>
-        <member name="M:OpenCLDotNet.Buffers.CLBuffer.Read(System.Array,System.Boolean)">
+        <member name="M:OpenCLDotNet.Buffers.CLBuffer.Read(OpenCLDotNet.Events.CLCommand,System.Array,System.Boolean)">
             <summary>
             Enqueue commands to read from a buffer object.
             </summary>
             <param name="dst">The data to be read to</param>
             <param name="blocking">Should the function block until finished or return async.</param>
         </member>
-        <member name="M:OpenCLDotNet.Buffers.CLBuffer.Read(System.Array,System.UInt32,System.Boolean)">
+        <member name="M:OpenCLDotNet.Buffers.CLBuffer.Read(OpenCLDotNet.Events.CLCommand,System.Array,System.UInt32,System.Boolean)">
             <summary>
             Enqueue commands to read from a buffer object.
             </summary>
@@ -2514,14 +2514,14 @@
             <param name="dst">The data to be read to</param>
             <param name="blocking">Should the function block until finished or return async.</param>
         </member>
-        <member name="M:OpenCLDotNet.Buffers.CLBuffer.Write(System.Array,System.Boolean)">
+        <member name="M:OpenCLDotNet.Buffers.CLBuffer.Write(OpenCLDotNet.Events.CLCommand,System.Array,System.Boolean)">
             <summary>
             Enqueue commands to write to a buffer object from host memory.
             </summary>
             <param name="src">The data to be written from.</param>
             <param name="blocking">Should the function block until finished or return async.</param>
         </member>
-        <member name="M:OpenCLDotNet.Buffers.CLBuffer.Write(System.Array,System.UInt32,System.Boolean)">
+        <member name="M:OpenCLDotNet.Buffers.CLBuffer.Write(OpenCLDotNet.Events.CLCommand,System.Array,System.UInt32,System.Boolean)">
             <summary>
             Enqueue commands to write to a buffer object from host memory.
             </summary>
@@ -2529,13 +2529,13 @@
             <param name="src">The data to be written from.</param>
             <param name="blocking">Should the function block until finished or return async.</param>
         </member>
-        <member name="M:OpenCLDotNet.Buffers.CLBuffer.Copy">
+        <member name="M:OpenCLDotNet.Buffers.CLBuffer.Copy(OpenCLDotNet.Events.CLCommand)">
             <summary>
             Enqueues a command to copy a buffer object to another buffer object.
             </summary>
             <returns>The copied buffer.</returns>
         </member>
-        <member name="M:OpenCLDotNet.Buffers.CLBuffer.Copy(OpenCLDotNet.Buffers.CLBuffer,System.UInt32,System.UInt32)">
+        <member name="M:OpenCLDotNet.Buffers.CLBuffer.Copy(OpenCLDotNet.Events.CLCommand,OpenCLDotNet.Buffers.CLBuffer,System.UInt32,System.UInt32)">
             <summary>
             Enqueues a command to copy a buffer object to another buffer object.
             </summary>
@@ -2574,14 +2574,14 @@
             
             </summary>
         </member>
-        <member name="M:OpenCLDotNet.Buffers.CLImage.Read(System.Array,System.Boolean)">
+        <member name="M:OpenCLDotNet.Buffers.CLImage.Read(OpenCLDotNet.Events.CLCommand,System.Array,System.Boolean)">
             <summary>
             
             </summary>
             <param name="dst"></param>
             <param name="blocking"></param>
         </member>
-        <member name="M:OpenCLDotNet.Buffers.CLImage.Read(System.Array,OpenCLDotNet.Core.CLRegion3t,System.Boolean)">
+        <member name="M:OpenCLDotNet.Buffers.CLImage.Read(OpenCLDotNet.Events.CLCommand,System.Array,OpenCLDotNet.Core.CLRegion3t,System.Boolean)">
             <summary>
             
             </summary>
@@ -2589,14 +2589,14 @@
             <param name="dst"></param>
             <param name="blocking"></param>
         </member>
-        <member name="M:OpenCLDotNet.Buffers.CLImage.Write(System.Array,System.Boolean)">
+        <member name="M:OpenCLDotNet.Buffers.CLImage.Write(OpenCLDotNet.Events.CLCommand,System.Array,System.Boolean)">
             <summary>
             
             </summary>
             <param name="src"></param>
             <param name="blocking"></param>
         </member>
-        <member name="M:OpenCLDotNet.Buffers.CLImage.Write(System.Array,OpenCLDotNet.Core.CLRegion3t,System.Boolean)">
+        <member name="M:OpenCLDotNet.Buffers.CLImage.Write(OpenCLDotNet.Events.CLCommand,System.Array,OpenCLDotNet.Core.CLRegion3t,System.Boolean)">
             <summary>
             
             </summary>
@@ -2605,27 +2605,27 @@
             <param name="blocking"></param>
             <exception cref="T:OpenCLDotNet.Utility.InvalidObjectExeception"></exception>
         </member>
-        <member name="M:OpenCLDotNet.Buffers.CLImage.Fill(OpenCLDotNet.Core.CLColorRGBA)">
+        <member name="M:OpenCLDotNet.Buffers.CLImage.Fill(OpenCLDotNet.Events.CLCommand,OpenCLDotNet.Core.CLColorRGBA)">
             <summary>
             
             </summary>
             <param name="color"></param>
         </member>
-        <member name="M:OpenCLDotNet.Buffers.CLImage.Fill(OpenCLDotNet.Core.CLColorRGBA,OpenCLDotNet.Core.CLRegion3t)">
+        <member name="M:OpenCLDotNet.Buffers.CLImage.Fill(OpenCLDotNet.Events.CLCommand,OpenCLDotNet.Core.CLColorRGBA,OpenCLDotNet.Core.CLRegion3t)">
             <summary>
             
             </summary>
             <param name="color"></param>
             <param name="region"></param>
         </member>
-        <member name="M:OpenCLDotNet.Buffers.CLImage.Fill(System.Array,OpenCLDotNet.Core.CL_DATA_TYPE)">
+        <member name="M:OpenCLDotNet.Buffers.CLImage.Fill(OpenCLDotNet.Events.CLCommand,System.Array,OpenCLDotNet.Core.CL_DATA_TYPE)">
             <summary>
             
             </summary>
             <param name="color"></param>
             <param name="type"></param>
         </member>
-        <member name="M:OpenCLDotNet.Buffers.CLImage.Fill(System.Array,OpenCLDotNet.Core.CL_DATA_TYPE,OpenCLDotNet.Core.CLRegion3t)">
+        <member name="M:OpenCLDotNet.Buffers.CLImage.Fill(OpenCLDotNet.Events.CLCommand,System.Array,OpenCLDotNet.Core.CL_DATA_TYPE,OpenCLDotNet.Core.CLRegion3t)">
             <summary>
             
             </summary>
@@ -2741,13 +2741,13 @@
             <param name="context"></param>
             <param name="param"></param>
         </member>
-        <member name="M:OpenCLDotNet.Buffers.CLImage2D.Copy">
+        <member name="M:OpenCLDotNet.Buffers.CLImage2D.Copy(OpenCLDotNet.Events.CLCommand)">
             <summary>
             
             </summary>
             <returns></returns>
         </member>
-        <member name="M:OpenCLDotNet.Buffers.CLImage2D.Copy(OpenCLDotNet.Core.CLPoint3t,OpenCLDotNet.Core.CLRegion3t)">
+        <member name="M:OpenCLDotNet.Buffers.CLImage2D.Copy(OpenCLDotNet.Events.CLCommand,OpenCLDotNet.Core.CLPoint3t,OpenCLDotNet.Core.CLRegion3t)">
             <summary>
             
             </summary>
@@ -2755,7 +2755,7 @@
             <param name="region"></param>
             <returns></returns>
         </member>
-        <member name="M:OpenCLDotNet.Buffers.CLImage2D.Copy(OpenCLDotNet.Buffers.CLImage2D,OpenCLDotNet.Core.CLPoint3t,OpenCLDotNet.Core.CLRegion3t)">
+        <member name="M:OpenCLDotNet.Buffers.CLImage2D.Copy(OpenCLDotNet.Events.CLCommand,OpenCLDotNet.Buffers.CLImage2D,OpenCLDotNet.Core.CLPoint3t,OpenCLDotNet.Core.CLRegion3t)">
             <summary>
             
             </summary>
@@ -4492,7 +4492,7 @@
             <param name="properties"></param>
             <returns></returns>
         </member>
-        <member name="M:OpenCLDotNet.Programs.CLProgram.ReadBuffer(System.String,System.Boolean,System.UInt32,System.Array)">
+        <member name="M:OpenCLDotNet.Programs.CLProgram.ReadBuffer(OpenCLDotNet.Events.CLCommand,System.String,System.Boolean,System.UInt32,System.Array)">
             <summary>
             
             </summary>
@@ -4501,7 +4501,7 @@
             <param name="index"></param>
             <param name="dst"></param>
         </member>
-        <member name="M:OpenCLDotNet.Programs.CLProgram.WriteBuffer(System.String,System.Boolean,System.UInt32,System.Array)">
+        <member name="M:OpenCLDotNet.Programs.CLProgram.WriteBuffer(OpenCLDotNet.Events.CLCommand,System.String,System.Boolean,System.UInt32,System.Array)">
             <summary>
             
             </summary>
@@ -4511,7 +4511,7 @@
             <param name="src"></param>
             <exception cref="T:System.InvalidCastException"></exception>
         </member>
-        <member name="M:OpenCLDotNet.Programs.CLProgram.ReadImage(System.String,System.Boolean,System.UInt32,System.Array)">
+        <member name="M:OpenCLDotNet.Programs.CLProgram.ReadImage(OpenCLDotNet.Events.CLCommand,System.String,System.Boolean,System.UInt32,System.Array)">
             <summary>
             
             </summary>
@@ -4520,7 +4520,7 @@
             <param name="index"></param>
             <param name="dst"></param>
         </member>
-        <member name="M:OpenCLDotNet.Programs.CLProgram.WriteImage(System.String,System.Boolean,System.UInt32,System.Array)">
+        <member name="M:OpenCLDotNet.Programs.CLProgram.WriteImage(OpenCLDotNet.Events.CLCommand,System.String,System.Boolean,System.UInt32,System.Array)">
             <summary>
             
             </summary>

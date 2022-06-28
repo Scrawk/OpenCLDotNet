@@ -213,6 +213,8 @@ namespace OpenCLDotNet.Programs
         /// </summary>
         private CLContext Context { get; set; }
 
+        public CLCommand Command { get; private set; }
+
         /// <summary>
         /// 
         /// </summary>
@@ -252,6 +254,7 @@ namespace OpenCLDotNet.Programs
         {
             ResetErrorCode();
             Context = context;
+            Command = new CLCommand(context);
             Source = CL_PROGRAM_SOURCE.TEXT;
 
             CL_ERROR error;
@@ -284,6 +287,7 @@ namespace OpenCLDotNet.Programs
         {
             ResetErrorCode();
             Context = context;
+            Command = new CLCommand(context);
             Source = CL_PROGRAM_SOURCE.BINARY;
 
             var devices = context.GetDeviceIds().ToArray();
@@ -343,6 +347,7 @@ namespace OpenCLDotNet.Programs
         {
             ResetErrorCode();
             Context = context;
+            Command = new CLCommand(context);
             Source = CL_PROGRAM_SOURCE.BINARY;
 
             var devices = context.GetDeviceIds();
@@ -480,9 +485,7 @@ namespace OpenCLDotNet.Programs
                                      RoundUp(localSize[1], global_size.y),
                                      RoundUp(localSize[2], global_size.z)};
 
-            var cmd = Context.GetCommand();
-
-            Error = CL.EnqueueNDRangeKernel(cmd.Id, kernel.Id, dimension, globalOffset,
+            Error = CL.EnqueueNDRangeKernel(Command.Id, kernel.Id, dimension, globalOffset,
                        globalSize, localSize, 0, null, out e).ToString();
         }
 
@@ -826,7 +829,7 @@ namespace OpenCLDotNet.Programs
         /// <param name="blocking"></param>
         /// <param name="index"></param>
         /// <param name="dst"></param>
-        public void ReadBuffer(string kernel_name, bool blocking, uint index, Array dst)
+        public void ReadBuffer(CLCommand cmd, string kernel_name, bool blocking, uint index, Array dst)
         {
             var kernel = FindKernel(kernel_name);
             CheckKernel(kernel, kernel_name, true);
@@ -837,7 +840,7 @@ namespace OpenCLDotNet.Programs
             if (buffer == null)
                 throw new InvalidCastException($"Kernel named {kernel_name} arg at index {index} is not a buffer");
 
-            buffer.Read(dst, 0, blocking);
+            buffer.Read(cmd, dst, 0, blocking);
         }
 
         /// <summary>
@@ -848,7 +851,7 @@ namespace OpenCLDotNet.Programs
         /// <param name="index"></param>
         /// <param name="src"></param>
         /// <exception cref="InvalidCastException"></exception>
-        public void WriteBuffer(string kernel_name, bool blocking, uint index, Array src)
+        public void WriteBuffer(CLCommand cmd, string kernel_name, bool blocking, uint index, Array src)
         {
             var kernel = FindKernel(kernel_name);
             CheckKernel(kernel, kernel_name, true);
@@ -859,7 +862,7 @@ namespace OpenCLDotNet.Programs
             if (buffer == null)
                 throw new InvalidCastException($"Kernel named {kernel_name} arg at index {index} is not a buffer");
 
-            buffer.Write(src, 0, blocking);
+            buffer.Write(cmd, src, 0, blocking);
         }
 
         /// <summary>
@@ -869,7 +872,7 @@ namespace OpenCLDotNet.Programs
         /// <param name="blocking"></param>
         /// <param name="index"></param>
         /// <param name="dst"></param>
-        public void ReadImage(string kernel_name, bool blocking, uint index, Array dst)
+        public void ReadImage(CLCommand cmd, string kernel_name, bool blocking, uint index, Array dst)
         {
             var kernel = FindKernel(kernel_name);
             CheckKernel(kernel, kernel_name, true);
@@ -880,7 +883,7 @@ namespace OpenCLDotNet.Programs
             if (image == null)
                 throw new InvalidCastException($"Kernel named {kernel_name} arg at index {index} is not a image");
 
-            image.Read(dst, image.Region, blocking);
+            image.Read(cmd, dst, image.Region, blocking);
         }
 
         /// <summary>
@@ -890,7 +893,7 @@ namespace OpenCLDotNet.Programs
         /// <param name="blocking"></param>
         /// <param name="index"></param>
         /// <param name="src"></param>
-        public void WriteImage(string kernel_name, bool blocking, uint index, Array src)
+        public void WriteImage(CLCommand cmd, string kernel_name, bool blocking, uint index, Array src)
         {
             var kernel = FindKernel(kernel_name);
             CheckKernel(kernel, kernel_name, true);
@@ -901,7 +904,7 @@ namespace OpenCLDotNet.Programs
             if (image == null)
                 throw new InvalidCastException($"Kernel named {kernel_name} arg at index {index} is not a image");
 
-            image.Write(src, image.Region, blocking);
+            image.Write(cmd, src, image.Region, blocking);
         }
 
         /// <summary>

@@ -44,6 +44,8 @@ namespace OpenCLDotNetConsole
 			var program = new CLProgram(program_text);
 
 			var data = new float[SIZE];
+			for (int i = 0; i < data.Length; i++)
+				data[i] = i;	
 
 			var read_image_param = CLImageParameters2D.FloatImage(WIDTH, HEIGHT, CHANNELS);
 			read_image_param.Source = data;
@@ -71,26 +73,13 @@ namespace OpenCLDotNetConsole
 			program.Run(kernel_params);
 			Console.WriteLine(program.Error);
 
-			/*
+			var image = program.GetImage("read_write_test", 1);
 
-			var color = new float[]
-			{
-				0.25f, 0.5f, 0.75f, 1.0f
-			};
+			var result = new float[SIZE];
+			image.Read(program.Command, result);
 
-			write_image.Fill(color, CL_DATA_TYPE.FLOAT);
-
-			var copy_image = write_image.Copy();
-
-			var result = new byte[SIZE];
-			copy_image.Read(result);
-
-			//for (int i = 0; i < 100; i++)
-			//	Console.WriteLine(result[i]);
-
-			context.Print();
-
-			*/
+			for (int i = 0; i < 100; i++)
+				Console.WriteLine(result[i]);
 
 		}
 

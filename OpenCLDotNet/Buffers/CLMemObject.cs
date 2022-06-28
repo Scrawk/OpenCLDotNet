@@ -325,8 +325,8 @@ namespace OpenCLDotNet.Buffers
             if ((offset + data.Length) > obj.Length)
                 throw new InvalidDataSizeExeception($"Offset + length was {offset + data.Length} when offset + length <= {obj.Length} was expected.");
 
-            //if (obj.DataType != CL.TypeOf(data))
-            //    throw new InvalidDataTypeExeception($"Data type is {CL.TypeOf(data)} when type {obj.DataType} was expected."); ;
+            if (obj.DataType != CL.TypeOf(data))
+                throw new InvalidDataTypeExeception($"Data type is {CL.TypeOf(data)} when type {obj.DataType} was expected."); ;
         }
 
         protected static void CheckBuffer(CLBuffer obj, uint offset, uint size)
@@ -374,6 +374,7 @@ namespace OpenCLDotNet.Buffers
             var image_region = obj.Region;
             var width = image_region.Size.x;
             var height = image_region.Size.y;
+            var depth = image_region.Size.z;
 
             if ((region.Origion.x + region.Size.x) > width)
                 throw new InvalidDataSizeExeception($"Region origin.x + size.x was {region.Origion.x + region.Size.x} when origin.x + size.x <= {width} was expected.");
@@ -381,8 +382,8 @@ namespace OpenCLDotNet.Buffers
             if ((region.Origion.y + region.Size.y) > height)
                 throw new InvalidDataSizeExeception($"Region origin.y + size.y was {region.Origion.y + region.Size.y} when origin.y + size.y <= {height} was expected.");
 
-            //if ((region.Origion.z + region.Size.z) > obj.Depth)
-            //    throw new InvalidDataSizeExeception($"Region origin.y + size.y was {region.Origion.z + region.Size.z} when origin.z + size.z <= {obj.Depth} was expected.");
+            if ((region.Origion.z + region.Size.z) > depth)
+                throw new InvalidDataSizeExeception($"Region origin.y + size.y was {region.Origion.z + region.Size.z} when origin.z + size.z <= {depth} was expected.");
         }
 
         protected static void CheckRegion(CLMemObject obj, Array data, CLRegion3t region)
@@ -399,8 +400,8 @@ namespace OpenCLDotNet.Buffers
             if ((region.Origion.z + region.Size.z) > (ulong)data.Length)
                 throw new InvalidDataSizeExeception($"Data region.Origion.z + region.Size.z was {region.Origion.z + region.Size.z} when length <= {obj.Length} was expected.");
 
-            //if (obj.DataType != CL.TypeOf(data))
-            //    throw new InvalidDataTypeExeception($"Data type is {CL.TypeOf(data)} when type {obj.DataType} was expected.");
+            if (obj.DataType != CL.TypeOf(data))
+                throw new InvalidDataTypeExeception($"Data type is {CL.TypeOf(data)} when type {obj.DataType} was expected.");
         }
     }
 }

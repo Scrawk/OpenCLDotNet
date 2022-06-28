@@ -22,6 +22,8 @@ namespace OpenCLDotNetTest.Buffers
 
         private CLContext Context { get; set; }
 
+        private CLCommand Cmd { get; set; }
+
         private int[] Data { get; set; }
 
         private int[] OffsetData { get; set; }
@@ -32,6 +34,7 @@ namespace OpenCLDotNetTest.Buffers
         public void Init()
         {
             Context = new CLContext();
+            Cmd = new CLCommand(Context);
             EmptyData = new int[SIZE];
 
             Data = new int[SIZE];
@@ -81,12 +84,12 @@ namespace OpenCLDotNetTest.Buffers
             var buffer = CreateReadBuffer(SIZE);
 
             var data = new int[SIZE];
-            buffer.Read(data, 0, true);
+            buffer.Read(Cmd, data, 0, true);
 
             CollectionAssert.AreEqual(Data, data);
 
             var offset_data = new int[SIZE_OFFSET]; 
-            buffer.Read(offset_data, OFFSET, true);
+            buffer.Read(Cmd, offset_data, OFFSET, true);
 
             CollectionAssert.AreEqual(OffsetData, offset_data);
         }
@@ -96,18 +99,18 @@ namespace OpenCLDotNetTest.Buffers
         {
             var buffer = CreateWriteBuffer(SIZE);
             
-            buffer.Write(Data, 0, true);
+            buffer.Write(Cmd, Data, 0, true);
 
             var data = new int[SIZE];
-            buffer.Read(data, 0, true);
+            buffer.Read(Cmd, data, 0, true);
 
             CollectionAssert.AreEqual(Data, data);
 
-            buffer.Write(EmptyData, 0, true);
-            buffer.Write(OffsetData, OFFSET, true);
+            buffer.Write(Cmd, EmptyData, 0, true);
+            buffer.Write(Cmd, OffsetData, OFFSET, true);
 
             var offset_data = new int[SIZE_OFFSET];
-            buffer.Read(offset_data, OFFSET, true);
+            buffer.Read(Cmd, offset_data, OFFSET, true);
 
             CollectionAssert.AreEqual(OffsetData, offset_data);
         }
@@ -116,21 +119,21 @@ namespace OpenCLDotNetTest.Buffers
         public void CopyTest()
         {
             var buffer1 = CreateWriteBuffer(SIZE);
-            buffer1.Write(Data, 0, true);
+            buffer1.Write(Cmd, Data, 0, true);
 
             var buffer2 = CreateWriteBuffer(SIZE);
-            buffer1.Copy(buffer2, 0, buffer2.Length);
+            buffer1.Copy(Cmd, buffer2, 0, buffer2.Length);
 
             var data = new int[SIZE];
-            buffer2.Read(data, 0, true);
+            buffer2.Read(Cmd, data, 0, true);
 
             CollectionAssert.AreEqual(Data, data);
 
             buffer2 = CreateWriteBuffer(SIZE_OFFSET);
-            buffer1.Copy(buffer2, OFFSET, buffer2.Length);
+            buffer1.Copy(Cmd, buffer2, OFFSET, buffer2.Length);
 
             var offset_data = new int[SIZE_OFFSET];
-            buffer2.Read(offset_data, 0, true);
+            buffer2.Read(Cmd, offset_data, 0, true);
 
             CollectionAssert.AreEqual(OffsetData, offset_data);
 
