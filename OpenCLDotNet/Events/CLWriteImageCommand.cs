@@ -22,9 +22,10 @@ namespace OpenCLDotNet.Events
 
         private CLRegion3t Region { get; set; }
 
-        internal override void Run(CLCommand cmd)
+        internal override cl_event Run(CLCommand cmd)
         {
-           Image.Write(cmd, Src, Region, false);
+            var e =  Image.Write(cmd, Src, Region, false);
+            return e;   
         }
     }
 }

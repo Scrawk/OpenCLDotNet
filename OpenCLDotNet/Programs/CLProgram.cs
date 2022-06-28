@@ -146,7 +146,8 @@ namespace OpenCLDotNet.Programs
 
             CreateOptions(options);
             CreateProgramFromText(context, file);
-            CreateKerels();
+            CreateCommand(0);
+            CreateKernels();
         }
 
         /// <summary>
@@ -173,7 +174,8 @@ namespace OpenCLDotNet.Programs
 
             CreateOptions(options);
             CreateProgramFromText(context, program_text);
-            CreateKerels();
+            CreateCommand(0);
+            CreateKernels();
         }
 
         /// <summary>
@@ -189,7 +191,8 @@ namespace OpenCLDotNet.Programs
 
             CreateOptions(options);
             CreateProgramFromBinaries(context, binaries);
-            CreateKerels();
+            CreateCommand(0);
+            CreateKernels();
         }
 
         /// <summary>
@@ -205,7 +208,8 @@ namespace OpenCLDotNet.Programs
 
             CreateOptions(options);
             CreateFromBinary(context, binary);
-            CreateKerels();
+            CreateCommand(0);
+            CreateKernels();
         }
 
         /// <summary>
@@ -213,6 +217,9 @@ namespace OpenCLDotNet.Programs
         /// </summary>
         private CLContext Context { get; set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public CLCommand Command { get; private set; }
 
         /// <summary>
@@ -254,7 +261,6 @@ namespace OpenCLDotNet.Programs
         {
             ResetErrorCode();
             Context = context;
-            Command = new CLCommand(context);
             Source = CL_PROGRAM_SOURCE.TEXT;
 
             CL_ERROR error;
@@ -287,7 +293,6 @@ namespace OpenCLDotNet.Programs
         {
             ResetErrorCode();
             Context = context;
-            Command = new CLCommand(context);
             Source = CL_PROGRAM_SOURCE.BINARY;
 
             var devices = context.GetDeviceIds().ToArray();
@@ -347,7 +352,6 @@ namespace OpenCLDotNet.Programs
         {
             ResetErrorCode();
             Context = context;
-            Command = new CLCommand(context);
             Source = CL_PROGRAM_SOURCE.BINARY;
 
             var devices = context.GetDeviceIds();
@@ -520,7 +524,18 @@ namespace OpenCLDotNet.Programs
         /// <summary>
         /// 
         /// </summary>
-        private void CreateKerels()
+        private void CreateCommand(CL_COMMAND_QUEUE_POPERTIES flag)
+        {
+            CLCommandProperties props = new CLCommandProperties();
+            props.Properties = flag;
+
+            Command = new CLCommand(Context, props);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        private void CreateKernels()
         {
             Kernels = new List<CLKernel>();
 

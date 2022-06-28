@@ -24,7 +24,7 @@ namespace OpenCLDotNet.Events
             Edges = new List<CLCommandEdge>();
         }
 
-        private CLContext Context { get; set; }
+        public CLContext Context { get; private set; }
 
         private List<CLCommandNode> Nodes { get; set; }
 
@@ -42,12 +42,20 @@ namespace OpenCLDotNet.Events
 
         public void Run()
         {
+            //var props = new CLCommandProperties();
+            //props.Properties = CL_COMMAND_QUEUE_POPERTIES.OUT_OF_ORDER_EXEC_MODE_ENABLE;
+
             var cmd = new CLCommand(Context);
 
             for(int i = 0; i < Nodes.Count; i++)
             {
                 var node = Nodes[i];    
-                node.Run(cmd);
+                var e = node.Run(cmd);
+
+                //cmd.ClearWaitEvents();
+
+                //if(!e.IsNull)
+                //    cmd.WaitOn(e);
             }
         }
 

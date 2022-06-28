@@ -72,6 +72,31 @@ namespace OpenCLDotNet.Buffers
         /// 
         /// </summary>
         /// <param name="context"></param>
+        /// <param name="width"></param>
+        /// <param name="height"></param>
+        /// <param name="channels"></param>
+        /// <returns></returns>
+        public static CLImage2D CreateFloatImage2D(CLContext context, uint width, uint height, uint channels)
+        {
+            var param = CLImageParameters2D.FloatImage(width, height, channels);
+            return new CLImage2D(context, param, CL_READ_WRITE.READ_WRITE);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="param"></param>
+        /// <returns></returns>
+        public static CLImage2D CreateImage2D(CLContext context, CLImageParameters2D param)
+        {
+            return new CLImage2D(context, param, CL_READ_WRITE.READ_WRITE);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="context"></param>
         /// <param name="param"></param>
         /// <returns></returns>
         public static CLImage2D CreateReadImage2D(CLContext context, CLImageParameters2D param)

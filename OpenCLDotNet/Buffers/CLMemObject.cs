@@ -127,12 +127,14 @@ namespace OpenCLDotNet.Buffers
             {
                 case CL_READ_WRITE.WRITE:
                     flag = CL_MEM_FLAGS.WRITE_ONLY;
-                    //flag |= CL_MEM_FLAGS.HOST_WRITE_ONLY;
                     break;
 
                 case CL_READ_WRITE.READ:
                     flag = CL_MEM_FLAGS.READ_ONLY;
-                    flag |= CL_MEM_FLAGS.HOST_READ_ONLY;
+                    break;
+
+                case CL_READ_WRITE.READ_WRITE:
+                    flag = CL_MEM_FLAGS.READ_WRITE;
                     break;
             }
 
@@ -144,6 +146,12 @@ namespace OpenCLDotNet.Buffers
             return flag;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="rw"></param>
+        /// <param name="hasData"></param>
+        /// <returns></returns>
         protected CL_MEM_FLAGS CreateImageFlags(CL_READ_WRITE rw, bool hasData)
         {
             CL_MEM_FLAGS flag = 0;
@@ -152,12 +160,14 @@ namespace OpenCLDotNet.Buffers
             {
                 case CL_READ_WRITE.WRITE:
                     flag = CL_MEM_FLAGS.WRITE_ONLY;
-                    //flag |= CL_MEM_FLAGS.HOST_WRITE_ONLY;
                     break;
 
                 case CL_READ_WRITE.READ:
                     flag = CL_MEM_FLAGS.READ_ONLY;
-                    flag |= CL_MEM_FLAGS.HOST_READ_ONLY;
+                    break;
+
+                case CL_READ_WRITE.READ_WRITE:
+                    flag = CL_MEM_FLAGS.READ_WRITE;
                     break;
             }
 

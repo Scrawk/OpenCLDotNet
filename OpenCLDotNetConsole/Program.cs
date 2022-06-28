@@ -24,7 +24,25 @@ namespace OpenCLDotNetConsole
 		static void Main(string[] args)
 		{
 
+			var write_data = new float[SIZE];
+			var read_data = new float[SIZE];
 
+			for (int i = 0; i < write_data.Length; i++)
+				read_data[i] = i;
+
+			var graph = new CLCommandGraph();
+
+			var image = CLImage2D.CreateFloatImage2D(graph.Context, WIDTH, HEIGHT, CHANNELS);
+
+			graph.AddNode(new CLWriteImageCommand(image, read_data));
+			graph.AddNode(new CLReadImageCommand(image, write_data));
+
+			graph.Run();
+
+			for (int i = 0; i < 10; i++)
+				Console.WriteLine(write_data[i]);
+
+			/*
 			var program_text =
 			@"__kernel void read_write_test(__read_only image2d_t srcImg,
 											__write_only image2d_t dstImg,
@@ -74,6 +92,8 @@ namespace OpenCLDotNetConsole
 			program.Run(kernel_params);
 			Console.WriteLine(program.Error);
 
+			program.Command.Finish();
+
 			var image = program.GetImage("read_write_test", 1);
 
 			var result = new float[SIZE];
@@ -81,6 +101,7 @@ namespace OpenCLDotNetConsole
 
 			for (int i = 0; i < 100; i++)
 				Console.WriteLine(result[i]);
+			*/
 
 		}
 

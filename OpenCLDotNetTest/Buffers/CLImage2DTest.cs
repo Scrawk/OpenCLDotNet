@@ -125,12 +125,15 @@ namespace OpenCLDotNetTest.Buffers
 
             var data = new byte[SIZE];
             image.Read(Cmd, data);
+            Assert.IsFalse(image.HasError);
 
             //Validate that image is empty.
             CollectionAssert.AreEqual(EmptyData, data);
 
             //Write Data into image and read it back into data array.
             image.Write(Cmd, Data);
+            Assert.IsFalse(image.HasError);
+
             image.Read(Cmd, data);
 
             Assert.IsTrue(image.IsValid);

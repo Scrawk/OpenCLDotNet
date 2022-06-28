@@ -131,9 +131,6 @@ namespace OpenCLDotNet.Events
                 for (int i = 0; i < count; i++)
                 {
                     var status = WaitEvents[i].GetStatus();
-
-                    Console.WriteLine(status);
-
                     if(status != CL_COMMAND_STATUS.COMPLETE)
                         array[i] = WaitEvents[i].Id;
                 }
@@ -159,6 +156,25 @@ namespace OpenCLDotNet.Events
                     return false;
 
             return true;
+        }
+
+        public CL_ERROR Finish()
+        {
+            return CL.Finish(Id);
+        }
+
+        public CL_ERROR Flush()
+        {
+            return CL.Flush(Id);
+        }
+
+        public CL_ERROR EnqueueBarrier()
+        {
+            var wait_list = GetWaitEvents();
+            uint wait_list_size = CL.Length(wait_list);
+            cl_event e;
+
+            return CL.EnqueueBarrierWithWaitList(Id, wait_list_size, wait_list, out e);
         }
 
         /// <summary>

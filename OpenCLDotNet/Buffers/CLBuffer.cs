@@ -89,6 +89,29 @@ namespace OpenCLDotNet.Buffers
         /// 
         /// </summary>
         /// <param name="context"></param>
+        /// <param name="length"></param>
+        /// <returns></returns>
+        public static CLBuffer CreateFloatBuffer(CLContext context, uint length)
+        {
+            return new CLBuffer(context, CL_READ_WRITE.READ_WRITE, CL_DATA_TYPE.FLOAT, length);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="type"></param>
+        /// <param name="length"></param>
+        /// <returns></returns>
+        public static CLBuffer CreateBuffer(CLContext context, CL_DATA_TYPE type, uint length)
+        {
+            return new CLBuffer(context, CL_READ_WRITE.READ_WRITE, type, length);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="context"></param>
         /// <param name="source"></param>
         /// <param name="type"></param>
         /// <returns></returns>

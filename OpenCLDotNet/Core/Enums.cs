@@ -40,7 +40,8 @@ namespace OpenCLDotNet.Core
     public enum CL_READ_WRITE
     {
         READ,
-        WRITE
+        WRITE, 
+        READ_WRITE
     }
 
     public enum CL_ERROR
@@ -291,7 +292,7 @@ namespace OpenCLDotNet.Core
 
     // command_queue_properties - bitfield 
     [Flags]
-    public enum CL_COMMAND_QUEUE_POPERTIES
+    public enum CL_COMMAND_QUEUE_POPERTIES : UInt64
     {
         OUT_OF_ORDER_EXEC_MODE_ENABLE = (1 << 0),
         PROFILING_ENABLE = (1 << 1),

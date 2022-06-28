@@ -49,9 +49,9 @@ namespace OpenCLDotNet.Buffers
         /// <param name="cmd"></param>
         /// <param name="dst"></param>
         /// <param name="blocking"></param>
-        public void Read(CLCommand cmd, Array dst, bool blocking = true)
+        public cl_event Read(CLCommand cmd, Array dst, bool blocking = true)
         {
-            Read(cmd, dst, Region, blocking);
+            return Read(cmd, dst, Region, blocking);
         }
 
         /// <summary>
@@ -61,13 +61,13 @@ namespace OpenCLDotNet.Buffers
         /// <param name="dst"></param>
         /// <param name="region"></param>
         /// <param name="blocking"></param>
-        public void Read(CLCommand cmd, Array dst, CLRegion3t region, bool blocking)
+        public cl_event Read(CLCommand cmd, Array dst, CLRegion3t region, bool blocking)
         {
             CheckCommand(cmd);
             CheckImage(this);
             CheckRegion(this, dst, region);
 
-            cl_event[] wait_list = null;
+            cl_event[] wait_list = cmd.GetWaitEvents();
             uint wait_list_size = CL.Length(wait_list);
             cl_event e;
 
@@ -75,6 +75,7 @@ namespace OpenCLDotNet.Buffers
                 wait_list_size, wait_list, out e);
 
             Error = error.ToString();
+            return e;
         }
 
         /// <summary>
@@ -83,9 +84,9 @@ namespace OpenCLDotNet.Buffers
         /// <param name="cmd"></param>
         /// <param name="src"></param>
         /// <param name="blocking"></param>
-        public void Write(CLCommand cmd, Array src, bool blocking = true)
+        public cl_event Write(CLCommand cmd, Array src, bool blocking = true)
         {
-            Write(cmd, src, Region, blocking);
+            return Write(cmd, src, Region, blocking);
         }
 
         /// <summary>
@@ -95,13 +96,13 @@ namespace OpenCLDotNet.Buffers
         /// <param name="src"></param>
         /// <param name="region"></param>
         /// <param name="blocking"></param>
-        public void Write(CLCommand cmd, Array src, CLRegion3t region, bool blocking)
+        public cl_event Write(CLCommand cmd, Array src, CLRegion3t region, bool blocking)
         {
             CheckCommand(cmd);
             CheckImage(this);
             CheckRegion(this, src, region);
 
-            cl_event[] wait_list = null;
+            cl_event[] wait_list = cmd.GetWaitEvents();
             uint wait_list_size = CL.Length(wait_list);
             cl_event e;
 
@@ -109,6 +110,7 @@ namespace OpenCLDotNet.Buffers
                 wait_list_size, wait_list, out e);
 
             Error = error.ToString();
+            return e;
         }
 
         /// <summary>

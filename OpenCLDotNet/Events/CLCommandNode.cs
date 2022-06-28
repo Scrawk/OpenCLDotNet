@@ -14,7 +14,7 @@ namespace OpenCLDotNet.Events
 
         }
 
-        internal abstract void Run(CLCommand cmd);
+        internal abstract cl_event Run(CLCommand cmd);
 
     }
 }

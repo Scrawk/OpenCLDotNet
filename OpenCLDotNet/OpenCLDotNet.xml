@@ -2706,6 +2706,14 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:OpenCLDotNet.Buffers.CLImage2D.CreateImage2D(OpenCLDotNet.Core.CLContext,OpenCLDotNet.Buffers.CLImageParameters2D)">
+            <summary>
+            
+            </summary>
+            <param name="context"></param>
+            <param name="param"></param>
+            <returns></returns>
+        </member>
         <member name="M:OpenCLDotNet.Buffers.CLImage2D.CreateReadImage2D(OpenCLDotNet.Core.CLContext,OpenCLDotNet.Buffers.CLImageParameters2D)">
             <summary>
             
@@ -3120,6 +3128,14 @@
             </summary>
         </member>
         <member name="M:OpenCLDotNet.Buffers.CLMemObject.CreateBufferFlags(OpenCLDotNet.Core.CL_READ_WRITE,System.Boolean)">
+            <summary>
+            
+            </summary>
+            <param name="rw"></param>
+            <param name="hasData"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Buffers.CLMemObject.CreateImageFlags(OpenCLDotNet.Core.CL_READ_WRITE,System.Boolean)">
             <summary>
             
             </summary>
@@ -4229,6 +4245,11 @@
             
             </summary>
         </member>
+        <member name="P:OpenCLDotNet.Programs.CLProgram.Command">
+            <summary>
+            
+            </summary>
+        </member>
         <member name="P:OpenCLDotNet.Programs.CLProgram.Options">
             <summary>
             
@@ -4330,7 +4351,12 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:OpenCLDotNet.Programs.CLProgram.CreateKerels">
+        <member name="M:OpenCLDotNet.Programs.CLProgram.CreateCommand(OpenCLDotNet.Core.CL_COMMAND_QUEUE_POPERTIES)">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:OpenCLDotNet.Programs.CLProgram.CreateKernels">
             <summary>
             
             </summary>
