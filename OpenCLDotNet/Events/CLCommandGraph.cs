@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 using OpenCLDotNet.Core;
 using OpenCLDotNet.Utility;
@@ -16,6 +17,13 @@ namespace OpenCLDotNet.Events
             Edges = new List<CLCommandEdge>();
         }
 
+        public CLCommandGraph(CLContext context)
+        {
+            Context = context;
+            Nodes = new List<CLCommandNode>();
+            Edges = new List<CLCommandEdge>();
+        }
+
         private CLContext Context { get; set; }
 
         private List<CLCommandNode> Nodes { get; set; }
@@ -24,7 +32,6 @@ namespace OpenCLDotNet.Events
 
         public void AddNode(CLCommandNode node)
         {
-            node.Command = Context.GetCommand();
             Nodes.Add(node);    
         }
 
@@ -32,5 +39,17 @@ namespace OpenCLDotNet.Events
         {
             Edges.Add(new CLCommandEdge(from, to)); 
         }
+
+        public void Run()
+        {
+            var cmd = new CLCommand(Context);
+
+            for(int i = 0; i < Nodes.Count; i++)
+            {
+                var node = Nodes[i];    
+                node.Run(cmd);
+            }
+        }
+
     }
 }

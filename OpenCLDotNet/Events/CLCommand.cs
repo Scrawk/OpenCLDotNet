@@ -7,8 +7,16 @@ using OpenCLDotNet.Utility;
 
 namespace OpenCLDotNet.Events
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class CLCommand : CLObject
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        private readonly static cl_event[] EmptyEventArray = new cl_event[0];
+
         /// <summary>
         /// 
         /// </summary>
@@ -16,6 +24,7 @@ namespace OpenCLDotNet.Events
         public CLCommand(CLContext context)
         {
             Create(context);
+            WaitEvents = new List<CLEvent>();
         }
 
         /// <summary>
@@ -26,6 +35,7 @@ namespace OpenCLDotNet.Events
         public CLCommand(CLContext context, CLCommandProperties properties)
         {
             Create(context, properties);
+            WaitEvents = new List<CLEvent>();
         }
 
         /// <summary>
@@ -36,17 +46,7 @@ namespace OpenCLDotNet.Events
         /// <summary>
         /// 
         /// </summary>
-        private CLEvent Event { get; set; } 
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public bool IsComplete => GetStatus() == CL_COMMAND_STATUS.COMPLETE;
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public bool HasEvent => Event != null;
+        private List<CLEvent> WaitEvents { get; set; }
 
         /// <summary>
         /// 
@@ -54,10 +54,8 @@ namespace OpenCLDotNet.Events
         /// <returns></returns>
         public override string ToString()
         {
-            var event_id = HasEvent ? Event.Id : UIntPtr.Zero;
-
-            return String.Format("[CLCommandQueue: Id={0}, ContextId={1}, EventId={2}, Status={3}, Error={4}]",
-                Id, Context.Id, event_id, GetStatus(), Error);
+            return String.Format("[CLCommandQueue: Id={0}, ContextId={1}, WaitEvents={2}, Error={3}]",
+                Id, Context.Id, WaitEvents.Count, Error);
         }
 
         /// <summary>
@@ -121,32 +119,46 @@ namespace OpenCLDotNet.Events
         /// 
         /// </summary>
         /// <returns></returns>
-        public CL_COMMAND_STATUS GetStatus()
+        public cl_event[] GetWaitEvents()
         {
-            if (!HasEvent)
-                return CL_COMMAND_STATUS.COMPLETE;
+            int count = WaitEvents.Count;
+
+            if (count == 0)
+                return null;
             else
-                return Event.GetStatus();
+            {
+                var array = new cl_event[count];
+                for (int i = 0; i < count; i++)
+                {
+                    var status = WaitEvents[i].GetStatus();
+
+                    Console.WriteLine(status);
+
+                    if(status != CL_COMMAND_STATUS.COMPLETE)
+                        array[i] = WaitEvents[i].Id;
+                }
+                    
+                return array;
+            }
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="event_id"></param>
-        public void SetEvent(cl_event event_id)
+        public void ClearWaitEvents()
         {
-            if (event_id.Value == UIntPtr.Zero)
-                throw new ArgumentException("Event id is 0.");
-
-            Event = new CLEvent(Context, event_id);
+            WaitEvents.Clear(); 
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        public void Reset()
+        public void WaitOn(cl_event e)
         {
-            Event = null;   
+            WaitEvents.Add(new CLEvent(Context, e));
+        }
+
+        public bool IsComplete()
+        {
+            foreach(var e in WaitEvents)
+                if(e.GetStatus() != CL_COMMAND_STATUS.COMPLETE)
+                    return false;
+
+            return true;
         }
 
         /// <summary>
@@ -168,14 +180,12 @@ namespace OpenCLDotNet.Events
                 builder.AppendLine(e + ": " + GetInfo(e));
             }
 
-            if(HasEvent)
-            {
-                builder.AppendLine("");
-                builder.AppendLine("Event: ");
-                builder.AppendLine("");
+            builder.AppendLine("");
+            builder.AppendLine("WaitOn Event: ");
+            builder.AppendLine("");
 
-                Event.Print(builder);
-            }
+            foreach(var e in WaitEvents)
+                e.Print(builder);
 
         }
 

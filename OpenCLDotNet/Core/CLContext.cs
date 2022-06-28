@@ -28,8 +28,6 @@ namespace OpenCLDotNet.Core
         {
             CreatePlatforms(device_type);
             CreateContext();
-
-            Commands = new List<CLCommand>();
         }
 
         /// <summary>
@@ -53,11 +51,6 @@ namespace OpenCLDotNet.Core
         /// <summary>
         /// 
         /// </summary>
-        public int NumCommands => Commands.Count;
-
-        /// <summary>
-        /// 
-        /// </summary>
         public int NumDevices => Platform != null ? Platform.NumDevices : 0;
 
         /// <summary>
@@ -69,11 +62,6 @@ namespace OpenCLDotNet.Core
         /// 
         /// </summary>
         private List<CLPlatform> Platforms { get; set; }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        private List<CLCommand> Commands { get; set; }
 
         /// <summary>
         /// 
@@ -122,35 +110,6 @@ namespace OpenCLDotNet.Core
         /// <summary>
         /// 
         /// </summary>
-        /// <returns></returns>
-        public CLCommand GetCommand()
-        {
-            CLCommand cmd = null;
-            int count = Commands.Count;
-
-            if (count > 0)
-            {
-                for(int i = 0; i < count; i++)
-                {
-                    cmd = Commands[i];  
-
-                    if(cmd.IsValid && cmd.IsComplete)
-                    {
-                        cmd.Reset();
-                        return cmd;
-                    }
-                        
-                }
-            }
-
-            cmd = new CLCommand(this);
-            Commands.Add(cmd);
-            return cmd;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
         /// <param name="builder"></param>
         public override void Print(StringBuilder builder)
         {
@@ -185,15 +144,6 @@ namespace OpenCLDotNet.Core
                     continue;
 
                 platform.Print(builder);
-            }
-
-            builder.AppendLine();
-            builder.AppendLine("Commands.");
-            builder.AppendLine();
-
-            foreach (var cmd in Commands)
-            {
-                cmd.Print(builder);
             }
 
         }

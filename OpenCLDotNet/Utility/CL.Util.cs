@@ -7,6 +7,18 @@ namespace OpenCLDotNet.Core
 {
     public partial class CL
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="array"></param>
+        /// <returns></returns>
+        public static uint Length(Array array)
+        {
+            if (array == null)
+                return 0;
+            else
+                return (uint)array.Length;
+        }
 
         /// <summary>
         /// Get all the enums values, sort and return in a list.

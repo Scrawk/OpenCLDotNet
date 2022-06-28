@@ -7,24 +7,24 @@ using OpenCLDotNet.Utility;
 
 namespace OpenCLDotNet.Events
 {
-    public sealed class CLReadImageCommand : CLCommandNode
+    public sealed class CLWriteImageCommand : CLCommandNode
     {
-        public CLReadImageCommand(CLImage image, Array dst)
+        public CLWriteImageCommand(CLImage image, Array src)
         {
             Image = image;
-            Dst = dst;
+            Src = src;
             Region = image.Region;
         }
 
         private CLImage Image { get; set; }
 
-        private Array Dst { get; set; }
+        private Array Src { get; set; }
 
         private CLRegion3t Region { get; set; }
 
         internal override void Run(CLCommand cmd)
         {
-            Image.Read(cmd, Dst, Region, false);
+           Image.Write(cmd, Src, Region, false);
         }
     }
 }

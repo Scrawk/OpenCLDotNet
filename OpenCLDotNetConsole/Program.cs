@@ -24,6 +24,7 @@ namespace OpenCLDotNetConsole
 		static void Main(string[] args)
 		{
 
+
 			var program_text =
 			@"__kernel void read_write_test(__read_only image2d_t srcImg,
 											__write_only image2d_t dstImg,

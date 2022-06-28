@@ -825,10 +825,12 @@ namespace OpenCLDotNet.Programs
         /// <summary>
         /// 
         /// </summary>
+        /// <param name="cmd"></param>
         /// <param name="kernel_name"></param>
         /// <param name="blocking"></param>
         /// <param name="index"></param>
         /// <param name="dst"></param>
+        /// <exception cref="InvalidCastException"></exception>
         public void ReadBuffer(CLCommand cmd, string kernel_name, bool blocking, uint index, Array dst)
         {
             var kernel = FindKernel(kernel_name);
@@ -846,6 +848,7 @@ namespace OpenCLDotNet.Programs
         /// <summary>
         /// 
         /// </summary>
+        /// <param name="cmd"></param>
         /// <param name="kernel_name"></param>
         /// <param name="blocking"></param>
         /// <param name="index"></param>
@@ -868,10 +871,12 @@ namespace OpenCLDotNet.Programs
         /// <summary>
         /// 
         /// </summary>
+        /// <param name="cmd"></param>
         /// <param name="kernel_name"></param>
         /// <param name="blocking"></param>
         /// <param name="index"></param>
         /// <param name="dst"></param>
+        /// <exception cref="InvalidCastException"></exception>
         public void ReadImage(CLCommand cmd, string kernel_name, bool blocking, uint index, Array dst)
         {
             var kernel = FindKernel(kernel_name);
@@ -889,10 +894,12 @@ namespace OpenCLDotNet.Programs
         /// <summary>
         /// 
         /// </summary>
+        /// <param name="cmd"></param>
         /// <param name="kernel_name"></param>
         /// <param name="blocking"></param>
         /// <param name="index"></param>
         /// <param name="src"></param>
+        /// <exception cref="InvalidCastException"></exception>
         public void WriteImage(CLCommand cmd, string kernel_name, bool blocking, uint index, Array src)
         {
             var kernel = FindKernel(kernel_name);

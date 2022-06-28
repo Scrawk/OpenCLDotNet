@@ -127,6 +127,7 @@ namespace OpenCLDotNet.Events
                 builder.AppendLine(e + ": " + GetInfo(e));
             }
 
+            /*
             builder.AppendLine();
             builder.AppendLine("Event Profiling Info:");
             builder.AppendLine();
@@ -137,6 +138,7 @@ namespace OpenCLDotNet.Events
             {
                 builder.AppendLine(e + ": " + GetInfo(e));
             }
+            */
 
             SetErrorCodeToSuccess();
         }

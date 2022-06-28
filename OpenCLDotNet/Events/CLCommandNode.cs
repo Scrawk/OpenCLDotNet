@@ -14,9 +14,7 @@ namespace OpenCLDotNet.Events
 
         }
 
-        internal CLCommand Command {  get; set; }
-
-        internal abstract void Run();
+        internal abstract void Run(CLCommand cmd);
 
     }
 }

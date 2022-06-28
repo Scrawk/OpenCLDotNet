@@ -190,6 +190,7 @@ namespace OpenCLDotNet.Buffers
         /// <summary>
         /// 
         /// </summary>
+        /// <param name="cmd"></param>
         /// <param name="src_origin"></param>
         /// <param name="region"></param>
         /// <returns></returns>
@@ -212,6 +213,7 @@ namespace OpenCLDotNet.Buffers
         /// <summary>
         /// 
         /// </summary>
+        /// <param name="cmd"></param>
         /// <param name="dst"></param>
         /// <param name="src_origin"></param>
         /// <param name="region"></param>

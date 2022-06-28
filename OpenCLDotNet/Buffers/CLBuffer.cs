@@ -37,7 +37,7 @@ namespace OpenCLDotNet.Buffers
         public CLBuffer(CLContext context, CL_READ_WRITE rw, Array data, CL_DATA_TYPE type)
             : base(context)
         {
-            Create(context, rw, data, type);
+            Create(context,rw, data, type);
         }
 
         /// <summary>
@@ -119,7 +119,7 @@ namespace OpenCLDotNet.Buffers
         private void Create(CLContext context, CL_READ_WRITE rw, CL_DATA_TYPE type, uint length)
         {
             ResetErrorCode();
-            Flags = CreateBufferFlags(rw);
+            Flags = CreateBufferFlags(rw, false);
             MemType = CL_MEM_OBJECT_TYPE.BUFFER;
             Length = length;
             DataType = type;
@@ -172,14 +172,8 @@ namespace OpenCLDotNet.Buffers
         /// <param name="type"></param>
         private void Create(CLContext context, CL_READ_WRITE rw, Array data, CL_DATA_TYPE type)
         {
-            if(data == null)
-            {
-                Error = ERROR_SOURCE_DATA_IS_NULL;
-                return;
-            }
-
             ResetErrorCode();
-            Flags = CreateBufferFlags(rw);
+            Flags = CreateBufferFlags(rw, true);
             MemType = CL_MEM_OBJECT_TYPE.BUFFER;
             DataType = type;
             DataSize = CL.SizeOf(DataType);
@@ -232,6 +226,7 @@ namespace OpenCLDotNet.Buffers
         /// <summary>
         /// Enqueue commands to read from a buffer object.
         /// </summary>
+        /// <param name="cmd"></param>
         /// <param name="dst">The data to be read to</param>
         /// <param name="blocking">Should the function block until finished or return async.</param>
         public void Read(CLCommand cmd, Array dst, bool blocking = true)
@@ -242,6 +237,7 @@ namespace OpenCLDotNet.Buffers
         /// <summary>
         /// Enqueue commands to read from a buffer object.
         /// </summary>
+        /// <param name="cmd"></param>
         /// <param name="src_offset">offset is the offset in the source buffer 
         /// object to read from.</param>
         /// <param name="dst">The data to be read to</param>
@@ -269,6 +265,7 @@ namespace OpenCLDotNet.Buffers
         /// <summary>
         /// Enqueue commands to write to a buffer object from host memory.
         /// </summary>
+        /// <param name="cmd"></param>
         /// <param name="src">The data to be written from.</param>
         /// <param name="blocking">Should the function block until finished or return async.</param>
         public void Write(CLCommand cmd, Array src, bool blocking = true)
@@ -279,6 +276,7 @@ namespace OpenCLDotNet.Buffers
         /// <summary>
         /// Enqueue commands to write to a buffer object from host memory.
         /// </summary>
+        /// <param name="cmd"></param>
         /// <param name="offset">The offset in the buffer object to write to.</param>
         /// <param name="src">The data to be written from.</param>
         /// <param name="blocking">Should the function block until finished or return async.</param>
@@ -306,6 +304,7 @@ namespace OpenCLDotNet.Buffers
         /// <summary>
         /// Enqueues a command to copy a buffer object to another buffer object.
         /// </summary>
+        /// <param name="cmd"></param>
         /// <returns>The copied buffer.</returns>
         public CLBuffer Copy(CLCommand cmd)
         {
@@ -317,6 +316,7 @@ namespace OpenCLDotNet.Buffers
         /// <summary>
         /// Enqueues a command to copy a buffer object to another buffer object.
         /// </summary>
+        /// <param name="cmd"></param>
         /// <param name="dst">The buffer to copy to.</param>
         /// <param name="src_offset">The offset where to begin copying data from src_buffer.</param>
         /// <param name="dst_size">The size to copy into the dst buffer.</param>

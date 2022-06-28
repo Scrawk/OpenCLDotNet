@@ -1230,6 +1230,13 @@
             <param name="program"></param>
             <returns></returns>
         </member>
+        <member name="M:OpenCLDotNet.Core.CL.Length(System.Array)">
+            <summary>
+            
+            </summary>
+            <param name="array"></param>
+            <returns></returns>
+        </member>
         <member name="M:OpenCLDotNet.Core.CL.GetValues``1(System.Boolean)">
             <summary>
             Get all the enums values, sort and return in a list.
@@ -1396,11 +1403,6 @@
             
             </summary>
         </member>
-        <member name="P:OpenCLDotNet.Core.CLContext.NumCommands">
-            <summary>
-            
-            </summary>
-        </member>
         <member name="P:OpenCLDotNet.Core.CLContext.NumDevices">
             <summary>
             
@@ -1412,11 +1414,6 @@
             </summary>
         </member>
         <member name="P:OpenCLDotNet.Core.CLContext.Platforms">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="P:OpenCLDotNet.Core.CLContext.Commands">
             <summary>
             
             </summary>
@@ -1445,12 +1442,6 @@
             
             </summary>
             <param name="type"></param>
-            <returns></returns>
-        </member>
-        <member name="M:OpenCLDotNet.Core.CLContext.GetCommand">
-            <summary>
-            
-            </summary>
             <returns></returns>
         </member>
         <member name="M:OpenCLDotNet.Core.CLContext.Print(System.Text.StringBuilder)">
@@ -2502,6 +2493,7 @@
             <summary>
             Enqueue commands to read from a buffer object.
             </summary>
+            <param name="cmd"></param>
             <param name="dst">The data to be read to</param>
             <param name="blocking">Should the function block until finished or return async.</param>
         </member>
@@ -2509,6 +2501,7 @@
             <summary>
             Enqueue commands to read from a buffer object.
             </summary>
+            <param name="cmd"></param>
             <param name="src_offset">offset is the offset in the source buffer 
             object to read from.</param>
             <param name="dst">The data to be read to</param>
@@ -2518,6 +2511,7 @@
             <summary>
             Enqueue commands to write to a buffer object from host memory.
             </summary>
+            <param name="cmd"></param>
             <param name="src">The data to be written from.</param>
             <param name="blocking">Should the function block until finished or return async.</param>
         </member>
@@ -2525,6 +2519,7 @@
             <summary>
             Enqueue commands to write to a buffer object from host memory.
             </summary>
+            <param name="cmd"></param>
             <param name="offset">The offset in the buffer object to write to.</param>
             <param name="src">The data to be written from.</param>
             <param name="blocking">Should the function block until finished or return async.</param>
@@ -2533,12 +2528,14 @@
             <summary>
             Enqueues a command to copy a buffer object to another buffer object.
             </summary>
+            <param name="cmd"></param>
             <returns>The copied buffer.</returns>
         </member>
         <member name="M:OpenCLDotNet.Buffers.CLBuffer.Copy(OpenCLDotNet.Events.CLCommand,OpenCLDotNet.Buffers.CLBuffer,System.UInt32,System.UInt32)">
             <summary>
             Enqueues a command to copy a buffer object to another buffer object.
             </summary>
+            <param name="cmd"></param>
             <param name="dst">The buffer to copy to.</param>
             <param name="src_offset">The offset where to begin copying data from src_buffer.</param>
             <param name="dst_size">The size to copy into the dst buffer.</param>
@@ -2578,6 +2575,7 @@
             <summary>
             
             </summary>
+            <param name="cmd"></param>
             <param name="dst"></param>
             <param name="blocking"></param>
         </member>
@@ -2585,14 +2583,16 @@
             <summary>
             
             </summary>
-            <param name="region"></param>
+            <param name="cmd"></param>
             <param name="dst"></param>
+            <param name="region"></param>
             <param name="blocking"></param>
         </member>
         <member name="M:OpenCLDotNet.Buffers.CLImage.Write(OpenCLDotNet.Events.CLCommand,System.Array,System.Boolean)">
             <summary>
             
             </summary>
+            <param name="cmd"></param>
             <param name="src"></param>
             <param name="blocking"></param>
         </member>
@@ -2600,21 +2600,23 @@
             <summary>
             
             </summary>
-            <param name="region"></param>
+            <param name="cmd"></param>
             <param name="src"></param>
+            <param name="region"></param>
             <param name="blocking"></param>
-            <exception cref="T:OpenCLDotNet.Utility.InvalidObjectExeception"></exception>
         </member>
         <member name="M:OpenCLDotNet.Buffers.CLImage.Fill(OpenCLDotNet.Events.CLCommand,OpenCLDotNet.Core.CLColorRGBA)">
             <summary>
             
             </summary>
+            <param name="cmd"></param>
             <param name="color"></param>
         </member>
         <member name="M:OpenCLDotNet.Buffers.CLImage.Fill(OpenCLDotNet.Events.CLCommand,OpenCLDotNet.Core.CLColorRGBA,OpenCLDotNet.Core.CLRegion3t)">
             <summary>
             
             </summary>
+            <param name="cmd"></param>
             <param name="color"></param>
             <param name="region"></param>
         </member>
@@ -2622,6 +2624,7 @@
             <summary>
             
             </summary>
+            <param name="cmd"></param>
             <param name="color"></param>
             <param name="type"></param>
         </member>
@@ -2629,6 +2632,7 @@
             <summary>
             
             </summary>
+            <param name="cmd"></param>
             <param name="color"></param>
             <param name="type"></param>
             <param name="region"></param>
@@ -2751,6 +2755,7 @@
             <summary>
             
             </summary>
+            <param name="cmd"></param>
             <param name="src_origin"></param>
             <param name="region"></param>
             <returns></returns>
@@ -2759,6 +2764,7 @@
             <summary>
             
             </summary>
+            <param name="cmd"></param>
             <param name="dst"></param>
             <param name="src_origin"></param>
             <param name="region"></param>
@@ -3113,11 +3119,12 @@
             
             </summary>
         </member>
-        <member name="M:OpenCLDotNet.Buffers.CLMemObject.CreateBufferFlags(OpenCLDotNet.Core.CL_READ_WRITE)">
+        <member name="M:OpenCLDotNet.Buffers.CLMemObject.CreateBufferFlags(OpenCLDotNet.Core.CL_READ_WRITE,System.Boolean)">
             <summary>
             
             </summary>
             <param name="rw"></param>
+            <param name="hasData"></param>
             <returns></returns>
         </member>
         <member name="M:OpenCLDotNet.Buffers.CLMemObject.Print(System.Text.StringBuilder)">
@@ -3354,6 +3361,16 @@
             <param name="region"></param>
             <param name="flags"></param>
         </member>
+        <member name="T:OpenCLDotNet.Events.CLCommand">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:OpenCLDotNet.Events.CLCommand.EmptyEventArray">
+            <summary>
+            
+            </summary>
+        </member>
         <member name="M:OpenCLDotNet.Events.CLCommand.#ctor(OpenCLDotNet.Core.CLContext)">
             <summary>
             
@@ -3372,17 +3389,7 @@
             
             </summary>
         </member>
-        <member name="P:OpenCLDotNet.Events.CLCommand.Event">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="P:OpenCLDotNet.Events.CLCommand.IsComplete">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="P:OpenCLDotNet.Events.CLCommand.HasEvent">
+        <member name="P:OpenCLDotNet.Events.CLCommand.WaitEvents">
             <summary>
             
             </summary>
@@ -3406,22 +3413,11 @@
             <param name="context"></param>
             <param name="properties"></param>
         </member>
-        <member name="M:OpenCLDotNet.Events.CLCommand.GetStatus">
+        <member name="M:OpenCLDotNet.Events.CLCommand.GetWaitEvents">
             <summary>
             
             </summary>
             <returns></returns>
-        </member>
-        <member name="M:OpenCLDotNet.Events.CLCommand.SetEvent(OpenCLDotNet.Core.cl_event)">
-            <summary>
-            
-            </summary>
-            <param name="event_id"></param>
-        </member>
-        <member name="M:OpenCLDotNet.Events.CLCommand.Reset">
-            <summary>
-            
-            </summary>
         </member>
         <member name="M:OpenCLDotNet.Events.CLCommand.Print(System.Text.StringBuilder)">
             <summary>
@@ -4496,15 +4492,18 @@
             <summary>
             
             </summary>
+            <param name="cmd"></param>
             <param name="kernel_name"></param>
             <param name="blocking"></param>
             <param name="index"></param>
             <param name="dst"></param>
+            <exception cref="T:System.InvalidCastException"></exception>
         </member>
         <member name="M:OpenCLDotNet.Programs.CLProgram.WriteBuffer(OpenCLDotNet.Events.CLCommand,System.String,System.Boolean,System.UInt32,System.Array)">
             <summary>
             
             </summary>
+            <param name="cmd"></param>
             <param name="kernel_name"></param>
             <param name="blocking"></param>
             <param name="index"></param>
@@ -4515,19 +4514,23 @@
             <summary>
             
             </summary>
+            <param name="cmd"></param>
             <param name="kernel_name"></param>
             <param name="blocking"></param>
             <param name="index"></param>
             <param name="dst"></param>
+            <exception cref="T:System.InvalidCastException"></exception>
         </member>
         <member name="M:OpenCLDotNet.Programs.CLProgram.WriteImage(OpenCLDotNet.Events.CLCommand,System.String,System.Boolean,System.UInt32,System.Array)">
             <summary>
             
             </summary>
+            <param name="cmd"></param>
             <param name="kernel_name"></param>
             <param name="blocking"></param>
             <param name="index"></param>
             <param name="src"></param>
+            <exception cref="T:System.InvalidCastException"></exception>
         </member>
         <member name="M:OpenCLDotNet.Programs.CLProgram.HasOption(System.String)">
             <summary>
