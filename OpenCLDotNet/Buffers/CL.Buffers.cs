@@ -78,12 +78,12 @@ namespace OpenCLDotNet.Core
         }
 
         /// <summary>
-        /// 
+        /// Gets the siz in bytes of the mem object ie buffers and images.
         /// </summary>
-        /// <param name="memobj"></param>
-        /// <param name="name"></param>
-        /// <param name="size"></param>
-        /// <returns></returns>
+        /// <param name="memobj">The mem objects id.</param>
+        /// <param name="name">The infos name.</param>
+        /// <param name="size">The objects size in bytes.</param>
+        /// <returns>The error code.</returns>
         public static CL_ERROR GetMemObjectInfoSize(
             cl_mem memobj,
             CL_MEM_INFO name,
@@ -96,13 +96,13 @@ namespace OpenCLDotNet.Core
         }
 
         /// <summary>
-        /// 
+        /// Gets the value for a UInt64 info property of the mem object.
         /// </summary>
-        /// <param name="memobj"></param>
-        /// <param name="name"></param>
-        /// <param name="size"></param>
-        /// <param name="info"></param>
-        /// <returns></returns>
+        /// <param name="memobj">The mem objects id.</param>
+        /// <param name="name">The info properties name.</param>
+        /// <param name="size">The size in bytes of the object.</param>
+        /// <param name="info">The info objects value.</param>
+        /// <returns>The error code.</returns>
         public static CL_ERROR GetMemObjectInfo(
             cl_mem memobj,
             CL_MEM_INFO name,
@@ -113,13 +113,13 @@ namespace OpenCLDotNet.Core
         }
 
         /// <summary>
-        /// 
+        /// Gets the value for a UIntPtr info property of the mem object.
         /// </summary>
-        /// <param name="memobj"></param>
-        /// <param name="name"></param>
-        /// <param name="size"></param>
-        /// <param name="info"></param>
-        /// <returns></returns>
+        /// <param name="memobj">The mem objects id.</param>
+        /// <param name="name">The info properties name.</param>
+        /// <param name="size">The size in bytes of the object.</param>
+        /// <param name="info">The info objects value.</param>
+        /// <returns>The error code.</returns>
         public static CL_ERROR GetMemObjectInfo(
             cl_mem memobj,
             CL_MEM_INFO name,
@@ -129,14 +129,14 @@ namespace OpenCLDotNet.Core
             return CL_GetMemObjectInfo(memobj, name, size, out info);
         }
 
-        /// <summary>
-        /// 
+        //// <summary>
+        /// Gets the value for a cl_object info property of the mem object.
         /// </summary>
-        /// <param name="memobj"></param>
-        /// <param name="name"></param>
-        /// <param name="size"></param>
-        /// <param name="info"></param>
-        /// <returns></returns>
+        /// <param name="memobj">The mem objects id.</param>
+        /// <param name="name">The info properties name.</param>
+        /// <param name="size">The size in bytes of the object.</param>
+        /// <param name="info">The info objects value.</param>
+        /// <returns>The error code.</returns>
         public static CL_ERROR GetMemObjectInfo(
             cl_mem memobj,
             CL_MEM_INFO name,
@@ -147,20 +147,20 @@ namespace OpenCLDotNet.Core
         }
 
         /// <summary>
-        /// 
+        /// Increment the reference counter for the mem object.
         /// </summary>
-        /// <param name="mem"></param>
-        /// <returns></returns>
+        /// <param name="mem">The mem objects id.</param>
+        /// <returns>The error code.</returns>
         public static cl_int RetainMemObject(cl_mem mem)
         {
             return CL_RetainMemObject(mem);
         }
 
-        /// <summary>
-        /// 
+       // <summary>
+        /// Decrement the reference counter for the mem object.
         /// </summary>
-        /// <param name="mem"></param>
-        /// <returns></returns>
+        /// <param name="mem">The mem objects id.</param>
+        /// <returns>The error code.</returns>
         public static cl_int ReleaseMemObject(cl_mem mem)
         {
             return CL_ReleaseMemObject(mem);
