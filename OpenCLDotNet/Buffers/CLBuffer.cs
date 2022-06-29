@@ -9,7 +9,9 @@ using OpenCLDotNet.Utility;
 namespace OpenCLDotNet.Buffers
 {
     /// <summary>
-    /// 
+    /// A buffer object stores a one-dimensional collection of elements. 
+    /// Elements of a buffer object can be a scalar data type (such as an int, float), 
+    /// vector data type, or a user-defined structure.
     /// </summary>
     public class CLBuffer : CLMemObject
     {
@@ -252,9 +254,9 @@ namespace OpenCLDotNet.Buffers
         /// <param name="cmd"></param>
         /// <param name="dst">The data to be read to</param>
         /// <param name="blocking">Should the function block until finished or return async.</param>
-        public void Read(CLCommand cmd, Array dst, bool blocking = true)
+        public cl_event Read(CLCommand cmd, Array dst, bool blocking = true)
         {
-            Read(cmd, dst, 0, blocking);
+            return Read(cmd, dst, 0, blocking);
         }
 
         /// <summary>
@@ -265,7 +267,7 @@ namespace OpenCLDotNet.Buffers
         /// object to read from.</param>
         /// <param name="dst">The data to be read to</param>
         /// <param name="blocking">Should the function block until finished or return async.</param>
-        public void Read(CLCommand cmd, Array dst, uint src_offset, bool blocking)
+        public cl_event Read(CLCommand cmd, Array dst, uint src_offset, bool blocking)
         {
             CheckCommand(cmd);
             CheckData(this, dst, src_offset);
@@ -283,6 +285,7 @@ namespace OpenCLDotNet.Buffers
                 wait_list_size, wait_list, out e);
 
             Error = error.ToString();
+            return e;
         }
 
         /// <summary>
@@ -291,9 +294,9 @@ namespace OpenCLDotNet.Buffers
         /// <param name="cmd"></param>
         /// <param name="src">The data to be written from.</param>
         /// <param name="blocking">Should the function block until finished or return async.</param>
-        public void Write(CLCommand cmd, Array src, bool blocking = true)
+        public cl_event Write(CLCommand cmd, Array src, bool blocking = true)
         {
-            Write(cmd, src, 0, blocking);
+            return Write(cmd, src, 0, blocking);
         }
 
         /// <summary>
@@ -303,7 +306,7 @@ namespace OpenCLDotNet.Buffers
         /// <param name="offset">The offset in the buffer object to write to.</param>
         /// <param name="src">The data to be written from.</param>
         /// <param name="blocking">Should the function block until finished or return async.</param>
-        public void Write(CLCommand cmd, Array src, uint offset, bool blocking)
+        public cl_event Write(CLCommand cmd, Array src, uint offset, bool blocking)
         {
             CheckCommand(cmd);
             CheckBuffer(this, offset, (uint)src.Length);
@@ -322,6 +325,7 @@ namespace OpenCLDotNet.Buffers
                 wait_list_size, wait_list, out e);
 
             Error = error.ToString();
+            return e;
         }
 
         /// <summary>
@@ -343,7 +347,7 @@ namespace OpenCLDotNet.Buffers
         /// <param name="dst">The buffer to copy to.</param>
         /// <param name="src_offset">The offset where to begin copying data from src_buffer.</param>
         /// <param name="dst_size">The size to copy into the dst buffer.</param>
-        public void Copy(CLCommand cmd, CLBuffer dst, uint src_offset, uint dst_size)
+        public cl_event Copy(CLCommand cmd, CLBuffer dst, uint src_offset, uint dst_size)
         {
             dst_size = Math.Min(dst_size, dst.Length);
 
@@ -364,6 +368,7 @@ namespace OpenCLDotNet.Buffers
                 wait_list_size, wait_list, out e);
 
             Error = error.ToString();
+            return e;
         }
 
     }
