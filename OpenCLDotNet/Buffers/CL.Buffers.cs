@@ -14,8 +14,11 @@ namespace OpenCLDotNet.Core
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="context"></param>
-        /// <param name="flags"></param>
+        /// <param name="context">context is a valid OpenCL context used to create the buffer object.</param>
+        /// <param name="flags">flags is a bit-field that is used to specify allocation and usage
+        /// information such as the memory arena that should be used to allocate the buffer object
+        /// and how it will be used. The Memory Flags table describes the possible values for flags. 
+        /// If the value specified for flags is 0, the default is used which is CL_​MEM_​READ_​WRITE.</param>
         /// <param name="error"></param>
         /// <returns></returns>
         public static cl_mem CreateBuffer(
