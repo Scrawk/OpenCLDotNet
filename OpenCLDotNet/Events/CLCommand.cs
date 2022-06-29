@@ -149,15 +149,6 @@ namespace OpenCLDotNet.Events
             WaitEvents.Add(new CLEvent(Context, e));
         }
 
-        public bool IsComplete()
-        {
-            foreach(var e in WaitEvents)
-                if(e.GetStatus() != CL_COMMAND_STATUS.COMPLETE)
-                    return false;
-
-            return true;
-        }
-
         public CL_ERROR Finish()
         {
             return CL.Finish(Id);

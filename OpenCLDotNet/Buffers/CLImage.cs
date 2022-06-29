@@ -118,9 +118,9 @@ namespace OpenCLDotNet.Buffers
         /// </summary>
         /// <param name="cmd"></param>
         /// <param name="color"></param>
-        public void Fill(CLCommand cmd, CLColorRGBA color)
+        public cl_event Fill(CLCommand cmd, CLColorRGBA color)
         {
-            Fill(cmd, color, Region);
+            return Fill(cmd, color, Region);
         }
 
         /// <summary>
@@ -129,13 +129,13 @@ namespace OpenCLDotNet.Buffers
         /// <param name="cmd"></param>
         /// <param name="color"></param>
         /// <param name="region"></param>
-        public void Fill(CLCommand cmd, CLColorRGBA color, CLRegion3t region)
+        public cl_event Fill(CLCommand cmd, CLColorRGBA color, CLRegion3t region)
         {
             CheckCommand(cmd);
             CheckImage(this);
             CheckRegion(this, region);
 
-            cl_event[] wait_list = null;
+            cl_event[] wait_list = cmd.GetWaitEvents();
             uint wait_list_size = CL.Length(wait_list);
             cl_event e;
 
@@ -143,6 +143,7 @@ namespace OpenCLDotNet.Buffers
                 wait_list_size, wait_list, out e);
 
             Error = error.ToString();
+            return e;
         }
 
         /// <summary>
@@ -151,9 +152,9 @@ namespace OpenCLDotNet.Buffers
         /// <param name="cmd"></param>
         /// <param name="color"></param>
         /// <param name="type"></param>
-        public void Fill(CLCommand cmd, Array color, CL_DATA_TYPE type)
+        public cl_event Fill(CLCommand cmd, Array color, CL_DATA_TYPE type)
         {
-            Fill(cmd, color, type, Region);
+            return Fill(cmd, color, type, Region);
         }
 
         /// <summary>
@@ -163,20 +164,21 @@ namespace OpenCLDotNet.Buffers
         /// <param name="color"></param>
         /// <param name="type"></param>
         /// <param name="region"></param>
-        public void Fill(CLCommand cmd, Array color, CL_DATA_TYPE type, CLRegion3t region)
+        public cl_event Fill(CLCommand cmd, Array color, CL_DATA_TYPE type, CLRegion3t region)
         {
             CheckCommand(cmd);
             CheckImage(this);
             CheckRegion(this, region);
 
-            uint wait_list_size = 0;
-            cl_event[] wait_list = null;
+            cl_event[] wait_list = cmd.GetWaitEvents();
+            uint wait_list_size = CL.Length(wait_list);
             cl_event e;
 
             var error = CL.EnqueueFillImage(cmd.Id, Id, color, type, region, 
                 wait_list_size, wait_list, out e);
 
             Error = error.ToString();
+            return e;
         }
 
         /// <summary>

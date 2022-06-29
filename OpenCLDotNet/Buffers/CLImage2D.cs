@@ -242,7 +242,7 @@ namespace OpenCLDotNet.Buffers
         /// <param name="dst"></param>
         /// <param name="src_origin"></param>
         /// <param name="region"></param>
-        public void Copy(CLCommand cmd, CLImage2D dst, CLPoint3t src_origin, CLRegion3t region)
+        public cl_event Copy(CLCommand cmd, CLImage2D dst, CLPoint3t src_origin, CLRegion3t region)
         {
             CheckCommand(cmd);
             CheckImage(this);
@@ -250,11 +250,15 @@ namespace OpenCLDotNet.Buffers
             CheckRegion(this, new CLRegion3t(src_origin + region.Origion, region.Size));
             CheckRegion(dst, region);
 
+            cl_event[] wait_list = cmd.GetWaitEvents();
+            uint wait_list_size = CL.Length(wait_list);
             cl_event e;
+
             var error = CL.EnqueueCopyImage(cmd.Id, Id, dst.Id, src_origin, region,
-                0, null, out e);
+                wait_list_size, wait_list, out e);
 
             Error = error.ToString();
+            return e;
         }
 
     }

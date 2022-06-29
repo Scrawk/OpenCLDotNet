@@ -14,6 +14,16 @@ namespace OpenCLDotNet.Events
 
         }
 
+        internal virtual void OnStart()
+        {
+
+        }
+
+        internal virtual void OnFinish()
+        {
+
+        }
+
         internal abstract cl_event Run(CLCommand cmd);
 
     }
