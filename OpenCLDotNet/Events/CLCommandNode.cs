@@ -14,6 +14,8 @@ namespace OpenCLDotNet.Events
 
         }
 
+        internal int Tag { get; set; }
+
         internal int Index { get; set; }
 
         public override string ToString()

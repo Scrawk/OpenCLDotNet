@@ -3501,6 +3501,33 @@
             <param name="name"></param>
             <returns></returns>
         </member>
+        <member name="M:OpenCLDotNet.Events.CLCommandGraph.IsCyclic">
+            <summary>
+            https://www.geeksforgeeks.org/detect-cycle-in-a-graph/
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Events.CLCommandGraph.GetInverseDegree(System.Collections.Generic.List{OpenCLDotNet.Events.CLCommandEdge}[],System.Int32)">
+            <summary>
+            Find the number of vertices that go to this vertex.
+            </summary>
+            <param name="Edges">A list of the edges for each vertex.</param>
+            <param name="i">The vertex index.</param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Events.CLCommandGraph.CountEdges(System.Collections.Generic.List{OpenCLDotNet.Events.CLCommandEdge}[])">
+            <summary>
+            Count the number of edges in the list of lists.
+            </summary>
+            <param name="Edges">A list of the edges for each vertex.</param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Events.CLCommandGraph.TagNodes(System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="tag"></param>
+        </member>
         <member name="T:OpenCLDotNet.Events.CLCommandProperties">
             <summary>
             

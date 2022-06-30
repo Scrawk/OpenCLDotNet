@@ -10,6 +10,10 @@ namespace OpenCLDotNet.Events
     public sealed class CLCommandGraph
     {
 
+        private const int NOT_VISITED_TAG = 0;
+
+        private const int IS_VISITED_TAG = 1;
+
         public CLCommandGraph()
         {
             Context = new CLContext();
@@ -37,8 +41,17 @@ namespace OpenCLDotNet.Events
             Edges.Add(new List<CLCommandEdge>());
         }
 
+        public void AddNode(int index, CLCommandNode node)
+        {
+            node.Index = index;
+            Nodes[index] = node;
+        }
+
         public void AddEdge(int from, int to)
         {
+            if (from == to)
+                return;
+
             var edges = Edges[from];
             edges.Add(new CLCommandEdge(from, to)); 
         }
@@ -53,6 +66,11 @@ namespace OpenCLDotNet.Events
                 Nodes.Add(null);
                 Edges.Add(new List<CLCommandEdge>());
             }
+        }
+
+        public int IndexOf(CLCommandNode node)
+        {
+            return Nodes.IndexOf(node);
         }
 
         public void RunSequential()
@@ -81,6 +99,124 @@ namespace OpenCLDotNet.Events
 
                 node.Run(cmd);
             }
+        }
+
+        /// <summary>
+        /// https://www.geeksforgeeks.org/detect-cycle-in-a-graph/
+        /// </summary>
+        /// <returns></returns>
+        public bool IsCyclic()
+        {
+            int count = Nodes.Count;
+            var visited = new bool[count];
+            var stack = new bool[count];
+
+            for (int i = 0; i < count; i++)
+            {
+                visited[i] = false;
+                stack[i] = false;
+            }
+
+            for (int i = 0; i < count; i++)
+                if (!visited[i] && IsCyclic(i, visited, stack))
+                    return true;
+
+            return false;
+        }
+
+        private bool IsCyclic(int v, bool[] visited, bool[] stack)
+        {
+            if (visited[v] == false)
+            {
+                visited[v] = true;
+                stack[v] = true;
+
+                var edges = Edges[v];
+                if (edges != null && edges.Count > 0)
+                {
+                    for (int i = 0; i < edges.Count; ++i)
+                    {
+                        int j = edges[i].From;
+
+                        if (!visited[j] && IsCyclic(j, visited, stack))
+                            return true;
+                        else if (stack[i])
+                            return true;
+                    }
+                }
+
+            }
+
+            stack[v] = false; 
+            return false;
+        }
+
+        private List<CLCommandNode> DepthFirstOrder(int root)
+        {
+            TagNodes(NOT_VISITED_TAG);
+            int count = Nodes.Count;
+
+            var queue = new Stack<int>(count);
+            queue.Push(root);
+
+            Nodes[root].Tag = IS_VISITED_TAG;
+
+            var ordering = new List<CLCommandNode>(count);
+
+            while (queue.Count != 0)
+            {
+                int u = queue.Pop();
+                ordering.Add(Nodes[u]);
+
+                var edges = Edges[u];
+                if (edges == null) continue;
+
+                for (int i = 0; i < edges.Count; i++)
+                {
+                    int to = edges[i].To;
+
+                    if (Nodes[to].Tag == IS_VISITED_TAG) continue;
+
+                    queue.Push(to);
+                    Nodes[to].Tag = IS_VISITED_TAG;
+                }
+            }
+
+            return ordering;
+        }
+
+        public List<CLCommandNode> BreadthFirstOrder(int root)
+        {
+            TagNodes(NOT_VISITED_TAG);
+
+            int count = Nodes.Count;
+
+            var queue = new Queue<int>(count);
+            queue.Enqueue(root);
+
+            Nodes[root].Tag = IS_VISITED_TAG;
+
+            var ordering = new List<CLCommandNode>(count);
+
+            while (queue.Count != 0)
+            {
+                int u = queue.Dequeue();
+                ordering.Add(Nodes[u]);
+
+                var edges = Edges[u];
+                if (edges == null) continue;
+
+                for (int i = 0; i < edges.Count; i++)
+                {
+                    int to = edges[i].To;
+                    if (Nodes[to].Tag == IS_VISITED_TAG) continue;
+
+                    queue.Enqueue(to);
+                    Nodes[to].Tag = IS_VISITED_TAG;
+                }
+            }
+
+            return ordering;
         }
 
         private List<CLCommandNode> TopologicalSort()
@@ -176,6 +312,16 @@ namespace OpenCLDotNet.Events
             }
 
             return count;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="tag"></param>
+        private void TagNodes(int tag)
+        {
+            for(int i = 0; i < Nodes.Count; i++)
+                Nodes[i].Tag = tag;
         }
 
     }
