@@ -51,11 +51,16 @@ namespace OpenCLDotNet.Events
         /// <summary>
         /// 
         /// </summary>
+        public bool ProfilingEnabled { get; private set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
         /// <returns></returns>
         public override string ToString()
         {
-            return String.Format("[CLCommandQueue: Id={0}, ContextId={1}, WaitEvents={2}, Error={3}]",
-                Id, Context.Id, WaitEvents.Count, Error);
+            return String.Format("[CLCommandQueue: Id={0}, ContextId={1}, WaitEvents={2}, ProfilingEnabled={3}, Error={4}]",
+                Id, Context.Id, WaitEvents.Count, ProfilingEnabled, Error);
         }
 
         /// <summary>
@@ -95,6 +100,9 @@ namespace OpenCLDotNet.Events
         {
             ResetErrorCode();
             Context = context;
+
+            var flag = CL_COMMAND_QUEUE_POPERTIES.PROFILING_ENABLE;
+            ProfilingEnabled = properties.HasFlag(flag);
 
             if(context.NumDevices <= 0)
             {

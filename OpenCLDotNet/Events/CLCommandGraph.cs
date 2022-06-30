@@ -19,6 +19,7 @@ namespace OpenCLDotNet.Events
             Context = new CLContext();
             Nodes = new List<CLCommandNode>();
             Edges = new List<List<CLCommandEdge>>();
+            Events = new List<cl_event>();
         }
 
         public CLCommandGraph(CLContext context)
@@ -26,6 +27,7 @@ namespace OpenCLDotNet.Events
             Context = context;
             Nodes = new List<CLCommandNode>();
             Edges = new List<List<CLCommandEdge>>();
+            Events = new List<cl_event>();
         }
 
         public CLContext Context { get; private set; }
@@ -33,6 +35,8 @@ namespace OpenCLDotNet.Events
         private List<CLCommandNode> Nodes { get; set; }
 
         private List<List<CLCommandEdge>> Edges { get; set; }
+
+        private List<cl_event> Events { get; set; }
 
         public void AddNode(CLCommandNode node)
         {
@@ -73,16 +77,40 @@ namespace OpenCLDotNet.Events
             return Nodes.IndexOf(node);
         }
 
-        public void RunSequential()
+        public void RunSequential(bool profile = false)
         {
-            var cmd = new CLCommand(Context);
+            Events.Clear();
+
+            CLCommand cmd = null;
+
+            if(profile)
+            {
+                var props = new CLCommandProperties();
+                props.Properties = CL_COMMAND_QUEUE_POPERTIES.PROFILING_ENABLE;
+                cmd = new CLCommand(Context, props);
+            }
+            else
+            {
+                cmd = new CLCommand(Context);
+            }
 
             for (int i = 0; i < Nodes.Count; i++)
             {
                 var node = Nodes[i];
                 if (node == null) continue;
 
-                node.Run(cmd);
+                var e = node.Run(cmd);
+
+                if(profile)
+                    Events.Add(e);
+            }
+
+            if(profile)
+            {
+                foreach(var e in Events)
+                {
+                    //var _event = new CLEvent(Context, e);
+                }
             }
         }
 

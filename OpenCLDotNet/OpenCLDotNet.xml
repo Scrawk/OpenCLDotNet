@@ -3442,6 +3442,11 @@
             
             </summary>
         </member>
+        <member name="P:OpenCLDotNet.Events.CLCommand.ProfilingEnabled">
+            <summary>
+            
+            </summary>
+        </member>
         <member name="M:OpenCLDotNet.Events.CLCommand.ToString">
             <summary>
             
@@ -3559,6 +3564,13 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:OpenCLDotNet.Events.CLCommandProperties.HasFlag(OpenCLDotNet.Core.CL_COMMAND_QUEUE_POPERTIES)">
+            <summary>
+            
+            </summary>
+            <param name="flag"></param>
+            <returns></returns>
+        </member>
         <member name="M:OpenCLDotNet.Events.CLEvent.#ctor(OpenCLDotNet.Core.CLContext)">
             <summary>
             
@@ -3602,6 +3614,24 @@
             <param name="id"></param>
         </member>
         <member name="M:OpenCLDotNet.Events.CLEvent.GetStatus">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Events.CLEvent.GetRunTimeNanoSeconds">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Events.CLEvent.GetRunTimeMilliSeconds">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Events.CLEvent.GetRunTimeSeconds">
             <summary>
             
             </summary>

@@ -52,6 +52,16 @@ namespace OpenCLDotNet.Events
                 Properties, QueueSize);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="flag"></param>
+        /// <returns></returns>
+        public bool HasFlag(CL_COMMAND_QUEUE_POPERTIES flag)
+        {
+            return Properties.HasFlag(flag);    
+        }
+
     }
 
 }

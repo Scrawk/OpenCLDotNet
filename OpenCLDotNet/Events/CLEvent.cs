@@ -7,6 +7,15 @@ using OpenCLDotNet.Utility;
 
 namespace OpenCLDotNet.Events
 {
+
+    public enum CL_EVENT_TIMESPAN
+    {
+        NANOSECONDS,
+        MICROSECONDS,
+        MILLISECONDS,
+        SECONDS
+    }
+
     public class CLEvent : CLObject
     {
 
@@ -103,6 +112,35 @@ namespace OpenCLDotNet.Events
         {
             var cmd_status = GetInfoUInt64(CL_EVENT_INFO.COMMAND_EXECUTION_STATUS);
             return (CL_COMMAND_STATUS)cmd_status;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public double GetRunTime(CL_EVENT_TIMESPAN time_span)
+        {
+            var start = GetInfoUInt64(CL_PROFILING_INFO.START);
+            var end = GetInfoUInt64(CL_PROFILING_INFO.END);
+            double nanoseconds = end - start;
+
+            switch(time_span)
+            {
+                case CL_EVENT_TIMESPAN.NANOSECONDS:
+                    return nanoseconds;
+
+                case CL_EVENT_TIMESPAN.MICROSECONDS:
+                    return nanoseconds * 1e-3;
+
+                case CL_EVENT_TIMESPAN.MILLISECONDS:
+                    return nanoseconds * 1e-6;
+
+                case CL_EVENT_TIMESPAN.SECONDS:
+                    return nanoseconds * 1e-9;
+
+                default:
+                    return 0;
+            }
         }
 
         /// <summary>
