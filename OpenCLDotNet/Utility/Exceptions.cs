@@ -143,4 +143,24 @@ namespace OpenCLDotNet.Utility
         {
         }
     }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public class CyclicGraphExeception : Exception
+    {
+        public CyclicGraphExeception()
+        {
+        }
+
+        public CyclicGraphExeception(string message)
+            : base(message)
+        {
+        }
+
+        public CyclicGraphExeception(string message, Exception inner)
+            : base(message, inner)
+        {
+        }
+    }
 }

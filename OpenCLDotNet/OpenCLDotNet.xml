@@ -6,23 +6,30 @@
     <members>
         <member name="M:OpenCLDotNet.Core.CL.CreateBuffer(OpenCLDotNet.Core.cl_context,OpenCLDotNet.Core.CL_MEM_FLAGS,OpenCLDotNet.Core.CL_ERROR@)">
             <summary>
-            
+            Creates a empty buffer.
             </summary>
-            <param name="context"></param>
-            <param name="flags"></param>
-            <param name="error"></param>
-            <returns></returns>
+            <param name="context">context is a valid OpenCL context used to create the buffer object.</param>
+            <param name="flags">flags is a bit-field that is used to specify allocation and usage
+            information such as the memory arena that should be used to allocate the buffer object
+            and how it will be used. The Memory Flags table describes the possible values for flags. 
+            If the value specified for flags is 0, the default is used which is CL_​MEM_​READ_​WRITE.</param>
+            <param name="error">The error code.</param>
+            <returns>The buffers id.</returns>
         </member>
         <member name="M:OpenCLDotNet.Core.CL.CreateBuffer(OpenCLDotNet.Core.cl_context,OpenCLDotNet.Core.CL_MEM_FLAGS,System.UInt32,System.Array,OpenCLDotNet.Core.CL_ERROR@)">
             <summary>
-            
+            Creates a buffer filled with the data arrays contents. Data maybe null to create a empty buffer.
             </summary>
-            <param name="context"></param>
-            <param name="flags"></param>
-            <param name="byte_size"></param>
-            <param name="data"></param>
-            <param name="error"></param>
-            <returns></returns>
+            <param name="context">context is a valid OpenCL context used to create the buffer object.</param>
+            <param name="flags">flags is a bit-field that is used to specify allocation and usage
+            information such as the memory arena that should be used to allocate the buffer object
+            and how it will be used. The Memory Flags table describes the possible values for flags. 
+            If the value specified for flags is 0, the default is used which is CL_​MEM_​READ_​WRITE.</param>
+            <param name="byte_size">size is the size in bytes of the buffer memory object to be allocated.</param>
+            <param name="data">data is a pointer to the buffer data that may already be allocated by the application. 
+            The size of the buffer that data points to must be ≥ size bytes.</param>
+            <param name="error">The error code.</param>
+            <returns>The buffers id.</returns>
         </member>
         <member name="M:OpenCLDotNet.Core.CL.CreateSubBuffer(OpenCLDotNet.Core.cl_mem,OpenCLDotNet.Core.CL_MEM_FLAGS,OpenCLDotNet.Core.CLRegion1t,OpenCLDotNet.Core.CL_ERROR@)">
             <summary>
@@ -36,57 +43,42 @@
         </member>
         <member name="M:OpenCLDotNet.Core.CL.GetMemObjectInfoSize(OpenCLDotNet.Core.cl_mem,OpenCLDotNet.Core.CL_MEM_INFO,System.UInt32@)">
             <summary>
-            
+            Gets the siz in bytes of the mem object ie buffers and images.
             </summary>
-            <param name="memobj"></param>
-            <param name="name"></param>
-            <param name="size"></param>
-            <returns></returns>
+            <param name="memobj">The mem objects id.</param>
+            <param name="name">The infos name.</param>
+            <param name="size">The objects size in bytes.</param>
+            <returns>The error code.</returns>
         </member>
         <member name="M:OpenCLDotNet.Core.CL.GetMemObjectInfo(OpenCLDotNet.Core.cl_mem,OpenCLDotNet.Core.CL_MEM_INFO,System.UInt32,System.UInt64@)">
             <summary>
-            
+            Gets the value for a UInt64 info property of the mem object.
             </summary>
-            <param name="memobj"></param>
-            <param name="name"></param>
-            <param name="size"></param>
-            <param name="info"></param>
-            <returns></returns>
+            <param name="memobj">The mem objects id.</param>
+            <param name="name">The info properties name.</param>
+            <param name="size">The size in bytes of the object.</param>
+            <param name="info">The info objects value.</param>
+            <returns>The error code.</returns>
         </member>
         <member name="M:OpenCLDotNet.Core.CL.GetMemObjectInfo(OpenCLDotNet.Core.cl_mem,OpenCLDotNet.Core.CL_MEM_INFO,System.UInt32,System.UIntPtr@)">
             <summary>
-            
+            Gets the value for a UIntPtr info property of the mem object.
             </summary>
-            <param name="memobj"></param>
-            <param name="name"></param>
-            <param name="size"></param>
-            <param name="info"></param>
-            <returns></returns>
+            <param name="memobj">The mem objects id.</param>
+            <param name="name">The info properties name.</param>
+            <param name="size">The size in bytes of the object.</param>
+            <param name="info">The info objects value.</param>
+            <returns>The error code.</returns>
         </member>
-        <member name="M:OpenCLDotNet.Core.CL.GetMemObjectInfo(OpenCLDotNet.Core.cl_mem,OpenCLDotNet.Core.CL_MEM_INFO,System.UInt32,OpenCLDotNet.Core.cl_object@)">
-            <summary>
-            
-            </summary>
-            <param name="memobj"></param>
-            <param name="name"></param>
-            <param name="size"></param>
-            <param name="info"></param>
-            <returns></returns>
-        </member>
+        <!-- Badly formed XML comment ignored for member "M:OpenCLDotNet.Core.CL.GetMemObjectInfo(OpenCLDotNet.Core.cl_mem,OpenCLDotNet.Core.CL_MEM_INFO,System.UInt32,OpenCLDotNet.Core.cl_object@)" -->
         <member name="M:OpenCLDotNet.Core.CL.RetainMemObject(OpenCLDotNet.Core.cl_mem)">
             <summary>
-            
+            Increment the reference counter for the mem object.
             </summary>
-            <param name="mem"></param>
-            <returns></returns>
+            <param name="mem">The mem objects id.</param>
+            <returns>The error code.</returns>
         </member>
-        <member name="M:OpenCLDotNet.Core.CL.ReleaseMemObject(OpenCLDotNet.Core.cl_mem)">
-            <summary>
-            
-            </summary>
-            <param name="mem"></param>
-            <returns></returns>
-        </member>
+        <!-- Badly formed XML comment ignored for member "M:OpenCLDotNet.Core.CL.ReleaseMemObject(OpenCLDotNet.Core.cl_mem)" -->
         <member name="M:OpenCLDotNet.Core.CL.EnqueueReadBuffer(OpenCLDotNet.Core.cl_command_queue,OpenCLDotNet.Core.cl_mem,System.Boolean,System.UInt32,System.UInt32,System.Array,System.UInt32,OpenCLDotNet.Core.cl_event[],OpenCLDotNet.Core.cl_event@)">
             <summary>
             Enqueue commands to read from a buffer object to host memory.
@@ -167,15 +159,15 @@
         </member>
         <member name="M:OpenCLDotNet.Core.CL.EnqueueFillBuffer(OpenCLDotNet.Core.cl_command_queue,OpenCLDotNet.Core.cl_mem,System.Array,System.UInt32,System.UInt32,System.UInt32,System.UInt32,OpenCLDotNet.Core.cl_event[],OpenCLDotNet.Core.cl_event@)">
             <summary>
-            
+            NOT WORKING
             </summary>
             <param name="command"></param>
             <param name="buffer"></param>
             <param name="pattern">A pointer to the data pattern of size pattern_size in bytes.</param>
-            <param name="pattern_size">pattern_size in bytes.</param>
-            <param name="offset">The location in bytes of the region being 
+            <param name="pattern_byte_size">pattern_size in bytes.</param>
+            <param name="byte_offset">The location in bytes of the region being 
             filled in buffer and must be a multiple of pattern_size.</param>
-            <param name="size">The size in bytes of region being filled 
+            <param name="byte_size">The size in bytes of region being filled 
             in buffer and must be a multiple of pattern_size.</param>
             <param name="wait_list_size">The event wait list size.</param>
             <param name="wait_list">The event wait list. 
@@ -2385,7 +2377,9 @@
         </member>
         <member name="T:OpenCLDotNet.Buffers.CLBuffer">
             <summary>
-            
+            A buffer object stores a one-dimensional collection of elements. 
+            Elements of a buffer object can be a scalar data type (such as an int, float), 
+            vector data type, or a user-defined structure.
             </summary>
         </member>
         <member name="M:OpenCLDotNet.Buffers.CLBuffer.#ctor(OpenCLDotNet.Core.CLContext,OpenCLDotNet.Core.CL_READ_WRITE,OpenCLDotNet.Core.CL_DATA_TYPE,System.UInt32)">
@@ -2433,6 +2427,23 @@
             <summary>
             
             </summary>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Buffers.CLBuffer.CreateFloatBuffer(OpenCLDotNet.Core.CLContext,System.UInt32)">
+            <summary>
+            
+            </summary>
+            <param name="context"></param>
+            <param name="length"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Buffers.CLBuffer.CreateBuffer(OpenCLDotNet.Core.CLContext,OpenCLDotNet.Core.CL_DATA_TYPE,System.UInt32)">
+            <summary>
+            
+            </summary>
+            <param name="context"></param>
+            <param name="type"></param>
+            <param name="length"></param>
             <returns></returns>
         </member>
         <member name="M:OpenCLDotNet.Buffers.CLBuffer.CreateReadBuffer(OpenCLDotNet.Core.CLContext,System.Array,OpenCLDotNet.Core.CL_DATA_TYPE)">
@@ -2539,6 +2550,17 @@
             <param name="dst">The buffer to copy to.</param>
             <param name="src_offset">The offset where to begin copying data from src_buffer.</param>
             <param name="dst_size">The size to copy into the dst buffer.</param>
+        </member>
+        <member name="M:OpenCLDotNet.Buffers.CLBuffer.Fill(OpenCLDotNet.Events.CLCommand,System.Array,System.UInt32,System.UInt32)">
+            <summary>
+            NOT WORKING
+            </summary>
+            <param name="cmd"></param>
+            <param name="pattern"></param>
+            <param name="offset"></param>
+            <param name="size"></param>
+            <returns></returns>
+            <exception cref="T:System.ArgumentException"></exception>
         </member>
         <member name="T:OpenCLDotNet.Buffers.CLImage">
             <summary>
@@ -2704,6 +2726,16 @@
             <summary>
             
             </summary>
+            <returns></returns>
+        </member>
+        <member name="M:OpenCLDotNet.Buffers.CLImage2D.CreateFloatImage2D(OpenCLDotNet.Core.CLContext,System.UInt32,System.UInt32,System.UInt32)">
+            <summary>
+            
+            </summary>
+            <param name="context"></param>
+            <param name="width"></param>
+            <param name="height"></param>
+            <param name="channels"></param>
             <returns></returns>
         </member>
         <member name="M:OpenCLDotNet.Buffers.CLImage2D.CreateImage2D(OpenCLDotNet.Core.CLContext,OpenCLDotNet.Buffers.CLImageParameters2D)">
@@ -4946,6 +4978,11 @@
             </summary>
         </member>
         <member name="T:OpenCLDotNet.Utility.ReadWriteExeception">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:OpenCLDotNet.Utility.CyclicGraphExeception">
             <summary>
             
             </summary>

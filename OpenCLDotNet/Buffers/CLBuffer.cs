@@ -277,8 +277,8 @@ namespace OpenCLDotNet.Buffers
             //The dst length in bytes
             uint byte_size = (uint)dst.Length * DataSize;
 
-            uint wait_list_size = 0;
-            cl_event[] wait_list = null;
+            cl_event[] wait_list = cmd.GetWaitEvents();
+            uint wait_list_size = CL.Length(wait_list);
             cl_event e;
 
             var error = CL.EnqueueReadBuffer(cmd.Id, Id, blocking, byte_offset, byte_size, dst,
@@ -317,8 +317,8 @@ namespace OpenCLDotNet.Buffers
             //The dst length in bytes
             uint byte_size = (uint)src.Length * DataSize;
 
-            uint wait_list_size = 0;
-            cl_event[] wait_list = null;
+            cl_event[] wait_list = cmd.GetWaitEvents();
+            uint wait_list_size = CL.Length(wait_list);
             cl_event e;
 
             var error = CL.EnqueueWriteBuffer(cmd.Id, Id, blocking, byte_offset, byte_size, src, 
@@ -360,11 +360,44 @@ namespace OpenCLDotNet.Buffers
             //The offset into source buffer in bytes
             uint byte_offset = src_offset * DataSize;
 
-            uint wait_list_size = 0;
-            cl_event[] wait_list = null;
+            cl_event[] wait_list = cmd.GetWaitEvents();
+            uint wait_list_size = CL.Length(wait_list);
             cl_event e;
 
             var error = CL.EnqueueCopyBuffer(cmd.Id, Id, dst.Id, byte_offset, byte_size, 
+                wait_list_size, wait_list, out e);
+
+            Error = error.ToString();
+            return e;
+        }
+
+        /// <summary>
+        /// NOT WORKING
+        /// </summary>
+        /// <param name="cmd"></param>
+        /// <param name="pattern"></param>
+        /// <param name="offset"></param>
+        /// <param name="size"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentException"></exception>
+        private cl_event Fill(CLCommand cmd, Array pattern, uint offset, uint size)
+        {
+
+            if (Length % pattern.Length != 0)
+                throw new ArgumentException($"Patter length {pattern.Length} must be a multiple of the buffer length {Length}.");
+
+            CheckCommand(cmd);
+            CheckBuffer(this, offset, size);
+
+            uint pattern_byte_size = (uint)pattern.Length * DataSize;
+            uint offset_byte_size = offset * DataSize;
+            uint byte_size = size * DataSize;
+
+            cl_event[] wait_list = cmd.GetWaitEvents();
+            uint wait_list_size = CL.Length(wait_list);
+            cl_event e;
+
+            var error = CL.EnqueueFillBuffer(cmd.Id, Id, pattern, pattern_byte_size, offset_byte_size, byte_size,
                 wait_list_size, wait_list, out e);
 
             Error = error.ToString();

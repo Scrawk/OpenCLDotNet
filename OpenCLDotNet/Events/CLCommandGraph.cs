@@ -14,49 +14,168 @@ namespace OpenCLDotNet.Events
         {
             Context = new CLContext();
             Nodes = new List<CLCommandNode>();
-            Edges = new List<CLCommandEdge>();
+            Edges = new List<List<CLCommandEdge>>();
         }
 
         public CLCommandGraph(CLContext context)
         {
             Context = context;
             Nodes = new List<CLCommandNode>();
-            Edges = new List<CLCommandEdge>();
+            Edges = new List<List<CLCommandEdge>>();
         }
 
         public CLContext Context { get; private set; }
 
         private List<CLCommandNode> Nodes { get; set; }
 
-        private List<CLCommandEdge> Edges { get; set; }
+        private List<List<CLCommandEdge>> Edges { get; set; }
 
         public void AddNode(CLCommandNode node)
         {
-            Nodes.Add(node);    
+            node.Index = Nodes.Count;
+            Nodes.Add(node);
+            Edges.Add(new List<CLCommandEdge>());
         }
 
         public void AddEdge(int from, int to)
         {
-            Edges.Add(new CLCommandEdge(from, to)); 
+            var edges = Edges[from];
+            edges.Add(new CLCommandEdge(from, to)); 
         }
+
+        public void AllocateNodes(int size)
+        {
+            Nodes.Clear();
+            Edges.Clear();
+
+            for(int i = 0; i < size; i++)
+            {
+                Nodes.Add(null);
+                Edges.Add(new List<CLCommandEdge>());
+            }
+        }
+
+        public void RunSequential()
+        {
+            var cmd = new CLCommand(Context);
+
+            for (int i = 0; i < Nodes.Count; i++)
+            {
+                var node = Nodes[i];
+                if (node == null) continue;
+
+                node.Run(cmd);
+            }
+        }
+
 
         public void Run()
         {
-            //var props = new CLCommandProperties();
-            //props.Properties = CL_COMMAND_QUEUE_POPERTIES.OUT_OF_ORDER_EXEC_MODE_ENABLE;
-
             var cmd = new CLCommand(Context);
+            var order = TopologicalSort();
 
-            for(int i = 0; i < Nodes.Count; i++)
+            for(int i = 0; i < order.Count; i++)
             {
-                var node = Nodes[i];    
-                var e = node.Run(cmd);
+                var node = order[i];
+                if (node == null) continue;
 
-                //cmd.ClearWaitEvents();
-
-                //if(!e.IsNull)
-                //    cmd.WaitOn(e);
+                node.Run(cmd);
             }
+        }
+
+        private List<CLCommandNode> TopologicalSort()
+        {
+            var list = new List<CLCommandNode>();
+            var vertices = new LinkedList<CLCommandNode>();
+
+            int edgeCount = Edges.Count;
+            var edges = new List<CLCommandEdge>[edgeCount];
+
+            for (int i = 0; i < edgeCount; i++)
+            {
+                if (Edges[i] == null) continue;
+                if (Edges[i].Count == 0) continue;
+
+                edges[i] = new List<CLCommandEdge>(Edges[i]);
+            }
+
+            for (int i = 0; i < Nodes.Count; i++)
+            {
+                int idegree = GetInverseDegree(edges, i);
+
+                if (idegree == 0)
+                    vertices.AddLast(Nodes[i]);
+            }
+
+            while (vertices.Count > 0)
+            {
+                var v = vertices.Last.Value;
+                vertices.RemoveLast();
+
+                list.Add(v);
+                int i = v.Index;
+
+                if (edges[i] == null || edges[i].Count == 0) continue;
+
+                for (int j = 0; j < edges[i].Count; j++)
+                {
+                    int to = edges[i][j].To;
+
+                    int idegree = GetInverseDegree(edges, to);
+                    if (idegree == 1)
+                    {
+                        vertices.AddLast(Nodes[to]);
+                    }
+                }
+
+                edges[i].Clear();
+            }
+
+            if (CountEdges(edges) > 0)
+                throw new CyclicGraphExeception("Can not find a topological sort on a cyclic graph");
+            else
+                return list;
+        }
+
+        /// <summary>
+        /// Find the number of vertices that go to this vertex.
+        /// </summary>
+        /// <param name="Edges">A list of the edges for each vertex.</param>
+        /// <param name="i">The vertex index.</param>
+        /// <returns></returns>
+        private int GetInverseDegree(List<CLCommandEdge>[] Edges, int i)
+        {
+            int degree = 0;
+
+            foreach (var edges in Edges)
+            {
+                if (edges == null || edges.Count == 0) continue;
+
+                foreach (var edge in edges)
+                {
+                    if (edge.To == i) degree++;
+                }
+            }
+
+            return degree;
+        }
+
+        /// <summary>
+        /// Count the number of edges in the list of lists.
+        /// </summary>
+        /// <param name="Edges">A list of the edges for each vertex.</param>
+        /// <returns></returns>
+        private int CountEdges(List<CLCommandEdge>[] Edges)
+        {
+            int count = 0;
+
+            foreach (var edges in Edges)
+            {
+                if (edges == null) continue;
+                count += edges.Count;
+            }
+
+            return count;
         }
 
     }

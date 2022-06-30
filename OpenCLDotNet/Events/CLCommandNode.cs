@@ -14,6 +14,13 @@ namespace OpenCLDotNet.Events
 
         }
 
+        internal int Index { get; set; }
+
+        public override string ToString()
+        {
+            return String.Format("[CLCommandNode: Index={0}]", Index);
+        }
+
         internal virtual void OnStart()
         {
 

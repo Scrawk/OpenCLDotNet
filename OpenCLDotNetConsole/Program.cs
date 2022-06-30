@@ -36,11 +36,13 @@ namespace OpenCLDotNetConsole
 
 			graph.AddNode(new CLWriteImageCommand(image, read_data));
 			graph.AddNode(new CLReadImageCommand(image, write_data));
+			graph.AddNode(new CLWriteImageCommand(image, read_data));
+			graph.AddNode(new CLReadImageCommand(image, write_data));
 
-			graph.Run();
+			//graph.Run();
 
-			for (int i = 0; i < 10; i++)
-				Console.WriteLine(write_data[i]);
+			//for (int i = 0; i < 10; i++)
+			//	Console.WriteLine(write_data[i]);
 
 			/*
 			var program_text =

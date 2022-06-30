@@ -221,15 +221,15 @@ namespace OpenCLDotNet.Core
         }
 
         /// <summary>
-        /// 
+        /// NOT WORKING
         /// </summary>
         /// <param name="command"></param>
         /// <param name="buffer"></param>
         /// <param name="pattern">A pointer to the data pattern of size pattern_size in bytes.</param>
-        /// <param name="pattern_size">pattern_size in bytes.</param>
-        /// <param name="offset">The location in bytes of the region being 
+        /// <param name="pattern_byte_size">pattern_size in bytes.</param>
+        /// <param name="byte_offset">The location in bytes of the region being 
         /// filled in buffer and must be a multiple of pattern_size.</param>
-        /// <param name="size">The size in bytes of region being filled 
+        /// <param name="byte_size">The size in bytes of region being filled 
         /// in buffer and must be a multiple of pattern_size.</param>
         /// <param name="wait_list_size">The event wait list size.</param>
         /// <param name="wait_list">The event wait list. 
@@ -237,18 +237,21 @@ namespace OpenCLDotNet.Core
         /// this event is executed.</param>
         /// <param name="e">The event generated for this command.</param>
         /// <returns>The error code.</returns>
-        private static CL_ERROR EnqueueFillBuffer(
+        internal static CL_ERROR EnqueueFillBuffer(
             cl_command_queue command,
             cl_mem buffer,
             Array pattern,
-            uint pattern_size,
-            uint offset,
-            uint size,
+            uint pattern_byte_size,
+            uint byte_offset,
+            uint byte_size,
             uint wait_list_size,
             cl_event[] wait_list,
             out cl_event e)
         {
-            return CL_EnqueueFillBuffer(command, buffer, pattern, pattern_size, offset, size,
+            byte[] bytes = new byte[pattern_byte_size];
+            Buffer.BlockCopy(pattern, 0, bytes, 0, bytes.Length);
+
+            return CL_EnqueueFillBuffer(command, buffer, bytes, pattern_byte_size, byte_offset, byte_size,
                 wait_list_size, wait_list, out e);
         }
 

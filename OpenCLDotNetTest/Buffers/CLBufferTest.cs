@@ -139,6 +139,42 @@ namespace OpenCLDotNetTest.Buffers
 
         }
 
+        /*
+        [TestMethod]
+        public void FillTest()
+        {
+            var buffer = CreateFloatBuffer(SIZE);
+
+            var pattern = new float[]
+            {
+                0, 1, 2, 3, 4
+            };
+
+            buffer.Fill(Cmd, pattern, 0, SIZE);
+
+            var data = new float[SIZE];
+            buffer.Read(Cmd, data, 0, true);
+
+            for(int i = 0; i < SIZE; i++)
+                Console.WriteLine(data[i]);
+
+        }
+        */
+
+        private CLBuffer CreateFloatBuffer(uint size)
+        {
+            var type = CL_DATA_TYPE.FLOAT;
+            var buffer = CLBuffer.CreateBuffer(Context, type, size);
+            return buffer;
+        }
+
+        private CLBuffer CreateIntBuffer(uint size)
+        {
+            var type = CL_DATA_TYPE.INT;
+            var buffer = CLBuffer.CreateBuffer(Context, type, size);
+            return buffer;
+        }
+
         private CLBuffer CreateReadBuffer(uint size)
         {
             var type = CL_DATA_TYPE.INT;
