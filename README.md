@@ -6,6 +6,7 @@ A OpenCL program can come from text file in binary or text format or it can come
 
 Below we have a simple example of a program that writes the contents of one image into another.
 
+```
 var program_text =
 @"__kernel void read_write_test(__read_only image2d_t srcImg,
 				__write_only image2d_t dstImg,
@@ -21,28 +22,36 @@ var program_text =
 				}
 			}
 			";
-			
+```
+
 The first step is to take the program text and create a proram object.		
-			
+
+```
 var program = new CLProgram(program_text);
+```
 
 Next we create a array and fill it with some arbritry values.
 
+```
 var data = new float[SIZE];
 for (int i = 0; i < data.Length; i++)
 	data[i] = i;	
+```
 	
 You will see the programs kernel has 5 arguments. Two images, a sampler and two integers.
 We will create the two images parameter structs first using a default float image settings.
 We will provide the read image with the data array that will be copied into the image on creation.
-				
+
+```
 var read_image_param = CLImageParameters2D.FloatImage(WIDTH, HEIGHT, CHANNELS);
 read_image_param.Source = data;
 
 var write_image_param = CLImageParameters2D.FloatImage(WIDTH, HEIGHT, CHANNELS);
+```
 
 Next we create rest of the kernel parameters.
 
+```
 var kernel_params = new CLKernelParameter()
 {
 	//The kernel name must be provided so the program 
@@ -67,17 +76,23 @@ var kernel_params = new CLKernelParameter()
 		new CLKernelArgParameter(4, HEIGHT)
 	}
 };
+```
 
 We can now run the program.
 
+```
 program.Run(kernel_params);
+```
 
 If a issue occured when the program was ran a error code is provided.
 
+```
 Console.WriteLine(program.Error);
+```
 
 The image that the data was copied into can be fetched by providing the kernel name and its argument index.
 
+```
 var image = program.GetImage("read_write_test", 1);
 
 The images contents can be read back to the CPU and the we print the first 100 values.
@@ -87,5 +102,6 @@ image.Read(program.Command, result);
 
 for (int i = 0; i < 100; i++)
 	Console.WriteLine(result[i]);
+```
 			
 
