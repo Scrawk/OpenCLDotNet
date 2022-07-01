@@ -3506,12 +3506,6 @@
             <param name="name"></param>
             <returns></returns>
         </member>
-        <member name="M:OpenCLDotNet.Events.CLCommandGraph.IsCyclic">
-            <summary>
-            https://www.geeksforgeeks.org/detect-cycle-in-a-graph/
-            </summary>
-            <returns></returns>
-        </member>
         <member name="M:OpenCLDotNet.Events.CLCommandGraph.GetInverseDegree(System.Collections.Generic.List{OpenCLDotNet.Events.CLCommandEdge}[],System.Int32)">
             <summary>
             Find the number of vertices that go to this vertex.
@@ -3619,19 +3613,7 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:OpenCLDotNet.Events.CLEvent.GetRunTimeNanoSeconds">
-            <summary>
-            
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:OpenCLDotNet.Events.CLEvent.GetRunTimeMilliSeconds">
-            <summary>
-            
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:OpenCLDotNet.Events.CLEvent.GetRunTimeSeconds">
+        <member name="M:OpenCLDotNet.Events.CLEvent.GetRunTime(OpenCLDotNet.Events.CL_EVENT_TIMESPAN)">
             <summary>
             
             </summary>

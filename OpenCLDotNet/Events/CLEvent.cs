@@ -117,6 +117,7 @@ namespace OpenCLDotNet.Events
         /// <summary>
         /// 
         /// </summary>
+        /// <param name="time_span"></param>
         /// <returns></returns>
         public double GetRunTime(CL_EVENT_TIMESPAN time_span)
         {
@@ -124,7 +125,32 @@ namespace OpenCLDotNet.Events
             var end = GetInfoUInt64(CL_PROFILING_INFO.END);
             double nanoseconds = end - start;
 
-            switch(time_span)
+            return ToTimeSpan(time_span, nanoseconds);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="time_span"></param>
+        /// <returns></returns>
+        public double GetQueuedTime(CL_EVENT_TIMESPAN time_span)
+        {
+            var start = GetInfoUInt64(CL_PROFILING_INFO.QUEUED);
+            var end = GetInfoUInt64(CL_PROFILING_INFO.START);
+            double nanoseconds = end - start;
+
+            return ToTimeSpan(time_span, nanoseconds);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="time_span"></param>
+        /// <param name="nanoseconds"></param>
+        /// <returns></returns>
+        private double ToTimeSpan(CL_EVENT_TIMESPAN time_span, double nanoseconds)
+        {
+            switch (time_span)
             {
                 case CL_EVENT_TIMESPAN.NANOSECONDS:
                     return nanoseconds;
@@ -141,6 +167,25 @@ namespace OpenCLDotNet.Events
                 default:
                     return 0;
             }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="builder"></param>
+        public void PrintProfile(StringBuilder builder)
+        {
+            builder.AppendLine(ToString());
+            builder.AppendLine("Status: " + GetStatus());
+
+            var e = GetInfoUInt64(CL_EVENT_INFO.COMMAND_TYPE);
+            var str = ((CL_COMMAND_TYPE)e).ToString();
+            var span = CL_EVENT_TIMESPAN.MILLISECONDS;
+            var format = "F4";
+
+            builder.AppendLine("Type: " + str);
+            builder.AppendLine("Queued Time: " + GetQueuedTime(span).ToString(format) + "ms.");
+            builder.AppendLine("Run Time: " + GetRunTime(span).ToString(format) + "ms.");
         }
 
         /// <summary>

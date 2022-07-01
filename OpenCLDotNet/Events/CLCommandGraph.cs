@@ -1,12 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Text;
 
 using OpenCLDotNet.Core;
 using OpenCLDotNet.Utility;
 
 namespace OpenCLDotNet.Events
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public sealed class CLCommandGraph
     {
 
@@ -38,6 +42,10 @@ namespace OpenCLDotNet.Events
 
         private List<cl_event> Events { get; set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="node"></param>
         public void AddNode(CLCommandNode node)
         {
             node.Index = Nodes.Count;
@@ -45,12 +53,22 @@ namespace OpenCLDotNet.Events
             Edges.Add(new List<CLCommandEdge>());
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="index"></param>
+        /// <param name="node"></param>
         public void AddNode(int index, CLCommandNode node)
         {
             node.Index = index;
             Nodes[index] = node;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="from"></param>
+        /// <param name="to"></param>
         public void AddEdge(int from, int to)
         {
             if (from == to)
@@ -60,6 +78,10 @@ namespace OpenCLDotNet.Events
             edges.Add(new CLCommandEdge(from, to)); 
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="size"></param>
         public void AllocateNodes(int size)
         {
             Nodes.Clear();
@@ -72,11 +94,20 @@ namespace OpenCLDotNet.Events
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="node"></param>
+        /// <returns></returns>
         public int IndexOf(CLCommandNode node)
         {
             return Nodes.IndexOf(node);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="profile"></param>
         public void RunSequential(bool profile = false)
         {
             Events.Clear();
@@ -107,78 +138,71 @@ namespace OpenCLDotNet.Events
 
             if(profile)
             {
+                var builder = new StringBuilder();
                 foreach(var e in Events)
                 {
-                    //var _event = new CLEvent(Context, e);
+                    var _event = new CLEvent(Context, e);
+                    _event.PrintProfile(builder);
+
+                    Console.WriteLine(builder.ToString());
+                    builder.Clear();
                 }
-            }
-        }
-
-
-        public void Run()
-        {
-            var cmd = new CLCommand(Context);
-            var order = TopologicalSort();
-
-            for(int i = 0; i < order.Count; i++)
-            {
-                var node = order[i];
-                if (node == null) continue;
-
-                node.Run(cmd);
             }
         }
 
         /// <summary>
-        /// https://www.geeksforgeeks.org/detect-cycle-in-a-graph/
+        /// 
         /// </summary>
-        /// <returns></returns>
-        public bool IsCyclic()
+        /// <param name="profile"></param>
+        public void Run(bool profile = false)
         {
-            int count = Nodes.Count;
-            var visited = new bool[count];
-            var stack = new bool[count];
+            var order = TopologicalSort();
 
-            for (int i = 0; i < count; i++)
+            Events.Clear();
+
+            CLCommand cmd = null;
+
+            if (profile)
             {
-                visited[i] = false;
-                stack[i] = false;
+                var props = new CLCommandProperties();
+                props.Properties = CL_COMMAND_QUEUE_POPERTIES.PROFILING_ENABLE;
+                cmd = new CLCommand(Context, props);
+            }
+            else
+            {
+                cmd = new CLCommand(Context);
             }
 
-            for (int i = 0; i < count; i++)
-                if (!visited[i] && IsCyclic(i, visited, stack))
-                    return true;
-
-            return false;
-        }
-
-        private bool IsCyclic(int v, bool[] visited, bool[] stack)
-        {
-            if (visited[v] == false)
+            for (int i = 0; i < order.Count; i++)
             {
-                visited[v] = true;
-                stack[v] = true;
+                var node = order[i];
+                if (node == null) continue;
 
-                var edges = Edges[v];
-                if (edges != null && edges.Count > 0)
+                var e = node.Run(cmd);
+
+                if (profile)
+                    Events.Add(e);
+            }
+
+            if (profile)
+            {
+                var builder = new StringBuilder();
+                foreach (var e in Events)
                 {
-                    for (int i = 0; i < edges.Count; ++i)
-                    {
-                        int j = edges[i].From;
+                    var _event = new CLEvent(Context, e);
+                    _event.PrintProfile(builder);
 
-                        if (!visited[j] && IsCyclic(j, visited, stack))
-                            return true;
-                        else if (stack[i])
-                            return true;
-                    }
+                    Console.WriteLine(builder.ToString());
+                    builder.Clear();
                 }
-
             }
-
-            stack[v] = false; 
-            return false;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="root"></param>
+        /// <returns></returns>
         private List<CLCommandNode> DepthFirstOrder(int root)
         {
             TagNodes(NOT_VISITED_TAG);
@@ -213,6 +237,11 @@ namespace OpenCLDotNet.Events
             return ordering;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="root"></param>
+        /// <returns></returns>
         public List<CLCommandNode> BreadthFirstOrder(int root)
         {
             TagNodes(NOT_VISITED_TAG);
@@ -247,6 +276,11 @@ namespace OpenCLDotNet.Events
             return ordering;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        /// <exception cref="CyclicGraphExeception"></exception>
         private List<CLCommandNode> TopologicalSort()
         {
             var list = new List<CLCommandNode>();
