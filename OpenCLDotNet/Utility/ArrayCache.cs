@@ -2,10 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-using CGALDotNetGeometry.Numerics;
-using CGALDotNetGeometry.Shapes;
+using OpenCLDotNet.Core
 
-namespace CGALDotNet
+namespace OpenCLDotNet.Utility
 {
     /// <summary>
     /// Cache to reuse arrays.
@@ -17,52 +16,31 @@ namespace CGALDotNet
         public static bool Disable = false;
 
         [ThreadStatic]
-        private static Point2d[] m_points2d;
+        private static CLPoint2t[] m_points2t;
 
         [ThreadStatic]
-        private static Segment2d[] m_segments2d;
+        private static CLPoint3t[] m_points3t
 
         [ThreadStatic]
-        private static Point3d[] m_points3d;
-
+        private static int[] m_int;
+        
         [ThreadStatic]
-        private static HPoint3d[] m_hpoints3d;
-
+        private static uint[] m_uint;
+        
         [ThreadStatic]
-        private static int[] m_int1, m_int2;
+        private static float[] m_float;
+        
+        [ThreadStatic]
+        private static byte[] m_byte;
 
         public void Clear()
         {
-            m_points2d = null;
-            m_segments2d = null;
-            m_points3d = null;
-            m_hpoints3d = null;
-            m_int1 = null;
-            m_int2 = null;
+            m_points2t = null;
+            m_points3t = null;
+            m_int = null;
+            m_uint = null;
         }
-
-        /// <summary>
-        /// Returns a array of Point2d objects that is at least the size of count.
-        /// </summary>
-        /// <param name="count">The minimum size of the array.</param>
-        /// <param name="clear">Should the array be cleared first.</param>
-        /// <returns>Returns a array of Point2d objects that is at least the size of count.</returns>
-        public static Point2d[] Point2dArray(int count, bool clear = false)
-        {
-            if (MakeNewArray(m_points2d, count))
-                m_points2d = new Point2d[count];
-
-            if(clear)
-                Array.Clear(m_points3d, 0, m_points3d.Length);
-
-            return m_points2d;
-        }
-
-        /// <summary>
-        /// Returns a array of Segment2d objects that is at least the size of count.
-        /// </summary>
-        /// <param name="count">The minimum size of the array.</param>
-        /// <param name="clear">Should the array be cleared first.</param>
+        
         /// <returns>Returns a array of Segment2d objects that is at least the size of count.</returns>
         public static Segment2d[] Segment2dArray(int count, bool clear = false)
         {
@@ -74,42 +52,7 @@ namespace CGALDotNet
 
             return m_segments2d;
         }
-
-        /// <summary>
-        /// Returns a array of Point3d objects that is at least the size of count.
-        /// </summary>
-        /// <param name="count">The minimum size of the array.</param>
-        /// <param name="clear">Should the array be cleared first.</param>
-        /// <returns>Returns a array of Point3d objects that is at least the size of count.</returns>
-        public static Point3d[] Point3dArray(int count, bool clear = false)
-        {
-            if (MakeNewArray(m_points3d, count))
-                m_points3d = new Point3d[count];
-
-            if (clear)
-                Array.Clear(m_points3d, 0, m_points3d.Length);
-
-            return m_points3d;
-        }
-
-        /// <summary>
-        /// Returns a array of HPoint3d objects that is at least the size of count.
-        /// </summary>
-        /// <param name="count">The minimum size of the array.</param>
-        /// <param name="clear">Should the array be cleared first.</param>
-        /// <returns>Returns a array of HPoint3d objects that is at least the size of count.</returns>
-        public static HPoint3d[] HPoint3dArray(int count, bool clear = false)
-        {
-            if (MakeNewArray(m_hpoints3d, count))
-                m_hpoints3d = new HPoint3d[count];
-
-            if (clear)
-                Array.Clear(m_hpoints3d, 0, m_hpoints3d.Length);
-
-            return m_hpoints3d;
-        }
-
-        /// <summary>
+        
         /// Returns a array of ints that is at least the size of count.
         /// </summary>
         /// <param name="count">The minimum size of the array.</param>
