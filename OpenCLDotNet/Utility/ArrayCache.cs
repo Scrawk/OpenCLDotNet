@@ -39,18 +39,8 @@ namespace OpenCLDotNet.Utility
             m_points3t = null;
             m_int = null;
             m_uint = null;
-        }
-        
-        /// <returns>Returns a array of Segment2d objects that is at least the size of count.</returns>
-        public static Segment2d[] Segment2dArray(int count, bool clear = false)
-        {
-            if (MakeNewArray(m_segments2d, count))
-                m_segments2d = new Segment2d[count];
-
-            if (clear)
-                Array.Clear(m_segments2d, 0, m_segments2d.Length);
-
-            return m_segments2d;
+            m_float = null;
+            m_byte = null;
         }
         
         /// Returns a array of ints that is at least the size of count.
@@ -58,32 +48,32 @@ namespace OpenCLDotNet.Utility
         /// <param name="count">The minimum size of the array.</param>
         /// <param name="clear">Should the array be cleared first.</param>
         /// <returns>Returns a array of ints that is at least the size of count.</returns>
-        public static int[] IntArray1(int count, bool clear = false)
+        public static int[] IntArray(int count, bool clear = false)
         {
-            if (MakeNewArray(m_int1, count))
-                m_int1 = new int[count];
+            if (MakeNewArray(m_int, count))
+                m_int = new int[count];
 
             if (clear)
-                Array.Clear(m_int1, 0, m_int1.Length);
+                Array.Clear(m_int, 0, m_int.Length);
 
-            return m_int1;
+            return m_int;
         }
 
         /// <summary>
-        /// Returns a array of ints that is at least the size of count.
+        /// Returns a array of uints that is at least the size of count.
         /// </summary>
         /// <param name="count">The minimum size of the array.</param>
         /// <param name="clear">Should the array be cleared first.</param>
         /// <returns>Returns a array of ints that is at least the size of count.</returns>
-        public static int[] IntArray2(int count, bool clear = false)
+        public static uint[] UIntArray(int count, bool clear = false)
         {
-            if (MakeNewArray(m_int2, count))
-                m_int2 = new int[count];
+            if (MakeNewArray(m_uint, count))
+                m_uint = new uint[count];
 
             if (clear)
-                Array.Clear(m_int2, 0, m_int2.Length);
+                Array.Clear(m_uint, 0, m_uint.Length);
 
-            return m_int2;
+            return m_uint;
         }
 
         /// <summary>
