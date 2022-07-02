@@ -147,6 +147,8 @@ namespace OpenCLDotNet.Programs
             CreateOptions(options);
             CreateProgramFromText(context, file);
             CreateKernels();
+
+            Events = new List<cl_event>();
         }
 
         /// <summary>
@@ -174,6 +176,8 @@ namespace OpenCLDotNet.Programs
             CreateOptions(options);
             CreateProgramFromText(context, program_text);
             CreateKernels();
+
+            Events = new List<cl_event>();
         }
 
         /// <summary>
@@ -190,6 +194,8 @@ namespace OpenCLDotNet.Programs
             CreateOptions(options);
             CreateProgramFromBinaries(context, binaries);
             CreateKernels();
+
+            Events = new List<cl_event>();
         }
 
         /// <summary>
@@ -206,6 +212,8 @@ namespace OpenCLDotNet.Programs
             CreateOptions(options);
             CreateFromBinary(context, binary);
             CreateKernels();
+
+            Events = new List<cl_event>();
         }
 
         /// <summary>
@@ -251,6 +259,16 @@ namespace OpenCLDotNet.Programs
         /// 
         /// </summary>
         private List<CLKernel> Kernels { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public int NumEvents => Events.Count;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        private List<cl_event> Events { get; set; }
 
         /// <summary>
         /// 
@@ -402,11 +420,13 @@ namespace OpenCLDotNet.Programs
         /// 
         /// </summary>
         /// <param name="kernel_param"></param>
-        public cl_event Run(CLKernelParameter kernel_param)
+        public void Run(CLKernelParameter kernel_param)
         {
+            Events.Clear();
+
             var kernel = FindKernel(kernel_param.Name);
             if (kernel == null)
-                return new cl_event();
+                return;
 
             foreach (var arg in kernel_param.Args)
             {
@@ -416,34 +436,30 @@ namespace OpenCLDotNet.Programs
                     kernel.SetArgument((uint)arg.Index, arg.Value);   
             }
 
-            return Run(kernel, kernel_param.Dimension, kernel_param.GlobalOffset, kernel_param.GlobalSize, kernel_param.LocalSize);
+            Run(kernel, kernel_param.Dimension, kernel_param.GlobalOffset, kernel_param.GlobalSize, kernel_param.LocalSize);
         }
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="kernel_params"></param>
-        public List<cl_event> Run(IList<CLKernelParameter> kernel_params)
+        public void Run(IList<CLKernelParameter> kernel_params)
         {
-            var events = new List<cl_event>();
+            Events.Clear();
 
             foreach (var kernel_param in kernel_params)
             {
                 var kernel = FindKernel(kernel_param.Name);
                 if (kernel == null)
-                    return events;
+                    continue;
 
                foreach(var arg in kernel_param.Args)
                {
                     kernel.SetArgument(arg.Name, arg.Value); 
                }
 
-                var e = Run(kernel, kernel_param.Dimension, kernel_param.GlobalOffset, kernel_param.GlobalSize, kernel_param.LocalSize);
-
-                events.Add(e);
+                Run(kernel, kernel_param.Dimension, kernel_param.GlobalOffset, kernel_param.GlobalSize, kernel_param.LocalSize);
             }
-
-            return events;
         }
 
         /// <summary>
@@ -453,17 +469,17 @@ namespace OpenCLDotNet.Programs
         /// <param name="global_offset"></param>
         /// <param name="global_size"></param>
         /// <param name="local_size"></param>
-        public cl_event Run(string kernel_name, uint global_offset, uint global_size, uint local_size)
+        public void Run(string kernel_name, uint global_offset, uint global_size, uint local_size)
         {
             var kernel = FindKernel(kernel_name);
             if (kernel == null)
-                return new cl_event();
+                return;
 
             var global_offset_3 = new CLPoint3t(global_offset, 0, 0);
             var global_size_3 = new CLPoint3t(global_size, 1, 1);
             var local_size_3 = new CLPoint3t(local_size, 1, 1);
 
-            return Run(kernel, 1, global_offset_3, global_size_3, local_size_3);
+            Run(kernel, 1, global_offset_3, global_size_3, local_size_3);
         }
 
         /// <summary>
@@ -473,17 +489,17 @@ namespace OpenCLDotNet.Programs
         /// <param name="global_offset"></param>
         /// <param name="global_size"></param>
         /// <param name="local_size"></param>
-        public cl_event Run(string kernel_name, CLPoint2t global_offset, CLPoint2t global_size, CLPoint2t local_size)
+        public void Run(string kernel_name, CLPoint2t global_offset, CLPoint2t global_size, CLPoint2t local_size)
         {
             var kernel = FindKernel(kernel_name);
             if (kernel == null)
-                return new cl_event();
+                return;
 
             var global_offset_3 = new CLPoint3t(global_offset, 0);
             var global_size_3 = new CLPoint3t(global_size, 1);
             var local_size_3 = new CLPoint3t(local_size, 1);
 
-            return Run(kernel, 2, global_offset_3, global_size_3, local_size_3);
+            Run(kernel, 2, global_offset_3, global_size_3, local_size_3);
         }
 
         /// <summary>
@@ -494,7 +510,7 @@ namespace OpenCLDotNet.Programs
         /// <param name="global_offset"></param>
         /// <param name="global_size"></param>
         /// <param name="local_size"></param>
-        private cl_event Run(CLKernel kernel, uint dimension, CLPoint3t global_offset, CLPoint3t global_size, CLPoint3t local_size)
+        private void Run(CLKernel kernel, uint dimension, CLPoint3t global_offset, CLPoint3t global_size, CLPoint3t local_size)
         {
             CheckKernel(kernel, "", true);
 
@@ -509,9 +525,10 @@ namespace OpenCLDotNet.Programs
             cl_event e;
 
             Error = CL.EnqueueNDRangeKernel(Command.Id, kernel.Id, dimension, globalOffset,
-                       globalSize, localSize, 0, null, out e).ToString();
+                       globalSize, localSize, wait_list_size, wait_list, out e).ToString();
 
-            return e;
+            if (!e.IsNull)
+                Events.Add(e);
         }
 
         /// <summary>
@@ -545,6 +562,22 @@ namespace OpenCLDotNet.Programs
         /// <summary>
         /// 
         /// </summary>
+        public void Finish()
+        {
+            Command.Finish();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public void Flush()
+        {
+            Command.Flush();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
         public void CreateCommand(bool profile)
         {
             if (profile)
@@ -557,6 +590,39 @@ namespace OpenCLDotNet.Programs
             {
                 m_command = new CLCommand(Context);
             }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="builder"></param>
+        public void PrintProfile(StringBuilder builder)
+        {
+            foreach (var e in Events)
+            {
+                var _event = new CLEvent(Context, e);
+                _event.PrintProfile(builder);
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public void ClearEvents()
+        {
+            Events.Clear();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        internal cl_event GetLastEvent()
+        {
+            if (Events.Count == 0)
+                throw new InvalidOperationException("Events.Count == 0");
+
+            return Events.Last();
         }
 
         /// <summary>

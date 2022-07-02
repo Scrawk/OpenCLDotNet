@@ -4488,6 +4488,16 @@
             
             </summary>
         </member>
+        <member name="P:OpenCLDotNet.Programs.CLProgram.NumEvents">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:OpenCLDotNet.Programs.CLProgram.Events">
+            <summary>
+            
+            </summary>
+        </member>
         <member name="M:OpenCLDotNet.Programs.CLProgram.ToString">
             <summary>
             
@@ -4569,10 +4579,37 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:OpenCLDotNet.Programs.CLProgram.Finish">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:OpenCLDotNet.Programs.CLProgram.Flush">
+            <summary>
+            
+            </summary>
+        </member>
         <member name="M:OpenCLDotNet.Programs.CLProgram.CreateCommand(System.Boolean)">
             <summary>
             
             </summary>
+        </member>
+        <member name="M:OpenCLDotNet.Programs.CLProgram.PrintProfile(System.Text.StringBuilder)">
+            <summary>
+            
+            </summary>
+            <param name="builder"></param>
+        </member>
+        <member name="M:OpenCLDotNet.Programs.CLProgram.ClearEvents">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:OpenCLDotNet.Programs.CLProgram.GetLastEvent">
+            <summary>
+            
+            </summary>
+            <returns></returns>
         </member>
         <member name="M:OpenCLDotNet.Programs.CLProgram.CreateCommand(OpenCLDotNet.Core.CL_COMMAND_QUEUE_POPERTIES)">
             <summary>

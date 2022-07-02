@@ -148,7 +148,7 @@ namespace OpenCLDotNet.Events
 
                 var e = node.Run(cmd);
 
-                if(profile)
+                if (!e.IsNull)
                     Events.Add(e);
             }
 
@@ -173,7 +173,7 @@ namespace OpenCLDotNet.Events
 
                 var e = node.Run(cmd);
 
-                if (profile)
+                if(!e.IsNull)
                     Events.Add(e);
             }
         } 

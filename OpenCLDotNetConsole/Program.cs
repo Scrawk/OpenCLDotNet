@@ -21,6 +21,8 @@ namespace OpenCLDotNetConsole
 
 		private const uint SIZE = WIDTH * HEIGHT * CHANNELS;
 
+		private const bool PROFILE = true; 
+
 		static void Main(string[] args)
 		{
 
@@ -76,10 +78,19 @@ namespace OpenCLDotNetConsole
 
 			};
 
+			program.CreateCommand(PROFILE);
 			program.Run(kernel_params);
-			Console.WriteLine(program.Error);
 
-			program.Command.Finish();
+			Console.WriteLine("Program error = " + program.Error);
+
+			program.Finish();
+
+			if(PROFILE)
+            {
+				var builder = new StringBuilder();
+				program.PrintProfile(builder);
+				Console.WriteLine(builder.ToString());
+			}
 
 			var image = program.GetImage("read_write_test", 1);
 
@@ -105,7 +116,9 @@ namespace OpenCLDotNetConsole
 			graph.AddNode(new CLWriteImageCommand(image, read_data));
 			graph.AddNode(new CLReadImageCommand(image, write_data));
 
-			graph.RunSequential(true);
+			graph.AddEdge(0, 1);
+
+			graph.Run(PROFILE);
 
 			for (int i = 0; i < 10; i++)
 				Console.WriteLine(write_data[i]);

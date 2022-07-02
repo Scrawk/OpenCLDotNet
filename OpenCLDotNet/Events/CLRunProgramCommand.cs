@@ -22,7 +22,9 @@ namespace OpenCLDotNet.Events
 
         internal override cl_event Run(CLCommand cmd)
         {
-            var e = Program.Run(KernelParams);
+            Program.Run(KernelParams);
+
+            var e = Program.GetLastEvent();
             return e;
         }
     }
