@@ -60,7 +60,7 @@ var kernel_params = new CLKernelParameter()
 	//knows which kernel to apply the arguments to.
 	Name = "read_write_test",
 	
-	//The kernels dimension. In this case its 2D but 1D or 3D sre also options
+	//The kernels dimension. In this case its 2D but 1D or 3D are also options
 	Dimension = 2,
 	
 	//The work group local and global sizes. 
@@ -97,7 +97,7 @@ The image that the data was copied into can be fetched by providing the kernel n
 ```
 var image = program.GetImage("read_write_test", 1);
 
-The images contents can be read back to the CPU and the we print the first 100 values.
+The images contents can be read back to the CPU and then we print the first 100 values.
 
 var result = new float[SIZE];
 image.Read(program.Command, result);
