@@ -24,25 +24,12 @@ namespace OpenCLDotNetConsole
 		static void Main(string[] args)
 		{
 
-			var write_data = new float[SIZE];
-			var read_data = new float[SIZE];
+			Example1();
 
-			for (int i = 0; i < write_data.Length; i++)
-				read_data[i] = i;
+		}
 
-			var graph = new CLCommandGraph();
-
-			var image = CLImage2D.CreateFloatImage2D(graph.Context, WIDTH, HEIGHT, CHANNELS);
-
-			graph.AddNode(new CLWriteImageCommand(image, read_data));
-			graph.AddNode(new CLReadImageCommand(image, write_data));
-
-			graph.RunSequential(true);
-
-			//for (int i = 0; i < 10; i++)
-			//	Console.WriteLine(write_data[i]);
-
-			/*
+		private static void Example1()
+        {
 			var program_text =
 			@"__kernel void read_write_test(__read_only image2d_t srcImg,
 											__write_only image2d_t dstImg,
@@ -64,7 +51,7 @@ namespace OpenCLDotNetConsole
 
 			var data = new float[SIZE];
 			for (int i = 0; i < data.Length; i++)
-				data[i] = i;	
+				data[i] = i;
 
 			var read_image_param = CLImageParameters2D.FloatImage(WIDTH, HEIGHT, CHANNELS);
 			read_image_param.Source = data;
@@ -101,8 +88,27 @@ namespace OpenCLDotNetConsole
 
 			for (int i = 0; i < 100; i++)
 				Console.WriteLine(result[i]);
-			*/
+		}
 
+		private static void Example2()
+        {
+			var write_data = new float[SIZE];
+			var read_data = new float[SIZE];
+
+			for (int i = 0; i < write_data.Length; i++)
+				read_data[i] = i;
+
+			var graph = new CLCommandGraph();
+
+			var image = CLImage2D.CreateFloatImage2D(graph.Context, WIDTH, HEIGHT, CHANNELS);
+
+			graph.AddNode(new CLWriteImageCommand(image, read_data));
+			graph.AddNode(new CLReadImageCommand(image, write_data));
+
+			graph.RunSequential(true);
+
+			for (int i = 0; i < 10; i++)
+				Console.WriteLine(write_data[i]);
 		}
 
 	}

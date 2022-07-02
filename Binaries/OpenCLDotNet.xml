@@ -3511,37 +3511,6 @@
             
             </summary>
         </member>
-        <member name="M:OpenCLDotNet.Events.CLCommandGraph.#ctor">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="M:OpenCLDotNet.Events.CLCommandGraph.#ctor(OpenCLDotNet.Core.CLContext)">
-            <summary>
-            
-            </summary>
-            <param name="context"></param>
-        </member>
-        <member name="P:OpenCLDotNet.Events.CLCommandGraph.Context">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="P:OpenCLDotNet.Events.CLCommandGraph.Nodes">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="P:OpenCLDotNet.Events.CLCommandGraph.Edges">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="P:OpenCLDotNet.Events.CLCommandGraph.Events">
-            <summary>
-            
-            </summary>
-        </member>
         <member name="M:OpenCLDotNet.Events.CLCommandGraph.AddNode(OpenCLDotNet.Events.CLCommandNode)">
             <summary>
             
@@ -3575,11 +3544,6 @@
             <param name="node"></param>
             <returns></returns>
         </member>
-        <member name="M:OpenCLDotNet.Events.CLCommandGraph.ClearEvents">
-            <summary>
-            
-            </summary>
-        </member>
         <member name="M:OpenCLDotNet.Events.CLCommandGraph.RunSequential(System.Boolean)">
             <summary>
             
@@ -3591,19 +3555,6 @@
             
             </summary>
             <param name="profile"></param>
-        </member>
-        <member name="M:OpenCLDotNet.Events.CLCommandGraph.PrintProfile(System.Text.StringBuilder)">
-            <summary>
-            
-            </summary>
-            <param name="builder"></param>
-        </member>
-        <member name="M:OpenCLDotNet.Events.CLCommandGraph.CreateCommand(System.Boolean)">
-            <summary>
-            
-            </summary>
-            <param name="profile"></param>
-            <returns></returns>
         </member>
         <member name="M:OpenCLDotNet.Events.CLCommandGraph.DepthFirstOrder(System.Int32)">
             <summary>
@@ -4453,11 +4404,6 @@
             <param name="binary"></param>
             <param name="options"></param>
         </member>
-        <member name="F:OpenCLDotNet.Programs.CLProgram.m_command">
-            <summary>
-            
-            </summary>
-        </member>
         <member name="P:OpenCLDotNet.Programs.CLProgram.Context">
             <summary>
             
@@ -4569,16 +4515,10 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:OpenCLDotNet.Programs.CLProgram.CreateCommand(System.Boolean)">
-            <summary>
-            
-            </summary>
-        </member>
         <member name="M:OpenCLDotNet.Programs.CLProgram.CreateCommand(OpenCLDotNet.Core.CL_COMMAND_QUEUE_POPERTIES)">
             <summary>
             
             </summary>
-            <param name="flag"></param>
         </member>
         <member name="M:OpenCLDotNet.Programs.CLProgram.CreateKernels">
             <summary>

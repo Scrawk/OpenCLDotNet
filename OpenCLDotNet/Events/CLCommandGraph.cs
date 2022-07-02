@@ -18,6 +18,9 @@ namespace OpenCLDotNet.Events
 
         private const int IS_VISITED_TAG = 1;
 
+        /// <summary>
+        /// 
+        /// </summary>
         public CLCommandGraph()
         {
             Context = new CLContext();
@@ -26,6 +29,10 @@ namespace OpenCLDotNet.Events
             Events = new List<cl_event>();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="context"></param>
         public CLCommandGraph(CLContext context)
         {
             Context = context;
@@ -34,12 +41,24 @@ namespace OpenCLDotNet.Events
             Events = new List<cl_event>();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public CLContext Context { get; private set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
         private List<CLCommandNode> Nodes { get; set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
         private List<List<CLCommandEdge>> Edges { get; set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
         private List<cl_event> Events { get; set; }
 
         /// <summary>
@@ -107,23 +126,20 @@ namespace OpenCLDotNet.Events
         /// <summary>
         /// 
         /// </summary>
+        public void ClearEvents()
+        {
+            Events.Clear();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
         /// <param name="profile"></param>
         public void RunSequential(bool profile = false)
         {
             Events.Clear();
 
-            CLCommand cmd = null;
-
-            if(profile)
-            {
-                var props = new CLCommandProperties();
-                props.Properties = CL_COMMAND_QUEUE_POPERTIES.PROFILING_ENABLE;
-                cmd = new CLCommand(Context, props);
-            }
-            else
-            {
-                cmd = new CLCommand(Context);
-            }
+            CLCommand cmd = CreateCommand(profile);
 
             for (int i = 0; i < Nodes.Count; i++)
             {
@@ -136,18 +152,6 @@ namespace OpenCLDotNet.Events
                     Events.Add(e);
             }
 
-            if(profile)
-            {
-                var builder = new StringBuilder();
-                foreach(var e in Events)
-                {
-                    var _event = new CLEvent(Context, e);
-                    _event.PrintProfile(builder);
-
-                    Console.WriteLine(builder.ToString());
-                    builder.Clear();
-                }
-            }
         }
 
         /// <summary>
@@ -160,6 +164,40 @@ namespace OpenCLDotNet.Events
 
             Events.Clear();
 
+            CLCommand cmd = CreateCommand(profile);
+
+            for (int i = 0; i < order.Count; i++)
+            {
+                var node = order[i];
+                if (node == null) continue;
+
+                var e = node.Run(cmd);
+
+                if (profile)
+                    Events.Add(e);
+            }
+        } 
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="builder"></param>
+        public void PrintProfile(StringBuilder builder)
+        {
+            foreach (var e in Events)
+            {
+                var _event = new CLEvent(Context, e);
+                _event.PrintProfile(builder);
+            }
+        }
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="profile"></param>
+        /// <returns></returns>
+        private CLCommand CreateCommand(bool profile)
+        {
             CLCommand cmd = null;
 
             if (profile)
@@ -173,29 +211,7 @@ namespace OpenCLDotNet.Events
                 cmd = new CLCommand(Context);
             }
 
-            for (int i = 0; i < order.Count; i++)
-            {
-                var node = order[i];
-                if (node == null) continue;
-
-                var e = node.Run(cmd);
-
-                if (profile)
-                    Events.Add(e);
-            }
-
-            if (profile)
-            {
-                var builder = new StringBuilder();
-                foreach (var e in Events)
-                {
-                    var _event = new CLEvent(Context, e);
-                    _event.PrintProfile(builder);
-
-                    Console.WriteLine(builder.ToString());
-                    builder.Clear();
-                }
-            }
+            return cmd;
         }
 
         /// <summary>

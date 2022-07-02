@@ -146,7 +146,6 @@ namespace OpenCLDotNet.Programs
 
             CreateOptions(options);
             CreateProgramFromText(context, file);
-            CreateCommand(0);
             CreateKernels();
         }
 
@@ -174,7 +173,6 @@ namespace OpenCLDotNet.Programs
 
             CreateOptions(options);
             CreateProgramFromText(context, program_text);
-            CreateCommand(0);
             CreateKernels();
         }
 
@@ -191,7 +189,6 @@ namespace OpenCLDotNet.Programs
 
             CreateOptions(options);
             CreateProgramFromBinaries(context, binaries);
-            CreateCommand(0);
             CreateKernels();
         }
 
@@ -208,9 +205,13 @@ namespace OpenCLDotNet.Programs
 
             CreateOptions(options);
             CreateFromBinary(context, binary);
-            CreateCommand(0);
             CreateKernels();
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        private CLCommand m_command;
 
         /// <summary>
         /// 
@@ -220,7 +221,16 @@ namespace OpenCLDotNet.Programs
         /// <summary>
         /// 
         /// </summary>
-        public CLCommand Command { get; private set; }
+        public CLCommand Command
+        {
+            get
+            {
+                if (m_command == null)
+                    CreateCommand(false);
+
+                return m_command;
+            }
+        }
 
         /// <summary>
         /// 
@@ -535,12 +545,29 @@ namespace OpenCLDotNet.Programs
         /// <summary>
         /// 
         /// </summary>
-        private void CreateCommand(CL_COMMAND_QUEUE_POPERTIES flag)
+        public void CreateCommand(bool profile)
         {
-            CLCommandProperties props = new CLCommandProperties();
-            props.Properties = flag;
+            if (profile)
+            {
+                var props = new CLCommandProperties();
+                props.Properties = CL_COMMAND_QUEUE_POPERTIES.PROFILING_ENABLE;
+                m_command = new CLCommand(Context, props);
+            }
+            else
+            {
+                m_command = new CLCommand(Context);
+            }
+        }
 
-            Command = new CLCommand(Context, props);
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="flag"></param>
+        public void CreateCommand(CL_COMMAND_QUEUE_POPERTIES flag)
+        {
+            var props = new CLCommandProperties();
+            props.Properties = flag;
+            m_command = new CLCommand(Context, props);
         }
 
         /// <summary>

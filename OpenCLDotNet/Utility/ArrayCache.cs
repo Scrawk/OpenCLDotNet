@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-using OpenCLDotNet.Core
+using OpenCLDotNet.Core;
 
 namespace OpenCLDotNet.Utility
 {
@@ -19,7 +19,7 @@ namespace OpenCLDotNet.Utility
         private static CLPoint2t[] m_points2t;
 
         [ThreadStatic]
-        private static CLPoint3t[] m_points3t
+        private static CLPoint3t[] m_points3t;
 
         [ThreadStatic]
         private static int[] m_int;
@@ -42,7 +42,8 @@ namespace OpenCLDotNet.Utility
             m_float = null;
             m_byte = null;
         }
-        
+
+        /// </summary>
         /// Returns a array of ints that is at least the size of count.
         /// </summary>
         /// <param name="count">The minimum size of the array.</param>
