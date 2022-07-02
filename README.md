@@ -1,6 +1,6 @@
 # OpenCLDotNet
 
-OpenCL Dot Net is a C# wrapper around OpenCL. The wrapper hopefully simplifies the process of setting up the OpenCL context and running programs on the GPU.
+OpenCL Dot Net is a C# wrapper around [OpenCL](https://www.khronos.org/opencl/). The wrapper hopefully simplifies the process of setting up the OpenCL context and running programs on the GPU.
 
 # Programs
 
