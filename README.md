@@ -2,6 +2,8 @@
 
 OpenCL Dot Net is a C# wrapper around OpenCL. The wrapper hopefully simplifies the process of setting up the OpenCL context and running programs on the GPU.
 
+# Programs
+
 A OpenCL program can come from text file in binary or text format or it can come from a string written in the source code itself. 
 
 Below we have a simple example of a program that writes the contents of one image into another.
@@ -24,7 +26,7 @@ var program_text =
 			";
 ```
 
-The first step is to take the program text and create a proram object.		
+The first step is to take the program text and create a program object.		
 
 ```
 var program = new CLProgram(program_text);
@@ -103,5 +105,4 @@ image.Read(program.Command, result);
 for (int i = 0; i < 100; i++)
 	Console.WriteLine(result[i]);
 ```
-			
-
+	
